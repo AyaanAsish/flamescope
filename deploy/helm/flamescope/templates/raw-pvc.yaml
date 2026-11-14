@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: raw
+  labels:
+    {{- include "flamescope.labels" . | nindent 4 }}
+    app.kubernetes.io/component: raw
+spec:
+  accessModes: [{{ .Values.raw.accessMode | quote }}]
+  {{- with .Values.raw.storageClassName }}
+  storageClassName: {{ . }}
+  {{- end }}
+  resources:
+    requests:
+      storage: {{ .Values.raw.storageSize }}

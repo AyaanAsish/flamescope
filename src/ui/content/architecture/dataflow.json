@@ -1,0 +1,655 @@
+{
+  "id": "dataflow",
+  "title": "Ingestion data flow",
+  "direction": "LR",
+  "nodes": [
+    {
+      "id": "S1",
+      "type": "job",
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "width": 250,
+      "height": 76,
+      "data": {
+        "label": "1 discover",
+        "accent": "ingestion",
+        "subtitle": "discover.py",
+        "componentId": "C-ING",
+        "kind": "stage",
+        "responsibility": "Lists the S3 bucket under PSI_PREFIX and writes manifest.json per investigation. Downloads nothing.",
+        "interfaces": [
+          "idempotency key: bucket listing ETag set",
+          "CLI: flamescope-ingest discover"
+        ],
+        "files": ["src/ingest/flamescope_ingest/discover.py"],
+        "flows": ["CF-03"],
+        "statusKey": "C-ING",
+        "doc": "06-ingestion-pipeline.md#2"
+      }
+    },
+    {
+      "id": "S2",
+      "type": "job",
+      "position": {
+        "x": 330,
+        "y": 0
+      },
+      "width": 250,
+      "height": 76,
+      "data": {
+        "label": "2 harvest",
+        "accent": "ingestion",
+        "subtitle": "harvester.py",
+        "componentId": "C-ING",
+        "kind": "stage",
+        "responsibility": "Downloads overview, documents and small tabular files within the size rules of document 06 section 3.2.",
+        "interfaces": ["idempotency key: S3 ETag per key", "CLI: flamescope-ingest harvest"],
+        "files": ["src/ingest/flamescope_ingest/harvester.py"],
+        "flows": ["CF-03"],
+        "doc": "06-ingestion-pipeline.md#2"
+      }
+    },
+    {
+      "id": "S3",
+      "type": "job",
+      "position": {
+        "x": 660,
+        "y": 0
+      },
+      "width": 250,
+      "height": 76,
+      "data": {
+        "label": "3 parse",
+        "accent": "ingestion",
+        "subtitle": "parser.py",
+        "componentId": "C-ING",
+        "kind": "stage",
+        "responsibility": "HTML, PDF, CSV and XLSX to ParsedDoc with sections and offsets.",
+        "interfaces": [
+          "idempotency key: SHA-256 of raw file",
+          "CLI: flamescope-ingest run --stages parse"
+        ],
+        "files": ["src/ingest/flamescope_ingest/parser.py"],
+        "flows": ["CF-03"],
+        "doc": "06-ingestion-pipeline.md#2"
+      }
+    },
+    {
+      "id": "S4",
+      "type": "job",
+      "position": {
+        "x": 990,
+        "y": 0
+      },
+      "width": 250,
+      "height": 76,
+      "data": {
+        "label": "4 extract",
+        "accent": "ingestion",
+        "subtitle": "extract_stage.py",
+        "componentId": "C-ING",
+        "kind": "stage",
+        "responsibility": "Calls ExtractorAgent once per investigation; verifies quotes and merges overrides.",
+        "interfaces": [
+          "idempotency key: hash of parsed docs + prompt version",
+          "uses AgentOrchestrator (extractor)"
+        ],
+        "files": ["src/ingest/flamescope_ingest/extract_stage.py"],
+        "flows": ["CF-03"],
+        "doc": "06-ingestion-pipeline.md#2"
+      }
+    },
+    {
+      "id": "S5",
+      "type": "job",
+      "position": {
+        "x": 1320,
+        "y": 0
+      },
+      "width": 250,
+      "height": 76,
+      "data": {
+        "label": "5 normalize",
+        "accent": "ingestion",
+        "subtitle": "normalizer.py",
+        "componentId": "C-ING",
+        "kind": "stage",
+        "responsibility": "Canonical units (kPa, fraction, cm/s, g), fuel taxonomy and tag vocabulary.",
+        "interfaces": ["idempotency key: hash of input", "seed mode enters here"],
+        "files": ["src/ingest/flamescope_ingest/normalizer.py"],
+        "flows": ["CF-02", "CF-03"],
+        "doc": "06-ingestion-pipeline.md#2"
+      }
+    },
+    {
+      "id": "S6",
+      "type": "job",
+      "position": {
+        "x": 1650,
+        "y": 0
+      },
+      "width": 250,
+      "height": 76,
+      "data": {
+        "label": "6 link",
+        "accent": "ingestion",
+        "subtitle": "linker.py",
+        "componentId": "C-ING",
+        "kind": "stage",
+        "responsibility": "Projects, hardware, instruments and publications (DOIs); loader.py upserts all rows.",
+        "interfaces": ["idempotency key: upsert on natural keys", "loader.py performs the upserts"],
+        "files": ["src/ingest/flamescope_ingest/linker.py"],
+        "flows": ["CF-02", "CF-03"],
+        "doc": "06-ingestion-pipeline.md#2"
+      }
+    },
+    {
+      "id": "S7",
+      "type": "job",
+      "position": {
+        "x": 1980,
+        "y": 0
+      },
+      "width": 250,
+      "height": 76,
+      "data": {
+        "label": "7 score",
+        "accent": "ingestion",
+        "subtitle": "score_stage.py",
+        "componentId": "C-ING",
+        "kind": "stage",
+        "responsibility": "Calls ScorerAgent per investigation and lens; null value when no evidence.",
+        "interfaces": [
+          "idempotency key: (investigation, lens, criterion, rubric_version)",
+          "uses seed scores when present"
+        ],
+        "files": ["src/ingest/flamescope_ingest/score_stage.py"],
+        "flows": ["CF-02", "CF-03"],
+        "doc": "06-ingestion-pipeline.md#2"
+      }
+    },
+    {
+      "id": "S8",
+      "type": "job",
+      "position": {
+        "x": 2310,
+        "y": 0
+      },
+      "width": 250,
+      "height": 76,
+      "data": {
+        "label": "8 index",
+        "accent": "ingestion",
+        "subtitle": "embedder.py",
+        "componentId": "C-ING",
+        "kind": "stage",
+        "responsibility": "Chunks of 1000 characters with 150 overlap, embeddings in batches of 64.",
+        "interfaces": [
+          "idempotency key: hash of chunk text + embed model",
+          "uses LLMGateway.embed()"
+        ],
+        "files": ["src/ingest/flamescope_ingest/embedder.py"],
+        "flows": ["CF-02", "CF-03"],
+        "doc": "06-ingestion-pipeline.md#2"
+      }
+    },
+    {
+      "id": "S9",
+      "type": "job",
+      "position": {
+        "x": 2640,
+        "y": 0
+      },
+      "width": 250,
+      "height": 76,
+      "data": {
+        "label": "9 review",
+        "accent": "ingestion",
+        "subtitle": "review.py",
+        "componentId": "C-ING",
+        "kind": "stage",
+        "responsibility": "Lists null required fields, low-confidence fields, quote failures, zero-run investigations and null scores. In harvest mode it also runs EarthAppsAgent and writes candidate Earth applications for curator review.",
+        "interfaces": [
+          "idempotency key: none",
+          "exit code 0 always",
+          "uses AgentOrchestrator (earth_apps, harvest mode)"
+        ],
+        "files": ["src/ingest/flamescope_ingest/review.py"],
+        "flows": ["CF-02", "CF-03"],
+        "doc": "06-ingestion-pipeline.md#2"
+      }
+    },
+    {
+      "id": "A1",
+      "type": "store",
+      "position": {
+        "x": 0,
+        "y": 190
+      },
+      "width": 250,
+      "height": 76,
+      "data": {
+        "label": "_index/investigations.json",
+        "accent": "data",
+        "subtitle": "manifest.json per investigation",
+        "kind": "artifact",
+        "responsibility": "/data/raw/_index/ and /data/raw/<acr>/manifest.json: keys, sizes, types, last-modified.",
+        "doc": "06-ingestion-pipeline.md#2"
+      }
+    },
+    {
+      "id": "A2",
+      "type": "store",
+      "position": {
+        "x": 330,
+        "y": 190
+      },
+      "width": 250,
+      "height": 76,
+      "data": {
+        "label": "raw/*",
+        "accent": "data",
+        "subtitle": "/data/raw/<acr>/raw",
+        "kind": "artifact",
+        "responsibility": "Allowed files downloaded from S3.",
+        "doc": "06-ingestion-pipeline.md#2"
+      }
+    },
+    {
+      "id": "A3",
+      "type": "store",
+      "position": {
+        "x": 660,
+        "y": 190
+      },
+      "width": 250,
+      "height": 76,
+      "data": {
+        "label": "parsed/<doc>.json",
+        "accent": "data",
+        "subtitle": "ParsedDoc",
+        "kind": "artifact",
+        "responsibility": "Sections with offsets, tables, detected units.",
+        "doc": "06-ingestion-pipeline.md#2"
+      }
+    },
+    {
+      "id": "A4",
+      "type": "store",
+      "position": {
+        "x": 990,
+        "y": 190
+      },
+      "width": 250,
+      "height": 76,
+      "data": {
+        "label": "card.draft.json",
+        "accent": "data",
+        "subtitle": "InvestigationCard draft",
+        "kind": "artifact",
+        "responsibility": "Extractor output after quote verification and override merge.",
+        "doc": "06-ingestion-pipeline.md#2"
+      }
+    },
+    {
+      "id": "A5",
+      "type": "store",
+      "position": {
+        "x": 1320,
+        "y": 190
+      },
+      "width": 250,
+      "height": 76,
+      "data": {
+        "label": "card.json",
+        "accent": "data",
+        "subtitle": "Canonical card",
+        "kind": "artifact",
+        "responsibility": "Normalized card used by link, score and index.",
+        "doc": "06-ingestion-pipeline.md#2"
+      }
+    },
+    {
+      "id": "A6",
+      "type": "store",
+      "position": {
+        "x": 1650,
+        "y": 190
+      },
+      "width": 250,
+      "height": 76,
+      "data": {
+        "label": "Relational rows",
+        "accent": "data",
+        "subtitle": "project ... finding",
+        "kind": "artifact",
+        "responsibility": "project, hardware, investigation, test_run, condition, fuel, measurement, publication, finding.",
+        "doc": "06-ingestion-pipeline.md#2"
+      }
+    },
+    {
+      "id": "A7",
+      "type": "store",
+      "position": {
+        "x": 1980,
+        "y": 190
+      },
+      "width": 250,
+      "height": 76,
+      "data": {
+        "label": "relevance_score rows",
+        "accent": "data",
+        "subtitle": "Per lens and criterion",
+        "kind": "artifact",
+        "responsibility": "Values 0 to 5 or null with rationale and evidence.",
+        "doc": "06-ingestion-pipeline.md#2"
+      }
+    },
+    {
+      "id": "A8",
+      "type": "store",
+      "position": {
+        "x": 2310,
+        "y": 190
+      },
+      "width": 250,
+      "height": 76,
+      "data": {
+        "label": "chunk rows",
+        "accent": "data",
+        "subtitle": "Text + embedding",
+        "kind": "artifact",
+        "responsibility": "Chunk rows with vector and tsvector.",
+        "doc": "06-ingestion-pipeline.md#2"
+      }
+    },
+    {
+      "id": "A9",
+      "type": "store",
+      "position": {
+        "x": 2640,
+        "y": 190
+      },
+      "width": 250,
+      "height": 76,
+      "data": {
+        "label": "ingest_run.report",
+        "accent": "data",
+        "subtitle": "Audit and review",
+        "kind": "artifact",
+        "responsibility": "Fields filled, fields null, review items, LLM calls, errors.",
+        "doc": "06-ingestion-pipeline.md#2"
+      }
+    },
+    {
+      "id": "A10",
+      "type": "store",
+      "position": {
+        "x": 2970,
+        "y": 190
+      },
+      "width": 250,
+      "height": 76,
+      "data": {
+        "label": "earth_candidates.json",
+        "accent": "data",
+        "subtitle": "/data/raw/<acr>/earth_candidates.json",
+        "kind": "artifact",
+        "responsibility": "Candidate Earth applications from EarthAppsAgent, awaiting curator review before publishing.",
+        "doc": "06-ingestion-pipeline.md#2"
+      }
+    },
+    {
+      "id": "S3SRC",
+      "type": "external",
+      "position": {
+        "x": 0,
+        "y": -190
+      },
+      "width": 250,
+      "height": 76,
+      "data": {
+        "label": "s3://nasa-psi",
+        "accent": "external",
+        "subtitle": "Public bucket",
+        "kind": "external",
+        "responsibility": "Source for discover and harvest.",
+        "doc": "06-ingestion-pipeline.md#3"
+      }
+    },
+    {
+      "id": "SEED",
+      "type": "store",
+      "position": {
+        "x": 1650,
+        "y": -190
+      },
+      "width": 250,
+      "height": 76,
+      "data": {
+        "label": "Seed files",
+        "accent": "data",
+        "subtitle": "src/data/seed/**",
+        "kind": "seed",
+        "responsibility": "Seed mode enters at stage 5 with cards from seed files; no network and no LLM unless scores are missing.",
+        "files": ["src/data/seed/investigations/"],
+        "doc": "06-ingestion-pipeline.md#5"
+      }
+    },
+    {
+      "id": "OVR",
+      "type": "store",
+      "position": {
+        "x": 1320,
+        "y": -190
+      },
+      "width": 250,
+      "height": 76,
+      "data": {
+        "label": "Overrides",
+        "accent": "data",
+        "subtitle": "src/data/overrides/<acronym>.yaml",
+        "kind": "seed",
+        "responsibility": "Deep-merged after extract and after normalize; always win over LLM output.",
+        "files": ["src/data/overrides/"],
+        "doc": "06-ingestion-pipeline.md#3"
+      }
+    }
+  ],
+  "groups": [],
+  "edges": [
+    {
+      "id": "e1",
+      "source": "S1",
+      "target": "S2",
+      "label": "",
+      "animated": false
+    },
+    {
+      "id": "e2",
+      "source": "S2",
+      "target": "S3",
+      "label": "",
+      "animated": false
+    },
+    {
+      "id": "e3",
+      "source": "S3",
+      "target": "S4",
+      "label": "",
+      "animated": false
+    },
+    {
+      "id": "e4",
+      "source": "S4",
+      "target": "S5",
+      "label": "",
+      "animated": false
+    },
+    {
+      "id": "e5",
+      "source": "S5",
+      "target": "S6",
+      "label": "",
+      "animated": false
+    },
+    {
+      "id": "e6",
+      "source": "S6",
+      "target": "S7",
+      "label": "",
+      "animated": false
+    },
+    {
+      "id": "e7",
+      "source": "S7",
+      "target": "S8",
+      "label": "",
+      "animated": false
+    },
+    {
+      "id": "e8",
+      "source": "S8",
+      "target": "S9",
+      "label": "",
+      "animated": false
+    },
+    {
+      "id": "e9",
+      "source": "S1",
+      "target": "A1",
+      "label": "writes",
+      "animated": false,
+      "sourceSide": "bottom",
+      "targetSide": "top"
+    },
+    {
+      "id": "e10",
+      "source": "S2",
+      "target": "A2",
+      "label": "writes",
+      "animated": false,
+      "sourceSide": "bottom",
+      "targetSide": "top"
+    },
+    {
+      "id": "e11",
+      "source": "S3",
+      "target": "A3",
+      "label": "writes",
+      "animated": false,
+      "sourceSide": "bottom",
+      "targetSide": "top"
+    },
+    {
+      "id": "e12",
+      "source": "S4",
+      "target": "A4",
+      "label": "writes",
+      "animated": false,
+      "sourceSide": "bottom",
+      "targetSide": "top"
+    },
+    {
+      "id": "e13",
+      "source": "S5",
+      "target": "A5",
+      "label": "writes",
+      "animated": false,
+      "sourceSide": "bottom",
+      "targetSide": "top"
+    },
+    {
+      "id": "e14",
+      "source": "S6",
+      "target": "A6",
+      "label": "writes",
+      "animated": false,
+      "sourceSide": "bottom",
+      "targetSide": "top"
+    },
+    {
+      "id": "e15",
+      "source": "S7",
+      "target": "A7",
+      "label": "writes",
+      "animated": false,
+      "sourceSide": "bottom",
+      "targetSide": "top"
+    },
+    {
+      "id": "e16",
+      "source": "S8",
+      "target": "A8",
+      "label": "writes",
+      "animated": false,
+      "sourceSide": "bottom",
+      "targetSide": "top"
+    },
+    {
+      "id": "e17",
+      "source": "S9",
+      "target": "A9",
+      "label": "writes",
+      "animated": false,
+      "sourceSide": "bottom",
+      "targetSide": "top"
+    },
+    {
+      "id": "e18",
+      "source": "S3SRC",
+      "target": "S1",
+      "label": "list",
+      "animated": false,
+      "sourceSide": "bottom",
+      "targetSide": "top"
+    },
+    {
+      "id": "e19",
+      "source": "S3SRC",
+      "target": "S2",
+      "label": "get allowed documents",
+      "animated": false,
+      "sourceSide": "right",
+      "targetSide": "top"
+    },
+    {
+      "id": "e20",
+      "source": "SEED",
+      "target": "S5",
+      "label": "seed cards",
+      "animated": false,
+      "sourceSide": "bottom",
+      "targetSide": "top"
+    },
+    {
+      "id": "e21",
+      "source": "OVR",
+      "target": "S5",
+      "label": "after normalize",
+      "animated": false,
+      "sourceSide": "bottom",
+      "targetSide": "top"
+    },
+    {
+      "id": "e22",
+      "source": "OVR",
+      "target": "S4",
+      "label": "after extract",
+      "animated": false,
+      "sourceSide": "left",
+      "targetSide": "top"
+    },
+    {
+      "id": "e23",
+      "source": "S9",
+      "target": "A10",
+      "label": "harvest: writes",
+      "animated": false,
+      "sourceSide": "right",
+      "targetSide": "top"
+    }
+  ]
+}

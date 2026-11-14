@@ -1,0 +1,95 @@
+# Ranking presets, scenario presets and shared texts.
+# Source of truth: docs/architecture/08-scoring-and-scenario.md sections 3 and 4.
+# Criterion weights listed per preset override the rubric defaults for that lens and are
+# renormalized by the scoring code. Lenses without an entry use the rubric defaults.
+rubric_version: "2026.11-1"
+
+ranking:
+  balanced:
+    lens_weights: {habitat: 0.4, modeling: 0.3, controls: 0.3}
+    criterion_weights: {}
+  lunar_habitat:
+    lens_weights: {habitat: 0.6, modeling: 0.2, controls: 0.2}
+    criterion_weights:
+      habitat:
+        atmosphere_match: 0.35
+        fuel_realism: 0.25
+        gravity_bounding: 0.20
+        phenomenon: 0.15
+        flow_regime: 0.05
+  spacecraft_cabin:
+    lens_weights: {habitat: 0.5, modeling: 0.2, controls: 0.3}
+    criterion_weights:
+      habitat:
+        flow_regime: 0.25
+        fuel_realism: 0.25
+        phenomenon: 0.25
+        atmosphere_match: 0.15
+        gravity_bounding: 0.10
+  modeler:
+    lens_weights: {habitat: 0.2, modeling: 0.6, controls: 0.2}
+    criterion_weights: {}
+  equipment_designer:
+    lens_weights: {habitat: 0.2, modeling: 0.2, controls: 0.6}
+    # detection and suppression fixed at 0.30; the remaining 0.40 is split in proportion to the
+    # rubric defaults of the other three criteria (0.20 / 0.15 / 0.15 scaled by 0.8).
+    criterion_weights:
+      controls:
+        detection: 0.30
+        suppression: 0.30
+        material_screening: 0.16
+        post_fire: 0.12
+        hardware_heritage: 0.12
+
+# Scenario presets. Gravity is not part of the distance (ADR-08) and is used for coverage and
+# gravity bounding only. assumed_default marks values that are design assumptions rather than
+# numbers stated in the challenge; the UI labels those "assumed default".
+scenario:
+  lunar_habitat:
+    o2_fraction: 0.34
+    pressure_kpa: 56.5
+    pressure_psi: 8.2
+    gravity_g: 0.166
+    flow_speed_cm_s: 10
+    assumed_default: true
+    note: Within the challenge's "30% or greater, 10.2 psi or less" envelope; values are editable defaults.
+  lunar_habitat_threshold:
+    o2_fraction: 0.30
+    pressure_kpa: 70.3
+    pressure_psi: 10.2
+    gravity_g: 0.166
+    flow_speed_cm_s: 10
+    assumed_default: false
+    note: The envelope boundary stated in the challenge.
+  iss_cabin:
+    o2_fraction: 0.21
+    pressure_kpa: 101.3
+    pressure_psi: 14.7
+    gravity_g: 0
+    flow_speed_cm_s: 10
+    assumed_default: false
+    note: Sea-level atmosphere in microgravity.
+  spacesuit:
+    o2_fraction: 1.00
+    pressure_kpa: 29.6
+    pressure_psi: 4.3
+    gravity_g: 0
+    flow_speed_cm_s: 0
+    assumed_default: false
+    note: From the challenge text.
+  mars_habitat:
+    o2_fraction: 0.34
+    pressure_kpa: 56.5
+    pressure_psi: 8.2
+    gravity_g: 0.38
+    flow_speed_cm_s: 10
+    assumed_default: true
+    note: Same atmosphere assumption, Mars gravity.
+
+# Fixed template shared by the UI, the API and the agent (doc 08 section 4.4).
+# Placeholder: {gravity_g} is replaced with the scenario gravity in g.
+texts:
+  gravity_bounding: >-
+    The scenario gravity is {gravity_g} g. PSI holds no partial-gravity combustion data yet.
+    Microgravity (0 g) and normal-gravity (1 g) results bound the behaviour at this gravity.
+    LUCI and FM2 are expected to add partial-gravity data.

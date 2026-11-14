@@ -1,0 +1,131 @@
+# Relevance rubric. Source of truth: docs/architecture/08-scoring-and-scenario.md section 1 and 2.
+# Changing any id, label, weight, anchor or lens weight requires a new rubric_version.
+rubric_version: "2026.11-1"
+
+# Default lens weights W (doc 08 section 2).
+lens_weights:
+  habitat: 0.4
+  modeling: 0.3
+  controls: 0.3
+
+# Rating scale: 0 to 5 per criterion; null means no evidence.
+lenses:
+  habitat:
+    label: Habitat relevance
+    description: Relevance to crewed-habitat fire safety (objective O1)
+    criteria:
+      - id: fuel_realism
+        label: Fuel realism
+        weight: 0.25
+        anchors:
+          0: gaseous fundamental flame
+          3: liquid or thin idealized solid
+          5: practical cabin materials or thick solids
+      - id: atmosphere_match
+        label: Atmosphere match
+        weight: 0.25
+        anchors:
+          0: air at 1 atm only
+          3: elevated oxygen or reduced pressure
+          5: covers 30%+ oxygen and reduced pressure
+      - id: flow_regime
+        label: Flow regime
+        weight: 0.15
+        anchors:
+          0: no flow control
+          3: single flow speed
+          5: low-speed ventilation-range sweep including quiescent
+      - id: phenomenon
+        label: Phenomenon relevance
+        weight: 0.20
+        anchors:
+          0: unrelated fundamental
+          3: related (soot, flame structure)
+          5: ignition, flame spread, flammability limit, extinction
+      - id: gravity_bounding
+        label: Gravity bounding value
+        weight: 0.15
+        anchors:
+          0: microgravity only without 1 g comparison
+          3: with 1 g comparison
+          5: explicit partial-gravity analogue or comparison
+
+  modeling:
+    label: Modeling value
+    description: Value for predictive modeling (objective O2)
+    criteria:
+      - id: quantitative_outputs
+        label: Quantitative outputs
+        weight: 0.25
+        anchors:
+          0: qualitative only
+          3: some measured quantities
+          5: spread rates, limits, burn rates reported with conditions
+      - id: parameter_sweep
+        label: Parameter sweep breadth
+        weight: 0.25
+        anchors:
+          0: single condition
+          3: one parameter varied
+          5: several parameters varied systematically
+      - id: geometry_definition
+        label: Geometry and boundary definition
+        weight: 0.15
+        anchors:
+          0: unclear
+          3: partly specified
+          5: fully specified sample and flow geometry
+      - id: data_accessibility
+        label: Data accessibility
+        weight: 0.20
+        anchors:
+          0: video only
+          3: mixed
+          5: tabular data and documentation in PSI
+      - id: model_validation
+        label: Model and correlation support
+        weight: 0.15
+        anchors:
+          0: none
+          3: referenced
+          5: publications with validated models or correlations
+
+  controls:
+    label: Controls and equipment value
+    description: Value for fire-safety controls and equipment (objective O3)
+    criteria:
+      - id: detection
+        label: Detection
+        weight: 0.25
+        anchors:
+          0: none
+          3: indirect (soot, products)
+          5: smoke or aerosol characterization for detectors
+      - id: suppression
+        label: Suppression and extinction
+        weight: 0.25
+        anchors:
+          0: none
+          3: extinction limits observed
+          5: suppression agents or strategies tested
+      - id: material_screening
+        label: Material screening
+        weight: 0.20
+        anchors:
+          0: none
+          3: informs screening
+          5: directly supports flammability test methods
+      - id: post_fire
+        label: Post-fire and hidden hazards
+        weight: 0.15
+        anchors:
+          0: none
+          3: related
+          5: cool flames, re-ignition, toxic products, cleanup
+      - id: hardware_heritage
+        label: Hardware and sensor heritage
+        weight: 0.15
+        anchors:
+          0: one-off
+          3: reused apparatus
+          5: instruments reusable in future systems

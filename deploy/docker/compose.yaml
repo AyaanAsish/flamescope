@@ -1,0 +1,135 @@
+# FlameScope stack (document 11 section 2). Bring-up order: db, ingest job, api, ui (CF-01).
+# Every value has a safe default so the stack starts in mock mode without a .env file;
+# `make` passes `--env-file .env`, so values in .env (and the shell) override the defaults.
+name: flamescope
+
+x-env-file: &env-file
+  - path: ../../.env
+    required: false
+
+x-app-env: &app-env
+  DATABASE_URL: ${DATABASE_URL:-postgresql+psycopg://flamescope:flamescope@db:5432/flamescope}
+  # Unset means mock, matching Settings (document 11 section 3); .env.example selects ollama.
+  LLM_PROVIDER: ${LLM_PROVIDER:-mock}
+  OLLAMA_BASE_URL: ${OLLAMA_BASE_URL:-http://host.docker.internal:11434}
+  LLM_MODEL: ${LLM_MODEL:-qwen2.5:0.5b}
+  LLM_TIMEOUT_S: ${LLM_TIMEOUT_S:-60}
+  # Empty follows LLM_PROVIDER.
+  EMBED_PROVIDER: ${EMBED_PROVIDER:-}
+  EMBED_MODEL: ${EMBED_MODEL:-nomic-embed-text}
+  EMBED_DIM: ${EMBED_DIM:-768}
+  RAW_DIR: ${RAW_DIR:-/data/raw}
+  DATA_DIR: ${DATA_DIR:-/app/src/data}
+  VERIFY_MIN_OVERLAP: ${VERIFY_MIN_OVERLAP:-0.35}
+  LOG_LEVEL: ${LOG_LEVEL:-INFO}
+
+services:
+  db:
+    image: pgvector/pgvector:pg16
+    restart: unless-stopped
+    env_file: *env-file
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-flamescope}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-flamescope}
+      POSTGRES_DB: ${POSTGRES_DB:-flamescope}
+    ports:
+      - "127.0.0.1:${DB_PORT:-5432}:5432"
+    volumes:
+      - flamescope_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 10s
+
+  ingest:
+    build:
+      context: ../..
+      dockerfile: deploy/docker/Dockerfile.ingest
+      target: runtime
+    image: flamescope-ingest:local
+    profiles: ["job"]
+    env_file: *env-file
+    environment:
+      <<: *app-env
+      PSI_BUCKET: ${PSI_BUCKET:-nasa-psi}
+      PSI_REGION: ${PSI_REGION:-us-west-2}
+      PSI_PREFIX: ${PSI_PREFIX:-}
+      HARVEST_MAX_DOC_MB: ${HARVEST_MAX_DOC_MB:-25}
+      HARVEST_MAX_TABLE_MB: ${HARVEST_MAX_TABLE_MB:-5}
+      HARVEST_MAX_TABLES: ${HARVEST_MAX_TABLES:-20}
+      HARVEST_MAX_TOTAL_MB: ${HARVEST_MAX_TOTAL_MB:-300}
+      INGEST_COMMAND: ${INGEST_COMMAND:-seed}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - flamescope_raw:/data/raw
+    depends_on:
+      db:
+        condition: service_healthy
+
+  api:
+    build:
+      context: ../..
+      dockerfile: deploy/docker/Dockerfile.api
+      target: runtime
+    image: flamescope-api:local
+    restart: unless-stopped
+    env_file: *env-file
+    environment:
+      <<: *app-env
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:3000}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    ports:
+      - "${API_PORT:-8000}:8000"
+    volumes:
+      - flamescope_raw:/data/raw:ro
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test:
+        - CMD
+        - python
+        - -c
+        - "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/api/v1/health', timeout=4)"
+      interval: 10s
+      timeout: 5s
+      retries: 6
+      start_period: 20s
+
+  ui:
+    build:
+      context: ../..
+      dockerfile: deploy/docker/Dockerfile.ui
+      target: runtime
+      args:
+        API_INTERNAL_URL: http://api:8000
+    image: flamescope-ui:local
+    restart: unless-stopped
+    environment:
+      API_INTERNAL_URL: http://api:8000
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+    ports:
+      - "${UI_PORT:-3000}:3000"
+    depends_on:
+      api:
+        condition: service_healthy
+    healthcheck:
+      test:
+        - CMD
+        - node
+        - -e
+        - "require('http').get('http://127.0.0.1:3000/', (res) => process.exit(res.statusCode === 200 ? 0 : 1)).on('error', () => process.exit(1))"
+      interval: 10s
+      timeout: 5s
+      retries: 6
+      start_period: 20s
+
+volumes:
+  flamescope_pgdata:
+    name: flamescope_pgdata
+  flamescope_raw:
+    name: flamescope_raw

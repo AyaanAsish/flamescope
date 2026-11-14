@@ -1,0 +1,515 @@
+{
+  "id": "datamodel",
+  "title": "Data model",
+  "direction": "LR",
+  "nodes": [
+    {
+      "id": "T-PROJECT",
+      "type": "entity",
+      "position": {
+        "x": 330,
+        "y": 0
+      },
+      "width": 250,
+      "height": 94,
+      "data": {
+        "label": "project",
+        "accent": "data",
+        "kind": "table",
+        "columns": ["id (PK)", "name (unique)", "description"],
+        "responsibility": "Groups investigations, for example ACME.",
+        "doc": "04-data-model.md#2"
+      }
+    },
+    {
+      "id": "T-HARDWARE",
+      "type": "entity",
+      "position": {
+        "x": 0,
+        "y": 160
+      },
+      "width": 250,
+      "height": 130,
+      "data": {
+        "label": "hardware",
+        "accent": "data",
+        "kind": "table",
+        "columns": ["id (PK)", "name (unique)", "kind", "description", "parent_id (FK hardware)"],
+        "responsibility": "Facilities, apparatus, inserts and instruments; parent_id links for example MDCA inside CIR.",
+        "doc": "04-data-model.md#2"
+      }
+    },
+    {
+      "id": "T-IH",
+      "type": "entity",
+      "position": {
+        "x": 330,
+        "y": 400
+      },
+      "width": 250,
+      "height": 94,
+      "data": {
+        "label": "investigation_hardware",
+        "accent": "data",
+        "kind": "table",
+        "columns": ["investigation_id (FK)", "hardware_id (FK)", "role"],
+        "responsibility": "Many-to-many link between investigations and hardware; primary key on the pair.",
+        "doc": "04-data-model.md#2"
+      }
+    },
+    {
+      "id": "T-INVESTIGATION",
+      "type": "entity",
+      "position": {
+        "x": 660,
+        "y": 0
+      },
+      "width": 250,
+      "height": 328,
+      "data": {
+        "label": "investigation",
+        "accent": "data",
+        "kind": "table",
+        "columns": [
+          "id (PK)",
+          "acronym (unique)",
+          "title",
+          "project_id (FK)",
+          "psi_url",
+          "platform",
+          "gravity_level",
+          "status",
+          "summary",
+          "fuel_phases",
+          "fire_safety_tags",
+          "o2_min / o2_max",
+          "pressure_min_kpa / max",
+          "flow_min_cm_s / max",
+          "card (jsonb)",
+          "reviewed"
+        ],
+        "responsibility": "Curated investigation card plus derived range columns recomputed by loader.py.",
+        "doc": "04-data-model.md#2"
+      }
+    },
+    {
+      "id": "T-TEST_RUN",
+      "type": "entity",
+      "position": {
+        "x": 990,
+        "y": -300
+      },
+      "width": 250,
+      "height": 256,
+      "data": {
+        "label": "test_run",
+        "accent": "data",
+        "kind": "table",
+        "columns": [
+          "id (PK)",
+          "investigation_id (FK)",
+          "label",
+          "fuel_id (FK)",
+          "geometry",
+          "varied_parameters",
+          "fixed_parameters",
+          "outcome",
+          "data_files",
+          "source",
+          "confidence",
+          "is_aggregate"
+        ],
+        "responsibility": "One row per test point, or one aggregate row per fuel when only ranges are stated.",
+        "doc": "04-data-model.md#2"
+      }
+    },
+    {
+      "id": "T-MEASUREMENT",
+      "type": "entity",
+      "position": {
+        "x": 990,
+        "y": 0
+      },
+      "width": 250,
+      "height": 166,
+      "data": {
+        "label": "measurement",
+        "accent": "data",
+        "kind": "table",
+        "columns": [
+          "id (PK)",
+          "investigation_id (FK)",
+          "instrument",
+          "quantity",
+          "units",
+          "file_pattern",
+          "source"
+        ],
+        "responsibility": "Instruments and quantities recorded.",
+        "doc": "04-data-model.md#2"
+      }
+    },
+    {
+      "id": "T-PUBLICATION",
+      "type": "entity",
+      "position": {
+        "x": 990,
+        "y": 240
+      },
+      "width": 250,
+      "height": 184,
+      "data": {
+        "label": "publication",
+        "accent": "data",
+        "kind": "table",
+        "columns": [
+          "id (PK)",
+          "investigation_id (FK)",
+          "doi",
+          "title",
+          "authors",
+          "year",
+          "venue",
+          "key_findings"
+        ],
+        "responsibility": "Publications with DOIs.",
+        "doc": "04-data-model.md#2"
+      }
+    },
+    {
+      "id": "T-FINDING",
+      "type": "entity",
+      "position": {
+        "x": 990,
+        "y": 520
+      },
+      "width": 250,
+      "height": 148,
+      "data": {
+        "label": "finding",
+        "accent": "data",
+        "kind": "table",
+        "columns": [
+          "id (PK)",
+          "investigation_id (FK)",
+          "statement",
+          "category",
+          "source (required)",
+          "confidence"
+        ],
+        "responsibility": "One-sentence cited findings.",
+        "doc": "04-data-model.md#2"
+      }
+    },
+    {
+      "id": "T-RELEVANCE_SCORE",
+      "type": "entity",
+      "position": {
+        "x": 990,
+        "y": 760
+      },
+      "width": 250,
+      "height": 202,
+      "data": {
+        "label": "relevance_score",
+        "accent": "data",
+        "kind": "table",
+        "columns": [
+          "id (PK)",
+          "investigation_id (FK)",
+          "lens",
+          "criterion",
+          "value (0-5 or null)",
+          "rationale",
+          "evidence",
+          "rubric_version",
+          "origin"
+        ],
+        "responsibility": "Criterion ratings behind every ranking.",
+        "doc": "04-data-model.md#2"
+      }
+    },
+    {
+      "id": "T-CHUNK",
+      "type": "entity",
+      "position": {
+        "x": 990,
+        "y": 1030
+      },
+      "width": 250,
+      "height": 202,
+      "data": {
+        "label": "chunk",
+        "accent": "data",
+        "kind": "table",
+        "columns": [
+          "id (PK)",
+          "investigation_id (FK)",
+          "doc_ref",
+          "doc_title",
+          "section",
+          "text",
+          "embedding vector(EMBED_DIM)",
+          "tsv",
+          "source"
+        ],
+        "responsibility": "Text chunks with embeddings for hybrid retrieval.",
+        "doc": "04-data-model.md#2"
+      }
+    },
+    {
+      "id": "T-INGEST_RUN",
+      "type": "entity",
+      "position": {
+        "x": 990,
+        "y": 1330
+      },
+      "width": 250,
+      "height": 184,
+      "data": {
+        "label": "ingest_run",
+        "accent": "data",
+        "kind": "table",
+        "columns": [
+          "id (PK)",
+          "investigation_id (FK)",
+          "mode",
+          "stages",
+          "status",
+          "started_at",
+          "finished_at",
+          "report (jsonb)"
+        ],
+        "responsibility": "Audit rows for every ingestion run.",
+        "doc": "04-data-model.md#2"
+      }
+    },
+    {
+      "id": "T-FUEL",
+      "type": "entity",
+      "position": {
+        "x": 1320,
+        "y": -440
+      },
+      "width": 250,
+      "height": 130,
+      "data": {
+        "label": "fuel",
+        "accent": "data",
+        "kind": "table",
+        "columns": ["id (PK)", "name", "phase", "material_class", "unique (name, phase)"],
+        "responsibility": "Fuel with phase gas, liquid or solid.",
+        "doc": "04-data-model.md#2"
+      }
+    },
+    {
+      "id": "T-CONDITION",
+      "type": "entity",
+      "position": {
+        "x": 1320,
+        "y": -220
+      },
+      "width": 250,
+      "height": 220,
+      "data": {
+        "label": "condition",
+        "accent": "data",
+        "kind": "table",
+        "columns": [
+          "test_run_id (PK, FK)",
+          "o2_fraction",
+          "diluent",
+          "pressure_kpa",
+          "flow_speed_cm_s",
+          "flow_direction",
+          "gravity_g",
+          "e_field_kv",
+          "temperature_k",
+          "source"
+        ],
+        "responsibility": "One row per test run with canonical units.",
+        "doc": "04-data-model.md#2"
+      }
+    },
+    {
+      "id": "T-FEA",
+      "type": "entity",
+      "position": {
+        "x": 1320,
+        "y": 520
+      },
+      "width": 250,
+      "height": 76,
+      "data": {
+        "label": "finding_earth_application",
+        "accent": "data",
+        "kind": "table",
+        "columns": ["finding_id (FK)", "earth_application_id (FK)"],
+        "responsibility": "Link between findings and Earth applications.",
+        "doc": "04-data-model.md#2"
+      }
+    },
+    {
+      "id": "T-EAI",
+      "type": "entity",
+      "position": {
+        "x": 1320,
+        "y": 700
+      },
+      "width": 250,
+      "height": 76,
+      "data": {
+        "label": "earth_application_investigation",
+        "accent": "data",
+        "kind": "table",
+        "columns": ["earth_application_id (FK)", "investigation_id (FK)"],
+        "responsibility": "Direct link between an Earth application and the investigations it draws on.",
+        "doc": "04-data-model.md#2"
+      }
+    },
+    {
+      "id": "T-EARTH",
+      "type": "entity",
+      "position": {
+        "x": 1650,
+        "y": 520
+      },
+      "width": 250,
+      "height": 148,
+      "data": {
+        "label": "earth_application",
+        "accent": "data",
+        "kind": "table",
+        "columns": ["id (PK)", "title", "sector", "description", "maturity", "references (jsonb)"],
+        "responsibility": "Earth fire-safety application; sector one of firefighting, detection, building_safety, industrial, wildfire, transport.",
+        "doc": "04-data-model.md#2"
+      }
+    },
+    {
+      "id": "T-LLM_CACHE",
+      "type": "entity",
+      "position": {
+        "x": 0,
+        "y": 560
+      },
+      "width": 250,
+      "height": 130,
+      "data": {
+        "label": "llm_cache",
+        "accent": "data",
+        "kind": "table",
+        "columns": ["key (PK, SHA-256)", "provider", "model", "response (jsonb)", "created_at"],
+        "responsibility": "Database-backed LLM response cache; not related to other tables.",
+        "doc": "04-data-model.md#2"
+      }
+    }
+  ],
+  "groups": [],
+  "edges": [
+    {
+      "id": "e1",
+      "source": "T-PROJECT",
+      "target": "T-INVESTIGATION",
+      "label": "groups 1:N",
+      "animated": false
+    },
+    {
+      "id": "e2",
+      "source": "T-HARDWARE",
+      "target": "T-IH",
+      "label": "1:N",
+      "animated": false
+    },
+    {
+      "id": "e3",
+      "source": "T-IH",
+      "target": "T-INVESTIGATION",
+      "label": "uses N:N",
+      "animated": false
+    },
+    {
+      "id": "e4",
+      "source": "T-INVESTIGATION",
+      "target": "T-TEST_RUN",
+      "label": "has 1:N",
+      "animated": false
+    },
+    {
+      "id": "e5",
+      "source": "T-INVESTIGATION",
+      "target": "T-MEASUREMENT",
+      "label": "records 1:N",
+      "animated": false
+    },
+    {
+      "id": "e6",
+      "source": "T-INVESTIGATION",
+      "target": "T-PUBLICATION",
+      "label": "produced 1:N",
+      "animated": false
+    },
+    {
+      "id": "e7",
+      "source": "T-INVESTIGATION",
+      "target": "T-FINDING",
+      "label": "yields 1:N",
+      "animated": false
+    },
+    {
+      "id": "e8",
+      "source": "T-INVESTIGATION",
+      "target": "T-RELEVANCE_SCORE",
+      "label": "rated 1:N",
+      "animated": false
+    },
+    {
+      "id": "e9",
+      "source": "T-INVESTIGATION",
+      "target": "T-CHUNK",
+      "label": "indexed 1:N",
+      "animated": false
+    },
+    {
+      "id": "e10",
+      "source": "T-INVESTIGATION",
+      "target": "T-INGEST_RUN",
+      "label": "audited 1:N",
+      "animated": false
+    },
+    {
+      "id": "e11",
+      "source": "T-TEST_RUN",
+      "target": "T-FUEL",
+      "label": "burns N:1",
+      "animated": false
+    },
+    {
+      "id": "e12",
+      "source": "T-TEST_RUN",
+      "target": "T-CONDITION",
+      "label": "under 1:1",
+      "animated": false
+    },
+    {
+      "id": "e13",
+      "source": "T-FINDING",
+      "target": "T-FEA",
+      "label": "informs N:N",
+      "animated": false
+    },
+    {
+      "id": "e14",
+      "source": "T-FEA",
+      "target": "T-EARTH",
+      "label": "",
+      "animated": false
+    },
+    {
+      "id": "e15",
+      "source": "T-EAI",
+      "target": "T-EARTH",
+      "label": "links to investigations",
+      "animated": false
+    }
+  ]
+}

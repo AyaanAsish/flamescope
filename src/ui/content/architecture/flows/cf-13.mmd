@@ -1,0 +1,9 @@
+sequenceDiagram
+  actor Dev as Developer (Mac)
+  participant Make as Makefile
+  participant DC as Docker Compose
+  Dev->>Make: make undeploy
+  Make->>DC: compose -p flamescope down -v --remove-orphans
+  DC-->>Make: containers, network and volumes removed
+  Dev->>Make: make clean
+  Make->>DC: undeploy, then remove images, .venv, node_modules and caches

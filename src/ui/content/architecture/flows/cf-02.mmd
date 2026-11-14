@@ -1,0 +1,27 @@
+sequenceDiagram
+  participant CLI as flamescope-ingest
+  participant SEED as seed.py
+  participant NORM as normalizer
+  participant LINK as linker / loader
+  participant SCORE as score_stage
+  participant ORCH as AgentOrchestrator
+  participant GW as LLMGateway
+  participant EMB as embedder
+  participant DB as PostgreSQL
+  CLI->>SEED: load <acronym>.yaml + overrides
+  SEED->>NORM: card (validated as InvestigationCard)
+  NORM->>LINK: canonical card
+  LINK->>DB: upsert project, hardware, investigation, fuels, runs, conditions, measurements, publications, findings
+  CLI->>SCORE: score(acronym)
+  alt scores present in seed
+    SCORE->>DB: upsert relevance_score (origin seed)
+  else missing
+    SCORE->>ORCH: run("scorer", payload) per lens
+    ORCH->>GW: ADK Runner runs scorer LlmAgent on gateway model
+    GW-->>ORCH: values + evidence
+    SCORE->>DB: upsert relevance_score (origin llm)
+  end
+  CLI->>EMB: index(acronym)
+  EMB->>GW: embed(chunks)
+  EMB->>DB: upsert chunks
+  CLI->>DB: insert ingest_run report

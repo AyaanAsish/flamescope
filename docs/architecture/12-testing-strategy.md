@@ -21,6 +21,7 @@ tests/unit/
   api/      test_ranking_aggregate.py test_scenario_distance.py test_scenario_coverage.py
             test_gravity_bounding.py test_compare_diff_matrix.py test_extract_table.py
             test_insight_fusion.py test_error_envelope.py test_sse_format.py test_routers_contract.py
+            test_catalog_service.py test_safety_tech_gaps.py test_meta_service.py test_earth_service.py
   ingest/   test_seed_loader.py test_normalizer.py test_parser.py test_harvest_rules.py
             test_overrides.py test_quote_verification.py test_chunking.py test_cli.py
   architecture/ test_import_rules.py test_docs_conformance.py
@@ -36,14 +37,15 @@ Required cases (minimum):
 - **Mock provider**: same input gives same output; outputs validate against agent schemas; embeddings have length `EMBED_DIM` and unit norm.
 - **Ollama provider**: `model()` returns an ADK `LiteLlm` for `ollama_chat/<LLM_MODEL>` with `api_base = OLLAMA_BASE_URL`; `embed` posts to `/api/embed` (mocked with `respx`); an unreachable server raises `LLMError`.
 - **ADK runtime**: each agent builds an ADK `LlmAgent` with no tools and the right `output_schema`; the orchestrator runs it through a `Runner` on `MockLlm`.
-- **Seed files**: every file under `src/data/seed/investigations/` validates as an `InvestigationCard`, every fact has a source with an allowed URI scheme, tags are in the vocabulary.
+- **Seed files**: every file under `src/data/seed/investigations/` validates as a `SeedInvestigation` (and therefore as an `InvestigationCard`, document 06 section 5), every fact has a source with an allowed URI scheme, tags are in the vocabulary.
+- **Catalog, safety tech, meta and Earth services** (fake repositories): summaries, score sort and pagination, variables derivation, lineage graph with project edges (`test_catalog_service.py`); all six safety-tech categories in order, the `partial_gravity` presence rule and the document 08 section 5 region rules (grid, 4-connected regions, envelope-first order, `param_gap_<n>` IDs) (`test_safety_tech_gaps.py`); `ready()` states, stats and the `status()` component list (`test_meta_service.py`); Earth items and the sector filter (`test_earth_service.py`).
 - **Routers contract** (FastAPI `TestClient` with fake services): status codes, error envelope, pagination limits, request validation for every endpoint in the inventory.
 - **Import rules**: static check of the dependency table in document 03 section 10.
 - **Docs conformance**: the endpoint inventory in document 05 section 11 equals the routes registered in the app; the Makefile declares every target in document 11 section 4; UI architecture JSON component IDs exist in document 03.
 
 UI unit tests (Vitest + Testing Library): `format.ts` unit conversion, `sse.ts` frame parser, WeightSliders normalization, DiffMatrix same/different rendering, StatusBadge states, architecture content integrity (no overlapping node rectangles within a diagram, all edges reference existing nodes), each page renders its loading, empty and error states with a mocked API.
 
-Coverage targets: 85% lines for `flamescope_common`, `flamescope_agents` and `flamescope_api.services`; 70% overall Python; UI logic in `lib/` 80%.
+Coverage targets: 85% lines for `flamescope_common`, `flamescope_agents` and `flamescope_api.services`; 70% overall Python; UI logic in `lib/` 80% (enforced: `npm test` runs `vitest run --coverage` with the v8 provider over `lib/**` and a lines threshold of 80 in `vitest.config.ts`).
 
 ## 2. Integration tests
 
@@ -77,7 +79,7 @@ Playwright for Python (Chromium), against `http://localhost:3000`. Viewport 1440
 |------|---------|
 | `test_e2e_00_shell.py` | Dark theme applied (`html.dark`, background token), sidebar lists the ten views in order, top-bar badges show `mock` and dataset count, footer disclaimer, no console errors on any route. |
 | `test_e2e_01_overview.py` | Stat tiles match `/meta/stats`; scatter renders points; top-5 links open detail. |
-| `test_e2e_02_explorer.py` | Filter by fuel phase changes the card count to match the API; search; open a card; detail tabs show runs and variables; PSI link present. |
+| `test_e2e_02_explorer.py` | Filter by fuel phase changes the card count to match the API; search; open a card; detail tabs show runs and variables; PSI link present; a source link on the detail page opens in a new tab with `noopener` (the detail route has no evidence drawer; that belongs to `/ranking`). |
 | `test_e2e_03_ranking.py` | Switch lens; choose `lunar_habitat` preset and see order change; move a slider and see scores update; open the evidence drawer and see a source link; URL reflects state. |
 | `test_e2e_04_compare.py` | Pick three investigations; matrix shows same/different markers; narrative appears with citation chips; lineage graph renders. |
 | `test_e2e_05_scenario.py` | Lunar preset fills the form; coverage panel shows gravity `no data`; gravity-bounding card text mentions partial gravity; Explain shows text; export downloads a CSV. |

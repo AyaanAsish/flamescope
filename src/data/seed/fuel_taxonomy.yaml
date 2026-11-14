@@ -1,0 +1,25 @@
+# Fuel name normalization vocabulary (doc 06 section 3.5). Entries map fuel names and aliases to a
+# phase and material class. This is a naming vocabulary only; it does not state that any
+# investigation burned a given fuel. Names and classes are those listed in architecture doc 04 section 2.
+# phase: gas | liquid | solid
+reviewed: false
+fuels:
+  - name: PMMA
+    phase: solid
+    material_class: polymer
+    aliases: [polymethyl methacrylate, acrylic]
+  - name: n-heptane
+    phase: liquid
+    material_class: alkane
+    aliases: [heptane]
+  - name: methane
+    phase: gas
+    material_class: hydrocarbon gas
+    aliases: [CH4]
+  - name: cotton-fiberglass (SIBAL)
+    phase: solid
+    material_class: fabric
+    aliases: [SIBAL]
+material_classes: [polymer, fabric, alkane, alcohol, hydrocarbon gas]
+open_questions:
+  - Fuel names actually used by each investigation are unknown until PSI sources are retrieved; extend this file then.

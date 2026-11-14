@@ -1,0 +1,42 @@
+# syntax=docker/dockerfile:1
+# FlameScope UI image: Next.js standalone server (document 11 section 1). Build context: repository root.
+ARG NODE_IMAGE=node:20-alpine
+
+FROM ${NODE_IMAGE} AS deps
+WORKDIR /app
+COPY src/ui/package.json src/ui/package-lock.json ./
+RUN npm ci --no-audit --no-fund && npm cache clean --force
+
+FROM ${NODE_IMAGE} AS build
+# Next.js evaluates rewrites() during `next build` and stores them in the routes manifest, so the
+# /api rewrite target is fixed at build time; the default matches the compose service name.
+ARG API_INTERNAL_URL=http://api:8000
+ENV API_INTERNAL_URL=${API_INTERNAL_URL} \
+    NEXT_TELEMETRY_DISABLED=1
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
+COPY src/ui/ ./
+RUN npm run build
+
+FROM ${NODE_IMAGE} AS runtime
+ARG VERSION=0.1.0
+ARG SOURCE_URL=""
+LABEL org.opencontainers.image.title="flamescope-ui" \
+      org.opencontainers.image.description="FlameScope dashboard (Next.js standalone server)" \
+      org.opencontainers.image.source="${SOURCE_URL}" \
+      org.opencontainers.image.version="${VERSION}"
+ENV NODE_ENV=production \
+    NEXT_TELEMETRY_DISABLED=1 \
+    PORT=3000 \
+    HOSTNAME=0.0.0.0
+RUN addgroup -S -g 10001 flamescope \
+ && adduser -S -D -H -u 10001 -G flamescope -h /app -s /sbin/nologin flamescope
+WORKDIR /app
+COPY --from=build /app/.next/standalone ./
+COPY --from=build /app/.next/static ./.next/static
+COPY --from=build /app/public ./public
+USER 10001:10001
+EXPOSE 3000
+HEALTHCHECK --interval=10s --timeout=5s --start-period=20s --retries=6 \
+  CMD ["node", "-e", "require('http').get('http://127.0.0.1:3000/', (res) => process.exit(res.statusCode === 200 ? 0 : 1)).on('error', () => process.exit(1))"]
+CMD ["node", "server.js"]

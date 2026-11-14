@@ -1,0 +1,11 @@
+# Pins folder-to-acronym mapping for the discover stage (doc 06 section 3.1).
+# Listing of s3://nasa-psi/ (region us-west-2, unsigned) retrieved 2026-11-14 with delimiter "/":
+# root prefixes DSI/, OASIS/, pk4/ and key index.html; IsTruncated false. None of these is a
+# combustion investigation folder, so no mapping can be pinned yet (doc 01 OI-01).
+bucket: nasa-psi
+region: us-west-2
+observed_root_prefixes: [DSI/, OASIS/, pk4/]
+mappings: []
+open_questions:
+  - No combustion prefix was visible at the bucket root; the key layout for Combustion Science (OI-01) is unresolved.
+  - Pin acronym-to-prefix pairs here once the prefix is found.

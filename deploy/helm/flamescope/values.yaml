@@ -1,0 +1,101 @@
+# FlameScope chart values. Keys mirror the variables of document 11 section 3.
+# Service names are fixed (`db`, `api`, `ui`) because the UI image bakes the rewrite target
+# http://api:8000 at build time and DATABASE_URL defaults to host `db`: one release per namespace.
+
+image:
+  registry: ""          # e.g. "registry.example.org/flamescope/"; prefixed to the repositories below
+  pullPolicy: IfNotPresent
+  api:
+    repository: flamescope-api
+    tag: local
+  ingest:
+    repository: flamescope-ingest
+    tag: local
+  ui:
+    repository: flamescope-ui
+    tag: local
+  db:
+    repository: pgvector/pgvector
+    tag: pg16
+
+postgres:
+  user: flamescope      # POSTGRES_USER
+  password: flamescope  # POSTGRES_PASSWORD (stored in the Secret; override for any shared cluster)
+  db: flamescope        # POSTGRES_DB
+
+# DATABASE_URL; empty derives postgresql+psycopg://<user>:<password>@db:5432/<db>.
+databaseUrl: ""
+
+llm:
+  # LLM_PROVIDER: mock | ollama. A cluster has no host Ollama, so the chart defaults to mock.
+  provider: mock
+  ollamaBaseUrl: http://ollama:11434   # OLLAMA_BASE_URL
+  model: qwen2.5:0.5b                  # LLM_MODEL
+  timeoutS: 60                         # LLM_TIMEOUT_S
+
+embed:
+  provider: ""                         # EMBED_PROVIDER; empty follows llm.provider
+  model: nomic-embed-text              # EMBED_MODEL
+  dim: 768                             # EMBED_DIM
+
+psi:
+  bucket: nasa-psi                     # PSI_BUCKET
+  region: us-west-2                    # PSI_REGION
+  prefix: ""                           # PSI_PREFIX
+
+harvest:
+  maxDocMb: 25                         # HARVEST_MAX_DOC_MB
+  maxTableMb: 5                        # HARVEST_MAX_TABLE_MB
+  maxTables: 20                        # HARVEST_MAX_TABLES
+  maxTotalMb: 300                      # HARVEST_MAX_TOTAL_MB
+
+ingest:
+  command: seed                        # INGEST_COMMAND
+  backoffLimit: 3
+
+paths:
+  rawDir: /data/raw                    # RAW_DIR
+  dataDir: /app/src/data               # DATA_DIR
+
+verifyMinOverlap: 0.35                 # VERIFY_MIN_OVERLAP
+corsOrigins: http://localhost:3000     # CORS_ORIGINS
+logLevel: INFO                         # LOG_LEVEL
+
+api:
+  replicas: 1
+  port: 8000
+  resources: {}
+
+ui:
+  replicas: 1
+  port: 3000
+  apiInternalUrl: http://api:8000      # API_INTERNAL_URL (the image bakes this value at build time)
+  resources: {}
+
+db:
+  port: 5432
+  storageSize: 5Gi
+  storageClassName: ""
+  # The postgres image starts as root unless a user is set. 999 is the image's postgres user for
+  # plain Kubernetes; set to null on OpenShift so the restricted SCC assigns the UID.
+  runAsUser: 999
+  resources: {}
+
+raw:
+  storageSize: 5Gi
+  storageClassName: ""
+  accessMode: ReadWriteOnce            # use ReadWriteMany when api and ingest land on different nodes
+
+ingress:
+  enabled: false
+  className: ""
+  host: flamescope.local
+  annotations: {}
+  tlsSecretName: ""
+
+route:
+  enabled: false                       # OpenShift Route to the ui Service
+  host: ""                             # empty lets the router assign a host
+
+networkPolicy:
+  enabled: true

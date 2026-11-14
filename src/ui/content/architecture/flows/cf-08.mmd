@@ -1,0 +1,17 @@
+sequenceDiagram
+  actor U as User
+  participant UI as Next.js UI
+  participant API as extract router
+  participant EXT as ExtractService
+  participant RREPO as RunRepo
+  U->>UI: open /extract
+  UI->>API: GET /extract/dictionary
+  U->>UI: set filters, choose columns
+  UI->>API: POST /extract/preview
+  API->>EXT: preview(query)
+  EXT->>RREPO: query(filters)
+  EXT->>EXT: build_table()
+  EXT-->>UI: columns + first rows + total
+  U->>UI: Export CSV
+  UI->>API: POST /extract/export {format:"csv"}
+  API-->>UI: file stream (provenance columns + header block)

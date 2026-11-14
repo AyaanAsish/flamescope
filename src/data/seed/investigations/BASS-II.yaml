@@ -1,0 +1,35 @@
+acronym: BASS-II
+title: Burning and Suppression of Solids - II
+project: null
+platform: ISS
+gravity_level: microgravity
+psi_url: https://psi.nasa.gov/physci/repo/search?q=combustion&data_source=psi&data_type=investigation
+hardware:
+  - {name: MSG, role: host}
+  - {name: SPICE flow duct, role: apparatus}
+summary: >
+  Covered solid and gaseous fuels in the Microgravity Science Glovebox using the fan-driven flow duct built for SPICE.
+objectives:
+  - text: Combustion of solid and gaseous fuels in the Microgravity Science Glovebox using the fan-driven flow duct built for SPICE.
+    source: &cur
+      kind: curated
+      uri: https://www.spaceappschallenge.org/2026/challenges/flame-in-freefall/
+      title: Challenge text as encoded in architecture doc 01 section 6
+      locator: doc 01 section 6, third bullet
+approach: null
+fuels: []
+conditions: null
+variables: {varied: [], fixed: []}
+measurements: []
+findings: []
+publications: []
+fire_safety_tags: [solid_fuel]
+data: {s3_prefix: null, volume_bytes: null, file_types: []}
+field_confidence: {objectives: 0.3, hardware: 0.3}
+open_questions:
+  - Per-investigation PSI page not retrieved (PSI pages render client-side); psi_url is the generic PSI repository search page.
+  - Title read from the NTRS record 20210011385 ("Burning and Suppression of Solids-II (BASS-II) Summary Report"), which lists no DOI; the record is not an allowed source URI, so no source is attached to it.
+  - The same NTRS record names varied variables (oxygen concentration, flow velocity, fuel type, thickness, geometry); not recorded because no allowed source URI (PSI page, s3 key or DOI) was opened for them.
+  - Fuels, numeric conditions, findings and publication DOIs unknown pending PSI documents.
+  - Every stated fact is from the challenge text only and is not yet confirmed against PSI sources.
+reviewed: false

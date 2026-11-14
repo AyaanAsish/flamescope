@@ -1,0 +1,32 @@
+sequenceDiagram
+  participant CLI as flamescope-ingest
+  participant DISC as discover
+  participant S3 as s3://nasa-psi
+  participant HARV as harvester
+  participant RAW as /data/raw
+  participant PARSE as parser
+  participant EXT as extract_stage
+  participant ORCH as AgentOrchestrator
+  participant GW as LLMGateway
+  participant REST as normalize, link, score, index
+  participant DB as PostgreSQL
+  CLI->>DISC: discover()
+  DISC->>S3: list objects (unsigned)
+  DISC->>RAW: manifest.json
+  CLI->>HARV: harvest(acronym)
+  HARV->>S3: get allowed documents
+  HARV->>RAW: raw/*
+  CLI->>PARSE: parse(acronym)
+  PARSE->>RAW: parsed/*.json
+  CLI->>EXT: extract(acronym)
+  EXT->>ORCH: run("extractor", context pack)
+  ORCH->>GW: ADK Runner runs extractor LlmAgent (output_schema InvestigationCard)
+  GW-->>ORCH: draft card
+  EXT->>EXT: verify quotes, apply overrides
+  EXT->>RAW: card.draft.json
+  CLI->>REST: continue as CF-02 from normalize
+  REST->>DB: upserts
+  CLI->>ORCH: review: run("earth_apps", findings)
+  ORCH->>GW: ADK Runner runs earth_apps LlmAgent on gateway model
+  GW-->>ORCH: candidate Earth applications
+  CLI->>RAW: earth_candidates.json (curator review before publishing)

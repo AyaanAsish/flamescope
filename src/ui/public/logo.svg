@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" role="img" aria-label="FlameScope">
+  <rect width="32" height="32" rx="8" fill="#10151D"/>
+  <path d="M16 5c1.2 3.4 5.6 6.1 5.6 11.1A5.6 5.6 0 0 1 16 21.7a5.6 5.6 0 0 1-5.6-5.6c0-2.1.9-3.6 2-4.9.3 1.5 1.1 2.4 2 2.7C14 10.7 14.6 7.9 16 5z" fill="#F97316"/>
+  <circle cx="16" cy="16.2" r="2.4" fill="#38BDF8"/>
+  <path d="M8 26h16" stroke="#334155" stroke-width="1.5" stroke-linecap="round"/>
+</svg>

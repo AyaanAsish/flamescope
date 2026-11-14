@@ -1,0 +1,9 @@
+# Curator overrides live in this directory as <acronym>.yaml and always win over LLM output (NFR-05).
+#
+# Example (src/data/overrides/BASS-II.yaml), commented out:
+#   acronym: BASS-II
+#   fuels:
+#     - name: PMMA
+#       phase: solid
+#       source: {kind: curated, uri: "https://doi.org/<verified DOI>"}
+#   open_questions: []

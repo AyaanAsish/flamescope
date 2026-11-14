@@ -2,7 +2,7 @@
 
 ## 1. Stack
 
-Next.js (App Router), React, TypeScript strict, Tailwind CSS, shadcn/ui (Radix primitives), TanStack Query, Zustand, Recharts, `@xyflow/react` (React Flow), Mermaid (client-side, for sequence diagrams), lucide-react icons, `next/font` with Inter and JetBrains Mono. Package manager: npm. Node 20 LTS or newer.
+Next.js (App Router), React, TypeScript strict, Tailwind CSS, shadcn/ui (Radix primitives), TanStack Query, Zustand, Recharts, `@xyflow/react` (React Flow), Mermaid (client-side, for sequence diagrams), lucide-react icons, `next/font/local` with Inter and JetBrains Mono from the woff2 files of the `@fontsource-variable/inter` and `@fontsource-variable/jetbrains-mono` packages (no font download at build time, so offline and container builds work). Package manager: npm. Node 20 LTS or newer.
 
 Location: `src/ui/`. Output mode `standalone` for the container image.
 
@@ -21,7 +21,7 @@ Dark theme only. `<html class="dark">`; no theme toggle.
 | `--border-strong` | `#334155` | focused / selected outlines |
 | `--text` | `#E6EAF0` | primary text |
 | `--text-muted` | `#94A3B8` | secondary text |
-| `--text-faint` | `#64748B` | captions, axis labels |
+| `--text-faint` | `#8391A7` | captions, axis labels (at least 4.5:1 on `--bg`, `--surface-1` and `--surface-2`) |
 | `--accent` | `#F97316` | primary action, flame orange |
 | `--accent-soft` | `rgba(249,115,22,0.12)` | accent backgrounds |
 | `--cool` | `#38BDF8` | secondary accent, microgravity blue |
@@ -31,6 +31,8 @@ Dark theme only. `<html class="dark">`; no theme toggle.
 | `--gas` / `--liquid` / `--solid` | `#38BDF8` / `#A78BFA` / `#F97316` | fuel-phase encoding, used consistently in every chart and badge |
 
 Lens colours: habitat `#F97316`, modeling `#38BDF8`, controls `#34D399`.
+
+Architecture page colours (section 6.3) are also variables in `app/globals.css`, the only place colour literals appear: `--kind-ui`, `--kind-api`, `--kind-services`, `--kind-agents` (`#A78BFA`), `--kind-data`, `--kind-ingestion` (`#FB7185`), `--kind-external` (node strips; the others reuse the tokens above), `--edge` (`#475569`) and `--edge-llm` (`#A78BFA`, request-time LLM edges).
 
 ### 2.2 Typography and spacing
 
@@ -70,22 +72,24 @@ src/ui/
       earth/page.tsx           #                     /earth
       ask/page.tsx             #                     /ask
       architecture/page.tsx    #                     /architecture
+      _components/             # route-private view bodies and hooks (not routes)
     not-found.tsx, error.tsx
   components/
     ui/                        # shadcn primitives
-    layout/                    # Sidebar, TopBar, Footer, PageHeader
-    investigations/            # InvestigationCard, DetailTabs, RunsTable, VariablesPanel, SourceLink, EvidenceDrawer
-    ranking/                   # LensTabs, WeightSliders, PresetSelect, RankTable, ScoreBar
+    layout/                    # Sidebar, TopBar, Footer, PageHeader, Providers (TanStack Query provider)
+    investigations/            # InvestigationCard, DetailTabs, DetailPanels, RunsTable, VariablesPanel, SourceLink, EvidenceDrawer
+    ranking/                   # LensTabs, WeightSliders, PresetSelect, RankTable, ScoreBar (wraps charts/StackedScoreBar), weights.ts
     compare/                   # ComparePicker, DiffMatrix, NarrativePanel, LineageGraph
-    scenario/                  # ScenarioForm, CoveragePanel, MatchList, GravityBoundingCard
-    extract/                   # QueryBuilder, PreviewTable, ColumnPicker, ExportButtons
-    ask/                       # ChatPanel, MessageList, CitationChip, SourcesPanel
-    architecture/              # ArchTabs, FlowCanvas, NodeTypes, NodePanel, SequenceDiagram, StatusBadge
-    charts/                    # ParameterSpaceScatter, ScoreRadar, StackedScoreBar, CoverageBars, Timeline
-  content/architecture/        # context.json, layers.json, components.json, dataflow.json, datamodel.json, deployment.json, flows/*.mmd, index.ts
+    scenario/                  # ScenarioForm, CoveragePanel, MatchList, GravityBoundingCard, scenario-values.ts
+    extract/                   # QueryBuilder, PreviewTable, ColumnPicker, ExportButtons, extract-state.ts
+    ask/                       # ChatPanel, MessageList, CitationChip, SourcesPanel, use-ask.ts
+    architecture/              # ArchTabs, FlowCanvas, FlowViewer, NodeTypes, NodePanel, Legend, SequenceDiagram, StatusBadge, build-flow.ts
+    charts/                    # ParameterSpaceScatter, ScoreRadar, StackedScoreBar, CoverageBars, Timeline, chart-style.ts
+  content/architecture/        # context.json, layers.json, components.json, dataflow.json, datamodel.json, deployment.json, flows/*.mmd,
+                               # index.ts (diagram exports and FLOWS metadata), types.ts (diagram types), load-flows.ts (server-side .mmd reader)
   lib/
     api/client.ts, types.ts, hooks.ts, sse.ts
-    store.ts, format.ts (units), constants.ts
+    store.ts, format.ts (units), constants.ts, use-url-state.ts (URL-mirrored state), utils.ts (class names)
   public/                      # logo.svg, favicon, flamescope-architecture.drawio
   next.config.mjs              # output: 'standalone'; rewrites /api/:path* -> ${API_INTERNAL_URL}/api/:path*
   tailwind.config.ts, tsconfig.json, package.json, vitest.config.ts
@@ -102,16 +106,18 @@ src/ui/
 | Route | Purpose | Key components | API calls | `data-testid` roots |
 |-------|---------|----------------|-----------|---------------------|
 | `/` | Overview | Stat tiles, ParameterSpaceScatter (O2 % vs pressure, colour by fuel phase, lunar-habitat envelope shaded), top 5 overall, gaps card, quick links | CF-11 | `overview-stats`, `overview-scatter`, `overview-top`, `overview-gaps` |
-| `/explorer` | Catalog | Facet filters, card grid, sort select | `/investigations`, `/facets` | `explorer-filters`, `investigation-card` |
+| `/explorer` | Catalog | Facet filters, card grid, sort select | `/investigations`, `/facets` | `explorer-filters`, `investigation-card`, `explorer-q`, `explorer-sort` |
 | `/investigations/[id]` | Detail | Header with badges and PSI link; tabs: Summary, Test runs, Variables, Measurements, Publications, Scores, Data | detail, runs, variables | `detail-header`, `detail-tabs`, `runs-table` |
-| `/ranking` | Ranking | LensTabs, PresetSelect, WeightSliders, RankTable with StackedScoreBar, EvidenceDrawer | `/meta/rubric`, `/meta/presets`, `/rank` | `ranking-lens-tabs`, `ranking-weights`, `rank-row`, `evidence-drawer` |
-| `/compare` | Compare | ComparePicker (2-4), DiffMatrix with same/different highlighting, NarrativePanel, LineageGraph | `/compare`, `/hardware` | `compare-picker`, `diff-matrix`, `compare-narrative`, `lineage-graph` |
-| `/scenario` | Scenario Lab | ScenarioForm (preset, sliders with numeric inputs, unit toggle kPa/psi), CoveragePanel, GravityBoundingCard, MatchList, Explain button, export | `/meta/presets`, `/scenario`, `/extract/export` | `scenario-form`, `coverage-panel`, `gravity-bounding`, `scenario-match` |
+| `/ranking` | Ranking | LensTabs, PresetSelect, WeightSliders, RankTable with StackedScoreBar, EvidenceDrawer | `/meta/rubric`, `/meta/presets`, `/rank` | `ranking-lens-tabs`, `ranking-weights`, `rank-row`, `evidence-drawer`, `ranking-preset` |
+| `/compare` | Compare | ComparePicker (2-4), DiffMatrix with same/different highlighting, NarrativePanel, LineageGraph | `/compare`, `/hardware` | `compare-picker`, `diff-matrix`, `compare-narrative`, `lineage-graph`, `compare-add` |
+| `/scenario` | Scenario Lab | ScenarioForm (preset, sliders with numeric inputs, unit toggle kPa/psi), CoveragePanel, GravityBoundingCard, MatchList, Explain button, export | `/meta/presets`, `/scenario`, `/extract/export` | `scenario-form`, `coverage-panel`, `gravity-bounding`, `scenario-match`, `scenario-preset`, `scenario-phase`, `scenario-material` |
 | `/extract` | Data Extract | QueryBuilder, ColumnPicker, PreviewTable, ExportButtons, dictionary drawer | `/extract/*` | `extract-query`, `extract-preview`, `export-csv`, `export-json` |
 | `/safety-tech` | Controls and equipment | Category columns with finding cards, linked investigations, gaps | `/insights/*` | `safety-group` |
 | `/earth` | Earth applications | Sector filter, application cards with linked investigations | `/earth-applications` | `earth-card` |
 | `/ask` | Cited Q&A | ChatPanel with streaming, CitationChip, SourcesPanel, suggested questions | `/ask` | `ask-input`, `ask-answer`, `citation-chip`, `ask-sources` |
 | `/architecture` | Architecture | ArchTabs, FlowCanvas, NodePanel, SequenceDiagram, StatusBadge, download draw.io | `/meta/status` | `arch-tabs`, `arch-canvas`, `arch-node`, `arch-node-panel`, `arch-sequence` |
+
+Control test IDs sit on the form controls that end-to-end tests drive, and equal the control's `id`: `explorer-q` (search input), `explorer-sort` (sort select), `ranking-preset` (PresetSelect), `compare-add` (ComparePicker add select), `scenario-preset`, `scenario-phase`, `scenario-material` (ScenarioForm).
 
 URL state: filters, lens, preset, selected investigations and scenario values are mirrored in query parameters so every view is linkable.
 
@@ -134,15 +140,34 @@ Purpose: show judges and engineers exactly how the system is built, inside the p
 ### 6.2 Content JSON shape
 
 ```json
-{"id": "components", "title": "Component view",
- "nodes": [{"id": "C-SVC-RANK", "type": "component", "group": "api", "position": {"x": 0, "y": 0},
-            "data": {"label": "RankingService", "componentId": "C-SVC", "kind": "service",
-                     "responsibility": "...", "interfaces": ["rank()", "breakdown()"],
+{"id": "components", "title": "Component view", "direction": "LR",
+ "nodes": [{"id": "C-SVC", "type": "component", "group": "api", "position": {"x": 720, "y": 0},
+            "width": 250, "height": 76,
+            "data": {"label": "Domain services", "accent": "services", "subtitle": "C-SVC - services/",
+                     "componentId": "C-SVC", "kind": "service",
+                     "responsibility": "...", "interfaces": ["RankingService.rank(lens, weights, preset, filters) / breakdown(id)"],
                      "files": ["src/api/flamescope_api/services/ranking.py"],
                      "flows": ["CF-05", "CF-11"], "statusKey": "C-API", "doc": "03-component-design.md#5"}}],
  "groups": [{"id": "api", "label": "flamescope-api (FastAPI)", "color": "api"}],
- "edges": [{"id": "e1", "source": "C-API-RANK", "target": "C-SVC-RANK", "label": "uses", "animated": false}]}
+ "edges": [{"id": "e2", "source": "C-API", "target": "C-SVC", "label": "calls one service", "animated": false,
+            "sourceSide": "right", "targetSide": "left", "llm": false}]}
 ```
+
+Fields beyond the minimal shape (all needed to check and render the layout rules):
+
+| Field | Values | Meaning |
+|-------|--------|---------|
+| diagram `direction` | `LR`, `TB` | Main reading direction; default edge sides follow it. |
+| node `width`, `height` | px | Node rectangle used for the overlap, gap and edge-path checks. |
+| node `data.accent` | `ui`, `api`, `services`, `agents`, `data`, `ingestion`, `external` | Left colour strip (section 6.3). |
+| node `data.subtitle` | text | Second line under the label. |
+| node `data.columns` | list of text | Entity nodes only: table columns (document 04). |
+| edge `sourceSide`, `targetSide` | `top`, `right`, `bottom`, `left` | Optional handle sides; default from `direction`. |
+| edge `llm` | boolean, default false | Request-time LLM call: dashed violet edge. |
+
+Groups keep the `{id, label, color}` shape; their boxes are computed from the member nodes (padding 24 px, 44 px at the top for the label chip), so group boxes never need hand-set positions.
+
+The Components tab has one node per document 03 component ID (C-UI, C-API, C-SVC, C-REPO, C-ORCH, C-AGT, C-CV, C-LLM, C-COM, C-DB, C-RAW, C-ING) plus the external systems; node `id` equals the `componentId`. The services, repositories, agents and modules of a component are listed in that node's `interfaces` and `files` and shown in NodePanel, which keeps the left-to-right layout free of edges through nodes.
 
 Positions are hand-set in the JSON so the layout is deliberate: left-to-right or top-to-bottom, orthogonal `smoothstep` edges, no edge crossing a node, minimum 40 px gap between nodes.
 
@@ -151,7 +176,7 @@ Positions are hand-set in the JSON so the layout is deliberate: left-to-right or
 - `actor`, `external`, `component`, `store`, `job`, `group`, `entity` custom nodes in `components/architecture/NodeTypes.tsx`.
 - Node: `--surface-1` fill, 1 px `--border`, 10 px radius, title 13 px semibold, subtitle 12 px muted, left colour strip by kind (UI blue `--cool`, API green, services orange, agents violet `#A78BFA`, data amber, ingestion rose `#FB7185`, external slate).
 - Groups: dashed `--border-strong` outline with label chip.
-- Edges: 1.5 px `#475569`, arrowhead, label on `--bg` chip; edges for request-time LLM calls are dashed violet.
+- Edges: 1.5 px `#475569` (`--edge`), arrowhead, label on `--bg` chip; edges for request-time LLM calls are dashed violet.
 - StatusBadge on nodes with a `statusKey`: green dot up, amber dot `mock` or idle, red dot down.
 - Controls: zoom, fit view, minimap (dark), legend panel, "Download draw.io" button linking to `/flamescope-architecture.drawio`.
 
@@ -163,14 +188,14 @@ Positions are hand-set in the JSON so the layout is deliberate: left-to-right or
 
 ### 6.5 Conformance
 
-`content/architecture/index.ts` exports all diagrams. A unit test asserts that every `componentId` in the JSON exists in the list of IDs from document 03 and that every CF file listed in document 09 exists.
+`content/architecture/index.ts` exports all diagrams, the list of flow files and the `FLOWS` metadata (title, LLM usage, endpoints, failure notes, document anchor); `content/architecture/types.ts` holds the diagram types. The `.mmd` files are plain text read on the server by `content/architecture/load-flows.ts` (the bundler has no raw-text imports) and passed to the Call flows tab as props; each is a verbatim copy of the Mermaid block of its section in document 09. A unit test asserts that every `componentId` in the JSON exists in the list of IDs from document 03 and that every CF file listed in document 09 exists.
 
 ## 7. Data fetching
 
 - `lib/api/client.ts`: `apiGet`, `apiPost`, `apiDownload`; base path `/api/v1`; throws `ApiError` with the envelope fields.
 - `lib/api/sse.ts`: `streamAsk(body, handlers)` using `fetch` and `ReadableStream`, parsing `event:` / `data:` frames.
 - `lib/api/hooks.ts`: one TanStack Query hook per endpoint; query keys include all parameters; `staleTime` 5 minutes for catalog data, 0 for `/meta/status`.
-- Types in `lib/api/types.ts` mirror `flamescope_common.schemas.api`; a script `npm run gen:types` regenerates them from the OpenAPI document.
+- Types in `lib/api/types.ts` are a hand-maintained mirror of `flamescope_common.schemas.api`. The script `npm run gen:types` writes `lib/api/types.generated.ts` from the OpenAPI document as a reference for diffing against `types.ts` (it never overwrites `types.ts`; the generated file is excluded from ESLint).
 
 ## 8. Testing hooks
 

@@ -1,0 +1,83 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: db
+  labels:
+    {{- include "flamescope.labels" . | nindent 4 }}
+    app.kubernetes.io/component: db
+spec:
+  serviceName: db
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "flamescope.selectorLabels" (dict "root" $ "component" "db") | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "flamescope.selectorLabels" (dict "root" $ "component" "db") | nindent 8 }}
+    spec:
+      securityContext:
+        {{- include "flamescope.podSecurityContext" . | nindent 8 }}
+        {{- with .Values.db.runAsUser }}
+        runAsUser: {{ . }}
+        runAsGroup: {{ . }}
+        fsGroup: {{ . }}
+        {{- end }}
+      containers:
+        - name: db
+          image: {{ include "flamescope.image" (dict "root" $ "image" .Values.image.db) }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: ["ALL"]
+          envFrom:
+            - configMapRef:
+                name: flamescope-config
+          env:
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: flamescope-db
+                  key: POSTGRES_PASSWORD
+            # A subdirectory, because a fresh volume root may hold lost+found.
+            - name: PGDATA
+              value: /var/lib/postgresql/data/pgdata
+          ports:
+            - name: postgres
+              containerPort: 5432
+          readinessProbe:
+            exec:
+              command: ["sh", "-c", "pg_isready -U \"$POSTGRES_USER\" -d \"$POSTGRES_DB\""]
+            periodSeconds: 5
+            timeoutSeconds: 3
+            failureThreshold: 20
+          livenessProbe:
+            exec:
+              command: ["sh", "-c", "pg_isready -U \"$POSTGRES_USER\" -d \"$POSTGRES_DB\""]
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 3
+          resources:
+            {{- toYaml .Values.db.resources | nindent 12 }}
+          volumeMounts:
+            - name: pgdata
+              mountPath: /var/lib/postgresql/data
+            - name: run
+              mountPath: /var/run/postgresql
+      volumes:
+        - name: run
+          emptyDir: {}
+  volumeClaimTemplates:
+    - metadata:
+        name: pgdata
+        labels:
+          {{- include "flamescope.selectorLabels" (dict "root" $ "component" "db") | nindent 10 }}
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        {{- with .Values.db.storageClassName }}
+        storageClassName: {{ . }}
+        {{- end }}
+        resources:
+          requests:
+            storage: {{ .Values.db.storageSize }}

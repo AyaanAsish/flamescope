@@ -22,6 +22,8 @@ erDiagram
 
 ## 2. Tables
 
+Nullability: in `investigation`, `test_run`, `condition` and `finding` a column marked `null` may be null and the others are not. Defaults are stated in the notes: JSON columns default to empty (`{}` or `[]`), arrays to empty, `reviewed` and `is_aggregate` to false, `discipline` to `combustion`. `confidence` has no default. Seed authors write `null` for an unknown `platform` or `gravity_level`.
+
 ### project
 | Column | Type | Notes |
 |--------|------|-------|
@@ -46,25 +48,25 @@ erDiagram
 | title | text | |
 | discipline | text | default `combustion` |
 | project_id | bigint FK project null | |
-| psi_url | text | |
+| psi_url | text null | PSI page; interim and harvest values in document 06 sections 3.1 and 5 |
 | s3_prefix | text null | |
-| platform | text | `ISS`, `drop_tower`, `parabolic`, `sounding_rocket`, `suborbital`, `ground` |
-| gravity_level | text | `microgravity`, `normal`, `partial`, `mixed` |
+| platform | text null | `ISS`, `drop_tower`, `parabolic`, `sounding_rocket`, `suborbital`, `ground`; null when no source states it |
+| gravity_level | text null | `microgravity`, `normal`, `partial`, `mixed`; null when no source states it |
 | years | int4range null | |
-| status | text | `completed`, `ongoing`, `planned` |
-| objectives | jsonb | array of `{text, source}` |
-| approach | text | |
-| summary | text | 2 to 4 sentences, curated |
-| fuel_phases | text[] | derived: `gas`, `liquid`, `solid` |
-| fire_safety_tags | text[] | controlled vocabulary (section 5) |
-| o2_min, o2_max | numeric null | fraction 0 to 1, derived from runs or stated ranges |
-| pressure_min_kpa, pressure_max_kpa | numeric null | |
-| flow_min_cm_s, flow_max_cm_s | numeric null | |
+| status | text null | `completed`, `ongoing`, `planned`; not in the seed format |
+| objectives | jsonb | array of `{text, source}`; default `[]` |
+| approach | text null | |
+| summary | text null | 2 to 4 sentences, curated |
+| fuel_phases | text[] | derived: `gas`, `liquid`, `solid`; default empty |
+| fire_safety_tags | text[] | controlled vocabulary (section 5); default empty |
+| o2_min, o2_max | numeric null | fraction 0 to 1, derived from runs or stated ranges: the extent of the stated ranges, aggregate-run ranges and run values; a null endpoint of any half-open range keeps that side null (open, document 08 section 4.2), for example `o2_min = null`, `o2_max = 0.85` for CFI-G; both null means no data |
+| pressure_min_kpa, pressure_max_kpa | numeric null | same derivation and null rule as `o2_min`, `o2_max` |
+| flow_min_cm_s, flow_max_cm_s | numeric null | same derivation and null rule as `o2_min`, `o2_max` |
 | data_volume_bytes | bigint null | from manifest |
 | file_manifest_ref | text null | path under `/data/raw` |
 | card | jsonb | full `InvestigationCard` (section 4) |
-| card_version | int | increments on change |
-| reviewed | boolean | curator has checked the card |
+| card_version | int | default 1; increments on change |
+| reviewed | boolean | curator has checked the card; default false |
 | search_tsv | tsvector | generated from title, summary, objectives |
 
 Indexes: GIN on `search_tsv`, GIN on `fire_safety_tags`, GIN on `fuel_phases`, trigram on `acronym` and `title`.
@@ -88,14 +90,14 @@ Indexes: GIN on `search_tsv`, GIN on `fire_safety_tags`, GIN on `fuel_phases`, t
 | investigation_id | bigint FK | |
 | label | text | sample or test point name |
 | fuel_id | bigint FK fuel null | |
-| geometry | jsonb | `{shape, dimensions_mm:{...}, burner}` |
-| varied_parameters | jsonb | names and values that change within the investigation |
-| fixed_parameters | jsonb | |
-| outcome | jsonb | `{ignited, flame_spread_rate_mm_s, burn_rate, extinction, smoke_point, cool_flame, notes}`; any key may be null |
-| data_files | jsonb | array of `{s3_key, bytes, type}` |
+| geometry | jsonb | `{shape, dimensions_mm:{...}, burner}`; default `{}` |
+| varied_parameters | jsonb | names and values that change within the investigation; default `{}` |
+| fixed_parameters | jsonb | default `{}` |
+| outcome | jsonb | `{ignited, flame_spread_rate_mm_s, burn_rate, extinction, smoke_point, cool_flame, notes}`; any key may be null; default `{}` |
+| data_files | jsonb | array of `{s3_key, bytes, type}`; default `[]` |
 | source | jsonb | `SourceRef` |
-| confidence | numeric | 0 to 1 |
-| is_aggregate | boolean | true when the row represents a stated range rather than one test |
+| confidence | numeric | 0 to 1 (checked); required, no default |
+| is_aggregate | boolean | true when the row represents a stated range rather than one test; default false |
 
 ### condition
 One row per test run (`test_run_id` PK and FK).
@@ -126,10 +128,10 @@ One row per test run (`test_run_id` PK and FK).
 | statement | text | one sentence |
 | category | text | `detection`, `suppression`, `material_screening`, `post_fire`, `atmosphere_design`, `fundamental` |
 | source | jsonb | `SourceRef` (required) |
-| confidence | numeric | |
+| confidence | numeric | 0 to 1 (checked); required, no default |
 
 ### earth_application and finding_earth_application
-`earth_application(id, title, sector, description, maturity, references jsonb)`; sector in `firefighting`, `detection`, `building_safety`, `industrial`, `wildfire`, `transport`. Link table `(finding_id, earth_application_id)`; an application may also link directly to investigations through `earth_application_investigation(earth_application_id, investigation_id)`.
+`earth_application(id, title, sector, description, maturity, references jsonb)`; sector in `firefighting`, `detection`, `building_safety`, `industrial`, `wildfire`, `transport`. Link table `(finding_id, earth_application_id)`; an application may also link directly to investigations through `earth_application_investigation(earth_application_id, investigation_id)`. Rows come only from the curated `src/data/seed/earth_applications.yaml`; `EarthAppsAgent` candidates are never stored here (they stay in `/data/raw/<acronym>/earth_candidates.json` for curation, document 06 section 3.9).
 
 ### relevance_score
 | Column | Type | Notes |
@@ -180,7 +182,7 @@ Indexes: HNSW on `embedding` (cosine), GIN on `tsv`.
 }
 ```
 
-`kind` and `uri` are required. `curated` is allowed only in seed and override files and must still carry a `uri` to a PSI page or DOI.
+`kind` and `uri` are required. `curated` is allowed only in seed and override files and must still carry a `uri` to a PSI page or DOI, or, for the challenge facts of document 01 section 6, to the challenge page `https://www.spaceappschallenge.org/2026/challenges/flame-in-freefall/`. Validation (`sources.is_allowed_uri`) accepts any `https` URL with a host and any non-empty key under `s3://nasa-psi/`; the narrower kinds of URI are a curation rule (document 06 section 5).
 
 ## 4. InvestigationCard (JSON stored in `investigation.card`)
 
@@ -207,7 +209,8 @@ Indexes: HNSW on `embedding` (cosine), GIN on `tsv`.
   "variables": {"varied": ["o2_fraction", "flow_speed_cm_s", "sample thickness"], "fixed": ["pressure_kpa"]},
   "measurements": [{"instrument": "video camera", "quantity": "flame shape, spread rate", "source": {}}],
   "findings": [{"statement": "...", "category": "material_screening", "source": {}, "confidence": 0.8}],
-  "publications": [{"doi": "10.xxxx/xxxx", "title": "...", "year": 2015}],
+  "publications": [{"doi": "10.xxxx/xxxx", "title": "...", "year": 2015,
+                   "authors": [], "venue": null, "url": null, "key_findings": []}],
   "fire_safety_tags": ["flame_spread", "solid_fuel", "extinction"],
   "data": {"s3_prefix": "...", "volume_bytes": null, "file_types": []},
   "field_confidence": {"fuels": 0.9, "conditions": 0.6},
@@ -215,7 +218,7 @@ Indexes: HNSW on `embedding` (cosine), GIN on `tsv`.
 }
 ```
 
-The numeric values in this example illustrate shape only; real values come from sources. Every leaf that states a fact carries a `source`. Unknown values are `null`, never guessed.
+Publication `authors`, `venue`, `url` and `key_findings` are optional (empty list or null by default) and feed `GET /investigations/{id}/publications` (document 05 section 4); `abstract` is not carried in the card. The numeric values in this example illustrate shape only; real values come from sources. Every leaf that states a fact carries a `source`. Unknown values are `null`, never guessed.
 
 ## 5. Controlled vocabularies
 

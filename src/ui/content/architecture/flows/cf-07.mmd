@@ -1,0 +1,22 @@
+sequenceDiagram
+  actor U as User
+  participant UI as Next.js UI
+  participant API as scenario router
+  participant SCN as ScenarioService
+  participant RREPO as RunRepo
+  participant ORCH as AgentOrchestrator
+  participant CV as CitationVerifier
+  U->>UI: pick preset "lunar_habitat", adjust sliders
+  UI->>API: POST /scenario {.., explain:false}
+  API->>SCN: match(scenario, false)
+  SCN->>RREPO: condition_ranges(), query(runs)
+  SCN->>SCN: distance(), coverage(), gravity_bounding()
+  SCN-->>UI: matches + coverage + gravity_bounding
+  U->>UI: click "Explain"
+  UI->>API: POST /scenario {.., explain:true}
+  SCN->>ORCH: run("scenario_interpreter", ...)
+  ORCH-->>SCN: sentences + caveats
+  SCN->>CV: verify
+  SCN-->>UI: explanation
+  U->>UI: "Export matching runs"
+  UI->>API: POST /extract/export {filters:{scenario_id}, format:"csv"}

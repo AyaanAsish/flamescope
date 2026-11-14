@@ -1,0 +1,47 @@
+# Hardware and project seed. Facts come from docs/architecture/01-requirements-and-scope.md section 6
+# (challenge text), cited as curated to the PSI overview page. Not yet confirmed against PSI
+# investigation pages (see open_questions). Hardware kinds: facility, apparatus, insert, instrument.
+reviewed: false
+projects:
+  - name: ACME
+    description: Advanced Combustion via Microgravity Experiments. Experiments that burned gaseous fuels with one modular hardware set in the Combustion Integrated Rack.
+    source: &cur
+      kind: curated
+      uri: https://www.spaceappschallenge.org/2026/challenges/flame-in-freefall/
+      title: Challenge text as encoded in architecture doc 01 section 6
+      locator: doc 01 section 6, first bullet
+hardware:
+  - name: CIR
+    kind: facility
+    description: Combustion Integrated Rack.
+    parent: null
+    source: *cur
+  - name: MSG
+    kind: facility
+    description: Microgravity Science Glovebox.
+    parent: null
+    source: *cur
+  - name: MDCA
+    kind: apparatus
+    description: Multi-user Droplet Combustion Apparatus, used inside the CIR for liquid fuel droplets.
+    parent: CIR
+    source: *cur
+  - name: ACME insert
+    kind: insert
+    description: Modular hardware set used by the ACME experiments in the CIR.
+    parent: CIR
+    source: *cur
+  - name: SPICE flow duct
+    kind: apparatus
+    description: Fan-driven flow duct built for SPICE and used in the Microgravity Science Glovebox by BASS, BASS-II, SPICE and SLICE.
+    parent: MSG
+    source: *cur
+  - name: Smoke and dust instrument
+    kind: instrument
+    description: Instrument used for smoke in SAME and SAME-R and reused for dust in DAFT and DAFT-2. Official instrument name not stated in the challenge text.
+    parent: null
+    source: *cur
+open_questions:
+  - Official name of the shared smoke and dust instrument is not stated in the sources opened; the working name is a placeholder.
+  - Descriptions are restated from the challenge text only; no PSI investigation page for any hardware item could be retrieved in this session (PSI pages render client-side).
+  - Parent facility of the smoke and dust instrument is unknown.

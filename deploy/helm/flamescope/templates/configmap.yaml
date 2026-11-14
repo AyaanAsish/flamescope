@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: flamescope-config
+  labels:
+    {{- include "flamescope.labels" . | nindent 4 }}
+data:
+  POSTGRES_USER: {{ .Values.postgres.user | quote }}
+  POSTGRES_DB: {{ .Values.postgres.db | quote }}
+  LLM_PROVIDER: {{ .Values.llm.provider | quote }}
+  OLLAMA_BASE_URL: {{ .Values.llm.ollamaBaseUrl | quote }}
+  LLM_MODEL: {{ .Values.llm.model | quote }}
+  LLM_TIMEOUT_S: {{ .Values.llm.timeoutS | quote }}
+  EMBED_PROVIDER: {{ .Values.embed.provider | quote }}
+  EMBED_MODEL: {{ .Values.embed.model | quote }}
+  EMBED_DIM: {{ .Values.embed.dim | quote }}
+  PSI_BUCKET: {{ .Values.psi.bucket | quote }}
+  PSI_REGION: {{ .Values.psi.region | quote }}
+  PSI_PREFIX: {{ .Values.psi.prefix | quote }}
+  HARVEST_MAX_DOC_MB: {{ .Values.harvest.maxDocMb | quote }}
+  HARVEST_MAX_TABLE_MB: {{ .Values.harvest.maxTableMb | quote }}
+  HARVEST_MAX_TABLES: {{ .Values.harvest.maxTables | quote }}
+  HARVEST_MAX_TOTAL_MB: {{ .Values.harvest.maxTotalMb | quote }}
+  INGEST_COMMAND: {{ .Values.ingest.command | quote }}
+  RAW_DIR: {{ .Values.paths.rawDir | quote }}
+  DATA_DIR: {{ .Values.paths.dataDir | quote }}
+  VERIFY_MIN_OVERLAP: {{ .Values.verifyMinOverlap | quote }}
+  CORS_ORIGINS: {{ .Values.corsOrigins | quote }}
+  LOG_LEVEL: {{ .Values.logLevel | quote }}
+  API_INTERNAL_URL: {{ .Values.ui.apiInternalUrl | quote }}

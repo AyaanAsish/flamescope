@@ -1,0 +1,35 @@
+acronym: BASS
+title: BASS
+project: null
+platform: ISS
+gravity_level: microgravity
+psi_url: https://psi.nasa.gov/physci/repo/search?q=combustion&data_source=psi&data_type=investigation
+hardware:
+  - {name: MSG, role: host}
+  - {name: SPICE flow duct, role: apparatus}
+summary: >
+  Covered solid and gaseous fuels in the Microgravity Science Glovebox using the fan-driven flow duct built for SPICE.
+objectives:
+  - text: Combustion of solid and gaseous fuels in the Microgravity Science Glovebox using the fan-driven flow duct built for SPICE.
+    source: &cur
+      kind: curated
+      uri: https://www.spaceappschallenge.org/2026/challenges/flame-in-freefall/
+      title: Challenge text as encoded in architecture doc 01 section 6
+      locator: doc 01 section 6, third bullet
+approach: null
+fuels: []
+conditions: null
+variables: {varied: [], fixed: []}
+measurements: []
+findings: []
+publications: []
+fire_safety_tags: []
+data: {s3_prefix: null, volume_bytes: null, file_types: []}
+field_confidence: {objectives: 0.3, hardware: 0.3}
+open_questions:
+  - Full title not confirmed; the acronym is used as a placeholder title.
+  - Per-investigation PSI page not retrieved (PSI pages render client-side); psi_url is the generic PSI repository search page.
+  - Which of the four glovebox investigations burned solid versus gaseous fuel is not stated in sources opened; tags left empty.
+  - Fuels, conditions, measurements, findings and publications unknown pending PSI documents.
+  - Every stated fact is from the challenge text only and is not yet confirmed against PSI sources.
+reviewed: false

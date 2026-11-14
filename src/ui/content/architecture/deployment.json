@@ -1,0 +1,336 @@
+{
+  "id": "deployment",
+  "title": "Deployment",
+  "direction": "LR",
+  "nodes": [
+    {
+      "id": "DEP-BROWSER",
+      "type": "actor",
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "width": 250,
+      "height": 64,
+      "data": {
+        "label": "Browser",
+        "accent": "ui",
+        "subtitle": "Mac, :3000",
+        "kind": "actor",
+        "responsibility": "Opens the UI on UI_PORT (default 3000).",
+        "doc": "11-deployment-and-operations.md#2"
+      }
+    },
+    {
+      "id": "DEP-UI",
+      "type": "component",
+      "position": {
+        "x": 330,
+        "y": 0
+      },
+      "width": 250,
+      "height": 76,
+      "data": {
+        "label": "ui",
+        "accent": "ui",
+        "subtitle": "flamescope-ui:local - :3000",
+        "kind": "container",
+        "responsibility": "Next.js standalone server (node server.js) on node:20-alpine, non-root uid 10001. Depends on api healthy; API_INTERNAL_URL=http://api:8000.",
+        "interfaces": [
+          "port ${UI_PORT:-3000}:3000",
+          "health: GET /",
+          "rewrite /api/* to API_INTERNAL_URL"
+        ],
+        "files": ["deploy/docker/Dockerfile.ui", "src/ui/"],
+        "flows": ["CF-01"],
+        "doc": "11-deployment-and-operations.md#1"
+      }
+    },
+    {
+      "id": "DEP-API",
+      "type": "component",
+      "position": {
+        "x": 660,
+        "y": 0
+      },
+      "width": 250,
+      "height": 76,
+      "data": {
+        "label": "api",
+        "accent": "api",
+        "subtitle": "flamescope-api:local - :8000",
+        "kind": "container",
+        "statusKey": "C-API",
+        "responsibility": "uvicorn flamescope_api.main:create_app --factory on python:3.12-slim. Depends on db healthy; raw volume read-only.",
+        "interfaces": [
+          "port ${API_PORT:-8000}:8000",
+          "health: GET /api/v1/health",
+          "volume flamescope_raw:/data/raw:ro",
+          "extra_hosts host.docker.internal"
+        ],
+        "files": ["deploy/docker/Dockerfile.api", "src/api/"],
+        "flows": ["CF-01"],
+        "doc": "11-deployment-and-operations.md#1"
+      }
+    },
+    {
+      "id": "DEP-DB",
+      "type": "store",
+      "position": {
+        "x": 990,
+        "y": 0
+      },
+      "width": 250,
+      "height": 76,
+      "data": {
+        "label": "db",
+        "accent": "data",
+        "subtitle": "pgvector/pgvector:pg16 - :5432",
+        "kind": "container",
+        "statusKey": "C-DB",
+        "responsibility": "PostgreSQL with pgvector; port bound to 127.0.0.1.",
+        "interfaces": [
+          "port 127.0.0.1:${DB_PORT:-5432}:5432",
+          "health: pg_isready -U $POSTGRES_USER -d $POSTGRES_DB"
+        ],
+        "files": ["deploy/docker/compose.yaml"],
+        "flows": ["CF-01"],
+        "doc": "11-deployment-and-operations.md#1"
+      }
+    },
+    {
+      "id": "DEP-PGDATA",
+      "type": "store",
+      "position": {
+        "x": 1320,
+        "y": 0
+      },
+      "width": 250,
+      "height": 76,
+      "data": {
+        "label": "flamescope_pgdata",
+        "accent": "data",
+        "subtitle": "Docker volume",
+        "kind": "volume",
+        "responsibility": "Database files; removed by make undeploy.",
+        "doc": "11-deployment-and-operations.md#2"
+      }
+    },
+    {
+      "id": "DEP-MAKE",
+      "type": "job",
+      "position": {
+        "x": 330,
+        "y": 190
+      },
+      "width": 250,
+      "height": 76,
+      "data": {
+        "label": "Makefile",
+        "accent": "ingestion",
+        "subtitle": "make deploy, make test, make all",
+        "kind": "makefile",
+        "responsibility": "One entry point for build, deploy, ingest, test and teardown. Wait loops use deploy/scripts/wait-for.sh.",
+        "interfaces": [
+          "help",
+          "doctor",
+          "ollama-pull",
+          "env",
+          "venv",
+          "ui-install",
+          "lint",
+          "fmt",
+          "build",
+          "deploy",
+          "ingest-seed",
+          "ingest-harvest",
+          "status",
+          "logs",
+          "restart",
+          "undeploy",
+          "clean",
+          "test-unit",
+          "test-integration",
+          "test-e2e",
+          "test",
+          "all",
+          "open",
+          "helm-template",
+          "helm-deploy",
+          "helm-undeploy"
+        ],
+        "files": ["Makefile", "deploy/scripts/wait-for.sh"],
+        "flows": ["CF-01", "CF-13"],
+        "doc": "11-deployment-and-operations.md#4"
+      }
+    },
+    {
+      "id": "DEP-ING",
+      "type": "job",
+      "position": {
+        "x": 660,
+        "y": 190
+      },
+      "width": 250,
+      "height": 76,
+      "data": {
+        "label": "ingest",
+        "accent": "ingestion",
+        "subtitle": "flamescope-ingest:local - one-shot",
+        "kind": "container",
+        "statusKey": "C-ING",
+        "responsibility": "Profile job: flamescope-ingest migrate, then INGEST_COMMAND (default seed). Exits when done.",
+        "interfaces": ["profiles: job", "volume flamescope_raw:/data/raw", "health: exit code"],
+        "files": ["deploy/docker/Dockerfile.ingest", "src/ingest/"],
+        "flows": ["CF-01", "CF-02", "CF-03"],
+        "doc": "11-deployment-and-operations.md#1"
+      }
+    },
+    {
+      "id": "DEP-RAW",
+      "type": "store",
+      "position": {
+        "x": 990,
+        "y": 190
+      },
+      "width": 250,
+      "height": 76,
+      "data": {
+        "label": "flamescope_raw",
+        "accent": "data",
+        "subtitle": "Docker volume /data/raw",
+        "kind": "volume",
+        "responsibility": "Raw and parsed documents: read-write in ingest, read-only in api.",
+        "doc": "11-deployment-and-operations.md#2"
+      }
+    },
+    {
+      "id": "DEP-OLLAMA",
+      "type": "external",
+      "position": {
+        "x": 990,
+        "y": 380
+      },
+      "width": 250,
+      "height": 76,
+      "data": {
+        "label": "Ollama on host",
+        "accent": "external",
+        "subtitle": "qwen2.5:0.5b - :11434",
+        "kind": "external",
+        "responsibility": "Native on the Mac so it can use the GPU; not a compose service. Reached at host.docker.internal:11434 in live mode.",
+        "doc": "11-deployment-and-operations.md#2",
+        "statusKey": "C-LLM"
+      }
+    },
+    {
+      "id": "DEP-S3",
+      "type": "external",
+      "position": {
+        "x": 990,
+        "y": 570
+      },
+      "width": 250,
+      "height": 76,
+      "data": {
+        "label": "s3://nasa-psi",
+        "accent": "external",
+        "subtitle": "harvest mode only",
+        "kind": "external",
+        "responsibility": "Public bucket, unsigned access.",
+        "doc": "11-deployment-and-operations.md#2"
+      }
+    }
+  ],
+  "groups": [],
+  "edges": [
+    {
+      "id": "e1",
+      "source": "DEP-BROWSER",
+      "target": "DEP-UI",
+      "label": "HTTP :3000",
+      "animated": false
+    },
+    {
+      "id": "e2",
+      "source": "DEP-UI",
+      "target": "DEP-API",
+      "label": "/api/* rewrite :8000",
+      "animated": false
+    },
+    {
+      "id": "e3",
+      "source": "DEP-API",
+      "target": "DEP-DB",
+      "label": ":5432",
+      "animated": false
+    },
+    {
+      "id": "e4",
+      "source": "DEP-DB",
+      "target": "DEP-PGDATA",
+      "label": "mounts",
+      "animated": false
+    },
+    {
+      "id": "e5",
+      "source": "DEP-API",
+      "target": "DEP-RAW",
+      "label": "read-only",
+      "animated": false
+    },
+    {
+      "id": "e6",
+      "source": "DEP-ING",
+      "target": "DEP-DB",
+      "label": "migrate, seed",
+      "animated": false
+    },
+    {
+      "id": "e7",
+      "source": "DEP-ING",
+      "target": "DEP-RAW",
+      "label": "read-write",
+      "animated": false
+    },
+    {
+      "id": "e8",
+      "source": "DEP-API",
+      "target": "DEP-OLLAMA",
+      "label": "live mode",
+      "animated": false,
+      "llm": true
+    },
+    {
+      "id": "e9",
+      "source": "DEP-ING",
+      "target": "DEP-OLLAMA",
+      "label": "live mode",
+      "animated": false,
+      "llm": true
+    },
+    {
+      "id": "e10",
+      "source": "DEP-ING",
+      "target": "DEP-S3",
+      "label": "harvest mode",
+      "animated": false
+    },
+    {
+      "id": "e11",
+      "source": "DEP-MAKE",
+      "target": "DEP-ING",
+      "label": "compose run --rm ingest",
+      "animated": false
+    },
+    {
+      "id": "e12",
+      "source": "DEP-MAKE",
+      "target": "DEP-UI",
+      "label": "compose up -d api ui",
+      "animated": false,
+      "sourceSide": "top",
+      "targetSide": "bottom"
+    }
+  ]
+}

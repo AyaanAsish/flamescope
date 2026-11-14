@@ -1,0 +1,243 @@
+{
+  "id": "context",
+  "title": "System context",
+  "direction": "LR",
+  "nodes": [
+    {
+      "id": "U1",
+      "type": "actor",
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "width": 250,
+      "height": 64,
+      "data": {
+        "label": "Professors and students",
+        "accent": "ui",
+        "subtitle": "User",
+        "kind": "actor",
+        "responsibility": "Professors and students use the dashboard to explore, rank, compare and query combustion investigations.",
+        "doc": "02-system-architecture.md#1"
+      }
+    },
+    {
+      "id": "U2",
+      "type": "actor",
+      "position": {
+        "x": 0,
+        "y": 130
+      },
+      "width": 250,
+      "height": 64,
+      "data": {
+        "label": "Aerospace researchers",
+        "accent": "ui",
+        "subtitle": "User",
+        "kind": "actor",
+        "responsibility": "Aerospace researchers use the dashboard to explore, rank, compare and query combustion investigations.",
+        "doc": "02-system-architecture.md#1"
+      }
+    },
+    {
+      "id": "U3",
+      "type": "actor",
+      "position": {
+        "x": 0,
+        "y": 260
+      },
+      "width": 250,
+      "height": 64,
+      "data": {
+        "label": "Habitat and spacecraft engineers",
+        "accent": "ui",
+        "subtitle": "User",
+        "kind": "actor",
+        "responsibility": "Habitat and spacecraft engineers use the dashboard to explore, rank, compare and query combustion investigations.",
+        "doc": "02-system-architecture.md#1"
+      }
+    },
+    {
+      "id": "U4",
+      "type": "actor",
+      "position": {
+        "x": 0,
+        "y": 390
+      },
+      "width": 250,
+      "height": 64,
+      "data": {
+        "label": "Earth fire-safety practitioners",
+        "accent": "ui",
+        "subtitle": "User",
+        "kind": "actor",
+        "responsibility": "Earth fire-safety practitioners use the dashboard to explore, rank, compare and query combustion investigations.",
+        "doc": "02-system-architecture.md#1"
+      }
+    },
+    {
+      "id": "FS",
+      "type": "component",
+      "position": {
+        "x": 380,
+        "y": 148
+      },
+      "width": 250,
+      "height": 100,
+      "data": {
+        "label": "FlameScope",
+        "accent": "services",
+        "subtitle": "Dashboard + API + agents",
+        "kind": "system",
+        "statusKey": "C-API",
+        "componentId": "C-UI",
+        "responsibility": "Reads from PSI; never writes to it. The only calls that leave the containers at request time go to Ollama on the Mac host (Ask, comparison narrative, scenario explanation). In mock mode there are none.",
+        "interfaces": [
+          "UI: Next.js on :3000",
+          "API: FastAPI /api/v1 on :8000",
+          "Agents: Google ADK"
+        ],
+        "files": ["src/ui/", "src/api/", "src/agents/", "src/ingest/"],
+        "flows": ["CF-01", "CF-04", "CF-05", "CF-06", "CF-07", "CF-08", "CF-09", "CF-10"],
+        "doc": "02-system-architecture.md#1"
+      }
+    },
+    {
+      "id": "EXT-PSI",
+      "type": "external",
+      "position": {
+        "x": 800,
+        "y": 0
+      },
+      "width": 250,
+      "height": 64,
+      "data": {
+        "label": "NASA PSI website",
+        "accent": "external",
+        "subtitle": "Physical Sciences Informatics",
+        "kind": "external",
+        "responsibility": "FlameScope links to PSI pages; it never writes to PSI.",
+        "doc": "02-system-architecture.md#1",
+        "flows": []
+      }
+    },
+    {
+      "id": "EXT-S3",
+      "type": "external",
+      "position": {
+        "x": 800,
+        "y": 130
+      },
+      "width": 250,
+      "height": 64,
+      "data": {
+        "label": "s3://nasa-psi",
+        "accent": "external",
+        "subtitle": "Public bucket, unsigned access",
+        "kind": "external",
+        "responsibility": "Harvest mode lists and downloads overviews, documents and small tabular files within size limits (document 06 section 3.2).",
+        "doc": "02-system-architecture.md#1",
+        "flows": []
+      }
+    },
+    {
+      "id": "EXT-DOI",
+      "type": "external",
+      "position": {
+        "x": 800,
+        "y": 260
+      },
+      "width": 250,
+      "height": 64,
+      "data": {
+        "label": "DOI resolvers",
+        "accent": "external",
+        "subtitle": "Journals, NTRS",
+        "kind": "external",
+        "responsibility": "Provide abstracts and citations for publication DOIs when network is allowed.",
+        "doc": "02-system-architecture.md#1",
+        "flows": []
+      }
+    },
+    {
+      "id": "EXT-LLM",
+      "type": "external",
+      "position": {
+        "x": 800,
+        "y": 390
+      },
+      "width": 250,
+      "height": 64,
+      "data": {
+        "label": "Ollama on the Mac host",
+        "accent": "external",
+        "subtitle": "qwen2.5:0.5b + nomic-embed-text",
+        "kind": "external",
+        "responsibility": "Local model server used for extraction, scoring and the three request-time LLM features. Not a compose service.",
+        "doc": "02-system-architecture.md#1",
+        "statusKey": "C-LLM",
+        "flows": ["CF-09"]
+      }
+    }
+  ],
+  "groups": [],
+  "edges": [
+    {
+      "id": "e1",
+      "source": "U1",
+      "target": "FS",
+      "label": "uses",
+      "animated": false
+    },
+    {
+      "id": "e2",
+      "source": "U2",
+      "target": "FS",
+      "label": "uses",
+      "animated": false
+    },
+    {
+      "id": "e3",
+      "source": "U3",
+      "target": "FS",
+      "label": "uses",
+      "animated": false
+    },
+    {
+      "id": "e4",
+      "source": "U4",
+      "target": "FS",
+      "label": "uses",
+      "animated": false
+    },
+    {
+      "id": "e5",
+      "source": "FS",
+      "target": "EXT-PSI",
+      "label": "links",
+      "animated": false
+    },
+    {
+      "id": "e6",
+      "source": "FS",
+      "target": "EXT-S3",
+      "label": "harvest metadata and documents",
+      "animated": false
+    },
+    {
+      "id": "e7",
+      "source": "FS",
+      "target": "EXT-DOI",
+      "label": "abstracts and citations",
+      "animated": false
+    },
+    {
+      "id": "e8",
+      "source": "FS",
+      "target": "EXT-LLM",
+      "label": "extract, score, answer",
+      "animated": false,
+      "llm": true
+    }
+  ]
+}

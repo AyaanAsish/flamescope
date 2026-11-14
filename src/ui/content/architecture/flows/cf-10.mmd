@@ -1,0 +1,18 @@
+sequenceDiagram
+  actor U as User
+  participant UI as Next.js UI
+  participant API as insights / earth routers
+  participant ST as SafetyTechService
+  participant ES as EarthService
+  participant REPO as Repos
+  U->>UI: open /safety-tech
+  UI->>API: GET /insights/safety-tech
+  API->>ST: grouped()
+  ST->>REPO: findings by category
+  ST-->>UI: groups
+  UI->>API: GET /insights/gaps
+  ST-->>UI: partial-gravity gap + parameter gaps
+  U->>UI: open /earth
+  UI->>API: GET /earth-applications
+  API->>ES: list()
+  ES-->>UI: applications with linked investigations

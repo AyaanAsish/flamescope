@@ -1,0 +1,18 @@
+FlameScope {{ .Chart.AppVersion }} is installed in namespace {{ .Release.Namespace }}.
+
+The post-install job `ingest` runs `flamescope-ingest migrate` then `flamescope-ingest {{ .Values.ingest.command }}`:
+  kubectl -n {{ .Release.Namespace }} logs job/ingest
+
+LLM provider: {{ .Values.llm.provider }}{{ if eq .Values.llm.provider "ollama" }} at {{ .Values.llm.ollamaBaseUrl }}{{ end }}
+
+Open the UI:
+{{- if .Values.route.enabled }}
+  oc -n {{ .Release.Namespace }} get route flamescope -o jsonpath='{.spec.host}'
+{{- else if .Values.ingress.enabled }}
+  http{{ if .Values.ingress.tlsSecretName }}s{{ end }}://{{ .Values.ingress.host }}/
+{{- else }}
+  kubectl -n {{ .Release.Namespace }} port-forward svc/ui {{ .Values.ui.port }}:{{ .Values.ui.port }}
+  then open http://localhost:{{ .Values.ui.port }}/
+{{- end }}
+
+Readiness: GET /api/v1/ready through the UI returns 200 once the ingest job has finished.

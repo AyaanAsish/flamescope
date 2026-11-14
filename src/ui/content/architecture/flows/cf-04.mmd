@@ -1,0 +1,26 @@
+sequenceDiagram
+  actor U as User
+  participant UI as Next.js UI
+  participant API as API router
+  participant CAT as CatalogService
+  participant REPO as InvestigationRepo / RunRepo
+  participant DB as PostgreSQL
+  U->>UI: open /explorer, set filters
+  par
+    UI->>API: GET /investigations?fuel_phase=solid
+    API->>CAT: list(filters, page)
+    CAT->>REPO: search()
+    REPO->>DB: SQL
+    DB-->>REPO: rows + scores
+    CAT-->>API: page of InvestigationSummary
+  and
+    UI->>API: GET /facets
+    API->>CAT: facets()
+  end
+  API-->>UI: JSON
+  U->>UI: click card
+  UI->>API: GET /investigations/BASS-II
+  API->>CAT: get("BASS-II")
+  CAT-->>API: InvestigationDetail
+  UI->>API: GET /investigations/BASS-II/runs, /variables
+  API-->>UI: runs, varied vs fixed

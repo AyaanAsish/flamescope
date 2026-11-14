@@ -66,7 +66,7 @@ flowchart LR
 | `VERIFY_MIN_OVERLAP` | `0.35` | agents | Citation verifier threshold. |
 | `CORS_ORIGINS` | `http://localhost:3000` | api | |
 | `LOG_LEVEL` | `INFO` | all | |
-| `API_INTERNAL_URL` | `http://api:8000` | ui | Rewrite target. |
+| `API_INTERNAL_URL` | `http://api:8000` | ui | Rewrite target. Next.js fixes the rewrite at build time, so in the container it is a build argument of `Dockerfile.ui` (default `http://api:8000`, passed by compose); `npm run dev` reads it at runtime. |
 | `API_PORT` / `UI_PORT` / `DB_PORT` | `8000` / `3000` / `5432` | compose | Host ports. |
 
 ## 4. Makefile targets (binding names)
@@ -105,7 +105,7 @@ Makefile rules: `.PHONY` for all targets; `SHELL := /bin/bash`; variables overri
 - **Bring-up order**: db, ingest job, api, ui (CF-01).
 - **Readiness**: `/api/v1/ready` returns 200 only after migrations and at least one investigation exist.
 - **Logs**: JSON on stdout; `make logs SERVICE=api`.
-- **LLM modes**: the default is `LLM_PROVIDER=ollama` with `qwen2.5:0.5b` on the host's Ollama (`make ollama-pull` once). For the deterministic offline mode set `LLM_PROVIDER=mock` and `EMBED_PROVIDER=mock` in `.env`; to try another Ollama model set `LLM_MODEL`; then `make restart`. If the embedding model or dimension changes, run `make ingest-seed` with `--force` on the index stage (documented in the README).
+- **LLM modes**: the default is `LLM_PROVIDER=ollama` with `qwen2.5:0.5b` on the host's Ollama (`make ollama-pull` once). For the deterministic offline mode set `LLM_PROVIDER=mock` and `EMBED_PROVIDER=mock` in `.env`; to try another Ollama model set `LLM_MODEL`; then `make restart`. If the embedding model or dimension changes, re-index with `docker compose -p flamescope -f deploy/docker/compose.yaml --env-file .env --profile job run --rm ingest index --force` (documented in the README).
 - **Data reset**: `make undeploy && make deploy`.
 - **Demo safety**: keep a known-good stack in mock mode; LLM mode badge in the UI shows which mode is live.
 

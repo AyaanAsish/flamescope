@@ -1,0 +1,34 @@
+acronym: FLEX
+title: FLEX
+project: null
+platform: ISS
+gravity_level: microgravity
+psi_url: https://psi.nasa.gov/physci/repo/search?q=combustion&data_source=psi&data_type=investigation
+hardware:
+  - {name: CIR, role: host}
+  - {name: MDCA, role: apparatus}
+summary: >
+  Burned liquid fuel droplets in the Multi-user Droplet Combustion Apparatus in the Combustion Integrated Rack.
+objectives:
+  - text: Combustion of liquid fuel droplets in the Multi-user Droplet Combustion Apparatus.
+    source: &cur
+      kind: curated
+      uri: https://www.spaceappschallenge.org/2026/challenges/flame-in-freefall/
+      title: Challenge text as encoded in architecture doc 01 section 6
+      locator: doc 01 section 6, second bullet
+approach: null
+fuels: []
+conditions: null
+variables: {varied: [], fixed: []}
+measurements: []
+findings: []
+publications: []
+fire_safety_tags: [liquid_fuel, droplet]
+data: {s3_prefix: null, volume_bytes: null, file_types: []}
+field_confidence: {objectives: 0.3, hardware: 0.3}
+open_questions:
+  - Full title not confirmed; the acronym is used as a placeholder title.
+  - Per-investigation PSI page not retrieved (PSI pages render client-side); psi_url is the generic PSI repository search page.
+  - Fuels, conditions, measurements, findings and publications unknown pending PSI documents.
+  - Every stated fact is from the challenge text only and is not yet confirmed against PSI sources.
+reviewed: false

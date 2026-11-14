@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ui
+  labels:
+    {{- include "flamescope.labels" . | nindent 4 }}
+    app.kubernetes.io/component: ui
+spec:
+  replicas: {{ .Values.ui.replicas }}
+  selector:
+    matchLabels:
+      {{- include "flamescope.selectorLabels" (dict "root" $ "component" "ui") | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "flamescope.selectorLabels" (dict "root" $ "component" "ui") | nindent 8 }}
+    spec:
+      securityContext:
+        {{- include "flamescope.podSecurityContext" . | nindent 8 }}
+      containers:
+        - name: ui
+          image: {{ include "flamescope.image" (dict "root" $ "image" .Values.image.ui) }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          securityContext:
+            {{- include "flamescope.containerSecurityContext" . | nindent 12 }}
+          env:
+            - name: API_INTERNAL_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: flamescope-config
+                  key: API_INTERNAL_URL
+            - name: LOG_LEVEL
+              valueFrom:
+                configMapKeyRef:
+                  name: flamescope-config
+                  key: LOG_LEVEL
+          ports:
+            - name: http
+              containerPort: {{ .Values.ui.port }}
+          # Same check as the compose health check (document 11 section 1).
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 6
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 20
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 6
+          resources:
+            {{- toYaml .Values.ui.resources | nindent 12 }}
+          volumeMounts:
+            - name: tmp
+              mountPath: /tmp
+      volumes:
+        - name: tmp
+          emptyDir: {}

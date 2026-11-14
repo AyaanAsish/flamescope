@@ -1,0 +1,17 @@
+sequenceDiagram
+  actor U as User
+  participant UI as Next.js UI
+  participant CONTENT as content/architecture/*.json
+  participant API as meta router
+  participant META as MetaService
+  U->>UI: open /architecture
+  UI->>CONTENT: import diagram JSON (static)
+  UI->>UI: render React Flow tabs
+  loop every 10 s
+    UI->>API: GET /meta/status
+    API->>META: status()
+    META-->>UI: component states
+    UI->>UI: update node badges
+  end
+  U->>UI: click node
+  UI->>UI: side panel: responsibility, interfaces, files, related flows

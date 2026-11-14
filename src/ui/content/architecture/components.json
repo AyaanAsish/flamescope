@@ -1,0 +1,594 @@
+{
+  "id": "components",
+  "title": "Component view",
+  "direction": "LR",
+  "nodes": [
+    {
+      "id": "C-UI",
+      "type": "component",
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "width": 250,
+      "height": 76,
+      "data": {
+        "label": "Next.js UI",
+        "accent": "ui",
+        "subtitle": "C-UI - src/ui",
+        "componentId": "C-UI",
+        "kind": "ui",
+        "responsibility": "Dark-theme Next.js App Router application: one route per view, a typed API client with an SSE reader, TanStack Query hooks, Zustand state and the in-product Architecture page. It talks only to the API through the /api/* rewrite.",
+        "interfaces": [
+          "app/(dashboard)/<route>/page.tsx",
+          "lib/api/client.ts",
+          "lib/api/hooks.ts",
+          "lib/api/sse.ts",
+          "lib/store.ts"
+        ],
+        "files": [
+          "src/ui/app/",
+          "src/ui/components/",
+          "src/ui/lib/api/client.ts",
+          "src/ui/lib/api/types.ts",
+          "src/ui/lib/api/hooks.ts",
+          "src/ui/lib/api/sse.ts",
+          "src/ui/lib/store.ts",
+          "src/ui/content/architecture/"
+        ],
+        "flows": ["CF-04", "CF-05", "CF-06", "CF-07", "CF-08", "CF-09", "CF-10", "CF-11", "CF-12"],
+        "doc": "03-component-design.md#8"
+      },
+      "group": "ui"
+    },
+    {
+      "id": "C-API",
+      "type": "component",
+      "position": {
+        "x": 360,
+        "y": 0
+      },
+      "width": 250,
+      "height": 76,
+      "data": {
+        "label": "API routers",
+        "accent": "api",
+        "subtitle": "C-API - flamescope_api",
+        "componentId": "C-API",
+        "kind": "router",
+        "responsibility": "FastAPI app factory, request-ID and CORS middleware, error envelope and the routers under /api/v1. Routers validate, call one service and shape the response; they hold no business logic.",
+        "interfaces": [
+          "create_app()",
+          "sse_event(event, data)",
+          "routers: health, meta, investigations, catalog, rank, compare, scenario, extract, insights, earth, ask"
+        ],
+        "files": [
+          "src/api/flamescope_api/main.py",
+          "src/api/flamescope_api/deps.py",
+          "src/api/flamescope_api/errors.py",
+          "src/api/flamescope_api/sse.py",
+          "src/api/flamescope_api/routers/"
+        ],
+        "flows": ["CF-04", "CF-05", "CF-06", "CF-07", "CF-08", "CF-09", "CF-10", "CF-11", "CF-12"],
+        "statusKey": "C-API",
+        "doc": "03-component-design.md#4"
+      },
+      "group": "api"
+    },
+    {
+      "id": "C-SVC",
+      "type": "component",
+      "position": {
+        "x": 720,
+        "y": 0
+      },
+      "width": 250,
+      "height": 76,
+      "data": {
+        "label": "Domain services",
+        "accent": "services",
+        "subtitle": "C-SVC - services/",
+        "componentId": "C-SVC",
+        "kind": "service",
+        "responsibility": "Deterministic domain services: catalog, ranking, compare, scenario, extract, insight, safety tech, earth and meta. A service calls the orchestrator only for compare narrative, scenario explanation and ask.",
+        "interfaces": [
+          "CatalogService.list(filters, page) / get(id) / runs(id) / variables(id) / publications(id) / facets() / hardware_lineage() / projects()",
+          "RankingService.rank(lens, weights, preset, filters) / breakdown(id)",
+          "CompareService.compare(ids, narrative)",
+          "ScenarioService.match(scenario, explain)",
+          "scenario_math: distance / coverage / gravity_bounding (pure functions)",
+          "scenario_id: stateless URL-safe base64 of the canonical scenario JSON",
+          "ExtractService.preview(query) / export(query, format) / dictionary()",
+          "InsightService.ask(question, filters)",
+          "SafetyTechService.grouped() / gaps()",
+          "EarthService.list(sector)",
+          "MetaService.stats() / status()"
+        ],
+        "files": [
+          "src/api/flamescope_api/services/catalog.py",
+          "src/api/flamescope_api/services/ranking.py",
+          "src/api/flamescope_api/services/compare.py",
+          "src/api/flamescope_api/services/scenario.py",
+          "src/api/flamescope_api/services/scenario_math.py",
+          "src/api/flamescope_api/services/extract.py",
+          "src/api/flamescope_api/services/insight.py",
+          "src/api/flamescope_api/services/safety_tech.py",
+          "src/api/flamescope_api/services/earth.py",
+          "src/api/flamescope_api/services/meta.py"
+        ],
+        "flows": ["CF-04", "CF-05", "CF-06", "CF-07", "CF-08", "CF-09", "CF-10", "CF-11", "CF-12"],
+        "statusKey": "C-API",
+        "doc": "03-component-design.md#5"
+      },
+      "group": "api"
+    },
+    {
+      "id": "C-REPO",
+      "type": "component",
+      "position": {
+        "x": 1080,
+        "y": 0
+      },
+      "width": 250,
+      "height": 76,
+      "data": {
+        "label": "Repositories",
+        "accent": "api",
+        "subtitle": "C-REPO - repositories/",
+        "componentId": "C-REPO",
+        "kind": "repository",
+        "responsibility": "Own all SQL. Return ORM objects or lightweight row models; services convert them to API schemas.",
+        "interfaces": [
+          "InvestigationRepo.search / get / by_ids / facet_counts / findings / hardware_links",
+          "RunRepo.for_investigation / query / condition_ranges",
+          "ScoreRepo.all_scores / for_investigation",
+          "ChunkRepo.keyword_search / vector_search / by_ids",
+          "EarthRepo.list"
+        ],
+        "files": [
+          "src/api/flamescope_api/repositories/investigations.py",
+          "src/api/flamescope_api/repositories/runs.py",
+          "src/api/flamescope_api/repositories/scores.py",
+          "src/api/flamescope_api/repositories/chunks.py",
+          "src/api/flamescope_api/repositories/earth.py"
+        ],
+        "flows": ["CF-04", "CF-05", "CF-06", "CF-07", "CF-08", "CF-09", "CF-10", "CF-12"],
+        "statusKey": "C-DB",
+        "doc": "03-component-design.md#6"
+      },
+      "group": "api"
+    },
+    {
+      "id": "C-DB",
+      "type": "store",
+      "position": {
+        "x": 1440,
+        "y": 0
+      },
+      "width": 250,
+      "height": 76,
+      "data": {
+        "label": "PostgreSQL + pgvector",
+        "accent": "data",
+        "subtitle": "C-DB - pgvector/pgvector:pg16",
+        "componentId": "C-DB",
+        "kind": "store",
+        "responsibility": "PostgreSQL 16 with the vector and pg_trgm extensions. Holds investigations, runs, scores, chunks and audit rows (document 04).",
+        "interfaces": [
+          "schema: document 04",
+          "Alembic revision 0001_initial",
+          "HNSW cosine index on chunk.embedding"
+        ],
+        "files": ["src/common/flamescope_common/migrations/"],
+        "flows": ["CF-01", "CF-02", "CF-03", "CF-04", "CF-05", "CF-09"],
+        "statusKey": "C-DB",
+        "doc": "03-component-design.md#9"
+      },
+      "group": "db"
+    },
+    {
+      "id": "C-ORCH",
+      "type": "component",
+      "position": {
+        "x": 1080,
+        "y": 190
+      },
+      "width": 250,
+      "height": 76,
+      "data": {
+        "label": "AgentOrchestrator",
+        "accent": "agents",
+        "subtitle": "C-ORCH - orchestrator.py",
+        "componentId": "C-ORCH",
+        "kind": "orchestrator",
+        "responsibility": "Registry of agents by name; runs an agent through a Google ADK Runner with InMemorySessionService (one throwaway session per call), attaches the request ID and measures latency.",
+        "interfaces": ["AgentOrchestrator.run(name, payload, *, stream)"],
+        "files": ["src/agents/flamescope_agents/orchestrator.py"],
+        "flows": ["CF-02", "CF-03", "CF-06", "CF-07", "CF-09"],
+        "doc": "03-component-design.md#3"
+      },
+      "group": "agents"
+    },
+    {
+      "id": "C-AGT",
+      "type": "component",
+      "position": {
+        "x": 1440,
+        "y": 190
+      },
+      "width": 250,
+      "height": 76,
+      "data": {
+        "label": "Agents",
+        "accent": "agents",
+        "subtitle": "C-AGT - flamescope_agents",
+        "componentId": "C-AGT",
+        "kind": "agent",
+        "responsibility": "One ADK LlmAgent per runtime agent, no tools: extractor, scorer, comparator, scenario interpreter, insight QA and Earth apps. Each loads its prompt file, validates JSON output and retries up to 2 times on schema failure.",
+        "interfaces": [
+          "Agent (base)",
+          "ExtractorAgent",
+          "ScorerAgent",
+          "ComparatorAgent",
+          "ScenarioInterpreterAgent",
+          "InsightQAAgent",
+          "EarthAppsAgent"
+        ],
+        "files": [
+          "src/agents/flamescope_agents/base.py",
+          "src/agents/flamescope_agents/extractor.py",
+          "src/agents/flamescope_agents/scorer.py",
+          "src/agents/flamescope_agents/comparator.py",
+          "src/agents/flamescope_agents/scenario_interpreter.py",
+          "src/agents/flamescope_agents/insight_qa.py",
+          "src/agents/flamescope_agents/earth_apps.py",
+          "src/agents/flamescope_agents/prompts/"
+        ],
+        "flows": ["CF-02", "CF-03", "CF-06", "CF-07", "CF-09"],
+        "doc": "03-component-design.md#3"
+      },
+      "group": "agents"
+    },
+    {
+      "id": "C-CV",
+      "type": "component",
+      "position": {
+        "x": 1080,
+        "y": 380
+      },
+      "width": 250,
+      "height": 76,
+      "data": {
+        "label": "CitationVerifier",
+        "accent": "agents",
+        "subtitle": "C-CV - citation_verifier.py",
+        "componentId": "C-CV",
+        "kind": "verifier",
+        "responsibility": "Deterministic check that each cited sentence is supported by its cited chunk; drops or flags unsupported sentences.",
+        "interfaces": ["CitationVerifier.verify(sentences, facts)"],
+        "files": ["src/agents/flamescope_agents/citation_verifier.py"],
+        "flows": ["CF-06", "CF-07", "CF-09"],
+        "doc": "03-component-design.md#3"
+      },
+      "group": "agents"
+    },
+    {
+      "id": "C-LLM",
+      "type": "component",
+      "position": {
+        "x": 1800,
+        "y": 190
+      },
+      "width": 250,
+      "height": 76,
+      "data": {
+        "label": "LLM gateway",
+        "accent": "agents",
+        "subtitle": "C-LLM - llm/gateway.py",
+        "componentId": "C-LLM",
+        "kind": "gateway",
+        "responsibility": "Supplies the Google ADK model for the configured provider (mock or Ollama), embeddings and ADK model callbacks for cache, logging and request ID. The only place that touches Ollama.",
+        "interfaces": [
+          "LLMGateway.model()",
+          "LLMGateway.embed()",
+          "LLMGateway.callbacks()",
+          "LLMProvider: MockLlm, Ollama (LiteLlm)"
+        ],
+        "files": [
+          "src/common/flamescope_common/llm/gateway.py",
+          "src/common/flamescope_common/llm/providers/mock.py",
+          "src/common/flamescope_common/llm/providers/mock_agents.py",
+          "src/common/flamescope_common/llm/providers/ollama.py",
+          "src/common/flamescope_common/llm/cache.py"
+        ],
+        "flows": ["CF-02", "CF-03", "CF-06", "CF-07", "CF-09"],
+        "statusKey": "C-LLM",
+        "doc": "03-component-design.md#2"
+      },
+      "group": "common"
+    },
+    {
+      "id": "C-COM",
+      "type": "component",
+      "position": {
+        "x": 1800,
+        "y": 380
+      },
+      "width": 250,
+      "height": 76,
+      "data": {
+        "label": "Common library",
+        "accent": "agents",
+        "subtitle": "C-COM - flamescope_common",
+        "componentId": "C-COM",
+        "kind": "library",
+        "responsibility": "Settings, logging, errors, database engine and sessions, ORM models, SourceRef, Pydantic schemas, units, rubric and presets loaders. Imports nothing inside the project; used by the API, the agents and ingestion.",
+        "interfaces": [
+          "Settings / get_settings()",
+          "configure_logging()",
+          "FlameScopeError",
+          "models",
+          "SourceRef",
+          "InvestigationCard",
+          "Rubric / Presets"
+        ],
+        "files": [
+          "src/common/flamescope_common/config.py",
+          "src/common/flamescope_common/db.py",
+          "src/common/flamescope_common/models.py",
+          "src/common/flamescope_common/schemas/",
+          "src/common/flamescope_common/rubric.py",
+          "src/common/flamescope_common/migrations/"
+        ],
+        "flows": [],
+        "doc": "03-component-design.md#2"
+      },
+      "group": "common"
+    },
+    {
+      "id": "C-ING",
+      "type": "component",
+      "position": {
+        "x": 1080,
+        "y": 570
+      },
+      "width": 250,
+      "height": 76,
+      "data": {
+        "label": "Ingestion pipeline",
+        "accent": "ingestion",
+        "subtitle": "C-ING - flamescope_ingest",
+        "componentId": "C-ING",
+        "kind": "job",
+        "responsibility": "Typer CLI and pipeline that fill the database in nine stages (discover, harvest, parse, extract, normalize, link, score, index, review). The harvest review stage runs EarthAppsAgent and writes earth_candidates.json for curator review. The only writer of catalog data. Never imports flamescope_api.",
+        "interfaces": [
+          "flamescope-ingest migrate | seed | discover | harvest | run | score | index | review | status | export-seed",
+          "Pipeline.run(investigation_ids, stages)"
+        ],
+        "files": [
+          "src/ingest/flamescope_ingest/cli.py",
+          "src/ingest/flamescope_ingest/pipeline.py",
+          "src/ingest/flamescope_ingest/discover.py",
+          "src/ingest/flamescope_ingest/harvester.py",
+          "src/ingest/flamescope_ingest/parser.py",
+          "src/ingest/flamescope_ingest/extract_stage.py",
+          "src/ingest/flamescope_ingest/normalizer.py",
+          "src/ingest/flamescope_ingest/linker.py",
+          "src/ingest/flamescope_ingest/score_stage.py",
+          "src/ingest/flamescope_ingest/embedder.py",
+          "src/ingest/flamescope_ingest/loader.py",
+          "src/ingest/flamescope_ingest/seed.py",
+          "src/ingest/flamescope_ingest/overrides.py",
+          "src/ingest/flamescope_ingest/review.py"
+        ],
+        "flows": ["CF-01", "CF-02", "CF-03"],
+        "statusKey": "C-ING",
+        "doc": "03-component-design.md#7"
+      },
+      "group": "ingest"
+    },
+    {
+      "id": "C-RAW",
+      "type": "store",
+      "position": {
+        "x": 1440,
+        "y": 570
+      },
+      "width": 250,
+      "height": 76,
+      "data": {
+        "label": "Raw volume",
+        "accent": "data",
+        "subtitle": "C-RAW - /data/raw",
+        "componentId": "C-RAW",
+        "kind": "store",
+        "responsibility": "Volume mounted at /data/raw: read-write in ingest, read-only in api. Layout /data/raw/<acronym>/{manifest.json, raw/, parsed/, card.json, earth_candidates.json}.",
+        "interfaces": [
+          "/data/raw/<acronym>/manifest.json",
+          "/data/raw/<acronym>/raw/",
+          "/data/raw/<acronym>/parsed/",
+          "/data/raw/<acronym>/card.json",
+          "/data/raw/<acronym>/earth_candidates.json"
+        ],
+        "files": ["volume flamescope_raw"],
+        "flows": ["CF-03"],
+        "doc": "03-component-design.md#9"
+      }
+    },
+    {
+      "id": "EXT-OLLAMA",
+      "type": "external",
+      "position": {
+        "x": 2160,
+        "y": 190
+      },
+      "width": 250,
+      "height": 76,
+      "data": {
+        "label": "Ollama on host",
+        "accent": "external",
+        "subtitle": "qwen2.5:0.5b, nomic-embed-text",
+        "kind": "external",
+        "responsibility": "Local model server reached at host.docker.internal:11434.",
+        "doc": "03-component-design.md#1",
+        "statusKey": "C-LLM"
+      }
+    },
+    {
+      "id": "EXT-S3",
+      "type": "external",
+      "position": {
+        "x": 1440,
+        "y": 760
+      },
+      "width": 250,
+      "height": 76,
+      "data": {
+        "label": "s3://nasa-psi",
+        "accent": "external",
+        "subtitle": "Public bucket, unsigned",
+        "kind": "external",
+        "responsibility": "Harvest source for overviews, documents and small tables.",
+        "doc": "03-component-design.md#1"
+      }
+    }
+  ],
+  "groups": [
+    {
+      "id": "ui",
+      "label": "flamescope-ui (Next.js)",
+      "color": "ui"
+    },
+    {
+      "id": "api",
+      "label": "flamescope-api (FastAPI)",
+      "color": "api"
+    },
+    {
+      "id": "agents",
+      "label": "flamescope_agents (Google ADK)",
+      "color": "agents"
+    },
+    {
+      "id": "common",
+      "label": "flamescope_common",
+      "color": "agents"
+    },
+    {
+      "id": "db",
+      "label": "db (pgvector)",
+      "color": "data"
+    },
+    {
+      "id": "ingest",
+      "label": "flamescope-ingest (job)",
+      "color": "ingestion"
+    }
+  ],
+  "edges": [
+    {
+      "id": "e1",
+      "source": "C-UI",
+      "target": "C-API",
+      "label": "REST / SSE",
+      "animated": false
+    },
+    {
+      "id": "e2",
+      "source": "C-API",
+      "target": "C-SVC",
+      "label": "calls one service",
+      "animated": false
+    },
+    {
+      "id": "e3",
+      "source": "C-SVC",
+      "target": "C-REPO",
+      "label": "uses",
+      "animated": false
+    },
+    {
+      "id": "e4",
+      "source": "C-SVC",
+      "target": "C-ORCH",
+      "label": "narrative, explain, ask",
+      "animated": false,
+      "llm": true
+    },
+    {
+      "id": "e5",
+      "source": "C-SVC",
+      "target": "C-CV",
+      "label": "verifies",
+      "animated": false
+    },
+    {
+      "id": "e6",
+      "source": "C-REPO",
+      "target": "C-DB",
+      "label": "SQL",
+      "animated": false
+    },
+    {
+      "id": "e7",
+      "source": "C-ORCH",
+      "target": "C-AGT",
+      "label": "runs",
+      "animated": false
+    },
+    {
+      "id": "e8",
+      "source": "C-AGT",
+      "target": "C-LLM",
+      "label": "model via gateway",
+      "animated": false,
+      "llm": true
+    },
+    {
+      "id": "e9",
+      "source": "C-LLM",
+      "target": "EXT-OLLAMA",
+      "label": "chat, embed",
+      "animated": false,
+      "llm": true
+    },
+    {
+      "id": "e10",
+      "source": "C-COM",
+      "target": "C-AGT",
+      "label": "imported by API, ING, AGT",
+      "animated": false,
+      "sourceSide": "left",
+      "targetSide": "right"
+    },
+    {
+      "id": "e11",
+      "source": "C-ING",
+      "target": "C-DB",
+      "label": "writes",
+      "animated": false
+    },
+    {
+      "id": "e12",
+      "source": "C-ING",
+      "target": "C-AGT",
+      "label": "extract, score, earth apps",
+      "animated": false,
+      "llm": true
+    },
+    {
+      "id": "e13",
+      "source": "C-ING",
+      "target": "C-RAW",
+      "label": "writes",
+      "animated": false
+    },
+    {
+      "id": "e14",
+      "source": "C-ING",
+      "target": "EXT-S3",
+      "label": "harvest",
+      "animated": false
+    }
+  ]
+}

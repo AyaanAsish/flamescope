@@ -1,0 +1,37 @@
+# Build context is the repository root (document 11 section 1); keep it small and secret-free.
+.git
+.gitignore
+.venv
+**/node_modules
+**/.next
+tests
+docs
+prompts
+.claude
+CLAUDE.md
+agent-briefs
+*.build.log
+.env
+.env.*
+
+# Caches and local build output
+**/__pycache__
+**/*.py[cod]
+**/.mypy_cache
+**/.ruff_cache
+**/.pytest_cache
+**/coverage
+**/*.tsbuildinfo
+**/*.egg-info
+build
+dist
+.coverage
+htmlcov
+
+# Not needed inside any image
+deploy/helm
+Makefile
+README.md
+.DS_Store
+.idea
+.vscode

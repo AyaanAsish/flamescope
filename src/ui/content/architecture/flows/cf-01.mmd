@@ -1,0 +1,22 @@
+sequenceDiagram
+  actor Dev as Developer (Mac)
+  participant Make as Makefile
+  participant DC as Docker Compose
+  participant DB as db
+  participant ING as ingest
+  participant API as api
+  participant UI as ui
+  Dev->>Make: make build
+  Make->>DC: compose build api ingest ui
+  Dev->>Make: make deploy
+  Make->>DC: compose up -d db
+  DC->>DB: start, healthcheck pg_isready
+  Make->>DC: compose run --rm ingest
+  ING->>DB: alembic upgrade head
+  ING->>DB: seed (normalize, link, score, index, review)
+  ING-->>Make: exit 0 + report
+  Make->>DC: compose up -d api ui
+  API->>DB: readiness query
+  Make->>API: wait for GET /api/v1/ready = 200
+  Make->>UI: wait for GET / = 200
+  Make-->>Dev: URLs printed

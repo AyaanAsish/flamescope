@@ -94,6 +94,10 @@ sequenceDiagram
   EXT->>RAW: card.draft.json
   CLI->>REST: continue as CF-02 from normalize
   REST->>DB: upserts
+  CLI->>ORCH: review: run("earth_apps", findings)
+  ORCH->>GW: ADK Runner runs earth_apps LlmAgent on gateway model
+  GW-->>ORCH: candidate Earth applications
+  CLI->>RAW: earth_candidates.json (curator review before publishing)
 ```
 
 ## CF-04 Explorer: list and detail
@@ -217,6 +221,8 @@ sequenceDiagram
   UI->>API: POST /extract/export {filters:{scenario_id}, format:"csv"}
 ```
 
+`scenario_id` is stateless: the URL-safe base64 encoding of the canonical scenario JSON (document 05 section 7). `ExtractService` decodes it to the scenario values and recomputes the matching runs, so no server-side registry is kept and the id survives restarts and multiple workers. Failure: an LLM error gives `explanation.status = "unavailable"`; a malformed `scenario_id` is HTTP 400 `bad_request`.
+
 ## CF-08 Data extract
 
 Endpoints: `GET /extract/dictionary`, `POST /extract/preview`, `POST /extract/export`. LLM: none.
@@ -306,7 +312,33 @@ sequenceDiagram
 
 ## CF-11 Overview page
 
-Endpoints: `GET /meta/stats`, `POST /rank` (lens `overall`, limit 5), `GET /insights/gaps`, `POST /extract/preview` (columns `o2_fraction`, `pressure_kpa`, `fuel_phase`, `investigation`; limit 2000 for the coverage scatter). Requests run in parallel; each panel has its own loading and error state.
+Endpoints: `GET /meta/stats`, `POST /rank` (lens `overall`, limit 5), `GET /insights/gaps`, `POST /extract/preview` (columns `o2_fraction`, `pressure_kpa`, `fuel_phase`, `investigation`; limit 1000 for the coverage scatter, the `POST /extract/preview` maximum). Requests run in parallel; each panel has its own loading and error state. LLM: none.
+
+```mermaid
+sequenceDiagram
+  actor U as User
+  participant UI as Next.js UI
+  participant API as meta / rank / insights / extract routers
+  participant META as MetaService
+  participant RANK as RankingService
+  participant ST as SafetyTechService
+  participant EXT as ExtractService
+  U->>UI: open /
+  par
+    UI->>API: GET /meta/stats
+    API->>META: stats()
+  and
+    UI->>API: POST /rank (lens overall, limit 5)
+    API->>RANK: rank(...)
+  and
+    UI->>API: GET /insights/gaps
+    API->>ST: gaps()
+  and
+    UI->>API: POST /extract/preview (4 columns, limit 1000)
+    API->>EXT: preview(query)
+  end
+  API-->>UI: each panel renders its own loading, error and data state
+```
 
 ## CF-12 Architecture page with live status
 
@@ -332,4 +364,16 @@ sequenceDiagram
 
 ## CF-13 Undeploy
 
-`make undeploy` -> `docker compose -p flamescope down -v --remove-orphans` -> containers, network and volumes removed. `make clean` additionally removes images and local caches.
+`make undeploy` -> `docker compose -p flamescope down -v --remove-orphans` -> containers, network and volumes removed. `make clean` additionally removes images and local caches. LLM: none.
+
+```mermaid
+sequenceDiagram
+  actor Dev as Developer (Mac)
+  participant Make as Makefile
+  participant DC as Docker Compose
+  Dev->>Make: make undeploy
+  Make->>DC: compose -p flamescope down -v --remove-orphans
+  DC-->>Make: containers, network and volumes removed
+  Dev->>Make: make clean
+  Make->>DC: undeploy, then remove images, .venv, node_modules and caches
+```

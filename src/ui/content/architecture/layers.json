@@ -1,0 +1,476 @@
+{
+  "id": "layers",
+  "title": "Logical layers",
+  "direction": "TB",
+  "nodes": [
+    {
+      "id": "L-UI",
+      "type": "component",
+      "position": {
+        "x": 290,
+        "y": 0
+      },
+      "width": 250,
+      "height": 76,
+      "data": {
+        "label": "Dashboard views",
+        "accent": "ui",
+        "subtitle": "Ten routes, App Router",
+        "kind": "layer",
+        "componentId": "C-UI",
+        "responsibility": "Overview, Explorer, Ranking, Compare, Scenario Lab, Data Extract, Safety Tech, Earth Apps, Ask and Architecture. Talks only to the API through the /api/* rewrite.",
+        "files": ["src/ui/app/(dashboard)/"],
+        "flows": ["CF-04", "CF-05", "CF-06", "CF-07", "CF-08", "CF-09", "CF-10", "CF-11", "CF-12"],
+        "interfaces": [],
+        "doc": "02-system-architecture.md#2"
+      },
+      "group": "presentation"
+    },
+    {
+      "id": "L-API",
+      "type": "component",
+      "position": {
+        "x": 290,
+        "y": 190
+      },
+      "width": 250,
+      "height": 76,
+      "data": {
+        "label": "Routers",
+        "accent": "api",
+        "subtitle": "FastAPI /api/v1",
+        "kind": "layer",
+        "componentId": "C-API",
+        "responsibility": "Validate, call one service, shape the response. No business logic.",
+        "files": ["src/api/flamescope_api/routers/"],
+        "flows": ["CF-04", "CF-05", "CF-06", "CF-07", "CF-08", "CF-09", "CF-10"],
+        "interfaces": [],
+        "statusKey": "C-API",
+        "doc": "02-system-architecture.md#2"
+      },
+      "group": "api"
+    },
+    {
+      "id": "L-SVC1",
+      "type": "component",
+      "position": {
+        "x": 0,
+        "y": 380
+      },
+      "width": 250,
+      "height": 76,
+      "data": {
+        "label": "Catalog, Ranking, Compare",
+        "accent": "services",
+        "subtitle": "Deterministic services",
+        "kind": "layer",
+        "componentId": "C-SVC",
+        "responsibility": "CatalogService, RankingService and CompareService.",
+        "files": ["src/api/flamescope_api/services/"],
+        "flows": ["CF-04", "CF-05", "CF-06"],
+        "interfaces": [],
+        "doc": "03-component-design.md#5"
+      },
+      "group": "domain"
+    },
+    {
+      "id": "L-SVC2",
+      "type": "component",
+      "position": {
+        "x": 290,
+        "y": 380
+      },
+      "width": 250,
+      "height": 76,
+      "data": {
+        "label": "Scenario, Extract, Insight",
+        "accent": "services",
+        "subtitle": "Deterministic services",
+        "kind": "layer",
+        "componentId": "C-SVC",
+        "responsibility": "ScenarioService, ExtractService and InsightService.",
+        "files": ["src/api/flamescope_api/services/"],
+        "flows": ["CF-07", "CF-08", "CF-09"],
+        "interfaces": [],
+        "doc": "03-component-design.md#5"
+      },
+      "group": "domain"
+    },
+    {
+      "id": "L-SVC3",
+      "type": "component",
+      "position": {
+        "x": 580,
+        "y": 380
+      },
+      "width": 250,
+      "height": 76,
+      "data": {
+        "label": "Safety tech, Earth, Meta",
+        "accent": "services",
+        "subtitle": "Deterministic services",
+        "kind": "layer",
+        "componentId": "C-SVC",
+        "responsibility": "SafetyTechService, EarthService and MetaService.",
+        "files": ["src/api/flamescope_api/services/"],
+        "flows": ["CF-10", "CF-12"],
+        "interfaces": [],
+        "doc": "03-component-design.md#5"
+      },
+      "group": "domain"
+    },
+    {
+      "id": "L-ORCH",
+      "type": "component",
+      "position": {
+        "x": 580,
+        "y": 570
+      },
+      "width": 250,
+      "height": 76,
+      "data": {
+        "label": "Orchestrator",
+        "accent": "agents",
+        "subtitle": "AgentOrchestrator",
+        "kind": "layer",
+        "componentId": "C-ORCH",
+        "responsibility": "Runs ADK agents through a Runner on the gateway model.",
+        "files": ["src/agents/flamescope_agents/orchestrator.py"],
+        "flows": ["CF-06", "CF-07", "CF-09"],
+        "interfaces": [],
+        "doc": "03-component-design.md#3"
+      },
+      "group": "agents"
+    },
+    {
+      "id": "L-AGT",
+      "type": "component",
+      "position": {
+        "x": 290,
+        "y": 570
+      },
+      "width": 250,
+      "height": 76,
+      "data": {
+        "label": "Agents",
+        "accent": "agents",
+        "subtitle": "Comparator, Scenario interpreter, Insight QA, Earth apps",
+        "kind": "layer",
+        "componentId": "C-AGT",
+        "responsibility": "One LlmAgent per runtime agent, no tools.",
+        "files": ["src/agents/flamescope_agents/"],
+        "flows": ["CF-06", "CF-07", "CF-09"],
+        "interfaces": [],
+        "doc": "03-component-design.md#3"
+      },
+      "group": "agents"
+    },
+    {
+      "id": "L-CV",
+      "type": "component",
+      "position": {
+        "x": 960,
+        "y": 570
+      },
+      "width": 250,
+      "height": 76,
+      "data": {
+        "label": "Citation verifier",
+        "accent": "agents",
+        "subtitle": "Deterministic check",
+        "kind": "layer",
+        "componentId": "C-CV",
+        "responsibility": "Checks each cited sentence against its cited chunk.",
+        "files": ["src/agents/flamescope_agents/citation_verifier.py"],
+        "flows": ["CF-06", "CF-07", "CF-09"],
+        "interfaces": [],
+        "doc": "03-component-design.md#3"
+      },
+      "group": "agents"
+    },
+    {
+      "id": "L-GW",
+      "type": "component",
+      "position": {
+        "x": 0,
+        "y": 570
+      },
+      "width": 250,
+      "height": 76,
+      "data": {
+        "label": "LLM gateway",
+        "accent": "agents",
+        "subtitle": "to Ollama on the host",
+        "kind": "layer",
+        "componentId": "C-LLM",
+        "responsibility": "Supplies the ADK model and embeddings; the only path to Ollama.",
+        "files": ["src/common/flamescope_common/llm/gateway.py"],
+        "flows": ["CF-02", "CF-03", "CF-09"],
+        "interfaces": [],
+        "statusKey": "C-LLM",
+        "doc": "03-component-design.md#2"
+      },
+      "group": "agents"
+    },
+    {
+      "id": "L-DB",
+      "type": "component",
+      "position": {
+        "x": 435,
+        "y": 760
+      },
+      "width": 250,
+      "height": 76,
+      "data": {
+        "label": "PostgreSQL + pgvector",
+        "accent": "data",
+        "subtitle": "Relational and vector data",
+        "kind": "layer",
+        "componentId": "C-DB",
+        "responsibility": "Single store for catalog, scores and chunks.",
+        "files": [],
+        "flows": ["CF-04", "CF-05", "CF-09"],
+        "interfaces": [],
+        "statusKey": "C-DB",
+        "doc": "03-component-design.md#9"
+      },
+      "group": "data"
+    },
+    {
+      "id": "L-RAW",
+      "type": "component",
+      "position": {
+        "x": 0,
+        "y": 760
+      },
+      "width": 250,
+      "height": 76,
+      "data": {
+        "label": "Raw document volume",
+        "accent": "data",
+        "subtitle": "/data/raw",
+        "kind": "layer",
+        "componentId": "C-RAW",
+        "responsibility": "Raw and parsed documents written by ingestion, read-only for the API.",
+        "files": [],
+        "flows": ["CF-03"],
+        "interfaces": [],
+        "doc": "03-component-design.md#9"
+      },
+      "group": "data"
+    },
+    {
+      "id": "L-ING1",
+      "type": "component",
+      "position": {
+        "x": 0,
+        "y": 950
+      },
+      "width": 250,
+      "height": 76,
+      "data": {
+        "label": "Discover, harvest, parse, extract",
+        "accent": "ingestion",
+        "subtitle": "Stages 1 to 4",
+        "kind": "layer",
+        "componentId": "C-ING",
+        "responsibility": "Lists the bucket, downloads allowed files, parses them and extracts a card with the extractor agent.",
+        "files": ["src/ingest/flamescope_ingest/"],
+        "flows": ["CF-03"],
+        "interfaces": [],
+        "statusKey": "C-ING",
+        "doc": "06-ingestion-pipeline.md#2"
+      },
+      "group": "ingestion"
+    },
+    {
+      "id": "L-ING2",
+      "type": "component",
+      "position": {
+        "x": 435,
+        "y": 950
+      },
+      "width": 250,
+      "height": 76,
+      "data": {
+        "label": "Normalize, link, score",
+        "accent": "ingestion",
+        "subtitle": "Stages 5 to 7",
+        "kind": "layer",
+        "componentId": "C-ING",
+        "responsibility": "Canonical units and vocabulary, relational rows, relevance scores.",
+        "files": ["src/ingest/flamescope_ingest/"],
+        "flows": ["CF-02", "CF-03"],
+        "interfaces": [],
+        "statusKey": "C-ING",
+        "doc": "06-ingestion-pipeline.md#2"
+      },
+      "group": "ingestion"
+    },
+    {
+      "id": "L-ING3",
+      "type": "component",
+      "position": {
+        "x": 725,
+        "y": 950
+      },
+      "width": 250,
+      "height": 76,
+      "data": {
+        "label": "Index, review",
+        "accent": "ingestion",
+        "subtitle": "Stages 8 and 9",
+        "kind": "layer",
+        "componentId": "C-ING",
+        "responsibility": "Chunking and embeddings, then the review report; in harvest mode review also runs EarthAppsAgent and writes earth_candidates.json.",
+        "files": ["src/ingest/flamescope_ingest/"],
+        "flows": ["CF-02", "CF-03"],
+        "interfaces": [],
+        "statusKey": "C-ING",
+        "doc": "06-ingestion-pipeline.md#2"
+      },
+      "group": "ingestion"
+    }
+  ],
+  "groups": [
+    {
+      "id": "presentation",
+      "label": "Presentation - Next.js App Router, dark theme",
+      "color": "ui"
+    },
+    {
+      "id": "api",
+      "label": "API - FastAPI, /api/v1, REST + SSE",
+      "color": "api"
+    },
+    {
+      "id": "domain",
+      "label": "Domain services - deterministic Python",
+      "color": "services"
+    },
+    {
+      "id": "agents",
+      "label": "Agent layer - Google ADK",
+      "color": "agents"
+    },
+    {
+      "id": "data",
+      "label": "Data layer",
+      "color": "data"
+    },
+    {
+      "id": "ingestion",
+      "label": "Ingestion - offline job",
+      "color": "ingestion"
+    }
+  ],
+  "edges": [
+    {
+      "id": "e1",
+      "source": "L-UI",
+      "target": "L-API",
+      "label": "REST / SSE via /api rewrite",
+      "animated": false
+    },
+    {
+      "id": "e2",
+      "source": "L-API",
+      "target": "L-SVC1",
+      "label": "",
+      "animated": false
+    },
+    {
+      "id": "e3",
+      "source": "L-API",
+      "target": "L-SVC2",
+      "label": "",
+      "animated": false
+    },
+    {
+      "id": "e4",
+      "source": "L-API",
+      "target": "L-SVC3",
+      "label": "",
+      "animated": false
+    },
+    {
+      "id": "e5",
+      "source": "L-SVC2",
+      "target": "L-ORCH",
+      "label": "compare, scenario, ask",
+      "animated": false,
+      "llm": true
+    },
+    {
+      "id": "e6",
+      "source": "L-SVC3",
+      "target": "L-CV",
+      "label": "verify",
+      "animated": false
+    },
+    {
+      "id": "e7",
+      "source": "L-SVC3",
+      "target": "L-DB",
+      "label": "via repositories",
+      "animated": false,
+      "sourceSide": "right",
+      "targetSide": "right"
+    },
+    {
+      "id": "e8",
+      "source": "L-ORCH",
+      "target": "L-AGT",
+      "label": "run",
+      "animated": false,
+      "sourceSide": "left",
+      "targetSide": "right"
+    },
+    {
+      "id": "e9",
+      "source": "L-AGT",
+      "target": "L-GW",
+      "label": "model",
+      "animated": false,
+      "sourceSide": "left",
+      "targetSide": "right"
+    },
+    {
+      "id": "e10",
+      "source": "L-ING2",
+      "target": "L-DB",
+      "label": "writes",
+      "animated": false,
+      "sourceSide": "top",
+      "targetSide": "bottom"
+    },
+    {
+      "id": "e11",
+      "source": "L-ING3",
+      "target": "L-DB",
+      "label": "writes",
+      "animated": false,
+      "sourceSide": "top",
+      "targetSide": "bottom"
+    },
+    {
+      "id": "e12",
+      "source": "L-ING1",
+      "target": "L-RAW",
+      "label": "writes",
+      "animated": false,
+      "sourceSide": "top",
+      "targetSide": "bottom"
+    },
+    {
+      "id": "e13",
+      "source": "L-ING1",
+      "target": "L-GW",
+      "label": "extract, score, embed",
+      "animated": false,
+      "llm": true,
+      "sourceSide": "left",
+      "targetSide": "left"
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+sequenceDiagram
+  actor U as User
+  participant UI as Next.js UI
+  participant API as ask router
+  participant INS as InsightService
+  participant GW as LLMGateway
+  participant CREPO as ChunkRepo
+  participant ORCH as AgentOrchestrator
+  participant CV as CitationVerifier
+  U->>UI: type question
+  UI->>API: POST /ask (fetch + ReadableStream)
+  API->>INS: ask(question, filters)
+  INS->>GW: embed(question)
+  par
+    INS->>CREPO: keyword_search()
+  and
+    INS->>CREPO: vector_search()
+  end
+  INS->>INS: fuse_ranks(), add card facts
+  INS-->>UI: event meta (retrieved sources)
+  INS->>ORCH: run("insight_qa", stream=True)
+  loop tokens
+    ORCH-->>INS: text delta
+    INS-->>UI: event token
+  end
+  INS->>CV: verify(draft, chunks)
+  CV-->>INS: verified sentences, dropped count
+  INS-->>UI: event citations (final answer)
+  INS-->>UI: event related, event done

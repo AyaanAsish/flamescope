@@ -1,0 +1,160 @@
+@import "tailwindcss";
+@config "../tailwind.config.ts";
+
+:root {
+  --bg: #0a0e14;
+  --surface-1: #10151d;
+  --surface-2: #161c26;
+  --border: #232b38;
+  --border-strong: #334155;
+  --text: #e6eaf0;
+  --text-muted: #94a3b8;
+  --text-faint: #8391a7;
+  --accent: #f97316;
+  --accent-soft: rgba(249, 115, 22, 0.12);
+  --accent-fg: var(--bg);
+  --cool: #38bdf8;
+  --success: #34d399;
+  --warning: #fbbf24;
+  --danger: #f87171;
+  --gas: #38bdf8;
+  --liquid: #a78bfa;
+  --solid: #f97316;
+  --lens-habitat: #f97316;
+  --lens-modeling: #38bdf8;
+  --lens-controls: #34d399;
+
+  /* architecture node kinds (doc 10 section 6.3) and edges */
+  --kind-ui: var(--cool);
+  --kind-api: var(--success);
+  --kind-services: var(--accent);
+  --kind-agents: #a78bfa;
+  --kind-data: var(--warning);
+  --kind-ingestion: #fb7185;
+  --kind-external: var(--text-faint);
+  --edge: #475569;
+  --edge-llm: #a78bfa;
+
+  --inset-highlight: rgba(255, 255, 255, 0.03);
+  --radius-card: 10px;
+  --radius-control: 6px;
+  --ease: cubic-bezier(0, 0, 0.2, 1);
+  /* Tailwind transition utilities read these: 150 ms ease-out (doc 10 section 2.3 rule 6). */
+  --default-transition-duration: 150ms;
+  --default-transition-timing-function: var(--ease);
+}
+
+html {
+  color-scheme: dark;
+  background: var(--bg);
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  line-height: 1.2;
+}
+
+*:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+::selection {
+  background: var(--accent-soft);
+}
+
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+.mono {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+.hero-glow {
+  background:
+    radial-gradient(60% 120% at 0% 0%, var(--accent-soft), transparent 70%), var(--surface-1);
+}
+
+.skeleton {
+  background: linear-gradient(90deg, var(--surface-2), var(--border), var(--surface-2));
+  background-size: 200% 100%;
+  animation: shimmer 1.4s linear infinite;
+  border-radius: var(--radius-control);
+}
+
+@keyframes shimmer {
+  from {
+    background-position: 200% 0;
+  }
+  to {
+    background-position: -200% 0;
+  }
+}
+
+@keyframes slide-in {
+  from {
+    transform: translateX(24px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.slide-in {
+  animation: slide-in 150ms var(--ease);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* scrollbars */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-strong) transparent;
+}
+
+/* React Flow dark theme */
+.react-flow {
+  --xy-background-color: var(--bg);
+  --xy-node-border-radius: 10px;
+  --xy-edge-stroke-default: var(--edge);
+  --xy-minimap-background-color-default: var(--surface-1);
+  --xy-controls-button-background-color-default: var(--surface-1);
+  --xy-controls-button-background-color-hover-default: var(--surface-2);
+  --xy-controls-button-color-default: var(--text-muted);
+  --xy-controls-button-border-color-default: var(--border);
+  --xy-attribution-background-color-default: transparent;
+}
+
+.react-flow__attribution {
+  display: none;
+}
+
+/* Mermaid output on the dark theme */
+.mermaid-host svg {
+  max-width: 100%;
+  height: auto;
+}

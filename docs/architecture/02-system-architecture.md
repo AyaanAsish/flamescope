@@ -79,15 +79,16 @@ flowchart TB
 |---------|--------|-------|
 | UI | Next.js (App Router), TypeScript strict, Tailwind CSS, shadcn/ui, TanStack Query, Recharts, `@xyflow/react`, Mermaid | Dark theme only. Use the current stable major versions at build time and pin them in `package.json`. |
 | API | Python 3.12, FastAPI, Uvicorn, Pydantic v2 | OpenAPI generated at `/api/v1/openapi.json`. |
-| Persistence | PostgreSQL 16 with pgvector, SQLAlchemy 2.x, Alembic | Image `pgvector/pgvector:pg16`. |
+| Persistence | PostgreSQL 16 with pgvector, SQLAlchemy 2.x, Alembic; Python packages `psycopg` (driver), `pgvector` (SQLAlchemy vector type), `alembic` | Image `pgvector/pgvector:pg16`. |
 | Search | Hybrid: PostgreSQL full-text (`tsvector`) plus pgvector cosine | Reciprocal rank fusion. |
-| Ingestion | Typer CLI, boto3 with unsigned requests, httpx, pypdf and pdfplumber | Runs as a one-shot container. |
+| Ingestion | Typer CLI, boto3 with unsigned requests, httpx, pypdf and pdfplumber, openpyxl (XLSX tables), pyyaml (seed, rubric, presets and override files) | Runs as a one-shot container. |
 | Agents | Google ADK (`google-adk`): `LlmAgent`, `Runner`, `InMemorySessionService`; LiteLLM for the Ollama model adapter | One ADK `LlmAgent` per runtime agent, no tools (document 07). |
 | LLM | Ollama running natively on the Mac host: chat model `qwen2.5:0.5b`, embedding model `nomic-embed-text` (768 dimensions); deterministic `mock` provider | Selected by `LLM_PROVIDER` (`ollama` default in `.env.example`, `mock` in tests). |
 | Packaging | One root `pyproject.toml`; four Python packages under `src/` | `pip install -e ".[dev]"`. |
 | Containers | Docker, Docker Compose v2 | Mac is the reference host. |
 | Orchestration | GNU Make (macOS default 3.81 compatible) | Document 11. |
-| Tests | pytest, pytest-asyncio, respx, Playwright for Python, Vitest + Testing Library | Document 12. |
+| Tests | pytest, pytest-asyncio, pytest-html (HTML report), respx, Playwright for Python, Vitest + Testing Library, `@vitest/coverage-v8` (pinned to the Vitest version) | Document 12. |
+| Decks | `python-pptx` (optional extra `docs`, not a runtime dependency) | Builds and verifies the generated decks in `docs/decks/`: `pip install -e ".[docs]"`, then `python docs/decks/build_pitch.py`. |
 | Quality | ruff, mypy, ESLint, `tsc --noEmit`, radon and xenon (complexity) | Cyclomatic complexity grade B or better per function (xenon `--max-absolute B --max-modules A --max-average A`), maintainability index grade A; ruff `C901` / `PLR` and ESLint `complexity`, `max-depth`, `max-params` rules. |
 
 ## 4. Repository layout (binding)
@@ -102,7 +103,7 @@ flamescope/
   docs/
     architecture/            # these documents
     design-diagrams/         # draw.io
-    decks/                   # pitch and demo decks (generated)
+    decks/                   # pitch and demo decks (generated), their build scripts and screens/
   prompts/                   # numbered build prompts
   src/
     common/flamescope_common/        # settings, db, models, schemas, llm gateway, rubric
@@ -118,7 +119,7 @@ flamescope/
     helm/flamescope/         # optional Kubernetes / OpenShift chart
 ```
 
-Nothing executable lives outside `src/`, `tests/` and `deploy/`.
+Nothing executable lives outside `src/`, `tests/` and `deploy/`, with one exception: the Python build and verification scripts of the generated decks live next to the decks in `docs/decks/` (for example `build_pitch.py` and `verify_pitch.py`). They are documentation tooling, are never imported by the application, and need only the `docs` extra.
 
 ## 5. Runtime topology
 
@@ -150,7 +151,7 @@ Compose project name: `flamescope`. Volumes: `flamescope_pgdata`, `flamescope_ra
 | ADR-04 | Two ingestion modes: `seed` and `harvest`. | Offline demo and tests need no network or LLM. | Seed YAML files are first-class artifacts kept in `src/data/seed/`. |
 | ADR-05 | PostgreSQL with pgvector for both relational and vector data. | One store, one backup, simple compose stack. | Embedding dimension is fixed per database. |
 | ADR-06 | Next.js for the UI with a server-side rewrite to the API. | Required by the brief; avoids CORS and exposes one origin. | `API_INTERNAL_URL` configures the rewrite target. |
-| ADR-07 | LLM gateway with a mock provider. | Tests and the fallback demo must not depend on a live model. | Every agent must have mock fixtures. |
+| ADR-07 | LLM gateway with a mock provider. | Tests and the fallback demo must not depend on a live model. | Every agent must work under the mock provider: `MockLlm` synthesizes schema-valid output for every agent; fixtures are optional (document 07 section 6). |
 | ADR-08 | Partial gravity is presented as a bounded gap, never interpolated into a number. | The data does not exist; inventing values would mislead. | Scenario results carry a `gravity_bounding` block. |
 | ADR-09 | Docker Compose is the primary deployment; Helm is optional. | Mac laptop is the reference host. | Makefile targets wrap compose; `helm-*` targets are separate. |
 | ADR-10 | The Architecture page renders from JSON in `src/ui/content/architecture/` that mirrors these documents. | Diagram is part of the product and must stay in step with the design. | A conformance test checks node IDs against document 03 component IDs. |

@@ -2,7 +2,24 @@
 
 ## 1. Rubric
 
-File: `src/data/rubric.yaml`. Version string: `rubric_version` (for example `2026.11-1`). Three lenses, five criteria each. Each criterion is rated 0 to 5 by the scorer agent (or a seed file or an override) with evidence; `null` when there is no evidence.
+File: `src/data/rubric.yaml`. Version string: `rubric_version`, currently `"2026.11-1"`; changing any criterion ID, label, weight, anchor or lens weight requires a new version. Three lenses, five criteria each.
+
+Binding YAML layout (loaded and validated by `flamescope_common.rubric.Rubric`; unknown keys are rejected):
+
+```yaml
+rubric_version: "2026.11-1"
+lens_weights: {habitat: 0.4, modeling: 0.3, controls: 0.3}   # must sum to 1
+lenses:
+  habitat:                       # exactly the lenses habitat, modeling, controls
+    label: Habitat relevance
+    description: Relevance to crewed-habitat fire safety (objective O1)
+    criteria:                    # list; IDs unique; weights sum to 1 within the lens
+      - id: fuel_realism
+        label: Fuel realism
+        weight: 0.25
+        description: ""          # optional
+        anchors: {0: "..", 3: "..", 5: ".."}
+``` Each criterion is rated 0 to 5 by the scorer agent (or a seed file or an override) with evidence; `null` when there is no evidence.
 
 ### Lens `habitat` - relevance to crewed-habitat fire safety (objective O1)
 
@@ -62,7 +79,29 @@ Rounding: scores to one decimal in responses; computation in float.
 | `lunar_habitat` | 0.6 / 0.2 / 0.2 | `atmosphere_match` 0.35, `fuel_realism` 0.25, `gravity_bounding` 0.20, `phenomenon` 0.15, `flow_regime` 0.05 |
 | `spacecraft_cabin` | 0.5 / 0.2 / 0.3 | `flow_regime` 0.25, `fuel_realism` 0.25, `phenomenon` 0.25, `atmosphere_match` 0.15, `gravity_bounding` 0.10 |
 | `modeler` | 0.2 / 0.6 / 0.2 | rubric defaults within lenses |
-| `equipment_designer` | 0.2 / 0.2 / 0.6 | `detection` 0.30, `suppression` 0.30, others scaled |
+| `equipment_designer` | 0.2 / 0.2 / 0.6 | `detection` 0.30, `suppression` 0.30, `material_screening` 0.16, `post_fire` 0.12, `hardware_heritage` 0.12 (the remaining 0.40 split in proportion to the rubric defaults) |
+
+Lens weights are listed as habitat / modeling / controls. Binding YAML layout of `presets.yaml` (loaded and validated by `flamescope_common.rubric.Presets`; unknown keys are rejected; criterion IDs must exist in the rubric):
+
+```yaml
+rubric_version: "2026.11-1"      # optional; the rubric version the presets were written for
+ranking:
+  lunar_habitat:
+    lens_weights: {habitat: 0.6, modeling: 0.2, controls: 0.2}
+    criterion_weights:           # per lens; only the lenses a preset changes ({} = rubric defaults)
+      habitat: {atmosphere_match: 0.35, fuel_realism: 0.25, gravity_bounding: 0.20, phenomenon: 0.15, flow_regime: 0.05}
+scenario:                        # section 4.1
+  lunar_habitat:
+    o2_fraction: 0.34
+    pressure_kpa: 56.5
+    pressure_psi: 8.2            # optional, display only
+    gravity_g: 0.166
+    flow_speed_cm_s: 10
+    assumed_default: true        # default false
+    note: ".."
+texts:
+  gravity_bounding: "The scenario gravity is {gravity_g} g. .."   # section 4.4
+```
 
 ## 4. Scenario matching
 
@@ -76,11 +115,13 @@ Rounding: scores to one decimal in responses; computation in float.
 | `spacesuit` | 1.00 | 29.6 kPa (4.3 psi) | 0 g | 0 cm/s | From the challenge text. |
 | `mars_habitat` | 0.34 | 56.5 kPa | 0.38 g | 10 cm/s | Same atmosphere assumption, Mars gravity. |
 
-Preset atmospheres other than the challenge-stated numbers are design assumptions and must be labeled "assumed default" in the UI.
+Preset atmospheres other than the challenge-stated numbers are design assumptions and must be labeled "assumed default" in the UI. In `presets.yaml` they carry `assumed_default: true`; that flag is true only for `lunar_habitat` and `mars_habitat` and false for the other three presets. The resolved scenario keeps `assumed_default` only while no explicit value overrides the preset.
 
 ### 4.2 Distance
 
-Catalog ranges `R_d = [min_d, max_d]` over all conditions with a value, for `d` in `o2_fraction`, `pressure_kpa`, `flow_speed_cm_s`.
+Catalog ranges `R_d = [min_d, max_d]` over all conditions with a value, for `d` in `o2_fraction`, `pressure_kpa`, `flow_speed_cm_s`, widened by the known endpoints of the stated ranges of aggregate runs (a null endpoint widens nothing).
+
+Aggregate run range convention (binding): for a run with `is_aggregate = true`, the stated range of a dimension is `test_run.varied_parameters[<dimension>] = {"min": <number>, "max": <number>}` (dimension names as above, canonical units); the `condition` column of that dimension holds the midpoint or null. The range is read only for aggregate runs; a run without a stated range for a dimension uses its `condition` value as a point. A half-open stated range (one endpoint null, for example `{"min": null, "max": 0.85}`) is recorded with the null endpoint kept and is open on the missing side: it extends to minus or plus infinity there, both for distance and for the gap coverage of section 5. A range with both endpoints null is no stated range.
 
 ```
 num_d(s, c)  = min( 1, |s_d - c_d| / max(max_d - min_d, eps) )       # numeric dimensions
@@ -88,18 +129,26 @@ num_d(s, c)  = min( 1, |s_d - c_d| / max(max_d - min_d, eps) )       # numeric d
 fuel(s, c)   = 0    if material matches (case-insensitive) 
              = 0.3  if same material_class
              = 0.6  if same phase only
-             = 1    otherwise; 0 if the scenario gives no fuel
+             = 1    otherwise; unset (removed like any other unset dimension) if the scenario gives no fuel
 distance     = ( w_o2*num_o2 + w_p*num_p + w_f*num_flow + w_fuel*fuel ) / ( w_o2 + w_p + w_f + w_fuel )
 similarity   = 1 - distance
 ```
 
 Default weights: o2 0.35, pressure 0.25, flow 0.15, fuel 0.25. Dimensions the scenario leaves unset are removed from numerator and denominator.
 
-For aggregate runs (ranges), `|s_d - c_d|` is 0 when `s_d` lies inside the run's range, otherwise the distance to the nearest endpoint.
+For aggregate runs (ranges), `|s_d - c_d|` is 0 when `s_d` lies inside the run's range, otherwise the distance to the nearest endpoint; for a half-open range that is the known endpoint (`s_d` outside an open interval always lies beyond its known bound).
+
+Fuel rules in detail:
+
+- The scenario "gives a fuel" when it sets `material` or `fuel_phase`. A run without a fuel scores 1.
+- When the scenario names a `material` that matches a catalog fuel name (case-insensitive), that fuel supplies the scenario's `material_class`, and its phase when the scenario gives none.
+- The 0.6 "same phase only" value applies only when the scenario named a material. When the scenario gives a phase but no material, the same phase scores 0 and a different phase 1.
 
 Gravity is deliberately **not** part of the distance (ADR-08).
 
-Investigation-level: `similarity = max over runs`, `median_similarity = median over runs`, `matching_runs = count with similarity >= 0.6`. Sort by `similarity`, then `median_similarity`.
+Investigation-level: `similarity = max over runs`, `median_similarity = median over runs`, `matching_runs = count with similarity >= 0.6`. Sort by `similarity`, then `median_similarity` (both descending), then acronym. `per_dimension` is `1 - num_d` (or `1 - fuel`) of the best run for each dimension the scenario sets.
+
+Scenario identity: `scenario_id = base64url_nopad( json(resolved_scenario, sort_keys, separators=(",", ":")) )` (document 05 section 7). It is stateless and invertible; the extract endpoints decode it and keep the runs with similarity >= 0.6 (document 05 section 8).
 
 ### 4.3 Coverage
 
@@ -108,7 +157,9 @@ For each numeric dimension: `covered` if `min_d <= s_d <= max_d`; `extrapolated`
 ### 4.4 Gravity bounding
 
 ```
-if scenario.gravity_g in catalog gravity values:   partial_gravity_data = (0 < g < 1)
+if scenario.gravity_g is null or within 0.02 g of 0 or 1:
+                                                   partial_gravity_data = false   # no bounds, no statement
+elif scenario.gravity_g in catalog gravity values: partial_gravity_data = (0 < g < 1)
 else:
     lower_bound = investigations among the top matches with runs at 0 g
     upper_bound = investigations among the top matches with runs at 1 g (or with documented 1 g comparisons)
@@ -118,11 +169,15 @@ else:
                   and that LUCI and FM2 are expected to add data
 ```
 
-The statement template lives in `presets.yaml` (key `texts.gravity_bounding`) so the UI, the API and the agent use the same words.
+0 g and 1 g are the bounds themselves, not partial gravity, so a scenario within 0.02 g of either gets no bounds and no statement whatever the catalog holds (bounds and statement apply to every other gravity without catalog data, for example 0.166 g and 0.38 g). "Catalog gravity values" and "runs at 0 g / 1 g" use a tolerance of 0.02 g. The statement template lives in `presets.yaml` (key `texts.gravity_bounding`) so the UI, the API and the agent use the same words; its only placeholder `{gravity_g}` is replaced by the scenario gravity formatted with Python `:g` (for example `0.166`).
+
+Explanation caveats: after the verified, cited sentences of the scenario interpreter, the service appends deterministic, uncited sentences: one per `extrapolated` or `no_data` coverage dimension ("<label> <value> lies outside the catalog range (extrapolated)." or "... has no catalog data (no_data)."), then the gravity-bounding statement when present. The agent's own `caveats` field is not shown. If no agent sentence survives verification, the explanation status is `unavailable`.
 
 ## 5. Parameter-space gaps (`/insights/gaps`)
 
 Grid: oxygen fraction bins of 0.05 from 0.10 to 1.00; pressure bins of 10 kPa from 20 to 110. A cell is a gap when no run (explicit or aggregate range) covers it. The response lists contiguous gap regions that intersect the lunar-habitat envelope (oxygen at or above 0.30 and pressure at or below 70.3 kPa) first.
+
+Region rules (binding): a run covers a cell when its oxygen span and pressure span (section 4.2 ranges, or the point value) both overlap the cell's bins (bins are half-open, the last bin closed); runs missing either value cover nothing. A region is a 4-connected component of uncovered cells. Each region becomes one `GapItem` with id `param_gap_<n>` (`n` from 1 in output order), its bounding box (oxygen and pressure ranges) and cell count in `detail`, and a note when it intersects the envelope. Order: envelope regions first, then larger regions, then the lowest cell.
 
 ## 6. Worked example (for unit tests)
 

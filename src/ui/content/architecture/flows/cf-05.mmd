@@ -1,0 +1,18 @@
+sequenceDiagram
+  actor U as User
+  participant UI as Next.js UI
+  participant API as rank router
+  participant RANK as RankingService
+  participant SREPO as ScoreRepo
+  participant RUB as Rubric / Presets
+  U->>UI: choose preset or move weight sliders
+  UI->>API: POST /rank {lens, preset, weights}
+  API->>RANK: rank(...)
+  RANK->>RUB: defaults + preset
+  RANK->>SREPO: all_scores(filters)
+  SREPO-->>RANK: criterion rows with evidence
+  RANK->>RANK: aggregate(), sort
+  RANK-->>API: ranked items + breakdown
+  API-->>UI: JSON
+  U->>UI: open evidence drawer
+  UI->>UI: show rationale + SourceRef links (already in response)

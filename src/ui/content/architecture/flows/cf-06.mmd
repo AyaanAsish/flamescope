@@ -1,0 +1,23 @@
+sequenceDiagram
+  actor U as User
+  participant UI as Next.js UI
+  participant API as compare router
+  participant CMP as CompareService
+  participant REPO as Repos
+  participant ORCH as AgentOrchestrator
+  participant GW as LLMGateway
+  participant CV as CitationVerifier
+  U->>UI: select 2-4 investigations
+  UI->>API: POST /compare {investigations, narrative:false}
+  API->>CMP: compare(ids, false)
+  CMP->>REPO: cards, runs
+  CMP->>CMP: diff_matrix()
+  CMP-->>UI: matrix + shared (fast)
+  UI->>API: POST /compare {investigations, narrative:true}
+  API->>CMP: compare(ids, true)
+  CMP->>ORCH: run("comparator", matrix + facts)
+  ORCH->>GW: ADK Runner runs comparator LlmAgent on gateway model
+  GW-->>ORCH: sentences with fact_ids
+  CMP->>CV: verify(sentences, facts)
+  CV-->>CMP: supported sentences
+  CMP-->>UI: matrix + narrative

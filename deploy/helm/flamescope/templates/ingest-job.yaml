@@ -1,0 +1,61 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: ingest
+  labels:
+    {{- include "flamescope.labels" . | nindent 4 }}
+    app.kubernetes.io/component: ingest
+  annotations:
+    "helm.sh/hook": post-install,post-upgrade
+    "helm.sh/hook-weight": "0"
+    "helm.sh/hook-delete-policy": before-hook-creation
+spec:
+  backoffLimit: {{ .Values.ingest.backoffLimit }}
+  template:
+    metadata:
+      labels:
+        {{- include "flamescope.selectorLabels" (dict "root" $ "component" "ingest") | nindent 8 }}
+    spec:
+      restartPolicy: Never
+      securityContext:
+        {{- include "flamescope.podSecurityContext" . | nindent 8 }}
+      # Mirrors compose `depends_on: db (service_healthy)`.
+      initContainers:
+        - name: wait-for-db
+          image: {{ include "flamescope.image" (dict "root" $ "image" .Values.image.db) }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          securityContext:
+            {{- include "flamescope.containerSecurityContext" . | nindent 12 }}
+            {{- with .Values.db.runAsUser }}
+            runAsUser: {{ . }}
+            {{- end }}
+          envFrom:
+            - configMapRef:
+                name: flamescope-config
+          command: ["sh", "-c", "until pg_isready -h db -p {{ .Values.db.port }} -U \"$POSTGRES_USER\" -d \"$POSTGRES_DB\"; do sleep 2; done"]
+      containers:
+        - name: ingest
+          image: {{ include "flamescope.image" (dict "root" $ "image" .Values.image.ingest) }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          securityContext:
+            {{- include "flamescope.containerSecurityContext" . | nindent 12 }}
+          envFrom:
+            - configMapRef:
+                name: flamescope-config
+          env:
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: flamescope-db
+                  key: DATABASE_URL
+          volumeMounts:
+            - name: raw
+              mountPath: {{ .Values.paths.rawDir }}
+            - name: tmp
+              mountPath: /tmp
+      volumes:
+        - name: raw
+          persistentVolumeClaim:
+            claimName: raw
+        - name: tmp
+          emptyDir: {}

@@ -3,7 +3,6 @@ CLAUDE.md
 .claude/
 *.build.log
 agent-briefs/
-prompts/
 
 # Python
 .venv/
@@ -27,6 +26,10 @@ out/
 next-env.d.ts
 *.tsbuildinfo
 npm-debug.log*
+# Reference output of `npm run gen:types` (doc 10 section 7); types.ts is the maintained file
+src/ui/lib/api/types.generated.ts
+# Written by `next dev`; not part of the project
+src/ui/AGENTS.md
 
 # Environment and secrets
 .env

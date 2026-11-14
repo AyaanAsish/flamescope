@@ -1,0 +1,35 @@
+acronym: E-FIELD-Flames
+title: E-FIELD Flames
+project: ACME
+platform: ISS
+gravity_level: microgravity
+psi_url: https://psi.nasa.gov/physci/repo/search?q=combustion&data_source=psi&data_type=investigation
+hardware:
+  - {name: CIR, role: host}
+  - {name: ACME insert, role: apparatus}
+summary: >
+  One of the ACME experiments, which burned gaseous fuels with one modular hardware set in the Combustion Integrated Rack.
+  It applied an electric field on flame ions, which mimics partial gravity, and is the partial-gravity analogue in PSI.
+objectives:
+  - text: Electric field on flame ions, which mimics partial gravity.
+    source: &cur
+      kind: curated
+      uri: https://www.spaceappschallenge.org/2026/challenges/flame-in-freefall/
+      title: Challenge text as encoded in architecture doc 01 section 6
+      locator: doc 01 section 6, first bullet
+approach: null
+fuels: []
+conditions: null
+variables: {varied: [], fixed: []}
+measurements: []
+findings: []
+publications: []
+fire_safety_tags: [gaseous_fuel, electric_field, partial_gravity_analogue]
+data: {s3_prefix: null, volume_bytes: null, file_types: []}
+field_confidence: {objectives: 0.3, hardware: 0.3}
+open_questions:
+  - The acronym key E-FIELD-Flames replaces the spaced name used in docs 01 and 08 so it is a valid URL key; confirm against the PSI acronym.
+  - Per-investigation PSI page not retrieved (PSI pages render client-side); psi_url is the generic PSI repository search page.
+  - Fuels, conditions, electric field values, measurements, findings and publications unknown pending PSI documents.
+  - Every stated fact is from the challenge text only and is not yet confirmed against PSI sources.
+reviewed: false

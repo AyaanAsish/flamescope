@@ -1,0 +1,44 @@
+acronym: CFI-G
+title: CFI-G
+project: ACME
+platform: ISS
+gravity_level: microgravity
+psi_url: https://psi.nasa.gov/physci/repo/search?q=combustion&data_source=psi&data_type=investigation
+hardware:
+  - {name: CIR, role: host}
+  - {name: ACME insert, role: apparatus}
+summary: >
+  One of the ACME experiments, which burned gaseous fuels with one modular hardware set in the Combustion Integrated Rack.
+  It covered the highest oxygen concentrations, up to 85% oxygen, from a spherical burner (inverse flame).
+objectives:
+  - text: Highest oxygen concentrations, up to 85% oxygen, from a spherical burner (inverse flame).
+    source: &cur
+      kind: curated
+      uri: https://www.spaceappschallenge.org/2026/challenges/flame-in-freefall/
+      title: Challenge text as encoded in architecture doc 01 section 6
+      locator: doc 01 section 6, first bullet
+approach: null
+fuels: []
+conditions:
+  o2_fraction:
+    min: null
+    max: 0.85
+    source: *cur
+  pressure_kpa: null
+  flow_speed_cm_s: null
+  flow_direction: []
+  gravity_g: []
+variables: {varied: [], fixed: []}
+measurements: []
+findings: []
+publications: []
+fire_safety_tags: [gaseous_fuel, high_oxygen]
+data: {s3_prefix: null, volume_bytes: null, file_types: []}
+field_confidence: {objectives: 0.3, conditions: 0.3}
+open_questions:
+  - Full title not confirmed; the acronym is used as a placeholder title.
+  - Per-investigation PSI page not retrieved (PSI pages render client-side); psi_url is the generic PSI repository search page.
+  - Oxygen maximum 0.85 is the challenge text "up to 85% oxygen"; minimum, pressure, flow, gravity per run and fuels unknown.
+  - Findings, measurements and publications unknown pending PSI documents.
+  - Every stated fact is from the challenge text only and is not yet confirmed against PSI sources.
+reviewed: false

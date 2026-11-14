@@ -1,0 +1,32 @@
+# Earth application seeds (objective O4). The three entries are the examples named in the challenge
+# statement (architecture doc 01 section 1, O4). No investigation links are asserted because no
+# source retrieved in this session connects them to specific investigations.
+reviewed: false
+applications:
+  - title: Fine water mist extinguishers
+    sector: firefighting
+    description: Example terrestrial application named in the challenge statement.
+    maturity: null
+    investigations: []
+    references:
+      - &cur
+        kind: curated
+        uri: https://www.spaceappschallenge.org/2026/challenges/flame-in-freefall/
+        title: Challenge statement as encoded in architecture doc 01 section 1
+        locator: doc 01 section 1, O4
+  - title: Smoke detection
+    sector: detection
+    description: Example terrestrial application named in the challenge statement.
+    maturity: null
+    investigations: []
+    references:
+      - *cur
+  - title: Firefighter gear
+    sector: firefighting
+    description: Example terrestrial application named in the challenge statement.
+    maturity: null
+    investigations: []
+    references:
+      - *cur
+open_questions:
+  - Links from these applications to investigations and findings are unknown pending PSI sources.
