@@ -17,7 +17,7 @@ from flamescope_common.schemas.api import (
     ScenarioMatch,
     ScenarioWeights,
 )
-from flamescope_common.schemas.card import CoverageState
+from flamescope_common.schemas.card import CoverageState, acronym_sort_key
 
 EPSILON = 1e-9
 MATCHING_SIMILARITY = 0.6
@@ -238,5 +238,11 @@ def rank_matches(
                 matching_runs=sum(1 for value in similarities if value >= MATCHING_SIMILARITY),
             )
         )
-    matches.sort(key=lambda match: (-match.similarity, -match.median_similarity, match.acronym))
+    matches.sort(
+        key=lambda match: (
+            -match.similarity,
+            -match.median_similarity,
+            acronym_sort_key(match.acronym),
+        )
+    )
     return matches

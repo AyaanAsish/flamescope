@@ -35,6 +35,7 @@ from flamescope_common.schemas.api import (
     RetrievedChunk,
     VerifiedSentence,
 )
+from flamescope_common.schemas.card import acronym_sort_key
 from flamescope_common.sources import SourceRef
 
 logger = structlog.get_logger(__name__)
@@ -43,7 +44,7 @@ RRF_CONSTANT = 60
 CANDIDATE_POOL_FACTOR = 3
 # Cosine floor per embedding provider (doc 05 s10): the mock hashes content words; the ollama
 # value is calibrated for `nomic-embed-text`, where off-corpus questions score up to ~0.47.
-MIN_VECTOR_SIMILARITY: dict[ProviderName, float] = {"mock": 0.2, "ollama": 0.5}
+MIN_VECTOR_SIMILARITY: dict[ProviderName, float] = {"mock": 0.2, "ollama": 0.55}
 FACTS_PER_INVESTIGATION = 3
 INTERNAL_ERROR_MESSAGE = "The answer could not be produced."
 
@@ -132,7 +133,9 @@ class InsightService:
             for frame in _refusal_events():
                 yield frame
             return
-        facts = await asyncio.to_thread(self._card_facts, sorted({hit.acronym for hit in hits}))
+        facts = await asyncio.to_thread(
+            self._card_facts, sorted({hit.acronym for hit in hits}, key=acronym_sort_key)
+        )
         payload = InsightQAInput(
             question=question,
             chunks=[

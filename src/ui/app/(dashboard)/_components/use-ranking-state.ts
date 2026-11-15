@@ -12,7 +12,8 @@ import { RANK_LENSES, SLIDER_DEBOUNCE_MS } from "@/lib/constants";
 import { useUiStore } from "@/lib/store";
 import { useDebouncedValue, useUrlState } from "@/lib/use-url-state";
 
-const RANK_LIMIT = 24;
+// The doc 05 s1 maximum, so every investigation in the catalog is ranked (FR-03).
+const RANK_LIMIT = 100;
 
 function parseLens(raw: string | null): RankLens {
   return RANK_LENSES.find((lens) => lens === raw) ?? "overall";

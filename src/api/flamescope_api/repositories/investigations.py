@@ -23,7 +23,7 @@ from sqlalchemy import (
 )
 from sqlalchemy.orm import QueryableAttribute, Session
 
-from flamescope_api.repositories import ENGLISH_TS_CONFIG
+from flamescope_api.repositories import ACRONYM_ORDER, ENGLISH_TS_CONFIG
 from flamescope_common.errors import NotFoundError
 from flamescope_common.models import (
     Chunk,
@@ -203,7 +203,7 @@ class InvestigationRepo:
         total = self._session.scalar(
             select(func.count()).select_from(Investigation).where(and_(True, *conditions))
         )
-        statement = select(Investigation).where(*conditions).order_by(Investigation.acronym)
+        statement = select(Investigation).where(*conditions).order_by(*ACRONYM_ORDER)
         if page is not None:
             statement = statement.limit(page.page_size).offset(page.offset)
         rows = self._rows(list(self._session.scalars(statement)))
@@ -226,9 +226,7 @@ class InvestigationRepo:
     def by_ids(self, ids: Sequence[int]) -> list[InvestigationRow]:
         if not ids:
             return []
-        statement = (
-            select(Investigation).where(Investigation.id.in_(ids)).order_by(Investigation.acronym)
-        )
+        statement = select(Investigation).where(Investigation.id.in_(ids)).order_by(*ACRONYM_ORDER)
         return self._rows(list(self._session.scalars(statement)))
 
     def facet_counts(self) -> dict[str, list[tuple[str, int]]]:
@@ -248,7 +246,7 @@ class InvestigationRepo:
         statement = (
             select(Finding, Investigation.acronym)
             .join(Investigation, Investigation.id == Finding.investigation_id)
-            .order_by(Investigation.acronym, Finding.id)
+            .order_by(*ACRONYM_ORDER, Finding.id)
         )
         if category:
             statement = statement.where(Finding.category == category)
@@ -282,12 +280,12 @@ class InvestigationRepo:
             select(Investigation.acronym, Hardware.name, InvestigationHardware.role)
             .join(Investigation, Investigation.id == InvestigationHardware.investigation_id)
             .join(Hardware, Hardware.id == InvestigationHardware.hardware_id)
-            .order_by(Investigation.acronym, Hardware.name)
+            .order_by(*ACRONYM_ORDER, Hardware.name)
         )
         project_rows = self._session.execute(
             select(Investigation.acronym, Project.name)
             .outerjoin(Project, Project.id == Investigation.project_id)
-            .order_by(Investigation.acronym)
+            .order_by(*ACRONYM_ORDER)
         )
         return HardwareLinks(
             hardware=hardware,
@@ -299,7 +297,7 @@ class InvestigationRepo:
         """Every project with the acronyms of its investigations."""
         projects = list(self._session.scalars(select(Project).order_by(Project.name)))
         members = self._session.execute(
-            select(Investigation.project_id, Investigation.acronym).order_by(Investigation.acronym)
+            select(Investigation.project_id, Investigation.acronym).order_by(*ACRONYM_ORDER)
         )
         by_project: dict[int, list[str]] = {}
         for project_id, acronym in members:

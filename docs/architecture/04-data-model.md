@@ -59,7 +59,7 @@ Nullability: in `investigation`, `test_run`, `condition` and `finding` a column 
 | summary | text null | 2 to 4 sentences, curated |
 | fuel_phases | text[] | derived: `gas`, `liquid`, `solid`; default empty |
 | fire_safety_tags | text[] | controlled vocabulary (section 5); default empty |
-| o2_min, o2_max | numeric null | fraction 0 to 1, derived from runs or stated ranges: the extent of the stated ranges, aggregate-run ranges and run values; a null endpoint of any half-open range keeps that side null (open, document 08 section 4.2), for example `o2_min = null`, `o2_max = 0.85` for CFI-G; both null means no data |
+| o2_min, o2_max | numeric null | fraction 0 to 1, derived from runs or stated ranges: the extent of the stated ranges, aggregate-run ranges and run values; a null endpoint of any half-open range keeps that side null (open, document 08 section 4.2), for example `o2_min = null`, `o2_max = 0.85` for a card stated as `[null, 0.85]` (in the seed set BASS-II flow, `flow_min_cm_s = null`, `flow_max_cm_s = 55`); both null means no data |
 | pressure_min_kpa, pressure_max_kpa | numeric null | same derivation and null rule as `o2_min`, `o2_max` |
 | flow_min_cm_s, flow_max_cm_s | numeric null | same derivation and null rule as `o2_min`, `o2_max` |
 | data_volume_bytes | bigint null | from manifest |
@@ -182,7 +182,7 @@ Indexes: HNSW on `embedding` (cosine), GIN on `tsv`.
 }
 ```
 
-`kind` and `uri` are required. `curated` is allowed only in seed and override files and must still carry a `uri` to a PSI page or DOI, or, for the challenge facts of document 01 section 6, to the challenge page `https://www.spaceappschallenge.org/2026/challenges/flame-in-freefall/`. Validation (`sources.is_allowed_uri`) accepts any `https` URL with a host and any non-empty key under `s3://nasa-psi/`; the narrower kinds of URI are a curation rule (document 06 section 5).
+`kind` and `uri` are required. Allowed source URIs for curated facts: a PSI page (`psi_page`), a `s3://nasa-psi/` key (`s3_object`), a DOI URL (`publication`), or an `https` page on a NASA host (`nasa.gov` or any `*.nasa.gov` host): NASA Technical Reports Server records `https://ntrs.nasa.gov/citations/<id>` use kind `publication`, other NASA pages (for example `science.nasa.gov` investigation pages) use kind `document`. `curated` is allowed only in seed and override files and must still carry a `uri` to a PSI page or DOI, or, for the challenge facts of document 01 section 6, to the challenge page `https://www.spaceappschallenge.org/2026/challenges/flame-in-freefall/`. Validation (`sources.is_allowed_uri`) accepts any `https` URL with a host and any non-empty key under `s3://nasa-psi/`; the narrower kinds of URI are a curation rule (document 06 section 5).
 
 ## 4. InvestigationCard (JSON stored in `investigation.card`)
 
@@ -200,9 +200,9 @@ Indexes: HNSW on `embedding` (cosine), GIN on `tsv`.
   "fuels": [{"name": "PMMA", "phase": "solid", "material_class": "polymer",
              "geometry": {"shape": "rod", "dimensions_mm": {"diameter": 6.4}}, "source": {}}],
   "conditions": {
-    "o2_fraction": {"min": 0.14, "max": 0.21, "source": {}},
+    "o2_fraction": {"min": 0.13, "max": 0.19, "source": {}},
     "pressure_kpa": {"min": 101.3, "max": 101.3, "source": {}},
-    "flow_speed_cm_s": {"min": 1, "max": 55, "source": {}},
+    "flow_speed_cm_s": {"min": 2, "max": 48, "source": {}},
     "flow_direction": ["opposed", "concurrent"],
     "gravity_g": [0]
   },

@@ -1,9 +1,20 @@
 import type { HTMLAttributes, TdHTMLAttributes, ThHTMLAttributes } from "react";
 import { cn } from "@/lib/utils";
 
-export function Table({ className, ...props }: HTMLAttributes<HTMLTableElement>) {
+interface TableProps extends HTMLAttributes<HTMLTableElement> {
+  /** Names the scroll region for assistive technology; wide tables scroll sideways. */
+  label?: string;
+}
+
+export function Table({ className, label = "Table", ...props }: TableProps) {
   return (
-    <div className="rounded-card border-line relative overflow-x-auto border">
+    // Focusable so keyboard users can scroll a wide table (WCAG 2.1.1, axe scrollable-region-focusable).
+    <div
+      className="rounded-card border-line relative overflow-x-auto border"
+      tabIndex={0}
+      role="region"
+      aria-label={label}
+    >
       <table className={cn("w-full border-collapse text-sm", className)} {...props} />
     </div>
   );

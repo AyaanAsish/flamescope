@@ -427,7 +427,7 @@ VALIDATION_CASES = [
     ("POST", "/compare", {"json": {}}),
     ("POST", "/scenario", {"json": {"o2_fraction": 1.5}}),
     ("POST", "/scenario", {"json": {"pressure_kpa": -1}}),
-    ("POST", "/extract/preview", {"json": {"limit": 1001}}),
+    ("POST", "/extract/preview", {"json": {"limit": 5001}}),
     ("POST", "/extract/export", {"json": {"format": "xml"}}),
     ("POST", "/ask", {"json": {"question": ""}}),
     ("POST", "/ask", {"json": {"question": "q", "top_k": 0}}),

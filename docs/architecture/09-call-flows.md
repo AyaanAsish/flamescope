@@ -312,7 +312,7 @@ sequenceDiagram
 
 ## CF-11 Overview page
 
-Endpoints: `GET /meta/stats`, `POST /rank` (lens `overall`, limit 5), `GET /insights/gaps`, `POST /extract/preview` (columns `o2_fraction`, `pressure_kpa`, `fuel_phase`, `investigation`; limit 1000 for the coverage scatter, the `POST /extract/preview` maximum). Requests run in parallel; each panel has its own loading and error state. LLM: none.
+Endpoints: `GET /meta/stats`, `POST /rank` (lens `overall`, limit 5), `GET /insights/gaps`, `POST /extract/preview` (columns `o2_fraction`, `pressure_kpa`, `fuel_phase`, `investigation`; limit 5000 for the coverage scatter, the `POST /extract/preview` maximum, so every run is plotted). Requests run in parallel; each panel has its own loading and error state. LLM: none.
 
 ```mermaid
 sequenceDiagram
@@ -334,7 +334,7 @@ sequenceDiagram
     UI->>API: GET /insights/gaps
     API->>ST: gaps()
   and
-    UI->>API: POST /extract/preview (4 columns, limit 1000)
+    UI->>API: POST /extract/preview (4 columns, limit 5000)
     API->>EXT: preview(query)
   end
   API-->>UI: each panel renders its own loading, error and data state

@@ -26,7 +26,6 @@ STAT_TILES = {
     "Hardware": "hardware",
 }
 SCATTER_COLUMNS = ["o2_fraction", "pressure_kpa", "fuel_phase", "investigation"]
-SCATTER_LIMIT = 1000
 FUEL_PHASES = {"gas", "liquid", "solid"}
 PHASE_LEGEND = ["Gas", "Liquid", "Solid"]
 TOP_LIMIT = 5
@@ -34,11 +33,14 @@ PARTIAL_GRAVITY = re.compile(r"partial[- ]gravity", re.IGNORECASE)
 
 
 def _plottable_runs(api: httpx.Client) -> int:
-    body = {"filters": {}, "columns": SCATTER_COLUMNS, "limit": SCATTER_LIMIT}
-    rows = api.post("/extract/preview", json=body).json()["rows"]
+    """Counted over every run: `POST /extract/export` is not bounded by the preview `limit`."""
+    body = {"filters": {}, "columns": SCATTER_COLUMNS, "format": "json"}
+    rows = api.post("/extract/export", json=body).json()["rows"]
     return sum(
-        isinstance(o2, float | int) and isinstance(pressure, float | int) and phase in FUEL_PHASES
-        for o2, pressure, phase, _ in rows
+        isinstance(row["o2_fraction"], float | int)
+        and isinstance(row["pressure_kpa"], float | int)
+        and row["fuel_phase"] in FUEL_PHASES
+        for row in rows
     )
 
 

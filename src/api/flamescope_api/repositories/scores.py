@@ -9,7 +9,7 @@ from typing import Literal
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from flamescope_api.repositories import to_float
+from flamescope_api.repositories import ACRONYM_ORDER, to_float
 from flamescope_api.repositories.investigations import investigation_conditions
 from flamescope_common.models import Investigation, RelevanceScore
 from flamescope_common.rubric import Lens
@@ -51,7 +51,7 @@ class ScoreRepo:
         statement = (
             select(Investigation.id, Investigation.acronym, Investigation.title)
             .where(*investigation_conditions(filters))
-            .order_by(Investigation.acronym)
+            .order_by(*ACRONYM_ORDER)
         )
         heads = list(self._session.execute(statement))
         grouped = self._ratings_for([head.id for head in heads])

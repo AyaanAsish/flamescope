@@ -33,7 +33,7 @@ COLUMN_FIELDS = {"name", "label", "unit", "description"}
 HEADER_BLOCK_KEYS = ("exported_at", "filters", "rubric_version")
 PROVENANCE_COLUMNS = ("source_uri",)
 SELECTED_COLUMNS = ["investigation", "o2_fraction", "source_uri"]
-MAX_LIMIT = 1000
+MAX_LIMIT = 5000
 RUNS_BY_PHASE = (
     "SELECT count(*) AS n FROM test_run t JOIN fuel f ON f.id = t.fuel_id WHERE f.phase = :phase"
 )
@@ -96,7 +96,7 @@ def test_fr08_preview_defaults_and_total(
 def test_fr08_preview_limit_bounds_rows_only(
     stack: str, api: httpx.Client, assert_error_envelope: Callable[..., Any]
 ) -> None:
-    """FR-08, doc 05 s8: `limit` bounds the preview rows, not `total`; at most 1000."""
+    """FR-08, doc 05 s8: `limit` bounds the preview rows, not `total`; at most 5000."""
     full = _preview(api, {"filters": {}, "limit": MAX_LIMIT})
     limited = _preview(api, {"filters": {}, "limit": 1})
     assert (len(limited["rows"]), limited["total"]) == (min(1, full["total"]), full["total"])

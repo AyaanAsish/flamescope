@@ -1,35 +1,2594 @@
 acronym: CFI
-title: CFI
+title: Cool Flames Investigation
 project: null
 platform: ISS
 gravity_level: microgravity
-psi_url: https://psi.nasa.gov/physci/repo/search?q=combustion&data_source=psi&data_type=investigation
+psi_url: https://psi.nasa.gov/physci/repo/data/investigations/PSI-39
 hardware:
   - {name: CIR, role: host}
   - {name: MDCA, role: apparatus}
 summary: >
-  Burned liquid fuel droplets in the Multi-user Droplet Combustion Apparatus in the Combustion Integrated Rack.
+  CFI burned single droplets of n-dodecane, farnesane and n-dodecane/iso-dodecane mixtures in the Multi-user Droplet
+  Combustion Apparatus of the Combustion Integrated Rack on the ISS to study cool-flame behaviour, the effect of helium
+  dilution and the link between droplet size, pressure and extinction. Droplets were suspended between needles or
+  tethered on silicon-carbide fibres and ignited with a hot wire.
 objectives:
-  - text: Combustion of liquid fuel droplets in the Multi-user Droplet Combustion Apparatus.
-    source: &cur
-      kind: curated
-      uri: https://www.spaceappschallenge.org/2026/challenges/flame-in-freefall/
-      title: Challenge text as encoded in architecture doc 01 section 6
-      locator: doc 01 section 6, second bullet
-approach: null
-fuels: []
-conditions: null
-variables: {varied: [], fixed: []}
+  - text: Examine the combustion behavior of n-dodecane and mixtures of n-dodecane/iso-dodecane at pressures ranging from 0.25 atm to 5 atm.
+    source: &psi_record
+      kind: psi_page
+      uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-39
+      title: PSI investigation PSI-39, Cool Flames Investigation
+      locator: Objectives (PSI repository search record, geode-py API)
+      quote: 1) Examine the combustion behavior of n-dodecane and mixtures of n-dodecane/iso-dodecane at pressures ranging from 0.25
+  - text: Analyze the effects of helium dilution on cool flame behavior.
+    source:
+      <<: *psi_record
+      quote: 2) Analyze the effects of helium dilution on cool flame behavior.
+  - text: Investigate the relationship between droplet size, pressure, and flame extinction [...]
+    source:
+      <<: *psi_record
+      quote: 4) Investigate the relationship between droplet size, pressure, and flame extinction, and (5) understand the
+approach:
+  text: >
+    Gas bottles and fuel syringes deliver the gas mixture to the MDCA combustion chamber; fuel droplets are dispensed
+    and suspended between hypodermic needles or tethered on silicon-carbide fibres and ignited by a hot-wire igniter.
+  source:
+    <<: *psi_record
+    locator: Approach (PSI repository search record, geode-py API)
+    quote: Droplets of fuel are dispensed and suspended between hypodermic needles or tethered using silicon-carbide fibers.
+fuels:
+  - {name: n-dodecane, phase: liquid, material_class: alkane, geometry: {shape: droplet, dimensions_mm: {}}, source: &fuels
+      {kind: psi_page, uri: "https://psi.nasa.gov/physci/repo/data/investigations/PSI-39", title: "PSI investigation PSI-39, Cool Flames Investigation",
+       locator: "Approach (PSI repository search record, geode-py API)", quote: "Fuels observed include n-dodecane, farnesane, and mixtures of n-dodecane/iso-dodecane."}}
+  - {name: farnesane, phase: liquid, material_class: alkane, geometry: {shape: droplet, dimensions_mm: {}}, source: *fuels}
+  - {name: n-dodecane / iso-dodecane, phase: liquid, material_class: alkane, geometry: {shape: droplet, dimensions_mm: {}}, source: *fuels}
+conditions:
+  o2_fraction:
+    min: 0.17
+    max: 0.21
+    source:
+      kind: psi_page
+      uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-39
+      title: PSI-39 Experimental table (PSI-39_Experimental table_CFI.csv)
+      locator: Experimental table PSI-39_Experimental table_CFI.csv, column "Oxygen" (mole fraction); minimum 0.17 (row 7, test 1213), maximum 0.21 (row 1, test 1206)
+      quote: 1213,27-Mar-17,10:37:21 am est,f086a04,1 atm,0.17,0.83,0,Yes,C12H26
+  pressure_kpa:
+    min: 25.331
+    max: 506.625
+    source:
+      <<: *psi_record
+      locator: Objectives (PSI repository search record, geode-py API); 1 atm = 101.325 kPa
+      quote: pressures ranging from 0.25 atm to 5 atm.
+  flow_speed_cm_s: null
+  flow_direction: [quiescent]
+  gravity_g: [0]
+variables:
+  varied: [fuel, pressure_kpa, o2_fraction, helium dilution, droplet size, fiber support]
+  fixed: [gravity_g]
+runs:
+- label: n-dodecane (aggregate, PSI objectives)
+  fuel: n-dodecane
+  geometry:
+    shape: droplet
+    dimensions_mm: {}
+  condition:
+    pressure_kpa: 265.978
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    notes: Pressure range 0.25 to 5 atm from the PSI objectives; condition is the range midpoint (doc 08 section 4.2). Oxygen
+      not stated.
+  varied_parameters:
+    pressure_kpa:
+      min: 25.331
+      max: 506.625
+  fixed_parameters: {}
+  is_aggregate: true
+  confidence: 0.5
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-39
+    title: PSI investigation PSI-39, Cool Flames Investigation
+    locator: Objectives (PSI repository search record, geode-py API); gravity 0 g microgravity per PSI Project Type
+    quote: pressures ranging from 0.25 atm to 5 atm.
+- label: n-dodecane / iso-dodecane (aggregate, PSI objectives)
+  fuel: n-dodecane / iso-dodecane
+  geometry:
+    shape: droplet
+    dimensions_mm: {}
+  condition:
+    pressure_kpa: 265.978
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    notes: Pressure range 0.25 to 5 atm from the PSI objectives; condition is the range midpoint (doc 08 section 4.2). Oxygen
+      not stated.
+  varied_parameters:
+    pressure_kpa:
+      min: 25.331
+      max: 506.625
+  fixed_parameters: {}
+  is_aggregate: true
+  confidence: 0.5
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-39
+    title: PSI investigation PSI-39, Cool Flames Investigation
+    locator: Objectives (PSI repository search record, geode-py API); gravity 0 g microgravity per PSI Project Type
+    quote: pressures ranging from 0.25 atm to 5 atm.
+- label: CFI test 1206 (f068a03)
+  fuel: n-dodecane
+  geometry:
+    shape: droplet
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.21
+    diluent: N2
+    pressure_kpa: 101.325
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Flex number 1206; test date 9-Mar-17 02:03:08 pm est; CIR f068a03; pressure "1 atm"; O2 0.21, N2 0.79, He 0 (mole
+      fractions); fiber No; fuel C12H26
+  varied_parameters: {}
+  fixed_parameters:
+    fiber_supported: false
+    fuel_cell: C12H26
+  is_aggregate: false
+  confidence: 0.9
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-39
+    title: PSI-39 Experimental table (PSI-39_Experimental table_CFI.csv)
+    locator: 'Experimental table PSI-39_Experimental table_CFI.csv, row 1; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); pressure converted from atm at 101.325 kPa per atm'
+    quote: 1206,9-Mar-17,02:03:08 pm est,f068a03,1 atm,0.21,0.79,0,No,C12H26
+- label: CFI test 1207 (f068a07)
+  fuel: n-dodecane
+  geometry:
+    shape: droplet
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.21
+    diluent: N2
+    pressure_kpa: 101.325
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Flex number 1207; test date 9-Mar-17 03:53:26 pm est; CIR f068a07; pressure "1 atm"; O2 0.21, N2 0.79, He 0 (mole
+      fractions); fiber Yes; fuel C12H26
+  varied_parameters: {}
+  fixed_parameters:
+    fiber_supported: true
+    fuel_cell: C12H26
+  is_aggregate: false
+  confidence: 0.9
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-39
+    title: PSI-39 Experimental table (PSI-39_Experimental table_CFI.csv)
+    locator: 'Experimental table PSI-39_Experimental table_CFI.csv, row 2; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); pressure converted from atm at 101.325 kPa per atm'
+    quote: 1207,9-Mar-17,03:53:26 pm est,f068a07,1 atm,0.21,0.79,0,Yes,C12H26
+- label: CFI test 1208 (f068a08)
+  fuel: n-dodecane
+  geometry:
+    shape: droplet
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.21
+    diluent: N2
+    pressure_kpa: 101.325
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Flex number 1208; test date 9-Mar-17 04:25:22 pm est; CIR f068a08; pressure "1 atm"; O2 0.21, N2 0.79, He 0 (mole
+      fractions); fiber Yes; fuel C12H26
+  varied_parameters: {}
+  fixed_parameters:
+    fiber_supported: true
+    fuel_cell: C12H26
+  is_aggregate: false
+  confidence: 0.9
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-39
+    title: PSI-39 Experimental table (PSI-39_Experimental table_CFI.csv)
+    locator: 'Experimental table PSI-39_Experimental table_CFI.csv, row 3; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); pressure converted from atm at 101.325 kPa per atm'
+    quote: 1208,9-Mar-17,04:25:22 pm est,f068a08,1 atm,0.21,0.79,0,Yes,C12H26
+- label: CFI test 1209 (f068a09)
+  fuel: n-dodecane
+  geometry:
+    shape: droplet
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.21
+    diluent: N2
+    pressure_kpa: 101.325
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Flex number 1209; test date 9-Mar-17 04:49:43 pm est; CIR f068a09; pressure "1 atm"; O2 0.21, N2 0.79, He 0 (mole
+      fractions); fiber Yes; fuel C12H26
+  varied_parameters: {}
+  fixed_parameters:
+    fiber_supported: true
+    fuel_cell: C12H26
+  is_aggregate: false
+  confidence: 0.9
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-39
+    title: PSI-39 Experimental table (PSI-39_Experimental table_CFI.csv)
+    locator: 'Experimental table PSI-39_Experimental table_CFI.csv, row 4; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); pressure converted from atm at 101.325 kPa per atm'
+    quote: 1209,9-Mar-17,04:49:43 pm est,f068a09,1 atm,0.21,0.79,0,Yes,C12H26
+- label: CFI test 1210 (f068a11)
+  fuel: n-dodecane
+  geometry:
+    shape: droplet
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.21
+    diluent: N2
+    pressure_kpa: 101.325
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Flex number 1210; test date 9-Mar-17 05:43:01 pm est; CIR f068a11; pressure "1 atm"; O2 0.21, N2 0.79, He 0 (mole
+      fractions); fiber Yes; fuel C12H26
+  varied_parameters: {}
+  fixed_parameters:
+    fiber_supported: true
+    fuel_cell: C12H26
+  is_aggregate: false
+  confidence: 0.9
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-39
+    title: PSI-39 Experimental table (PSI-39_Experimental table_CFI.csv)
+    locator: 'Experimental table PSI-39_Experimental table_CFI.csv, row 5; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); pressure converted from atm at 101.325 kPa per atm'
+    quote: 1210,9-Mar-17,05:43:01 pm est,f068a11,1 atm,0.21,0.79,0,Yes,C12H26
+- label: CFI test 1211 (f080a01)
+  fuel: n-dodecane
+  geometry:
+    shape: droplet
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.21
+    diluent: N2
+    pressure_kpa: 101.325
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Flex number 1211; test date 21-Mar-17 10:17:45 am est; CIR f080a01; pressure "1 atm"; O2 0.21, N2 0.79, He 0 (mole
+      fractions); fiber Yes; fuel C12H26
+  varied_parameters: {}
+  fixed_parameters:
+    fiber_supported: true
+    fuel_cell: C12H26
+  is_aggregate: false
+  confidence: 0.9
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-39
+    title: PSI-39 Experimental table (PSI-39_Experimental table_CFI.csv)
+    locator: 'Experimental table PSI-39_Experimental table_CFI.csv, row 6; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); pressure converted from atm at 101.325 kPa per atm'
+    quote: 1211,21-Mar-17,10:17:45 am est,f080a01,1 atm,0.21,0.79,0,Yes,C12H26
+- label: CFI test 1213 (f086a04)
+  fuel: n-dodecane
+  geometry:
+    shape: droplet
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.17
+    diluent: N2
+    pressure_kpa: 101.325
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Flex number 1213; test date 27-Mar-17 10:37:21 am est; CIR f086a04; pressure "1 atm"; O2 0.17, N2 0.83, He 0 (mole
+      fractions); fiber Yes; fuel C12H26
+  varied_parameters: {}
+  fixed_parameters:
+    fiber_supported: true
+    fuel_cell: C12H26
+  is_aggregate: false
+  confidence: 0.9
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-39
+    title: PSI-39 Experimental table (PSI-39_Experimental table_CFI.csv)
+    locator: 'Experimental table PSI-39_Experimental table_CFI.csv, row 7; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); pressure converted from atm at 101.325 kPa per atm'
+    quote: 1213,27-Mar-17,10:37:21 am est,f086a04,1 atm,0.17,0.83,0,Yes,C12H26
+- label: CFI test 1215 (f086a06)
+  fuel: n-dodecane
+  geometry:
+    shape: droplet
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.17
+    diluent: N2
+    pressure_kpa: 101.325
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Flex number 1215; test date 27-Mar-17 11:45:48 am est; CIR f086a06; pressure "1 atm"; O2 0.17, N2 0.83, He 0 (mole
+      fractions); fiber No; fuel C12H26
+  varied_parameters: {}
+  fixed_parameters:
+    fiber_supported: false
+    fuel_cell: C12H26
+  is_aggregate: false
+  confidence: 0.9
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-39
+    title: PSI-39 Experimental table (PSI-39_Experimental table_CFI.csv)
+    locator: 'Experimental table PSI-39_Experimental table_CFI.csv, row 8; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); pressure converted from atm at 101.325 kPa per atm'
+    quote: 1215,27-Mar-17,11:45:48 am est ,f086a06,1 atm,0.17,0.83,0,No,C12H26
+- label: CFI test 1216 (f086a07)
+  fuel: n-dodecane
+  geometry:
+    shape: droplet
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.17
+    diluent: N2
+    pressure_kpa: 101.325
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Flex number 1216; test date 27-Mar-17 12:10:26 pm est; CIR f086a07; pressure "1 atm"; O2 0.17, N2 0.83, He 0 (mole
+      fractions); fiber No; fuel C12H26
+  varied_parameters: {}
+  fixed_parameters:
+    fiber_supported: false
+    fuel_cell: C12H26
+  is_aggregate: false
+  confidence: 0.9
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-39
+    title: PSI-39 Experimental table (PSI-39_Experimental table_CFI.csv)
+    locator: 'Experimental table PSI-39_Experimental table_CFI.csv, row 9; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); pressure converted from atm at 101.325 kPa per atm'
+    quote: 1216,27-Mar-17,12:10:26 pm est,f086a07,1 atm,0.17,0.83,0,No,C12H26
+- label: CFI test 1217 (f086a08)
+  fuel: n-dodecane
+  geometry:
+    shape: droplet
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.17
+    diluent: N2
+    pressure_kpa: 101.325
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Flex number 1217; test date 27-Mar-17 01:02:35 pm est; CIR f086a08; pressure "1 atm"; O2 0.17, N2 0.83, He 0 (mole
+      fractions); fiber No; fuel C12H26
+  varied_parameters: {}
+  fixed_parameters:
+    fiber_supported: false
+    fuel_cell: C12H26
+  is_aggregate: false
+  confidence: 0.9
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-39
+    title: PSI-39 Experimental table (PSI-39_Experimental table_CFI.csv)
+    locator: 'Experimental table PSI-39_Experimental table_CFI.csv, row 10; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); pressure converted from atm at 101.325 kPa per atm'
+    quote: 1217,27-Mar-17,01:02:35 pm est,f086a08,1 atm,0.17,0.83,0,No,C12H26
+- label: CFI test 1218 (f090a03)
+  fuel: n-dodecane
+  geometry:
+    shape: droplet
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.21
+    diluent: N2
+    pressure_kpa: 101.325
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Flex number 1218; test date 31-Mar-17 12:21:21 pm est; CIR f090a03; pressure "1 atm"; O2 0.21, N2 0.79, He 0 (mole
+      fractions); fiber Yes; fuel C12H26
+  varied_parameters: {}
+  fixed_parameters:
+    fiber_supported: true
+    fuel_cell: C12H26
+  is_aggregate: false
+  confidence: 0.9
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-39
+    title: PSI-39 Experimental table (PSI-39_Experimental table_CFI.csv)
+    locator: 'Experimental table PSI-39_Experimental table_CFI.csv, row 11; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); pressure converted from atm at 101.325 kPa per atm'
+    quote: 1218,31-Mar-17,12:21:21 pm est,f090a03,1 atm ,0.21,0.79,0,Yes,C12H26
+- label: CFI test 1219 (f090a04)
+  fuel: n-dodecane
+  geometry:
+    shape: droplet
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.21
+    diluent: N2
+    pressure_kpa: 101.325
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Flex number 1219; test date 31-Mar-17 12:57:07 pm est; CIR f090a04; pressure "1 atm"; O2 0.21, N2 0.76, He 0 (mole
+      fractions); fiber No; fuel C12H26
+  varied_parameters: {}
+  fixed_parameters:
+    fiber_supported: false
+    fuel_cell: C12H26
+  is_aggregate: false
+  confidence: 0.9
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-39
+    title: PSI-39 Experimental table (PSI-39_Experimental table_CFI.csv)
+    locator: 'Experimental table PSI-39_Experimental table_CFI.csv, row 12; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); pressure converted from atm at 101.325 kPa per atm'
+    quote: 1219,31-Mar-17,12:57:07 pm est,f090a04,1 atm ,0.21,0.76,0,No,C12H26
+- label: CFI test 1220 (f090a05)
+  fuel: n-dodecane
+  geometry:
+    shape: droplet
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.21
+    diluent: N2
+    pressure_kpa: 101.325
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Flex number 1220; test date 31-Mar-17 01:18 pm est; CIR f090a05; pressure "1 atm"; O2 0.21, N2 0.76, He 0 (mole
+      fractions); fiber blank; fuel C12H26
+  varied_parameters: {}
+  fixed_parameters:
+    fiber_supported: null
+    fuel_cell: C12H26
+  is_aggregate: false
+  confidence: 0.9
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-39
+    title: PSI-39 Experimental table (PSI-39_Experimental table_CFI.csv)
+    locator: 'Experimental table PSI-39_Experimental table_CFI.csv, row 13; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); pressure converted from atm at 101.325 kPa per atm'
+    quote: 1220,31-Mar-17,01:18 pm est,f090a05,1 atm,0.21,0.76,0,,C12H26
+- label: CFI test 1221 (f090a06)
+  fuel: n-dodecane
+  geometry:
+    shape: droplet
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.21
+    diluent: N2
+    pressure_kpa: 101.325
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Flex number 1221; test date 31-Mar-17 01:56:05 pm est; CIR f090a06; pressure "1 atm"; O2 0.21, N2 0.76, He 0 (mole
+      fractions); fiber No; fuel C12H26
+  varied_parameters: {}
+  fixed_parameters:
+    fiber_supported: false
+    fuel_cell: C12H26
+  is_aggregate: false
+  confidence: 0.9
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-39
+    title: PSI-39 Experimental table (PSI-39_Experimental table_CFI.csv)
+    locator: 'Experimental table PSI-39_Experimental table_CFI.csv, row 14; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); pressure converted from atm at 101.325 kPa per atm'
+    quote: 1221,31-Mar-17,01:56:05 pm est,f090a06,1 atm,0.21,0.76,0,No,C12H26
+- label: CFI test 1222 (f090a07)
+  fuel: n-dodecane
+  geometry:
+    shape: droplet
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.21
+    diluent: N2
+    pressure_kpa: 101.325
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Flex number 1222; test date 31-Mar-17 02:26:52 pm est; CIR f090a07; pressure "1 atm"; O2 0.21, N2 0.76, He 0 (mole
+      fractions); fiber No; fuel C12H26
+  varied_parameters: {}
+  fixed_parameters:
+    fiber_supported: false
+    fuel_cell: C12H26
+  is_aggregate: false
+  confidence: 0.9
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-39
+    title: PSI-39 Experimental table (PSI-39_Experimental table_CFI.csv)
+    locator: 'Experimental table PSI-39_Experimental table_CFI.csv, row 15; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); pressure converted from atm at 101.325 kPa per atm'
+    quote: 1222,31-Mar-17,02:26:52 pm est,f090a07,1 atm ,0.21,0.76,0,No,C12H26
+- label: CFI test 1223 (f090a08)
+  fuel: n-dodecane
+  geometry:
+    shape: droplet
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.21
+    diluent: N2
+    pressure_kpa: 126.656
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Flex number 1223; test date 31-Mar-17 03:55:56 pm est; CIR f090a08; pressure "1.25 atm"; O2 0.21, N2 0.79, He 0
+      (mole fractions); fiber No; fuel C12H26
+  varied_parameters: {}
+  fixed_parameters:
+    fiber_supported: false
+    fuel_cell: C12H26
+  is_aggregate: false
+  confidence: 0.9
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-39
+    title: PSI-39 Experimental table (PSI-39_Experimental table_CFI.csv)
+    locator: 'Experimental table PSI-39_Experimental table_CFI.csv, row 16; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); pressure converted from atm at 101.325 kPa per atm'
+    quote: 1223,31-Mar-17,03:55:56 pm est,f090a08,1.25 atm,0.21,0.79,0,No,C12H26
+- label: CFI test 1224 (f090a09)
+  fuel: n-dodecane
+  geometry:
+    shape: droplet
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.21
+    diluent: N2
+    pressure_kpa: 126.656
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Flex number 1224; test date 31-Mar-17 04:22:52 pm est; CIR f090a09; pressure "1.25 atm"; O2 0.21, N2 0.79, He 0
+      (mole fractions); fiber No; fuel C12H26
+  varied_parameters: {}
+  fixed_parameters:
+    fiber_supported: false
+    fuel_cell: C12H26
+  is_aggregate: false
+  confidence: 0.9
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-39
+    title: PSI-39 Experimental table (PSI-39_Experimental table_CFI.csv)
+    locator: 'Experimental table PSI-39_Experimental table_CFI.csv, row 17; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); pressure converted from atm at 101.325 kPa per atm'
+    quote: 1224,31-Mar-17,04:22:52 pm est ,f090a09,1.25 atm,0.21,0.79,0,No,C12H26
+- label: CFI test 1225 (f090a10)
+  fuel: n-dodecane
+  geometry:
+    shape: droplet
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.21
+    diluent: N2
+    pressure_kpa: 126.656
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Flex number 1225; test date 31-Mar-17 04:39:07 pm est; CIR f090a10; pressure "1.25 atm"; O2 0.21, N2 0.79, He 0
+      (mole fractions); fiber No; fuel C12H26
+  varied_parameters: {}
+  fixed_parameters:
+    fiber_supported: false
+    fuel_cell: C12H26
+  is_aggregate: false
+  confidence: 0.9
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-39
+    title: PSI-39 Experimental table (PSI-39_Experimental table_CFI.csv)
+    locator: 'Experimental table PSI-39_Experimental table_CFI.csv, row 18; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); pressure converted from atm at 101.325 kPa per atm'
+    quote: 1225,31-Mar-17,04:39:07 pm est,f090a10,1.25 atm,0.21,0.79,0,No,C12H26
+- label: CFI test 1226 (f090a11)
+  fuel: n-dodecane
+  geometry:
+    shape: droplet
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.21
+    diluent: N2
+    pressure_kpa: 126.656
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Flex number 1226; test date 31-Mar-17 04:52:01 pm est; CIR f090a11; pressure "1.25 atm"; O2 0.21, N2 0.79, He 0
+      (mole fractions); fiber Yes; fuel C12H26
+  varied_parameters: {}
+  fixed_parameters:
+    fiber_supported: true
+    fuel_cell: C12H26
+  is_aggregate: false
+  confidence: 0.9
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-39
+    title: PSI-39 Experimental table (PSI-39_Experimental table_CFI.csv)
+    locator: 'Experimental table PSI-39_Experimental table_CFI.csv, row 19; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); pressure converted from atm at 101.325 kPa per atm'
+    quote: 1226,31-Mar-17,04:52:01 pm est,f090a11,1.25 atm,0.21,0.79,0,Yes,C12H26
+- label: CFI test 1227 (f095a01)
+  fuel: n-dodecane
+  geometry:
+    shape: droplet
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.21
+    diluent: N2
+    pressure_kpa: 202.65
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Flex number 1227; test date 5-Apr-17 1:47:47 pm est; CIR f095a01; pressure "2 atm"; O2 0.21, N2 0.79, He 0 (mole
+      fractions); fiber Yes; fuel C12H26
+  varied_parameters: {}
+  fixed_parameters:
+    fiber_supported: true
+    fuel_cell: C12H26
+  is_aggregate: false
+  confidence: 0.9
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-39
+    title: PSI-39 Experimental table (PSI-39_Experimental table_CFI.csv)
+    locator: 'Experimental table PSI-39_Experimental table_CFI.csv, row 20; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); pressure converted from atm at 101.325 kPa per atm'
+    quote: 1227,5-Apr-17,1:47:47 pm est,f095a01,2 atm,0.21,0.79,0,Yes,C12H26
+- label: CFI test 1228 (f095a02)
+  fuel: n-dodecane
+  geometry:
+    shape: droplet
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.21
+    diluent: N2
+    pressure_kpa: 202.65
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Flex number 1228; test date 5-Apr-17 02:28:02 pm est; CIR f095a02; pressure "2 atm"; O2 0.21, N2 0.79, He 0 (mole
+      fractions); fiber No; fuel C12H26
+  varied_parameters: {}
+  fixed_parameters:
+    fiber_supported: false
+    fuel_cell: C12H26
+  is_aggregate: false
+  confidence: 0.9
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-39
+    title: PSI-39 Experimental table (PSI-39_Experimental table_CFI.csv)
+    locator: 'Experimental table PSI-39_Experimental table_CFI.csv, row 21; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); pressure converted from atm at 101.325 kPa per atm'
+    quote: 1228,5-Apr-17,02:28:02 pm est,f095a02,2 atm,0.21,0.79,0,No,C12H26
+- label: CFI test 1229 (f095a04)
+  fuel: n-dodecane
+  geometry:
+    shape: droplet
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.21
+    diluent: N2
+    pressure_kpa: 202.65
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Flex number 1229; test date 5-Apr-17 04:08:33 pm est; CIR f095a04; pressure "2 atm"; O2 0.21, N2 0.79, He 0 (mole
+      fractions); fiber No; fuel C12H26
+  varied_parameters: {}
+  fixed_parameters:
+    fiber_supported: false
+    fuel_cell: C12H26
+  is_aggregate: false
+  confidence: 0.9
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-39
+    title: PSI-39 Experimental table (PSI-39_Experimental table_CFI.csv)
+    locator: 'Experimental table PSI-39_Experimental table_CFI.csv, row 22; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); pressure converted from atm at 101.325 kPa per atm'
+    quote: 1229,5-Apr-17,04:08:33 pm est,f095a04,2 atm,0.21,0.79,0,No,C12H26
+- label: CFI test 1285 (f173e01)
+  fuel: n-dodecane / iso-dodecane
+  geometry:
+    shape: droplet
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.17
+    diluent: N2
+    pressure_kpa: 101.325
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Flex number 1285; test date 22-Jun-17 11:05:52 am est; CIR f173e01; pressure "1 atm"; O2 0.17, N2 0.83, He 0 (mole
+      fractions); fiber Yes; fuel [.75]/[.25] C12H26/iso-dodecane
+  varied_parameters: {}
+  fixed_parameters:
+    fiber_supported: true
+    fuel_cell: '[.75]/[.25] C12H26/iso-dodecane'
+  is_aggregate: false
+  confidence: 0.9
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-39
+    title: PSI-39 Experimental table (PSI-39_Experimental table_CFI.csv)
+    locator: 'Experimental table PSI-39_Experimental table_CFI.csv, row 23; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); pressure converted from atm at 101.325 kPa per atm'
+    quote: 1285,22-Jun-17,11:05:52 am est,f173e01,1 atm ,0.17,0.83,0,Yes,[.75]/[.25] C12H26/iso-dodecane
+- label: CFI test 1286 (f173e02)
+  fuel: n-dodecane / iso-dodecane
+  geometry:
+    shape: droplet
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.17
+    diluent: N2
+    pressure_kpa: 101.325
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Flex number 1286; test date 22-Jun-17 11:23:26 am est; CIR f173e02; pressure "1 atm"; O2 0.17, N2 0.83, He 0 (mole
+      fractions); fiber Yes; fuel [.75]/[.25] C12H26/iso-dodecane
+  varied_parameters: {}
+  fixed_parameters:
+    fiber_supported: true
+    fuel_cell: '[.75]/[.25] C12H26/iso-dodecane'
+  is_aggregate: false
+  confidence: 0.9
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-39
+    title: PSI-39 Experimental table (PSI-39_Experimental table_CFI.csv)
+    locator: 'Experimental table PSI-39_Experimental table_CFI.csv, row 24; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); pressure converted from atm at 101.325 kPa per atm'
+    quote: 1286,22-Jun-17,11:23:26 am est,f173e02,1 atm,0.17,0.83,0,Yes,[.75]/[.25] C12H26/iso-dodecane
+- label: CFI test 1287 (f173e03)
+  fuel: n-dodecane / iso-dodecane
+  geometry:
+    shape: droplet
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.17
+    diluent: N2
+    pressure_kpa: 101.325
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Flex number 1287; test date 22-Jun-17 11:42:32 am est; CIR f173e03; pressure "1 atm"; O2 0.17, N2 0.83, He 0 (mole
+      fractions); fiber No; fuel [.75]/[.25] C12H26/iso-dodecane
+  varied_parameters: {}
+  fixed_parameters:
+    fiber_supported: false
+    fuel_cell: '[.75]/[.25] C12H26/iso-dodecane'
+  is_aggregate: false
+  confidence: 0.9
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-39
+    title: PSI-39 Experimental table (PSI-39_Experimental table_CFI.csv)
+    locator: 'Experimental table PSI-39_Experimental table_CFI.csv, row 25; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); pressure converted from atm at 101.325 kPa per atm'
+    quote: 1287,22-Jun-17,11:42:32 am est,f173e03,1 atm,0.17,0.83,0,No,[.75]/[.25] C12H26/iso-dodecane
+- label: CFI test 1288 (f173e05)
+  fuel: n-dodecane / iso-dodecane
+  geometry:
+    shape: droplet
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.17
+    diluent: N2
+    pressure_kpa: 101.325
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Flex number 1288; test date 22-Jun-17 12:36:48 pm est; CIR f173e05; pressure "1 atm"; O2 0.17, N2 0.83, He 0 (mole
+      fractions); fiber No; fuel [.75]/[.25] C12H26/iso-dodecane
+  varied_parameters: {}
+  fixed_parameters:
+    fiber_supported: false
+    fuel_cell: '[.75]/[.25] C12H26/iso-dodecane'
+  is_aggregate: false
+  confidence: 0.9
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-39
+    title: PSI-39 Experimental table (PSI-39_Experimental table_CFI.csv)
+    locator: 'Experimental table PSI-39_Experimental table_CFI.csv, row 26; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); pressure converted from atm at 101.325 kPa per atm'
+    quote: 1288,22-Jun-17,12:36:48 pm est,f173e05,1 atm,0.17,0.83,0,No,[.75]/[.25] C12H26/iso-dodecane
+- label: CFI test 1289 (f173e06)
+  fuel: n-dodecane / iso-dodecane
+  geometry:
+    shape: droplet
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.17
+    diluent: N2
+    pressure_kpa: 101.325
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Flex number 1289; test date 22-Jun-17 12:47:53 pm est; CIR f173e06; pressure "1 atm"; O2 0.17, N2 0.83, He 0 (mole
+      fractions); fiber Yes; fuel [.75]/[.25] C12H26/iso-dodecane
+  varied_parameters: {}
+  fixed_parameters:
+    fiber_supported: true
+    fuel_cell: '[.75]/[.25] C12H26/iso-dodecane'
+  is_aggregate: false
+  confidence: 0.9
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-39
+    title: PSI-39 Experimental table (PSI-39_Experimental table_CFI.csv)
+    locator: 'Experimental table PSI-39_Experimental table_CFI.csv, row 27; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); pressure converted from atm at 101.325 kPa per atm'
+    quote: 1289,22-Jun-17,12:47:53 pm est,f173e06,1 atm ,0.17,0.83,0,Yes,[.75]/[.25] C12H26/iso-dodecane
+- label: CFI test 1295 (f179e01)
+  fuel: n-dodecane / iso-dodecane
+  geometry:
+    shape: droplet
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.21
+    diluent: N2
+    pressure_kpa: 101.325
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Flex number 1295; test date 28-Jun-17 09:24:35 am est; CIR f179e01; pressure "1 atm"; O2 0.21, N2 0.79, He 0 (mole
+      fractions); fiber Yes; fuel [.75]/[.25] C12H26/iso-dodecane
+  varied_parameters: {}
+  fixed_parameters:
+    fiber_supported: true
+    fuel_cell: '[.75]/[.25] C12H26/iso-dodecane'
+  is_aggregate: false
+  confidence: 0.9
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-39
+    title: PSI-39 Experimental table (PSI-39_Experimental table_CFI.csv)
+    locator: 'Experimental table PSI-39_Experimental table_CFI.csv, row 28; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); pressure converted from atm at 101.325 kPa per atm'
+    quote: 1295,28-Jun-17,09:24:35 am est,f179e01,1 atm,0.21,0.79,0,Yes,[.75]/[.25] C12H26/iso-dodecane
+- label: CFI test 1296 (f179e02)
+  fuel: n-dodecane / iso-dodecane
+  geometry:
+    shape: droplet
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.21
+    diluent: N2
+    pressure_kpa: 101.325
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Flex number 1296; test date 28-Jun-17 9:43:08 am est; CIR f179e02; pressure "1 atm"; O2 0.21, N2 0.79, He 0 (mole
+      fractions); fiber Yes; fuel [.75]/[.25] C12H26/iso-dodecane
+  varied_parameters: {}
+  fixed_parameters:
+    fiber_supported: true
+    fuel_cell: '[.75]/[.25] C12H26/iso-dodecane'
+  is_aggregate: false
+  confidence: 0.9
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-39
+    title: PSI-39 Experimental table (PSI-39_Experimental table_CFI.csv)
+    locator: 'Experimental table PSI-39_Experimental table_CFI.csv, row 29; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); pressure converted from atm at 101.325 kPa per atm'
+    quote: 1296,28-Jun-17,9:43:08 am est,f179e02,1 atm,0.21,0.79,0,Yes,[.75]/[.25] C12H26/iso-dodecane
+- label: CFI test 1297 (f179e05)
+  fuel: n-dodecane / iso-dodecane
+  geometry:
+    shape: droplet
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.21
+    diluent: N2
+    pressure_kpa: 101.325
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Flex number 1297; test date 28-Jun-17 11:51:50 am est; CIR f179e05; pressure "1 atm"; O2 0.21, N2 0.79, He 0 (mole
+      fractions); fiber No; fuel [.75]/[.25] C12H26/iso-dodecane
+  varied_parameters: {}
+  fixed_parameters:
+    fiber_supported: false
+    fuel_cell: '[.75]/[.25] C12H26/iso-dodecane'
+  is_aggregate: false
+  confidence: 0.9
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-39
+    title: PSI-39 Experimental table (PSI-39_Experimental table_CFI.csv)
+    locator: 'Experimental table PSI-39_Experimental table_CFI.csv, row 30; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); pressure converted from atm at 101.325 kPa per atm'
+    quote: 1297,28-Jun-17,11:51:50 am est,f179e05,1 atm,0.21,0.79,0,No,[.75]/[.25] C12H26/iso-dodecane
+- label: CFI test 1290 (f177d01)
+  fuel: n-dodecane / iso-dodecane
+  geometry:
+    shape: droplet
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.17
+    diluent: N2
+    pressure_kpa: 101.325
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Flex number 1290; test date 26-Jun-17 09:24:29 am est; CIR f177d01; pressure "1 atm"; O2 0.17, N2 0.83, He 0 (mole
+      fractions); fiber Yes; fuel [.75]/[.25] C12H26/iso-dodecane
+  varied_parameters: {}
+  fixed_parameters:
+    fiber_supported: true
+    fuel_cell: '[.75]/[.25] C12H26/iso-dodecane'
+  is_aggregate: false
+  confidence: 0.9
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-39
+    title: PSI-39 Experimental table (PSI-39_Experimental table_CFI.csv)
+    locator: 'Experimental table PSI-39_Experimental table_CFI.csv, row 31; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); pressure converted from atm at 101.325 kPa per atm'
+    quote: 1290,26-Jun-17,09:24:29 am est ,f177d01,1 atm ,0.17,0.83,0,Yes,[.75]/[.25] C12H26/iso-dodecane
+- label: CFI test 1291 (f177d02)
+  fuel: n-dodecane / iso-dodecane
+  geometry:
+    shape: droplet
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.17
+    diluent: N2
+    pressure_kpa: 101.325
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Flex number 1291; test date 26-Jun-17 09:48:40 am est; CIR f177d02; pressure "1 atm"; O2 0.17, N2 0.83, He 0 (mole
+      fractions); fiber Yes; fuel [.60]/[.40] C12H26/iso-dodecane
+  varied_parameters: {}
+  fixed_parameters:
+    fiber_supported: true
+    fuel_cell: '[.60]/[.40] C12H26/iso-dodecane'
+  is_aggregate: false
+  confidence: 0.9
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-39
+    title: PSI-39 Experimental table (PSI-39_Experimental table_CFI.csv)
+    locator: 'Experimental table PSI-39_Experimental table_CFI.csv, row 32; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); pressure converted from atm at 101.325 kPa per atm'
+    quote: 1291,26-Jun-17,09:48:40 am est,f177d02,1 atm,0.17,0.83,0,Yes,[.60]/[.40] C12H26/iso-dodecane
+- label: CFI test 1292 (f177d03)
+  fuel: n-dodecane / iso-dodecane
+  geometry:
+    shape: droplet
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.17
+    diluent: N2
+    pressure_kpa: 101.325
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Flex number 1292; test date 26-Jun-17 10:28:20 am est; CIR f177d03; pressure "1 atm"; O2 0.17, N2 0.83, He 0 (mole
+      fractions); fiber No; fuel [.60]/[.40] C12H26/iso-dodecane
+  varied_parameters: {}
+  fixed_parameters:
+    fiber_supported: false
+    fuel_cell: '[.60]/[.40] C12H26/iso-dodecane'
+  is_aggregate: false
+  confidence: 0.9
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-39
+    title: PSI-39 Experimental table (PSI-39_Experimental table_CFI.csv)
+    locator: 'Experimental table PSI-39_Experimental table_CFI.csv, row 33; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); pressure converted from atm at 101.325 kPa per atm'
+    quote: 1292,26-Jun-17,10:28:20 am est ,f177d03,1 atm,0.17,0.83,0,No,[.60]/[.40] C12H26/iso-dodecane
+- label: CFI test 1293 (f177d04)
+  fuel: n-dodecane / iso-dodecane
+  geometry:
+    shape: droplet
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.17
+    diluent: N2
+    pressure_kpa: 101.325
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Flex number 1293; test date 26-Jun-17 10:43:35 am est; CIR f177d04; pressure "1 atm"; O2 0.17, N2 0.83, He 0 (mole
+      fractions); fiber No; fuel [.60]/[.40] C12H26/iso-dodecane
+  varied_parameters: {}
+  fixed_parameters:
+    fiber_supported: false
+    fuel_cell: '[.60]/[.40] C12H26/iso-dodecane'
+  is_aggregate: false
+  confidence: 0.9
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-39
+    title: PSI-39 Experimental table (PSI-39_Experimental table_CFI.csv)
+    locator: 'Experimental table PSI-39_Experimental table_CFI.csv, row 34; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); pressure converted from atm at 101.325 kPa per atm'
+    quote: 1293,26-Jun-17,10:43:35 am est ,f177d04,1 atm ,0.17,0.83,0,No,[.60]/[.40] C12H26/iso-dodecane
+- label: CFI test 1294 (f177d05)
+  fuel: n-dodecane / iso-dodecane
+  geometry:
+    shape: droplet
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.17
+    diluent: N2
+    pressure_kpa: 101.325
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Flex number 1294; test date 26-Jun-17 11:12:25 am est; CIR f177d05; pressure "1 atm"; O2 0.17, N2 0.83, He 0 (mole
+      fractions); fiber No; fuel [.60]/[.40] C12H26/iso-dodecane
+  varied_parameters: {}
+  fixed_parameters:
+    fiber_supported: false
+    fuel_cell: '[.60]/[.40] C12H26/iso-dodecane'
+  is_aggregate: false
+  confidence: 0.9
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-39
+    title: PSI-39 Experimental table (PSI-39_Experimental table_CFI.csv)
+    locator: 'Experimental table PSI-39_Experimental table_CFI.csv, row 35; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); pressure converted from atm at 101.325 kPa per atm'
+    quote: 1294,26-Jun-17,11:12:25 am est,f177d05,1 atm,0.17,0.83,0,No,[.60]/[.40] C12H26/iso-dodecane
+- label: CFI test 1300 (f180d01)
+  fuel: n-dodecane / iso-dodecane
+  geometry:
+    shape: droplet
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.21
+    diluent: N2
+    pressure_kpa: 101.325
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Flex number 1300; test date 29-Jun-17 10:42:16 pm est; CIR f180d01; pressure "1 atm"; O2 0.21, N2 0.79, He 0 (mole
+      fractions); fiber Yes; fuel [.60]/[.40] C12H26/iso-dodecane
+  varied_parameters: {}
+  fixed_parameters:
+    fiber_supported: true
+    fuel_cell: '[.60]/[.40] C12H26/iso-dodecane'
+  is_aggregate: false
+  confidence: 0.9
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-39
+    title: PSI-39 Experimental table (PSI-39_Experimental table_CFI.csv)
+    locator: 'Experimental table PSI-39_Experimental table_CFI.csv, row 36; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); pressure converted from atm at 101.325 kPa per atm'
+    quote: 1300,29-Jun-17,10:42:16 pm est,f180d01,1 atm,0.21,0.79,0,Yes,[.60]/[.40] C12H26/iso-dodecane
+- label: CFI test 1301 (f180d02)
+  fuel: n-dodecane / iso-dodecane
+  geometry:
+    shape: droplet
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.21
+    diluent: N2
+    pressure_kpa: 101.325
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Flex number 1301; test date 29-Jul-17 11:06:59 am est; CIR f180d02; pressure "1 atm"; O2 0.21, N2 0.79, He 0 (mole
+      fractions); fiber Yes; fuel [.60]/[.40] C12H26/iso-dodecane
+  varied_parameters: {}
+  fixed_parameters:
+    fiber_supported: true
+    fuel_cell: '[.60]/[.40] C12H26/iso-dodecane'
+  is_aggregate: false
+  confidence: 0.9
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-39
+    title: PSI-39 Experimental table (PSI-39_Experimental table_CFI.csv)
+    locator: 'Experimental table PSI-39_Experimental table_CFI.csv, row 37; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); pressure converted from atm at 101.325 kPa per atm'
+    quote: 1301,29-Jul-17,11:06:59 am est,f180d02,1 atm,0.21,0.79,0,Yes,[.60]/[.40] C12H26/iso-dodecane
+- label: CFI test 1310 (f186d01)
+  fuel: n-dodecane / iso-dodecane
+  geometry:
+    shape: droplet
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.21
+    diluent: N2
+    pressure_kpa: 126.656
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Flex number 1310; test date 5-Jul-17 09:30:30 am est; CIR f186d01; pressure "1.25 atm"; O2 0.21, N2 0.79, He 0
+      (mole fractions); fiber Yes; fuel [.60]/[.40] C12H26/iso-dodecane
+  varied_parameters: {}
+  fixed_parameters:
+    fiber_supported: true
+    fuel_cell: '[.60]/[.40] C12H26/iso-dodecane'
+  is_aggregate: false
+  confidence: 0.9
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-39
+    title: PSI-39 Experimental table (PSI-39_Experimental table_CFI.csv)
+    locator: 'Experimental table PSI-39_Experimental table_CFI.csv, row 38; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); pressure converted from atm at 101.325 kPa per atm'
+    quote: 1310,5-Jul-17,09:30:30 am est,f186d01,1.25 atm,0.21,0.79,0,Yes,[.60]/[.40] C12H26/iso-dodecane
+- label: CFI test 1311 (f186d02)
+  fuel: n-dodecane / iso-dodecane
+  geometry:
+    shape: droplet
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.21
+    diluent: N2
+    pressure_kpa: 126.656
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Flex number 1311; test date 5-Jul-17 09:44:25 am est; CIR f186d02; pressure "1.25 atm"; O2 0.21, N2 0.79, He 0
+      (mole fractions); fiber Yes; fuel [.60]/[.40] C12H26/iso-dodecane
+  varied_parameters: {}
+  fixed_parameters:
+    fiber_supported: true
+    fuel_cell: '[.60]/[.40] C12H26/iso-dodecane'
+  is_aggregate: false
+  confidence: 0.9
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-39
+    title: PSI-39 Experimental table (PSI-39_Experimental table_CFI.csv)
+    locator: 'Experimental table PSI-39_Experimental table_CFI.csv, row 39; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); pressure converted from atm at 101.325 kPa per atm'
+    quote: 1311,5-Jul-17,09:44:25 am est,f186d02,1.25 atm,0.21,0.79,0,Yes,[.60]/[.40] C12H26/iso-dodecane
+- label: CFI test 1312 (f186d04)
+  fuel: n-dodecane / iso-dodecane
+  geometry:
+    shape: droplet
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.21
+    diluent: N2
+    pressure_kpa: 126.656
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Flex number 1312; test date 5-Jul-17 10:35:41 am est; CIR f186d04; pressure "1.25 atm"; O2 0.21, N2 0.79, He 0
+      (mole fractions); fiber No; fuel [.60]/[.40] C12H26/iso-dodecane
+  varied_parameters: {}
+  fixed_parameters:
+    fiber_supported: false
+    fuel_cell: '[.60]/[.40] C12H26/iso-dodecane'
+  is_aggregate: false
+  confidence: 0.9
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-39
+    title: PSI-39 Experimental table (PSI-39_Experimental table_CFI.csv)
+    locator: 'Experimental table PSI-39_Experimental table_CFI.csv, row 40; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); pressure converted from atm at 101.325 kPa per atm'
+    quote: 1312,5-Jul-17,10:35:41 am est,f186d04,1.25 atm,0.21,0.79,0,No,[.60]/[.40] C12H26/iso-dodecane
+- label: CFI test 1313 (f186d05)
+  fuel: n-dodecane / iso-dodecane
+  geometry:
+    shape: droplet
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.21
+    diluent: N2
+    pressure_kpa: 126.656
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Flex number 1313; test date 5-Jul-17 11:05:35 am est; CIR f186d05; pressure "1.25 atm"; O2 0.21, N2 0.79, He 0
+      (mole fractions); fiber blank; fuel [.60]/[.40] C12H26/iso-dodecane
+  varied_parameters: {}
+  fixed_parameters:
+    fiber_supported: null
+    fuel_cell: '[.60]/[.40] C12H26/iso-dodecane'
+  is_aggregate: false
+  confidence: 0.9
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-39
+    title: PSI-39 Experimental table (PSI-39_Experimental table_CFI.csv)
+    locator: 'Experimental table PSI-39_Experimental table_CFI.csv, row 41; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); pressure converted from atm at 101.325 kPa per atm'
+    quote: 1313,5-Jul-17,11:05:35 am est,f186d05,1.25 atm,0.21,0.79,0,,[.60]/[.40] C12H26/iso-dodecane
+- label: CFI test 1314 (f186d06)
+  fuel: n-dodecane / iso-dodecane
+  geometry:
+    shape: droplet
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.21
+    diluent: N2
+    pressure_kpa: 126.656
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Flex number 1314; test date 5-Jul-17 11:27:49 am est; CIR f186d06; pressure "1.25 atm"; O2 0.21, N2 0.79, He 0
+      (mole fractions); fiber No; fuel [.60]/[.40] C12H26/iso-dodecane
+  varied_parameters: {}
+  fixed_parameters:
+    fiber_supported: false
+    fuel_cell: '[.60]/[.40] C12H26/iso-dodecane'
+  is_aggregate: false
+  confidence: 0.9
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-39
+    title: PSI-39 Experimental table (PSI-39_Experimental table_CFI.csv)
+    locator: 'Experimental table PSI-39_Experimental table_CFI.csv, row 42; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); pressure converted from atm at 101.325 kPa per atm'
+    quote: 1314,5-Jul-17,11:27:49 am est,f186d06,1.25 atm,0.21,0.79,0,No,[.60]/[.40] C12H26/iso-dodecane
+- label: CFI test 1320 (f191d02)
+  fuel: n-dodecane / iso-dodecane
+  geometry:
+    shape: droplet
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.21
+    diluent: N2
+    pressure_kpa: 202.65
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Flex number 1320; test date 10-Jul-17 9:44:19 am est; CIR f191d02; pressure "2 atm"; O2 0.21, N2 0.79, He 0 (mole
+      fractions); fiber Yes; fuel [.60]/[.40] C12H26/iso-dodecane
+  varied_parameters: {}
+  fixed_parameters:
+    fiber_supported: true
+    fuel_cell: '[.60]/[.40] C12H26/iso-dodecane'
+  is_aggregate: false
+  confidence: 0.9
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-39
+    title: PSI-39 Experimental table (PSI-39_Experimental table_CFI.csv)
+    locator: 'Experimental table PSI-39_Experimental table_CFI.csv, row 43; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); pressure converted from atm at 101.325 kPa per atm'
+    quote: 1320,10-Jul-17,9:44:19 am est,f191d02,2 atm,0.21,0.79,0,Yes,[.60]/[.40] C12H26/iso-dodecane
+- label: CFI test 1321 (f191d03)
+  fuel: n-dodecane / iso-dodecane
+  geometry:
+    shape: droplet
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.21
+    diluent: N2
+    pressure_kpa: 202.65
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Flex number 1321; test date 10-Jul-17 10:33:53 am est; CIR f191d03; pressure "2 atm"; O2 0.21, N2 0.79, He 0 (mole
+      fractions); fiber Yes; fuel [.60]/[.40] C12H26/iso-dodecane
+  varied_parameters: {}
+  fixed_parameters:
+    fiber_supported: true
+    fuel_cell: '[.60]/[.40] C12H26/iso-dodecane'
+  is_aggregate: false
+  confidence: 0.9
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-39
+    title: PSI-39 Experimental table (PSI-39_Experimental table_CFI.csv)
+    locator: 'Experimental table PSI-39_Experimental table_CFI.csv, row 44; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); pressure converted from atm at 101.325 kPa per atm'
+    quote: 1321,10-Jul-17,10:33:53 am est,f191d03,2 atm,0.21,0.79,0,Yes,[.60]/[.40] C12H26/iso-dodecane
+- label: CFI test 1322 (f191d04)
+  fuel: n-dodecane / iso-dodecane
+  geometry:
+    shape: droplet
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.21
+    diluent: N2
+    pressure_kpa: 202.65
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Flex number 1322; test date 10-Jul-17 11:02:40 am est; CIR f191d04; pressure "2 atm"; O2 0.21, N2 0.79, He 0 (mole
+      fractions); fiber No; fuel [.60]/[.40] C12H26/iso-dodecane
+  varied_parameters: {}
+  fixed_parameters:
+    fiber_supported: false
+    fuel_cell: '[.60]/[.40] C12H26/iso-dodecane'
+  is_aggregate: false
+  confidence: 0.9
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-39
+    title: PSI-39 Experimental table (PSI-39_Experimental table_CFI.csv)
+    locator: 'Experimental table PSI-39_Experimental table_CFI.csv, row 45; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); pressure converted from atm at 101.325 kPa per atm'
+    quote: 1322,10-Jul-17,11:02:40 am est,f191d04,2 atm,0.21,0.79,0,No,[.60]/[.40] C12H26/iso-dodecane
+- label: CFI test 1323 (f191d05)
+  fuel: n-dodecane / iso-dodecane
+  geometry:
+    shape: droplet
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.21
+    diluent: N2
+    pressure_kpa: 202.65
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Flex number 1323; test date 10-Jul-17 11:16:11 am est; CIR f191d05; pressure "2 atm"; O2 0.21, N2 0.79, He 0 (mole
+      fractions); fiber No; fuel [.60]/[.40] C12H26/iso-dodecane
+  varied_parameters: {}
+  fixed_parameters:
+    fiber_supported: false
+    fuel_cell: '[.60]/[.40] C12H26/iso-dodecane'
+  is_aggregate: false
+  confidence: 0.9
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-39
+    title: PSI-39 Experimental table (PSI-39_Experimental table_CFI.csv)
+    locator: 'Experimental table PSI-39_Experimental table_CFI.csv, row 46; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); pressure converted from atm at 101.325 kPa per atm'
+    quote: 1323,10-Jul-17,11:16:11 am est,f191d05,2 atm,0.21,0.79,0,No,[.60]/[.40] C12H26/iso-dodecane
+- label: CFI test 1328 (f195d01)
+  fuel: n-dodecane / iso-dodecane
+  geometry:
+    shape: droplet
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.17
+    diluent: N2
+    pressure_kpa: 303.975
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Flex number 1328; test date 14-Jul-17 10:23:39 am est; CIR f195d01; pressure "3 atm"; O2 0.17, N2 0.83, He 0 (mole
+      fractions); fiber Yes; fuel [.60]/[.40] C12H26/iso-dodecane
+  varied_parameters: {}
+  fixed_parameters:
+    fiber_supported: true
+    fuel_cell: '[.60]/[.40] C12H26/iso-dodecane'
+  is_aggregate: false
+  confidence: 0.9
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-39
+    title: PSI-39 Experimental table (PSI-39_Experimental table_CFI.csv)
+    locator: 'Experimental table PSI-39_Experimental table_CFI.csv, row 47; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); pressure converted from atm at 101.325 kPa per atm'
+    quote: 1328,14-Jul-17,10:23:39 am est,f195d01,3 atm,0.17,0.83,0,Yes,[.60]/[.40] C12H26/iso-dodecane
+- label: CFI test 1329 (f195d02)
+  fuel: n-dodecane / iso-dodecane
+  geometry:
+    shape: droplet
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.17
+    diluent: N2
+    pressure_kpa: 303.975
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Flex number 1329; test date 14-Jul-17 10:51:22 am est; CIR f195d02; pressure "3 atm"; O2 0.17, N2 0.83, He 0 (mole
+      fractions); fiber Yes; fuel [.60]/[.40] C12H26/iso-dodecane
+  varied_parameters: {}
+  fixed_parameters:
+    fiber_supported: true
+    fuel_cell: '[.60]/[.40] C12H26/iso-dodecane'
+  is_aggregate: false
+  confidence: 0.9
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-39
+    title: PSI-39 Experimental table (PSI-39_Experimental table_CFI.csv)
+    locator: 'Experimental table PSI-39_Experimental table_CFI.csv, row 48; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); pressure converted from atm at 101.325 kPa per atm'
+    quote: 1329,14-Jul-17,10:51:22 am est,f195d02,3 atm ,0.17,0.83,0,Yes,[.60]/[.40] C12H26/iso-dodecane
+- label: CFI test 1330 (f195d07)
+  fuel: n-dodecane / iso-dodecane
+  geometry:
+    shape: droplet
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.17
+    diluent: N2
+    pressure_kpa: 303.975
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Flex number 1330; test date 14-Jul-17 12:53:00 pm est; CIR f195d07; pressure "3 atm"; O2 0.17, N2 0.83, He 0 (mole
+      fractions); fiber Yes; fuel [.60]/[.40] C12H26/iso-dodecane
+  varied_parameters: {}
+  fixed_parameters:
+    fiber_supported: true
+    fuel_cell: '[.60]/[.40] C12H26/iso-dodecane'
+  is_aggregate: false
+  confidence: 0.9
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-39
+    title: PSI-39 Experimental table (PSI-39_Experimental table_CFI.csv)
+    locator: 'Experimental table PSI-39_Experimental table_CFI.csv, row 49; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); pressure converted from atm at 101.325 kPa per atm'
+    quote: 1330,14-Jul-17,12:53:00 pm est,f195d07,3 atm,0.17,0.83,0,Yes,[.60]/[.40] C12H26/iso-dodecane
+- label: CFI test 1331 (f195d10)
+  fuel: n-dodecane / iso-dodecane
+  geometry:
+    shape: droplet
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.17
+    diluent: N2
+    pressure_kpa: 303.975
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Flex number 1331; test date 14-Jul-17 01:41:52 pm est; CIR f195d10; pressure "3 atm"; O2 0.17, N2 0.83, He 0 (mole
+      fractions); fiber Yes; fuel [.60]/[.40] C12H26/iso-dodecane
+  varied_parameters: {}
+  fixed_parameters:
+    fiber_supported: true
+    fuel_cell: '[.60]/[.40] C12H26/iso-dodecane'
+  is_aggregate: false
+  confidence: 0.9
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-39
+    title: PSI-39 Experimental table (PSI-39_Experimental table_CFI.csv)
+    locator: 'Experimental table PSI-39_Experimental table_CFI.csv, row 50; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); pressure converted from atm at 101.325 kPa per atm'
+    quote: 1331,14-Jul-17,01:41:52 pm est,f195d10,3 atm,0.17,0.83,0,Yes,[.60]/[.40] C12H26/iso-dodecane
+- label: CFI test 1332 (f195d11)
+  fuel: n-dodecane / iso-dodecane
+  geometry:
+    shape: droplet
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.17
+    diluent: N2
+    pressure_kpa: 303.975
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Flex number 1332; test date 14-Jul-17 02:22:xx pm est; CIR f195d11; pressure "3 atm"; O2 0.17, N2 0.83, He 0 (mole
+      fractions); fiber Yes; fuel [.60]/[.40] C12H26/iso-dodecane
+  varied_parameters: {}
+  fixed_parameters:
+    fiber_supported: true
+    fuel_cell: '[.60]/[.40] C12H26/iso-dodecane'
+  is_aggregate: false
+  confidence: 0.9
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-39
+    title: PSI-39 Experimental table (PSI-39_Experimental table_CFI.csv)
+    locator: 'Experimental table PSI-39_Experimental table_CFI.csv, row 51; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); pressure converted from atm at 101.325 kPa per atm'
+    quote: 1332,14-Jul-17,02:22:xx pm est,f195d11,3 atm ,0.17,0.83,0,Yes,[.60]/[.40] C12H26/iso-dodecane
+- label: CFI test 1335 (f200d01)
+  fuel: n-dodecane / iso-dodecane
+  geometry:
+    shape: droplet
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.21
+    diluent: N2
+    pressure_kpa: 303.975
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Flex number 1335; test date 19-Jul-17 09:35:03 am est; CIR f200d01; pressure "3 atm"; O2 0.21, N2 0.79, He 0 (mole
+      fractions); fiber Yes; fuel [.60]/[.40] C12H26/iso-dodecane
+  varied_parameters: {}
+  fixed_parameters:
+    fiber_supported: true
+    fuel_cell: '[.60]/[.40] C12H26/iso-dodecane'
+  is_aggregate: false
+  confidence: 0.9
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-39
+    title: PSI-39 Experimental table (PSI-39_Experimental table_CFI.csv)
+    locator: 'Experimental table PSI-39_Experimental table_CFI.csv, row 52; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); pressure converted from atm at 101.325 kPa per atm'
+    quote: 1335,19-Jul-17,09:35:03 am est ,f200d01,3 atm,0.21,0.79,0,Yes,[.60]/[.40] C12H26/iso-dodecane
+- label: CFI test 1336 (f200d03)
+  fuel: n-dodecane / iso-dodecane
+  geometry:
+    shape: droplet
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.21
+    diluent: N2
+    pressure_kpa: 303.975
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Flex number 1336; test date 19-Jul-17 11:14:07 am est; CIR f200d03; pressure "3 atm"; O2 0.21, N2 0.79, He 0 (mole
+      fractions); fiber Yes; fuel [.60]/[.40] C12H26/iso-dodecane
+  varied_parameters: {}
+  fixed_parameters:
+    fiber_supported: true
+    fuel_cell: '[.60]/[.40] C12H26/iso-dodecane'
+  is_aggregate: false
+  confidence: 0.9
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-39
+    title: PSI-39 Experimental table (PSI-39_Experimental table_CFI.csv)
+    locator: 'Experimental table PSI-39_Experimental table_CFI.csv, row 53; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); pressure converted from atm at 101.325 kPa per atm'
+    quote: 1336,19-Jul-17,11:14:07 am est,f200d03,3 atm,0.21,0.79,0,Yes,[.60]/[.40] C12H26/iso-dodecane
+- label: CFI test 1337 (f200d04)
+  fuel: n-dodecane / iso-dodecane
+  geometry:
+    shape: droplet
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.21
+    diluent: N2
+    pressure_kpa: 303.975
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Flex number 1337; test date 19-Jul-17 11:37:54 am est; CIR f200d04; pressure "3 atm"; O2 0.21, N2 0.79, He 0 (mole
+      fractions); fiber Yes; fuel [.60]/[.40] C12H26/iso-dodecane
+  varied_parameters: {}
+  fixed_parameters:
+    fiber_supported: true
+    fuel_cell: '[.60]/[.40] C12H26/iso-dodecane'
+  is_aggregate: false
+  confidence: 0.9
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-39
+    title: PSI-39 Experimental table (PSI-39_Experimental table_CFI.csv)
+    locator: 'Experimental table PSI-39_Experimental table_CFI.csv, row 54; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); pressure converted from atm at 101.325 kPa per atm'
+    quote: 1337,19-Jul-17,11:37:54 am est,f200d04,3 atm,0.21,0.79,0,Yes,[.60]/[.40] C12H26/iso-dodecane
+- label: CFI test 1338 (f200d05)
+  fuel: n-dodecane / iso-dodecane
+  geometry:
+    shape: droplet
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.21
+    diluent: N2
+    pressure_kpa: 303.975
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Flex number 1338; test date 19-Jul-17 12:07:00 am est; CIR f200d05; pressure "3 atm"; O2 0.21, N2 0.79, He 0 (mole
+      fractions); fiber Yes; fuel [.60]/[.40] C12H26/iso-dodecane
+  varied_parameters: {}
+  fixed_parameters:
+    fiber_supported: true
+    fuel_cell: '[.60]/[.40] C12H26/iso-dodecane'
+  is_aggregate: false
+  confidence: 0.9
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-39
+    title: PSI-39 Experimental table (PSI-39_Experimental table_CFI.csv)
+    locator: 'Experimental table PSI-39_Experimental table_CFI.csv, row 55; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); pressure converted from atm at 101.325 kPa per atm'
+    quote: 1338,19-Jul-17,12:07:00 am est,f200d05,3 atm,0.21,0.79,0,Yes,[.60]/[.40] C12H26/iso-dodecane
+- label: CFI test 1340 (f202e02)
+  fuel: n-dodecane / iso-dodecane
+  geometry:
+    shape: droplet
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.21
+    diluent: N2
+    pressure_kpa: 506.625
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Flex number 1340; test date 21-Jul-17 10:22:42 am est; CIR f202e02; pressure "5 atm"; O2 0.21, N2 0.79, He 0 (mole
+      fractions); fiber Yes; fuel [.75]/[.25] C12H26/iso-dodecane
+  varied_parameters: {}
+  fixed_parameters:
+    fiber_supported: true
+    fuel_cell: '[.75]/[.25] C12H26/iso-dodecane'
+  is_aggregate: false
+  confidence: 0.9
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-39
+    title: PSI-39 Experimental table (PSI-39_Experimental table_CFI.csv)
+    locator: 'Experimental table PSI-39_Experimental table_CFI.csv, row 56; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); pressure converted from atm at 101.325 kPa per atm'
+    quote: 1340,21-Jul-17,10:22:42 am est,f202e02,5 atm ,0.21,0.79,0,Yes,[.75]/[.25] C12H26/iso-dodecane
+- label: CFI test 1341 (f205d01)
+  fuel: n-dodecane / iso-dodecane
+  geometry:
+    shape: droplet
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.21
+    diluent: N2
+    pressure_kpa: 506.625
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Flex number 1341; test date 24-Jul-17 10:13:27 am est; CIR f205d01; pressure "5 atm"; O2 0.21, N2 0.79, He 0 (mole
+      fractions); fiber Yes; fuel [.60]/[.40] C12H26/iso-dodecane
+  varied_parameters: {}
+  fixed_parameters:
+    fiber_supported: true
+    fuel_cell: '[.60]/[.40] C12H26/iso-dodecane'
+  is_aggregate: false
+  confidence: 0.9
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-39
+    title: PSI-39 Experimental table (PSI-39_Experimental table_CFI.csv)
+    locator: 'Experimental table PSI-39_Experimental table_CFI.csv, row 57; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); pressure converted from atm at 101.325 kPa per atm'
+    quote: 1341,24-Jul-17,10:13:27 am est,f205d01,5 atm ,0.21,0.79,0,Yes,[.60]/[.40] C12H26/iso-dodecane
+- label: CFI test 1342 (f205d02)
+  fuel: n-dodecane / iso-dodecane
+  geometry:
+    shape: droplet
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.21
+    diluent: N2
+    pressure_kpa: 506.625
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Flex number 1342; test date 24-Jul-17 11:10:04 am est; CIR f205d02; pressure "5 atm"; O2 0.21, N2 0.79, He 0 (mole
+      fractions); fiber Yes; fuel [.60]/[.40] C12H26/iso-dodecane
+  varied_parameters: {}
+  fixed_parameters:
+    fiber_supported: true
+    fuel_cell: '[.60]/[.40] C12H26/iso-dodecane'
+  is_aggregate: false
+  confidence: 0.9
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-39
+    title: PSI-39 Experimental table (PSI-39_Experimental table_CFI.csv)
+    locator: 'Experimental table PSI-39_Experimental table_CFI.csv, row 58; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); pressure converted from atm at 101.325 kPa per atm'
+    quote: 1342,24-Jul-17,11:10:04 am est,f205d02,5 atm ,0.21,0.79,0,Yes,[.60]/[.40] C12H26/iso-dodecane
+- label: CFI test 1346 (f208d01)
+  fuel: n-dodecane / iso-dodecane
+  geometry:
+    shape: droplet
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.21
+    diluent: N2
+    pressure_kpa: 75.994
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Flex number 1346; test date 27-Jul-17 10:13:41 am est; CIR f208d01; pressure "0.75 atm"; O2 0.21, N2 0.79, He 0
+      (mole fractions); fiber Yes; fuel [.60]/[.40] C12H26/iso-dodecane
+  varied_parameters: {}
+  fixed_parameters:
+    fiber_supported: true
+    fuel_cell: '[.60]/[.40] C12H26/iso-dodecane'
+  is_aggregate: false
+  confidence: 0.9
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-39
+    title: PSI-39 Experimental table (PSI-39_Experimental table_CFI.csv)
+    locator: 'Experimental table PSI-39_Experimental table_CFI.csv, row 59; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); pressure converted from atm at 101.325 kPa per atm'
+    quote: 1346,27-Jul-17,10:13:41 am est,f208d01,0.75 atm,0.21,0.79,0,Yes,[.60]/[.40] C12H26/iso-dodecane
+- label: CFI test 1347 (f208d02)
+  fuel: n-dodecane / iso-dodecane
+  geometry:
+    shape: droplet
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.21
+    diluent: N2
+    pressure_kpa: 75.994
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Flex number 1347; test date 27-Jul-17 11:04:48 am est; CIR f208d02; pressure "0.75 atm"; O2 0.21, N2 0.79, He 0
+      (mole fractions); fiber Yes; fuel [.60]/[.40] C12H26/iso-dodecane
+  varied_parameters: {}
+  fixed_parameters:
+    fiber_supported: true
+    fuel_cell: '[.60]/[.40] C12H26/iso-dodecane'
+  is_aggregate: false
+  confidence: 0.9
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-39
+    title: PSI-39 Experimental table (PSI-39_Experimental table_CFI.csv)
+    locator: 'Experimental table PSI-39_Experimental table_CFI.csv, row 60; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); pressure converted from atm at 101.325 kPa per atm'
+    quote: 1347,27-Jul-17,11:04:48 am est,f208d02,0.75 atm,0.21,0.79,0,Yes,[.60]/[.40] C12H26/iso-dodecane
+- label: CFI test 1348 (f208d03)
+  fuel: n-dodecane / iso-dodecane
+  geometry:
+    shape: droplet
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.21
+    diluent: N2
+    pressure_kpa: 75.994
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Flex number 1348; test date 27-Jul-17 11:41:29 am est; CIR f208d03; pressure "0.75 atm"; O2 0.21, N2 0.79, He 0
+      (mole fractions); fiber No; fuel [.60]/[.40] C12H26/iso-dodecane
+  varied_parameters: {}
+  fixed_parameters:
+    fiber_supported: false
+    fuel_cell: '[.60]/[.40] C12H26/iso-dodecane'
+  is_aggregate: false
+  confidence: 0.9
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-39
+    title: PSI-39 Experimental table (PSI-39_Experimental table_CFI.csv)
+    locator: 'Experimental table PSI-39_Experimental table_CFI.csv, row 61; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); pressure converted from atm at 101.325 kPa per atm'
+    quote: 1348,27-Jul-17,11:41:29 am est,f208d03,0.75 atm,0.21,0.79,0,No,[.60]/[.40] C12H26/iso-dodecane
+- label: CFI test 1349 (f208d04)
+  fuel: n-dodecane / iso-dodecane
+  geometry:
+    shape: droplet
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.21
+    diluent: N2
+    pressure_kpa: 75.994
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Flex number 1349; test date 27-Jul-17 12:02:11 am est; CIR f208d04; pressure "0.75 atm"; O2 0.21, N2 0.79, He 0
+      (mole fractions); fiber Yes; fuel [.60]/[.40] C12H26/iso-dodecane
+  varied_parameters: {}
+  fixed_parameters:
+    fiber_supported: true
+    fuel_cell: '[.60]/[.40] C12H26/iso-dodecane'
+  is_aggregate: false
+  confidence: 0.9
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-39
+    title: PSI-39 Experimental table (PSI-39_Experimental table_CFI.csv)
+    locator: 'Experimental table PSI-39_Experimental table_CFI.csv, row 62; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); pressure converted from atm at 101.325 kPa per atm'
+    quote: 1349,27-Jul-17,12:02:11 am est,f208d04,0.75 atm,0.21,0.79,0,Yes,[.60]/[.40] C12H26/iso-dodecane
+- label: CFI test 1356 (f213d02)
+  fuel: n-dodecane / iso-dodecane
+  geometry:
+    shape: droplet
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.21
+    diluent: N2
+    pressure_kpa: 50.663
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Flex number 1356; test date 1-Aug-17 09:34:26 am est; CIR f213d02; pressure "0.5 atm"; O2 0.21, N2 0.79, He 0 (mole
+      fractions); fiber Yes; fuel [.60]/[.40] C12H26/iso-dodecane
+  varied_parameters: {}
+  fixed_parameters:
+    fiber_supported: true
+    fuel_cell: '[.60]/[.40] C12H26/iso-dodecane'
+  is_aggregate: false
+  confidence: 0.9
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-39
+    title: PSI-39 Experimental table (PSI-39_Experimental table_CFI.csv)
+    locator: 'Experimental table PSI-39_Experimental table_CFI.csv, row 63; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); pressure converted from atm at 101.325 kPa per atm'
+    quote: 1356,1-Aug-17,09:34:26 am est,f213d02,0.5 atm,0.21,0.79,0,Yes,[.60]/[.40] C12H26/iso-dodecane
+- label: CFI test 1357 (f213d03)
+  fuel: n-dodecane / iso-dodecane
+  geometry:
+    shape: droplet
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.21
+    diluent: N2
+    pressure_kpa: 50.663
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Flex number 1357; test date 1-Aug-17 10:07:16 am est; CIR f213d03; pressure "0.5 atm"; O2 0.21, N2 0.79, He 0 (mole
+      fractions); fiber No; fuel [.60]/[.40] C12H26/iso-dodecane
+  varied_parameters: {}
+  fixed_parameters:
+    fiber_supported: false
+    fuel_cell: '[.60]/[.40] C12H26/iso-dodecane'
+  is_aggregate: false
+  confidence: 0.9
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-39
+    title: PSI-39 Experimental table (PSI-39_Experimental table_CFI.csv)
+    locator: 'Experimental table PSI-39_Experimental table_CFI.csv, row 64; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); pressure converted from atm at 101.325 kPa per atm'
+    quote: 1357,1-Aug-17,10:07:16 am est,f213d03,0.5 atm,0.21,0.79,0,No,[.60]/[.40] C12H26/iso-dodecane
+- label: CFI test 1358 (f213d04)
+  fuel: n-dodecane / iso-dodecane
+  geometry:
+    shape: droplet
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.21
+    diluent: N2
+    pressure_kpa: 50.663
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Flex number 1358; test date 1-Aug-17 11:04:35 am est; CIR f213d04; pressure "0.5 atm"; O2 0.21, N2 0.79, He 0 (mole
+      fractions); fiber Yes; fuel [.60]/[.40] C12H26/iso-dodecane
+  varied_parameters: {}
+  fixed_parameters:
+    fiber_supported: true
+    fuel_cell: '[.60]/[.40] C12H26/iso-dodecane'
+  is_aggregate: false
+  confidence: 0.9
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-39
+    title: PSI-39 Experimental table (PSI-39_Experimental table_CFI.csv)
+    locator: 'Experimental table PSI-39_Experimental table_CFI.csv, row 65; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); pressure converted from atm at 101.325 kPa per atm'
+    quote: 1358,1-Aug-17,11:04:35 am est,f213d04,0.5 atm,0.21,0.79,0,Yes,[.60]/[.40] C12H26/iso-dodecane
+- label: CFI test 1362 (f221e06)
+  fuel: n-dodecane / iso-dodecane
+  geometry:
+    shape: droplet
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.21
+    diluent: N2+He
+    pressure_kpa: 101.325
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Flex number 1362; test date 9-Aug-17 11:27:27 am est; CIR f221e06; pressure "1 atm"; O2 0.21, N2 0.5, He 0.29 (mole
+      fractions); fiber blank; fuel [.75]/[.25] C12H26/iso-dodecane
+  varied_parameters: {}
+  fixed_parameters:
+    fiber_supported: null
+    fuel_cell: '[.75]/[.25] C12H26/iso-dodecane'
+  is_aggregate: false
+  confidence: 0.9
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-39
+    title: PSI-39 Experimental table (PSI-39_Experimental table_CFI.csv)
+    locator: 'Experimental table PSI-39_Experimental table_CFI.csv, row 66; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); pressure converted from atm at 101.325 kPa per atm'
+    quote: 1362,9-Aug-17,11:27:27 am est,f221e06,1 atm,0.21,0.5,0.29,,[.75]/[.25] C12H26/iso-dodecane
+- label: CFI test 1363 (f222d01)
+  fuel: n-dodecane / iso-dodecane
+  geometry:
+    shape: droplet
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.21
+    diluent: N2+He
+    pressure_kpa: 101.325
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Flex number 1363; test date 10-Aug-17 11:04:53 am est; CIR f222d01; pressure "1 atm"; O2 0.21, N2 0.5, He 0.29
+      (mole fractions); fiber Yes; fuel [.60]/[.40] C12H26/iso-dodecane
+  varied_parameters: {}
+  fixed_parameters:
+    fiber_supported: true
+    fuel_cell: '[.60]/[.40] C12H26/iso-dodecane'
+  is_aggregate: false
+  confidence: 0.9
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-39
+    title: PSI-39 Experimental table (PSI-39_Experimental table_CFI.csv)
+    locator: 'Experimental table PSI-39_Experimental table_CFI.csv, row 67; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); pressure converted from atm at 101.325 kPa per atm'
+    quote: 1363,10-Aug-17,11:04:53 am est,f222d01,1 atm,0.21,0.5,0.29,Yes,[.60]/[.40] C12H26/iso-dodecane
+- label: CFI test 1364 (f222d02)
+  fuel: n-dodecane / iso-dodecane
+  geometry:
+    shape: droplet
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.21
+    diluent: N2+He
+    pressure_kpa: 101.325
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Flex number 1364; test date 10-Aug-17 11:21:53 am est; CIR f222d02; pressure "1 atm"; O2 0.21, N2 0.5, He 0.29
+      (mole fractions); fiber Yes; fuel [.60]/[.40] C12H26/iso-dodecane
+  varied_parameters: {}
+  fixed_parameters:
+    fiber_supported: true
+    fuel_cell: '[.60]/[.40] C12H26/iso-dodecane'
+  is_aggregate: false
+  confidence: 0.9
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-39
+    title: PSI-39 Experimental table (PSI-39_Experimental table_CFI.csv)
+    locator: 'Experimental table PSI-39_Experimental table_CFI.csv, row 68; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); pressure converted from atm at 101.325 kPa per atm'
+    quote: 1364,10-Aug-17,11:21:53 am est,f222d02,1 atm,0.21,0.5,0.29,Yes,[.60]/[.40] C12H26/iso-dodecane
+- label: CFI test 1365 (f222d03)
+  fuel: n-dodecane / iso-dodecane
+  geometry:
+    shape: droplet
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.21
+    diluent: N2+He
+    pressure_kpa: 101.325
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Flex number 1365; test date 10-Aug-17 11:58:01 am est; CIR f222d03; pressure "1 atm"; O2 0.21, N2 0.5, He 0.29
+      (mole fractions); fiber No; fuel [.60]/[.40] C12H26/iso-dodecane
+  varied_parameters: {}
+  fixed_parameters:
+    fiber_supported: false
+    fuel_cell: '[.60]/[.40] C12H26/iso-dodecane'
+  is_aggregate: false
+  confidence: 0.9
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-39
+    title: PSI-39 Experimental table (PSI-39_Experimental table_CFI.csv)
+    locator: 'Experimental table PSI-39_Experimental table_CFI.csv, row 69; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); pressure converted from atm at 101.325 kPa per atm'
+    quote: 1365,10-Aug-17,11:58:01 am est,f222d03,1 atm,0.21,0.5,0.29,No,[.60]/[.40] C12H26/iso-dodecane
+- label: CFI test 1366 (f222d04)
+  fuel: n-dodecane / iso-dodecane
+  geometry:
+    shape: droplet
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.21
+    diluent: N2+He
+    pressure_kpa: 101.325
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Flex number 1366; test date 10-Aug-17 12:40:21 pm est; CIR f222d04; pressure "1 atm"; O2 0.21, N2 0.5, He 0.29
+      (mole fractions); fiber Yes; fuel [.60]/[.40] C12H26/iso-dodecane
+  varied_parameters: {}
+  fixed_parameters:
+    fiber_supported: true
+    fuel_cell: '[.60]/[.40] C12H26/iso-dodecane'
+  is_aggregate: false
+  confidence: 0.9
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-39
+    title: PSI-39 Experimental table (PSI-39_Experimental table_CFI.csv)
+    locator: 'Experimental table PSI-39_Experimental table_CFI.csv, row 70; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); pressure converted from atm at 101.325 kPa per atm'
+    quote: 1366,10-Aug-17,12:40:21 pm est,f222d04,1 atm,0.21,0.5,0.29,Yes,[.60]/[.40] C12H26/iso-dodecane
+- label: CFI test 1367 (f226e01)
+  fuel: n-dodecane / iso-dodecane
+  geometry:
+    shape: droplet
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.21
+    diluent: N2+He
+    pressure_kpa: 303.975
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Flex number 1367; test date 14-Aug-17 10:48:38 am est; CIR f226e01; pressure "3 atm"; O2 0.21, N2 0.5, He 0.29
+      (mole fractions); fiber blank; fuel [.75]/[.25] C12H26/iso-dodecane
+  varied_parameters: {}
+  fixed_parameters:
+    fiber_supported: null
+    fuel_cell: '[.75]/[.25] C12H26/iso-dodecane'
+  is_aggregate: false
+  confidence: 0.9
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-39
+    title: PSI-39 Experimental table (PSI-39_Experimental table_CFI.csv)
+    locator: 'Experimental table PSI-39_Experimental table_CFI.csv, row 71; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); pressure converted from atm at 101.325 kPa per atm'
+    quote: 1367,14-Aug-17,10:48:38 am est,f226e01,3 atm ,0.21,0.5,0.29,,[.75]/[.25] C12H26/iso-dodecane
+- label: CFI test 1368 (f226e02)
+  fuel: n-dodecane / iso-dodecane
+  geometry:
+    shape: droplet
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.21
+    diluent: N2+He
+    pressure_kpa: 303.975
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Flex number 1368; test date 14-Aug-17 11:12:23 am est; CIR f226e02; pressure "3 atm"; O2 0.21, N2 0.5, He 0.29
+      (mole fractions); fiber blank; fuel [.75]/[.25] C12H26/iso-dodecane
+  varied_parameters: {}
+  fixed_parameters:
+    fiber_supported: null
+    fuel_cell: '[.75]/[.25] C12H26/iso-dodecane'
+  is_aggregate: false
+  confidence: 0.9
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-39
+    title: PSI-39 Experimental table (PSI-39_Experimental table_CFI.csv)
+    locator: 'Experimental table PSI-39_Experimental table_CFI.csv, row 72; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); pressure converted from atm at 101.325 kPa per atm'
+    quote: 1368,14-Aug-17,11:12:23 am est,f226e02,3 atm,0.21,0.5,0.29,,[.75]/[.25] C12H26/iso-dodecane
+- label: CFI test 1369 (f226e03)
+  fuel: n-dodecane / iso-dodecane
+  geometry:
+    shape: droplet
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.21
+    diluent: N2+He
+    pressure_kpa: 303.975
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Flex number 1369; test date 14-Aug-17 11:48:32 am est; CIR f226e03; pressure "3 atm"; O2 0.21, N2 0.5, He 0.29
+      (mole fractions); fiber blank; fuel [.75]/[.25] C12H26/iso-dodecane
+  varied_parameters: {}
+  fixed_parameters:
+    fiber_supported: null
+    fuel_cell: '[.75]/[.25] C12H26/iso-dodecane'
+  is_aggregate: false
+  confidence: 0.9
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-39
+    title: PSI-39 Experimental table (PSI-39_Experimental table_CFI.csv)
+    locator: 'Experimental table PSI-39_Experimental table_CFI.csv, row 73; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); pressure converted from atm at 101.325 kPa per atm'
+    quote: 1369,14-Aug-17,11:48:32 am est,f226e03,3 atm,0.21,0.5,0.29,,[.75]/[.25] C12H26/iso-dodecane
+- label: CFI test 1373 (f228e01)
+  fuel: n-dodecane / iso-dodecane
+  geometry:
+    shape: droplet
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.21
+    diluent: N2+He
+    pressure_kpa: 303.975
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Flex number 1373; test date 16-Aug-17 01:56:42 pm est; CIR f228e01; pressure "3 atm"; O2 0.21, N2 0.2, He 0.59
+      (mole fractions); fiber blank; fuel [.75]/[.25] C12H26/iso-dodecane
+  varied_parameters: {}
+  fixed_parameters:
+    fiber_supported: null
+    fuel_cell: '[.75]/[.25] C12H26/iso-dodecane'
+  is_aggregate: false
+  confidence: 0.9
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-39
+    title: PSI-39 Experimental table (PSI-39_Experimental table_CFI.csv)
+    locator: 'Experimental table PSI-39_Experimental table_CFI.csv, row 74; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); pressure converted from atm at 101.325 kPa per atm'
+    quote: 1373,16-Aug-17,01:56:42 pm est,f228e01,3 atm,0.21,0.2,0.59,,[.75]/[.25] C12H26/iso-dodecane
+- label: CFI test 1374 (f228e02)
+  fuel: n-dodecane / iso-dodecane
+  geometry:
+    shape: droplet
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.21
+    diluent: N2+He
+    pressure_kpa: 303.975
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Flex number 1374; test date 16-Aug-17 02:32:45 pm est; CIR f228e02; pressure "3 atm"; O2 0.21, N2 0.2, He 0.59
+      (mole fractions); fiber blank; fuel [.75]/[.25] C12H26/iso-dodecane
+  varied_parameters: {}
+  fixed_parameters:
+    fiber_supported: null
+    fuel_cell: '[.75]/[.25] C12H26/iso-dodecane'
+  is_aggregate: false
+  confidence: 0.9
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-39
+    title: PSI-39 Experimental table (PSI-39_Experimental table_CFI.csv)
+    locator: 'Experimental table PSI-39_Experimental table_CFI.csv, row 75; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); pressure converted from atm at 101.325 kPa per atm'
+    quote: 1374,16-Aug-17,02:32:45 pm est,f228e02,3 atm ,0.21,0.2,0.59,,[.75]/[.25] C12H26/iso-dodecane
+- label: CFI test 1383 (f233d01)
+  fuel: n-dodecane / iso-dodecane
+  geometry:
+    shape: droplet
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.21
+    diluent: N2+He
+    pressure_kpa: 101.325
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Flex number 1383; test date 21-Aug-17 11:16:35 am est; CIR f233d01; pressure "1 atm"; O2 0.21, N2 0.2, He 0.59
+      (mole fractions); fiber Yes; fuel [.60]/[.40] C12H26/iso-dodecane
+  varied_parameters: {}
+  fixed_parameters:
+    fiber_supported: true
+    fuel_cell: '[.60]/[.40] C12H26/iso-dodecane'
+  is_aggregate: false
+  confidence: 0.9
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-39
+    title: PSI-39 Experimental table (PSI-39_Experimental table_CFI.csv)
+    locator: 'Experimental table PSI-39_Experimental table_CFI.csv, row 76; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); pressure converted from atm at 101.325 kPa per atm'
+    quote: 1383,21-Aug-17,11:16:35 am est,f233d01,1 atm,0.21,0.2,0.59,Yes,[.60]/[.40] C12H26/iso-dodecane
+- label: CFI test 1384 (f233d02)
+  fuel: n-dodecane / iso-dodecane
+  geometry:
+    shape: droplet
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.21
+    diluent: N2+He
+    pressure_kpa: 101.325
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Flex number 1384; test date 21-Aug-17 11:31:44 am est; CIR f233d02; pressure "1 atm"; O2 0.21, N2 0.2, He 0.59
+      (mole fractions); fiber Yes; fuel [.60]/[.40] C12H26/iso-dodecane
+  varied_parameters: {}
+  fixed_parameters:
+    fiber_supported: true
+    fuel_cell: '[.60]/[.40] C12H26/iso-dodecane'
+  is_aggregate: false
+  confidence: 0.9
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-39
+    title: PSI-39 Experimental table (PSI-39_Experimental table_CFI.csv)
+    locator: 'Experimental table PSI-39_Experimental table_CFI.csv, row 77; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); pressure converted from atm at 101.325 kPa per atm'
+    quote: 1384,21-Aug-17,11:31:44 am est,f233d02,1 atm,0.21,0.2,0.59,Yes,[.60]/[.40] C12H26/iso-dodecane
+- label: CFI test 1386 (f233d04)
+  fuel: n-dodecane / iso-dodecane
+  geometry:
+    shape: droplet
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.21
+    diluent: N2+He
+    pressure_kpa: 101.325
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Flex number 1386; test date 21-Aug-17 12:24:13 am est; CIR f233d04; pressure "1 atm"; O2 0.21, N2 0.2, He 0.59
+      (mole fractions); fiber Yes; fuel [.60]/[.40] C12H26/iso-dodecane
+  varied_parameters: {}
+  fixed_parameters:
+    fiber_supported: true
+    fuel_cell: '[.60]/[.40] C12H26/iso-dodecane'
+  is_aggregate: false
+  confidence: 0.9
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-39
+    title: PSI-39 Experimental table (PSI-39_Experimental table_CFI.csv)
+    locator: 'Experimental table PSI-39_Experimental table_CFI.csv, row 78; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); pressure converted from atm at 101.325 kPa per atm'
+    quote: 1386,21-Aug-17,12:24:13 am est,f233d04,1 atm,0.21,0.2,0.59,Yes,[.60]/[.40] C12H26/iso-dodecane
+- label: CFI test 1387 (f233d05)
+  fuel: n-dodecane / iso-dodecane
+  geometry:
+    shape: droplet
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.21
+    diluent: N2+He
+    pressure_kpa: 101.325
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Flex number 1387; test date 21-Aug-17 12:48:15 pm est; CIR f233d05; pressure "1 atm"; O2 0.21, N2 0.2, He 0.59
+      (mole fractions); fiber blank; fuel [.60]/[.40] C12H26/iso-dodecane
+  varied_parameters: {}
+  fixed_parameters:
+    fiber_supported: null
+    fuel_cell: '[.60]/[.40] C12H26/iso-dodecane'
+  is_aggregate: false
+  confidence: 0.9
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-39
+    title: PSI-39 Experimental table (PSI-39_Experimental table_CFI.csv)
+    locator: 'Experimental table PSI-39_Experimental table_CFI.csv, row 79; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); pressure converted from atm at 101.325 kPa per atm'
+    quote: 1387,21-Aug-17,12:48:15 pm est,f233d05,1 atm,0.21,0.2,0.59,,[.60]/[.40] C12H26/iso-dodecane
 measurements: []
 findings: []
-publications: []
-fire_safety_tags: [liquid_fuel, droplet]
+publications:
+- doi: 10.1016/j.combustflame.2012.07.012
+  title: Can cool flames support quasi-steady alkane droplet burning?
+  year: null
+  authors:
+  - V Nayagam
+  - DL Dietrich
+  - PV Ferkul
+  - MC Hicks
+  - FA Williams
+  venue: null
+  url: https://doi.org/10.1016/j.combustflame.2012.07.012
+  key_findings: []
+- doi: 10.1016/j.combustflame.2015.01.012
+  title: Cool-flame extinction during n-alkane droplet combustion in microgravity
+  year: null
+  authors:
+  - V Nayagam
+  - DL Dietrich
+  - MC Hicks
+  - FA Williams
+  venue: null
+  url: https://doi.org/10.1016/j.combustflame.2015.01.012
+  key_findings: []
+- doi: 10.2514/1.J054437
+  title: Partial-Burning Regime for Quasi-Steady Droplet Combustion Supported by Cool Flames
+  year: null
+  authors:
+  - Nayagam Vedha
+  - Dietrich Daniel L.
+  - Williams Forman A.
+  venue: null
+  url: https://doi.org/10.2514/1.J054437
+  key_findings: []
+- doi: 10.1080/13647830.2014.934296
+  title: The role of cool-flame chemistry in quasi-steady combustion and extinction of n-heptane droplets
+  year: null
+  authors:
+  - Paczko Guenter
+  - Peters Norbert
+  - Seshadri Kalyanasundaram
+  - Williams Forman Arthur
+  venue: null
+  url: https://doi.org/10.1080/13647830.2014.934296
+  key_findings: []
+- doi: 10.1080/13647830.2016.1248494
+  title: Asymptotic analysis of quasi-steady n-heptane droplet combustion supported by cool-flame chemistry
+  year: null
+  authors:
+  - Seshadri Kalyanasundaram
+  - Peters Norbert
+  - Williams Forman A.
+  - Nayagam Vedha
+  - Paczko Guenter
+  venue: null
+  url: https://doi.org/10.1080/13647830.2016.1248494
+  key_findings: []
+- doi: null
+  title: 'Science in Short: Cool Flames'
+  year: null
+  authors:
+  - Rachel Barry
+  venue: null
+  url: null
+  key_findings: []
+- doi: 10.1007/s12217-024-10115-x
+  title: Low Temperature n-Dodecane Droplet Combustion Experiments Aboard the International Space Station
+  year: null
+  authors:
+  - Dietrich Daniel
+  - Krause Timmothy
+  - Nayagam Vedha
+  - Farouk Tanvir
+  - Dryer Frederick
+  - Williams Forman
+  venue: null
+  url: https://doi.org/10.1007/s12217-024-10115-x
+  key_findings: []
+fire_safety_tags: [cool_flame, droplet, liquid_fuel, extinction]
 data: {s3_prefix: null, volume_bytes: null, file_types: []}
-field_confidence: {objectives: 0.3, hardware: 0.3}
+field_confidence: {objectives: 0.85, fuels: 0.85, conditions: 0.5}
+documents:
+  - title: CFI PSI overview (objectives, approach, hypothesis, research impacts; verbatim excerpts)
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-39
+    section: PSI repository record
+    text: >
+      Cool Flames Investigation (CFI). PSI accession PSI-39. Hardware: Multi-User Droplet Combustion Apparatus (MDCA),
+      Combustion Integrated Rack (CIR); sub-research area: Droplets; space program: ISS National Laboratory - National
+      Science Foundation. Objectives: "1) Examine the combustion behavior of n-dodecane and mixtures of
+      n-dodecane/iso-dodecane at pressures ranging from 0.25 atm to 5 atm." "2) Analyze the effects of helium dilution on
+      cool flame behavior." "3) Examine the behavior of combustion characteristics." Approach: "A system of gas bottles
+      and fuel syringes delivers the desired gas mixture to the combustion chamber ranging from 0.25 to 0.5 atm."
+      "Droplets of fuel are dispensed and suspended between hypodermic needles or tethered using silicon-carbide
+      fibers." "A hot-wire igniter is positioned near the droplet for ignition." "Fuels observed include n-dodecane,
+      farnesane, and mixtures of n-dodecane/iso-dodecane." Research impacts: "A basic understanding of cool flames is
+      important for understanding ignition phenomena of practical fuels and fuel addit[ives] [...]". "Cool flames play a
+      key role in the development and selection of new fuels and the design of advanced engines such as [...]". "Cool
+      Flames Investigation (CFI) will provide critical validation for complex chemical kinetic mechanisms [...]".
 open_questions:
-  - Full title not confirmed; the acronym is used as a placeholder title.
-  - Per-investigation PSI page not retrieved (PSI pages render client-side); psi_url is the generic PSI repository search page.
-  - CFI is distinct from CFI-G (an ACME experiment); confirm the two are separate PSI investigations.
-  - Fuels, conditions, measurements, findings and publications unknown pending PSI documents.
-  - Every stated fact is from the challenge text only and is not yet confirmed against PSI sources.
+  - The PSI record gives two pressure ranges (objectives 0.25 to 5 atm, approach 0.25 to 0.5 atm); the card keeps the objectives range. The experimental table runs span 0.5 to 5 atm, so the two aggregate runs (objectives range) are kept for the stated 0.25 atm end that no table row covers.
+  - Individual runs are the 79 distinct rows of PSI-39_Experimental table_CFI.csv; 8 rows (tests 1285 to 1289 and 1295 to 1297) appear twice with identical cells and are imported once. Pressure is converted from atm at 101.325 kPa per atm; diluent is N2, or N2+He where the Helium column is non-zero; the Fiber column (fiber-supported droplet) is a fixed parameter.
+  - The table states no droplet diameter, burning rate, cool-flame or extinction result per test; those stay null. Tests 1219 to 1222 list O2 0.21 and N2 0.76 with He 0 (fractions do not sum to 1); copied unchanged.
+  - Farnesane appears in the PSI approach but not in the experimental table; it has no runs.
 reviewed: false

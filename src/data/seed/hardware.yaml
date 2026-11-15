@@ -38,10 +38,15 @@ hardware:
     source: *cur
   - name: Smoke and dust instrument
     kind: instrument
-    description: Instrument used for smoke in SAME and SAME-R and reused for dust in DAFT and DAFT-2. Official instrument name not stated in the challenge text.
+    description: Instrument used for smoke in SAME and SAME-R and reused for dust in DAFT and DAFT-2. PSI-47 names the DAFT / DAFT-2 hardware as the TSI P-Trak particle counter, modified for microgravity to reduce risk for SAME.
     parent: null
-    source: *cur
+    source:
+      kind: psi_page
+      uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-47
+      title: PSI investigation PSI-47, Dust and Aerosol Measurement Feasibility Test / DAFT-2
+      locator: Objectives (PSI repository search record, geode-py API)
+      quote: DAFT / DAFT-2 tests that a modified P-Trak particulate counter would be accurate in microgravity.
 open_questions:
-  - Official name of the shared smoke and dust instrument is not stated in the sources opened; the working name is a placeholder.
+  - The working name "Smoke and dust instrument" is kept because UI material refers to it; PSI-47 names the instrument TSI P-Trak.
   - Descriptions are restated from the challenge text only; no PSI investigation page for any hardware item could be retrieved in this session (PSI pages render client-side).
   - Parent facility of the smoke and dust instrument is unknown.

@@ -1,5 +1,7 @@
 "use client";
 
+import { useCallback, useEffect } from "react";
+
 import { ComparePicker } from "@/components/compare/ComparePicker";
 import { DiffMatrix } from "@/components/compare/DiffMatrix";
 import { LineageGraph } from "@/components/compare/LineageGraph";
@@ -49,18 +51,57 @@ function narrativeOf(query: { data?: CompareResponse; isError: boolean }): Narra
   return query.isError ? UNAVAILABLE_NARRATIVE : undefined;
 }
 
-export function CompareView() {
+/** The URL wins; without `ids` the selection made on Explorer cards is used and mirrored. */
+function useCompareIds(): { ids: string[]; change: (next: string[]) => void } {
   const { params, patch } = useUrlState();
+  const stored = useUiStore((state) => state.compareSelection);
   const setSelection = useUiStore((state) => state.setCompareSelection);
-  const ids = parseList(params.get("ids")).slice(0, COMPARE_MAX);
+  const fromUrl = parseList(params.get("ids"));
+  const ids = (fromUrl.length > 0 ? fromUrl : stored).slice(0, COMPARE_MAX);
+  const shouldMirror = fromUrl.length === 0 && stored.length > 0;
+  const mirrored = stored.join(",");
+
+  useEffect(() => {
+    if (shouldMirror) patch({ ids: mirrored });
+  }, [shouldMirror, mirrored, patch]);
+
+  const change = useCallback(
+    (next: string[]) => {
+      setSelection(next);
+      patch({ ids: next.join(",") });
+    },
+    [setSelection, patch],
+  );
+  return { ids, change };
+}
+
+/**
+ * Acronym keys are case-insensitive (doc 05 s4); the lineage graph and the picker match the
+ * exact acronym, so the URL spelling is replaced by the one the compare response returns.
+ */
+function useCanonicalIds(
+  ids: string[],
+  response: CompareResponse | undefined,
+  change: (next: string[]) => void,
+): void {
+  const canonical = response?.investigations.map((item) => item.acronym) ?? [];
+  const isSameSelection =
+    canonical.length === ids.length &&
+    canonical.every((acronym, index) => acronym.toLowerCase() === ids[index]?.toLowerCase());
+  const needsRewrite = isSameSelection && canonical.join(",") !== ids.join(",");
+  const target = canonical.join(",");
+
+  useEffect(() => {
+    if (needsRewrite) change(target.split(","));
+  }, [needsRewrite, target, change]);
+}
+
+export function CompareView() {
+  const { ids, change } = useCompareIds();
   const isReady = ids.length >= COMPARE_MIN;
   const fast = useCompare({ investigations: ids, narrative: false }, isReady);
   const withNarrative = useCompare({ investigations: ids, narrative: true }, isReady);
-
-  const change = (next: string[]) => {
-    setSelection(next);
-    patch({ ids: next.join(",") });
-  };
+  useCanonicalIds(ids, fast.data, change);
 
   return (
     <>

@@ -2,9 +2,11 @@ import { screen, waitFor, within } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 import ComparePage from "@/app/(dashboard)/compare/page";
 import { apiPost } from "@/lib/api/client";
+import { useUiStore } from "@/lib/store";
 import { BASS_II, COMPARE, FLEX_2, LINEAGE, pageOf } from "@/test-fixtures";
 import {
   apiFailure,
+  currentSearch,
   findPanelState,
   PENDING,
   renderWithQuery,
@@ -88,5 +90,26 @@ describe("Compare page /compare (doc 10 section 5, CF-06)", () => {
     renderPage();
     expect(await screen.findByTestId("diff-matrix")).toHaveTextContent(/at least 2 investigations/);
     expect(vi.mocked(apiPost)).not.toHaveBeenCalled();
+  });
+
+  it("FR-05: without ids in the URL the Explorer selection is compared and mirrored", async () => {
+    useUiStore.getState().setCompareSelection(["BASS-II", "FLEX-2"]);
+    setUrl("/compare");
+    serveApi(DATA);
+    renderPage();
+    await waitFor(() => expect(currentSearch().get("ids")).toBe("BASS-II,FLEX-2"));
+    await waitFor(() => expect(vi.mocked(apiPost)).toHaveBeenCalled());
+    const [, body] = vi.mocked(apiPost).mock.calls[0] ?? [];
+    expect(body).toMatchObject({ investigations: ["BASS-II", "FLEX-2"] });
+    useUiStore.getState().setCompareSelection([]);
+  });
+
+  it("FR-05, FR-12: case-insensitive URL ids are replaced by the exact acronyms the API returns", async () => {
+    setUrl("/compare?ids=bass-ii,flex-2");
+    serveApi(DATA);
+    renderPage();
+    await waitFor(() => expect(currentSearch().get("ids")).toBe("BASS-II,FLEX-2"));
+    expect(useUiStore.getState().compareSelection).toEqual(["BASS-II", "FLEX-2"]);
+    useUiStore.getState().setCompareSelection([]);
   });
 });

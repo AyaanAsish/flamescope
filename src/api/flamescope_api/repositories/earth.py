@@ -15,6 +15,7 @@ from flamescope_common.models import (
     FindingEarthApplication,
     Investigation,
 )
+from flamescope_common.schemas.card import acronym_sort_key
 
 
 @dataclass(frozen=True)
@@ -43,7 +44,8 @@ class EarthRepo:
             EarthRow(
                 application=app,
                 investigations=sorted(
-                    {*direct.get(app.id, []), *(name for _, name in via_findings.get(app.id, []))}
+                    {*direct.get(app.id, []), *(name for _, name in via_findings.get(app.id, []))},
+                    key=acronym_sort_key,
                 ),
                 finding_ids=sorted(finding_id for finding_id, _ in via_findings.get(app.id, [])),
             )

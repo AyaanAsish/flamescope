@@ -12,7 +12,10 @@ import type { ArchDiagram, ArchNode } from "@/content/architecture/types";
 
 const MIN_ZOOM = 0.1;
 const MAX_ZOOM = 1.5;
-const FIT_PADDING = 0.15;
+const MINIMAP_SIZE = { width: 160, height: 100 } as const;
+// Per-side room so fitView keeps nodes clear of the overlays: the Legend panel (176 px wide,
+// top left), the Download button (top right) and the minimap (bottom right, 15 px inset).
+const FIT_PADDING = { top: "72px", right: "32px", bottom: "124px", left: "208px" } as const;
 const GROUP_PREFIX = "group:";
 
 interface FlowCanvasProps {
@@ -60,8 +63,14 @@ export function FlowCanvas({ diagram, statuses, onOpenFlow }: FlowCanvasProps) {
         onPaneClick={() => setSelectedId(null)}
       >
         <Background color="var(--border)" gap={24} />
-        <Controls showInteractive={false} />
-        <MiniMap pannable zoomable nodeColor={minimapColor} maskColor="var(--bg)" />
+        <Controls showInteractive={false} fitViewOptions={{ padding: FIT_PADDING }} />
+        <MiniMap
+          pannable
+          zoomable
+          nodeColor={minimapColor}
+          maskColor="var(--bg)"
+          style={MINIMAP_SIZE}
+        />
         <Panel position="top-left">
           <Legend />
         </Panel>

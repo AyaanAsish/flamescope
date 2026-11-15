@@ -50,6 +50,15 @@ CoverageState = Literal["covered", "extrapolated", "no_data"]
 CARD_SCHEMA_VERSION = 1
 
 
+def acronym_sort_key(acronym: str) -> tuple[str, str]:
+    """The acronym order of document 05 section 4: case-insensitive, exact acronym breaks ties.
+
+    Comparison is by code point on both parts, so the order never depends on a locale; SQL
+    queries use `ORDER BY lower(acronym) COLLATE "C", acronym COLLATE "C"`.
+    """
+    return (acronym.lower(), acronym)
+
+
 class CardModel(BaseModel):
     """Base for card parts: unknown keys are ignored so LLM drafts and seeds stay tolerant."""
 

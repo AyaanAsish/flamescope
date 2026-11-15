@@ -306,6 +306,15 @@ class TestInvestigationMatches:
         assert bravo.per_dimension == pytest.approx({"o2": 1.0})
         assert matches[2].similarity == pytest.approx(1 - 0.30 / 0.75)
 
+    def test_fr07_equal_matches_order_by_case_insensitive_acronym(
+        self, make_run: RunFactory
+    ) -> None:
+        """FR-07, doc 08 s4.2: ties fall back to the doc 05 s4 acronym order."""
+        names = ["SLICE", "s-Flame", "FLEX", "Flame-Design"]
+        runs = [make_run(investigation=name, o2_fraction=0.34) for name in names]
+        matches = rank_matches(ResolvedScenario(o2_fraction=0.34), runs, WORKED_RANGES)
+        assert [match.acronym for match in matches] == ["Flame-Design", "FLEX", "s-Flame", "SLICE"]
+
 
 class TestScenarioInputs:
     def test_fr07_preset_values_resolve(self, presets: Presets) -> None:

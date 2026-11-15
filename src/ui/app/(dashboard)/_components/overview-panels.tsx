@@ -145,13 +145,13 @@ export function OverviewTop() {
         skeleton={<SkeletonRows rows={5} />}
       >
         {(data) => (
-          <Table>
+          <Table label="Top-ranked investigations" className="table-fixed">
             <thead>
               <tr>
-                <Th>#</Th>
+                <Th className="w-10">#</Th>
                 <Th>Investigation</Th>
-                <Th className="text-right">Score (0-100)</Th>
-                <Th className="text-right">Confidence</Th>
+                <Th className="w-32 text-right">Score (0-100)</Th>
+                <Th className="w-32 text-right">Confidence</Th>
               </tr>
             </thead>
             <tbody>
@@ -165,7 +165,9 @@ export function OverviewTop() {
                     >
                       {item.acronym}
                     </Link>
-                    <p className="text-muted max-w-xs truncate text-xs">{item.title}</p>
+                    <p className="text-muted truncate text-xs" title={item.title}>
+                      {item.title}
+                    </p>
                   </Td>
                   <Td className="mono text-right">{formatScore(item.score)}</Td>
                   <Td className="mono text-right">{formatConfidence(item.confidence)}</Td>

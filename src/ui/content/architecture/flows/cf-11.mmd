@@ -17,7 +17,7 @@ sequenceDiagram
     UI->>API: GET /insights/gaps
     API->>ST: gaps()
   and
-    UI->>API: POST /extract/preview (4 columns, limit 1000)
+    UI->>API: POST /extract/preview (4 columns, limit 5000)
     API->>EXT: preview(query)
   end
   API-->>UI: each panel renders its own loading, error and data state

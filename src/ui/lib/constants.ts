@@ -10,8 +10,8 @@ export const PSI_URL =
 export const STALE_TIME_CATALOG_MS = 5 * 60 * 1000;
 export const STATUS_POLL_MS = 10_000;
 export const SLIDER_DEBOUNCE_MS = 250;
-// Doc 05 section 8 caps `limit` at 1000; doc 09 CF-11 says 2000 (DESIGN-CONFLICTS DC-49).
-export const OVERVIEW_SCATTER_LIMIT = 1000;
+// The doc 05 section 8 preview maximum, so the scatter plots every run (doc 09 CF-11).
+export const OVERVIEW_SCATTER_LIMIT = 5000;
 export const OVERVIEW_TOP_LIMIT = 5;
 export const COMPARE_MIN = 2;
 export const COMPARE_MAX = 4;

@@ -7,6 +7,7 @@ varied and fixed variables), FR-12 (hardware lineage, projects). Call flows: CF-
 
 from __future__ import annotations
 
+import math
 import re
 from collections.abc import Callable
 from typing import Any
@@ -22,7 +23,6 @@ MAX_PAGE_SIZE = 100
 SMALL_PAGE = 5
 FUEL_PHASES = ("gas", "liquid", "solid")
 SCORE_SORTS = ("overall", "habitat", "modeling", "controls")
-CONDITION_DIMENSIONS = ("o2_fraction", "pressure_kpa", "flow_speed_cm_s", "gravity_g")
 SUMMARY_FIELDS = {
     "id", "acronym", "title", "project", "platform", "gravity_level", "fuel_phases", "hardware",
     "summary", "fire_safety_tags", "o2_range", "pressure_range_kpa", "flow_range_cm_s",
@@ -58,7 +58,13 @@ RANGE_FILTERS = {
         "OR (pressure_min_kpa IS NULL AND pressure_max_kpa IS NOT NULL))"
     ),
 }
-HALF_OPEN_ACRONYM = "CFI-G"  # seed states o2_fraction {min: null, max: 0.85}
+# Summary field and list filters (low end, high end) per dimension (doc 05 s4); flow has none.
+RANGE_FIELDS = {
+    "o2_fraction": ("o2_range", "o2_min", "o2_max"),
+    "pressure_kpa": ("pressure_range_kpa", "pressure_min_kpa", "pressure_max_kpa"),
+    "flow_speed_cm_s": ("flow_range_cm_s", None, None),
+}
+OPEN_SIDE_FACTOR = 2  # a query bound this far beyond the known end lies on the open side
 RANGE_FILTER_VALUES = {
     "o2_min": 0.3,
     "o2_max": 0.5,
@@ -196,24 +202,39 @@ def test_fr02_range_filter(
     assert listed({name: value}) == queried(RANGE_FILTERS[name], value=value)
 
 
+def _open_side_query(dimension: str, low: Any, high: Any) -> dict[str, float]:
+    """A list filter that only an open range can satisfy: below a known max or above a min."""
+    _, low_filter, high_filter = RANGE_FIELDS[dimension]
+    if low is None:
+        return {high_filter: high / OPEN_SIDE_FACTOR} if high_filter else {}
+    return {low_filter: low * OPEN_SIDE_FACTOR} if low_filter else {}
+
+
 def test_fr02_half_open_range_is_open_not_a_point(
     stack: str,
     api: httpx.Client,
-    seed_records: dict[str, dict[str, Any]],
+    half_open_ranges: list[tuple[str, str, Any, Any]],
     listed: Callable[..., list[str]],
 ) -> None:
-    """FR-02, docs 04 s2 and 05 s4: a stated `[null, max]` stays open on the low side."""
-    record = seed_records.get(HALF_OPEN_ACRONYM)
-    if record is None:
-        pytest.skip(f"precondition absent: {HALF_OPEN_ACRONYM} is not in the seed set")
-    stated = record["conditions"]["o2_fraction"]
-    below_max = stated["max"] / 2
-    item = api.get(f"/investigations/{HALF_OPEN_ACRONYM}").json()
-    observed = (item["o2_range"], HALF_OPEN_ACRONYM in listed({"o2_max": below_max}))
-    assert observed == ([None, stated["max"]], True)
+    """FR-02, docs 04 s2 and 05 s4: a stated `[null, max]` / `[min, null]` keeps its null end
+    in the summary range and the list filters treat that side as open."""
+    if not half_open_ranges:
+        pytest.skip("precondition absent: no seed card states a range with one null endpoint")
+    observed, expected = {}, {}
+    for acronym, dimension, low, high in half_open_ranges:
+        item = api.get(f"/investigations/{acronym}").json()
+        query = _open_side_query(dimension, low, high)
+        observed[acronym, dimension] = (
+            item[RANGE_FIELDS[dimension][0]],
+            not query or acronym in listed(query),
+        )
+        expected[acronym, dimension] = ([low, high], True)
+    assert observed == expected
 
 
-def test_fr02_combined_filters(sql: Rows, listed: Callable[..., list[str]]) -> None:
+def test_fr02_combined_filters(
+    sql: Rows, listed: Callable[..., list[str]], acronym_key: Callable[[str], Any]
+) -> None:
     """FR-02: filters combine with AND (most common hardware and project)."""
     hardware = sql(
         "SELECT h.name FROM hardware h JOIN investigation_hardware ih ON ih.hardware_id = h.id "
@@ -221,7 +242,8 @@ def test_fr02_combined_filters(sql: Rows, listed: Callable[..., list[str]]) -> N
     )[0]["name"]
     project = sql("SELECT name FROM project ORDER BY name LIMIT 1")[0]["name"]
     params = {"hardware": hardware, "project": project}
-    expected = sorted(set(listed({"hardware": hardware})) & set(listed({"project": project})))
+    both = set(listed({"hardware": hardware})) & set(listed({"project": project}))
+    expected = sorted(both, key=acronym_key)
     assert listed(params) == expected
 
 
@@ -249,14 +271,16 @@ def test_fr02_text_search_finds_acronym_case_insensitively(
     assert first_acronym in listed({"q": first_acronym.lower()})
 
 
-def test_fr02_sort_by_acronym(stack: str, api: httpx.Client) -> None:
-    """FR-02, doc 05 s4: default sort is `acronym` ascending."""
+def test_fr02_sort_by_acronym(
+    stack: str, api: httpx.Client, acronym_key: Callable[[str], Any]
+) -> None:
+    """FR-02, doc 05 s4: default sort is `acronym` ascending, case-insensitive."""
     for params in ({}, {"sort": "acronym"}):
         items = api.get("/investigations", params={**params, "page_size": MAX_PAGE_SIZE}).json()[
             "items"
         ]
         acronyms = [item["acronym"] for item in items]
-        assert acronyms == sorted(acronyms)
+        assert acronyms == sorted(acronyms, key=acronym_key)
 
 
 @pytest.mark.parametrize("sort", SCORE_SORTS)
@@ -343,36 +367,46 @@ def test_fr06_runs_page_matches_database(
     assert bad_items == []
 
 
-def _condition_values(runs: list[dict[str, Any]], name: str) -> list[Any]:
-    return sorted({run["condition"].get(name) for run in runs} - {None})
+def _span_key(value: Any) -> tuple[float, float]:
+    if isinstance(value, dict):
+        low, high = value["min"], value["max"]
+        return (-math.inf if low is None else low, math.inf if high is None else high)
+    return (value, value)
 
 
-def _variable_inconsistencies(variables: dict[str, Any], runs: list[dict[str, Any]]) -> list[str]:
-    problems = []
-    for varied in variables["varied"]:
-        if varied["name"] in CONDITION_DIMENSIONS and sorted(
-            varied["values"]
-        ) != _condition_values(runs, varied["name"]):
-            problems.append(f"varied {varied['name']}")
-    for fixed in variables["fixed"]:
-        if fixed["name"] in CONDITION_DIMENSIONS and _condition_values(
-            runs, fixed["name"]
-        ) not in ([], [fixed["value"]]):
-            problems.append(f"fixed {fixed['name']}")
+def _variable_inconsistencies(
+    variables: dict[str, Any], expected: dict[str, list[Any]]
+) -> list[str]:
+    """Varied: the documented distinct values (several, or a spanning range); fixed: the one
+    point every run shares (doc 05 s4)."""
+    problems = [
+        f"varied {varied['name']}"
+        for varied in variables["varied"]
+        if varied["name"] in expected
+        and varied["values"] != sorted(expected[varied["name"]], key=_span_key)
+    ]
+    problems += [
+        f"fixed {fixed['name']}"
+        for fixed in variables["fixed"]
+        if fixed["name"] in expected and expected[fixed["name"]] not in ([], [fixed["value"]])
+    ]
     return problems
 
 
 def test_fr06_variables_consistent_with_runs(
-    stack: str, api: httpx.Client, seed_acronyms: list[str]
+    stack: str,
+    api: httpx.Client,
+    seed_acronyms: list[str],
+    run_values: Callable[[str], dict[str, list[Any]]],
 ) -> None:
-    """FR-06: varied values are the distinct run values; fixed values hold for every run."""
+    """FR-06: varied values are the distinct run values (an aggregate run's stated range in
+    place of its midpoint); fixed values hold for every run."""
     problems = {}
     for acronym in seed_acronyms:
-        runs = _runs(api, acronym)
         variables = api.get(f"/investigations/{acronym}/variables").json()
         assert set(variables) == {"varied", "fixed", "run_count"}
-        assert variables["run_count"] == runs["total"]
-        problems[acronym] = _variable_inconsistencies(variables, runs["items"])
+        assert variables["run_count"] == _runs(api, acronym)["total"]
+        problems[acronym] = _variable_inconsistencies(variables, run_values(acronym))
     assert problems == {acronym: [] for acronym in seed_acronyms}
 
 

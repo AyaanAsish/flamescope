@@ -14,9 +14,10 @@ import { formatLabel, kpaToPsi, psiToKpa, roundTo, type PressureUnit } from "@/l
 type ParamKey = "preset" | "o2" | "p" | "g" | "flow" | "phase" | "material" | "unit";
 type ChangeHandler = (patch: Partial<Record<ParamKey, string | number | null>>) => void;
 
+// The slider spans the catalog, whose highest-pressure runs are at 5 atm (506.6 kPa, 73.5 psi).
 const PRESSURE_RANGE: Record<PressureUnit, { max: number; step: number; sliderStep: number }> = {
-  kPa: { max: 110, step: 1, sliderStep: 0.5 },
-  psi: { max: 16, step: 0.1, sliderStep: 0.1 },
+  kPa: { max: 520, step: 1, sliderStep: 0.5 },
+  psi: { max: 76, step: 0.1, sliderStep: 0.1 },
 };
 const DISPLAY_DIGITS = 3;
 // psi is shown to 0.1 psi, the precision doc 08 section 4.1 states (56.5 kPa is 8.2 psi).

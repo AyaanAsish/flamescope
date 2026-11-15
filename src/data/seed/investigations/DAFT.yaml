@@ -1,35 +1,190 @@
 acronym: DAFT
-title: DAFT
+title: Dust and Aerosol Measurement Feasibility Test
 project: null
-platform: null
-gravity_level: null
-psi_url: https://psi.nasa.gov/physci/repo/search?q=combustion&data_source=psi&data_type=investigation
+platform: ISS
+gravity_level: microgravity
+psi_url: https://psi.nasa.gov/physci/repo/data/investigations/PSI-47
 hardware:
   - {name: Smoke and dust instrument, role: instrument}
 summary: >
-  Used an instrument originally part of the SAME and SAME-R smoke studies for dust.
+  DAFT tested on the ISS whether a TSI P-Trak particle counter, modified to recycle its alcohol by capillary forces,
+  works accurately in microgravity, to reduce risk for the Smoke Aerosol Measurement Experiment (SAME). Arizona Red
+  Dust aerosol in Mylar bags served as a standard, with a DustTrak as the control. DAFT also gave the first
+  measurements of background particulate in the ISS cabin, which was found to be very clean.
 objectives:
-  - text: Study of dust using an instrument reused from SAME and SAME-R.
-    source: &cur
-      kind: curated
-      uri: https://www.spaceappschallenge.org/2026/challenges/flame-in-freefall/
-      title: Challenge text as encoded in architecture doc 01 section 6
-      locator: doc 01 section 6, fourth bullet
-approach: null
+  - text: The focus of DAFT / DAFT-2 was to mitigate the risk for the Smoke Aerosol Measurement Experiment (SAME).
+    source: &psi_record
+      kind: psi_page
+      uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-47
+      title: PSI investigation PSI-47, Dust and Aerosol Measurement Feasibility Test / DAFT-2
+      locator: Objectives (PSI repository search record, geode-py API)
+      quote: The focus of DAFT / DAFT-2 was to mitigate the risk for the Smoke Aerosol Measurement Experiment (SAME).
+  - text: DAFT / DAFT-2 tests that a modified P-Trak particulate counter would be accurate in microgravity.
+    source:
+      <<: *psi_record
+      quote: DAFT / DAFT-2 tests that a modified P-Trak particulate counter would be accurate in microgravity.
+approach:
+  text: >
+    The TSI P-Trak was modified for microgravity by redesigning its condenser tube; Arizona Red Dust aerosolized with
+    gaseous nitrogen provided particle samples, and on orbit the modified counter was compared with a DustTrak.
+  source:
+    <<: *psi_record
+    locator: Approach (PSI repository search record, geode-py API)
+    quote: "2) Aerosol Generation: Arizona Red Dust (ARD) was chosen as an aerosol standard due to its ease of dispersion."
 fuels: []
 conditions: null
-variables: {varied: [], fixed: []}
-measurements: []
-findings: []
-publications: []
-fire_safety_tags: [aerosol]
+variables:
+  varied: [aerosol sample]
+  fixed: [gravity_g]
+measurements:
+  - instrument: TSI P-Trak (modified condensation nuclei counter)
+    quantity: particle number concentration of aerosol
+    source:
+      <<: *psi_record
+      locator: Objectives (PSI repository search record, geode-py API)
+      quote: SAME relied on a commercially available condensate nuclei counter, the TSI P-Trak,  to quantify smoke aerosols
+findings:
+  - statement: DAFT gave the first ISS background particulate measurements; the cabin was a very clean environment with particulate levels substantially below the space shuttle.
+    category: detection
+    source:
+      kind: publication
+      uri: https://ntrs.nasa.gov/citations/20070031686
+      title: Particle and Smoke Detection on ISS for Next Generation Smoke Detectors (Urban et al., 2007)
+      locator: abstract
+      quote: The ISS cabin was found to be a very clean environment with particulate levels substantially below the space shuttle and
+    confidence: 0.75
+  - statement: Background particulate levels are critical to the design of future spacecraft smoke detectors.
+    category: detection
+    source:
+      kind: publication
+      uri: https://ntrs.nasa.gov/citations/20070031686
+      title: Particle and Smoke Detection on ISS for Next Generation Smoke Detectors (Urban et al., 2007)
+      locator: abstract
+      quote: These background levels are critical to the design of future smoke detectors.
+    confidence: 0.7
+publications:
+- doi: null
+  title: Particle and Smoke Detection on ISS for Next Generation Smoke Detectors
+  year: 2007
+  authors:
+  - David L. Urban
+  - Gary Ruff
+  - Zeng-guang Yuan
+  - William Sheredy
+  - Greg Funk
+  venue: International Space Development Conference
+  url: https://ntrs.nasa.gov/citations/20070031686
+  key_findings: []
+- doi: 10.2514/6.2005-341
+  title: A Research Plan for Fire Prevention, Detection and Suppression in Crewed Exploration Systems
+  year: null
+  authors:
+  - Ruff Gary
+  - Urban David
+  - King Merrill
+  venue: null
+  url: https://doi.org/10.2514/6.2005-341
+  key_findings: []
+- doi: 10.4271/2005-01-2930
+  title: Detection of Smoke from Microgravity Fires
+  year: null
+  authors:
+  - Urban David
+  - Griffin DeVon
+  - Ruff Gary
+  - Cleary Thomas
+  - Yang Jiann
+  - Mulholland George
+  - Yuan Zeng-guang
+  venue: null
+  url: https://doi.org/10.4271/2005-01-2930
+  key_findings: []
+fire_safety_tags: [smoke_detection, aerosol]
 data: {s3_prefix: null, volume_bytes: null, file_types: []}
-field_confidence: {objectives: 0.3, hardware: 0.3}
+field_confidence: {objectives: 0.85, hardware: 0.8}
+runs:
+- label: DAFT session D1
+  fuel: null
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: 'Session D1; GMT 54 (2005); hardware: Contained the modified P-Trak with Alcohol Wick and batteries; sample material:
+      Arizona Road Dust (ARD Fine) in combination with ISS GN2 to create an aerosol for measurement purposes.; sampled location:
+      Sampled air near Express rack 4'
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.8
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-47
+    title: PSI-47 Experimental table (PSI-47_Experimental table_DAFT.csv)
+    locator: 'Experimental table PSI-47_Experimental table_DAFT.csv, row 1; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); aerosol measurement session, nothing burned'
+    quote: D1,GMT 54 (2005),Contained the modified P-Trak with Alcohol Wick and batteries,Arizona Road Dust (ARD Fine) in
+      combination with ISS GN2 to create an aerosol for measurement purposes.,Sampled air near Express rack 4
+- label: DAFT session D2
+  fuel: null
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: 'Session D2; GMT 63 (2005); hardware: Contained DustTrak and batteries; sample material: Arizona Road Dust (ARD
+      Fine) in combination with ISS GN2 to create an aerosol for measurement purposes.; sampled location: Sampled separated
+      Velcro and the air near Port rack 6 and in Node 1'
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.8
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-47
+    title: PSI-47 Experimental table (PSI-47_Experimental table_DAFT.csv)
+    locator: 'Experimental table PSI-47_Experimental table_DAFT.csv, row 2; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); aerosol measurement session, nothing burned'
+    quote: D2,GMT 63 (2005),Contained DustTrak and batteries,Arizona Road Dust (ARD Fine) in combination with ISS GN2 to create
+      an aerosol for measurement purposes.,Sampled separated Velcro and the air near Port rack 6 and in Node 1
+documents:
+  - title: DAFT / DAFT-2 PSI overview (objectives, approach, research impacts; verbatim excerpts)
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-47
+    section: PSI repository record
+    text: >
+      Dust and Aerosol Measurement Feasibility Test / Dust and Aerosol Measurement Feasibility Test-2 (DAFT / DAFT-2).
+      PSI accession PSI-47. Project type: Microgravity Investigation; hardware: TSI P-Trak. Objectives: "The focus of
+      DAFT / DAFT-2 was to mitigate the risk for the Smoke Aerosol Measurement Experiment (SAME)." "SAME relied on a
+      commercially available condensate nuclei counter, the TSI P-Trak,  to quantify smoke aerosols [...]". "DAFT /
+      DAFT-2 tests that a modified P-Trak particulate counter would be accurate in microgravity." Approach: "1)
+      Modification of Instrumentation: TSI P-Trak was modified for use in microgravity by redesigning the condenser tube
+      [...]". "2) Aerosol Generation: Arizona Red Dust (ARD) was chosen as an aerosol standard due to its ease of
+      dispersion." "The ARD was aerosolized with GN2 to create particle samples." Research impacts: "Extended duration
+      space flight missions with larger vessels will require fire detection systems with increased reliabili[ty]
+      [...]". "This research will impact the development of novel fire and smoke detection systems for the
+      International Space Station [...]". "Additionally, the successful adaptation of the TSI P-Trak for microgravity
+      can inform the design of instruments for use [...]".
+  - title: Particle and Smoke Detection on ISS for Next Generation Smoke Detectors (abstract, verbatim excerpts)
+    uri: https://ntrs.nasa.gov/citations/20070031686
+    section: abstract
+    text: >
+      "A precursor experiment (DAFT: Dust Aerosol measurement Feasibility Test) flew recently on the ISS and provided
+      the first [...]". "These background levels are critical to the design of future smoke detectors." "The ISS cabin
+      was found to be a very clean environment with particulate levels substantially below the space shuttle and [...]".
 open_questions:
-  - Full title not confirmed; the acronym is used as a placeholder title.
-  - Platform and gravity level are not stated in the sources opened; left null.
-  - Per-investigation PSI page not retrieved (PSI pages render client-side); psi_url is the generic PSI repository search page.
-  - The aerosol tag is a reading of "dust" and needs curator confirmation.
-  - Fuels, conditions, measurements, findings and publications unknown pending PSI documents.
-  - Every stated fact is from the challenge text only and is not yet confirmed against PSI sources.
+  - PSI holds DAFT and DAFT-2 in one record (PSI-47); this file and DAFT-2.yaml share its text. Which tests belong to DAFT versus DAFT-2 is not separated in the sources opened.
+  - DAFT burned nothing (dust aerosol standard), so fuels and conditions are empty. The two runs are the sessions D1 and D2 of PSI-47_Experimental table_DAFT.csv (2005, modified P-Trak and DustTrak with Arizona Road Dust); they are filed under DAFT because the table is named DAFT, and carry only gravity 0 g and the session text.
+  - The shared smoke and dust instrument is named in PSI as the TSI P-Trak; the hardware catalog keeps its working name.
 reviewed: false

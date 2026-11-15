@@ -19,6 +19,7 @@ from flamescope_common.schemas.api import (
     ScoreSet,
     WeightsUsed,
 )
+from flamescope_common.schemas.card import acronym_sort_key
 
 POINTS_PER_RATING_STEP = 20.0  # a 0..5 rating scales to 0..100
 SCORE_DECIMALS = 1
@@ -197,7 +198,7 @@ def _rank_item(
     entry: InvestigationRatings,
     scored: Mapping[Lens, LensScore],
     weights: WeightsUsed,
-) -> tuple[float | None, float, RankItem]:
+) -> RankItem:
     overall_score, overall_confidence = overall(scored, weights.lens_weights)
     if lens == "overall":
         score, confidence = overall_score, overall_confidence
@@ -205,7 +206,7 @@ def _rank_item(
     else:
         score, confidence = scored[lens].score, scored[lens].confidence
         breakdown = _rounded_breakdown(scored[lens].breakdown)
-    item = RankItem(
+    return RankItem(
         rank=0,
         acronym=entry.acronym,
         title=entry.title,
@@ -214,7 +215,16 @@ def _rank_item(
         lens_scores={name: _round(scored[name].score, SCORE_DECIMALS) for name in LENSES},
         breakdown=breakdown,
     )
-    return score, confidence, item
+
+
+def _rank_order(item: RankItem) -> tuple[bool, float, float, tuple[str, str]]:
+    """Document 08 section 2 order on the returned, rounded values (null scores last)."""
+    return (
+        item.score is None,
+        -(item.score or 0.0),
+        -(item.confidence or 0.0),
+        acronym_sort_key(item.acronym),
+    )
 
 
 def _overall_breakdown(
@@ -248,13 +258,13 @@ class RankingService:
     ) -> RankResponse:
         """All matching investigations ordered by score, confidence, acronym (nulls last)."""
         used = resolve_weights(self._rubric, self._presets, preset, weights)
-        ranked: list[tuple[float | None, float, RankItem]] = []
-        for entry in self._scores.all_scores(filters):
-            scored = score_lenses(entry.ratings, self._rubric, used.criterion_weights)
-            ranked.append(_rank_item(lens, entry, scored, used))
-        ranked.sort(key=lambda row: (row[0] is None, -(row[0] or 0.0), -row[1], row[2].acronym))
+        ranked = [
+            _rank_item(lens, entry, self._lens_scores(entry, used), used)
+            for entry in self._scores.all_scores(filters)
+        ]
+        ranked.sort(key=_rank_order)
         items = [
-            row[2].model_copy(update={"rank": position}) for position, row in enumerate(ranked, 1)
+            item.model_copy(update={"rank": position}) for position, item in enumerate(ranked, 1)
         ]
         return RankResponse(
             lens=lens,
@@ -263,6 +273,11 @@ class RankingService:
             items=items,
             disclaimer=SCORE_DISCLAIMER,
         )
+
+    def _lens_scores(
+        self, entry: InvestigationRatings, used: WeightsUsed
+    ) -> dict[Lens, LensScore]:
+        return score_lenses(entry.ratings, self._rubric, used.criterion_weights)
 
     def breakdown(self, investigation_id: int) -> dict[Lens, LensScore]:
         """Per-lens score breakdown with the rubric default weights."""

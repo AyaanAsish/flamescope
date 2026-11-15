@@ -170,6 +170,23 @@ class TestList:
         result = service.list(InvestigationFilters(), PageRequest(sort="overall"))
         assert [item.acronym for item in result.items] == ["BRAVO", "DELTA", "ALPHA", "CHARLIE"]
 
+    def test_fr02_score_sort_ties_use_case_insensitive_acronym(
+        self, make_investigation_row: RowFactory, runs: list[RunRecord]
+    ) -> None:
+        """FR-02, doc 05 s4: equal (here null) scores fall back to the acronym order."""
+        unscored = [
+            make_investigation_row(acronym, identifier)
+            for identifier, acronym in enumerate(("SLICE", "FLEX", "s-Flame", "Flame-Design"), 11)
+        ]
+        service = CatalogService(
+            FakeInvestigationRepo(unscored),  # type: ignore[arg-type]
+            FakeRunRepo(runs),  # type: ignore[arg-type]
+            FakeRanking(),  # type: ignore[arg-type]
+        )
+        result = service.list(InvestigationFilters(), PageRequest(sort="overall"))
+        expected = ["Flame-Design", "FLEX", "s-Flame", "SLICE"]
+        assert [item.acronym for item in result.items] == expected
+
     def test_fr02_score_sort_paginates_after_sorting(self, service: CatalogService) -> None:
         """FR-02: page 2 of size 2 holds the third and fourth ranked investigations."""
         result = service.list(
@@ -232,6 +249,56 @@ class TestVariables:
         assert [(entry.name, entry.values) for entry in result.varied] == [
             ("sample_width_mm", [10, 20])
         ]
+
+    def test_fr06_aggregate_range_replaces_the_condition_midpoint(
+        self, make_run: RunFactory
+    ) -> None:
+        """FR-06, docs 05 s4 and 08 s4.2: an aggregate run reports its stated range (open
+        end kept), not the midpoint; a spanning range is varied, equal endpoints are a point."""
+        stated = {
+            "o2_fraction": {"min": 0.14, "max": 0.21},
+            "flow_speed_cm_s": {"min": None, "max": 55},
+            "pressure_kpa": {"min": 101.3, "max": 101.3},
+        }
+        aggregate = make_run(
+            is_aggregate=True, o2_fraction=0.175, pressure_kpa=101.3, varied_parameters=stated
+        )
+        result = derive_variables([aggregate], CardVariables())
+        observed = (
+            {entry.name: entry.values for entry in result.varied},
+            {entry.name: entry.value for entry in result.fixed},
+        )
+        assert observed == (
+            {
+                "o2_fraction": [{"min": 0.14, "max": 0.21}],
+                "flow_speed_cm_s": [{"min": None, "max": 55}],
+            },
+            {"pressure_kpa": 101.3},
+        )
+
+    def test_fr06_points_and_ranges_sort_by_low_end(self, make_run: RunFactory) -> None:
+        """FR-06: varied values mix points and ranges, ordered by low then high end."""
+        runs = [
+            make_run(o2_fraction=0.30),
+            make_run(
+                is_aggregate=True, varied_parameters={"o2_fraction": {"min": 0.2, "max": 0.4}}
+            ),
+            make_run(
+                is_aggregate=True, varied_parameters={"o2_fraction": {"min": None, "max": 0.5}}
+            ),
+        ]
+        varied = derive_variables(runs, CardVariables()).varied
+        assert [(entry.name, entry.values) for entry in varied] == [
+            ("o2_fraction", [{"min": None, "max": 0.5}, {"min": 0.2, "max": 0.4}, 0.30])
+        ]
+
+    def test_fr06_ranges_of_explicit_runs_are_ignored(self, make_run: RunFactory) -> None:
+        """FR-06, doc 08 s4.2: the stated range is read only for aggregate runs."""
+        run = make_run(
+            o2_fraction=0.21, varied_parameters={"o2_fraction": {"min": 0.1, "max": 0.3}}
+        )
+        fixed = derive_variables([run], CardVariables()).fixed
+        assert [(entry.name, entry.value) for entry in fixed] == [("o2_fraction", 0.21)]
 
 
 class TestFacetsLineageProjects:

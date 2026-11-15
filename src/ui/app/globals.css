@@ -136,8 +136,9 @@ h4 {
   scrollbar-color: var(--border-strong) transparent;
 }
 
-/* React Flow dark theme */
-.react-flow {
+/* React Flow dark theme; scoped under html.dark so it outranks the library defaults that its
+   stylesheet (loaded later with the canvas chunk) declares on .react-flow */
+.dark .react-flow {
   --xy-background-color: var(--bg);
   --xy-node-border-radius: 10px;
   --xy-edge-stroke-default: var(--edge);

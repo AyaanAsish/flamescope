@@ -43,6 +43,7 @@ from flamescope_common.schemas.card import (
     InvestigationCard,
     RunCondition,
     RunOutcome,
+    acronym_sort_key,
 )
 from flamescope_common.sources import SourceRef
 
@@ -103,41 +104,69 @@ def to_run_item(record: RunRecord) -> RunItem:
     )
 
 
+def _range_or_point(stated: JsonValue) -> JsonValue:
+    """A stated `{min, max}` as a range; equal endpoints are one value, two nulls none."""
+    if not isinstance(stated, dict):
+        return stated
+    low, high = stated.get("min"), stated.get("max")
+    if low is None and high is None:
+        return None
+    return low if low == high else {"min": low, "max": high}
+
+
+def _run_value(run: RunRecord, name: str) -> JsonValue:
+    """The stated range of an aggregate run replaces its condition midpoint (doc 08 s4.2)."""
+    if run.range_of(name) is None:
+        return run.value_of(name)
+    return _range_or_point(run.varied_parameters[name])
+
+
+def _stated_values(stated: JsonValue) -> builtins.list[JsonValue]:
+    return [_range_or_point(value) for value in (stated if isinstance(stated, list) else [stated])]
+
+
+def _add_observed(
+    observed: dict[str, builtins.list[JsonValue]], name: str, value: JsonValue
+) -> None:
+    if value is not None and not any(_same(value, known) for known in observed.get(name, [])):
+        observed.setdefault(name, []).append(value)
+
+
 def _observed_values(runs: Sequence[RunRecord]) -> dict[str, builtins.list[JsonValue]]:
-    """Distinct values per parameter across runs: condition columns and `varied_parameters`."""
+    """Distinct values per parameter: condition columns (or aggregate ranges), other
+    `varied_parameters` keys."""
     observed: dict[str, builtins.list[JsonValue]] = {}
     for run in runs:
         for name in CONDITION_UNITS:
-            value = run.value_of(name)
-            if value is not None:
-                _add_distinct(observed.setdefault(name, []), value)
-        for name, stated in run.varied_parameters.items():
-            for value in stated if isinstance(stated, list) else [stated]:
-                _add_distinct(observed.setdefault(name, []), value)
+            _add_observed(observed, name, _run_value(run, name))
+        extra = {k: v for k, v in run.varied_parameters.items() if k not in CONDITION_UNITS}
+        for name, stated in extra.items():
+            for value in _stated_values(stated):
+                _add_observed(observed, name, value)
     return observed
 
 
+def _is_varied(values: builtins.list[JsonValue]) -> bool:
+    """Several distinct values, or one stated range that spans more than a point (FR-06)."""
+    return len(values) > 1 or any(isinstance(value, dict) for value in values)
+
+
 def derive_variables(runs: Sequence[RunRecord], declared: CardVariables) -> VariablesResponse:
-    """Split parameters into varied (several distinct values) and fixed (one value), FR-06."""
+    """Split parameters into varied and fixed (one point value), FR-06, document 05 s4."""
     observed = _observed_values(runs)
     varied = [
         VariedParameter(name=name, values=_ordered(values), unit=CONDITION_UNITS.get(name))
         for name, values in observed.items()
-        if len(values) > 1
+        if _is_varied(values)
     ]
     fixed = [
         FixedParameter(name=name, value=values[0], unit=CONDITION_UNITS.get(name))
         for name, values in observed.items()
-        if len(values) == 1
+        if not _is_varied(values)
     ]
     varied += [VariedParameter(name=name) for name in declared.varied if name not in observed]
     fixed += [FixedParameter(name=name) for name in declared.fixed if name not in observed]
     return VariablesResponse(varied=varied, fixed=fixed, run_count=len(runs))
-
-
-def _add_distinct(values: list[JsonValue], candidate: JsonValue) -> None:
-    if not any(_same(candidate, known) for known in values):
-        values.append(candidate)
 
 
 def _same(left: JsonValue, right: JsonValue) -> bool:
@@ -146,13 +175,27 @@ def _same(left: JsonValue, right: JsonValue) -> bool:
     return left == right
 
 
-def _numeric_key(value: JsonValue) -> float:
-    return float(value) if isinstance(value, float | int) else 0.0
+def _span_key(value: JsonValue) -> tuple[float, float]:
+    """Points sort by value, ranges by their low then high end; an open end is infinite."""
+    if isinstance(value, dict):
+        low, high = value.get("min"), value.get("max")
+        return (
+            -math.inf if not isinstance(low, float | int) else float(low),
+            math.inf if not isinstance(high, float | int) else float(high),
+        )
+    number = float(value) if isinstance(value, float | int) else 0.0
+    return (number, number)
+
+
+def _is_number_or_range(value: JsonValue) -> bool:
+    return isinstance(value, dict) or (
+        isinstance(value, float | int) and not isinstance(value, bool)
+    )
 
 
 def _ordered(values: list[JsonValue]) -> list[JsonValue]:
-    if all(isinstance(value, float | int) for value in values):
-        return sorted(values, key=_numeric_key)
+    if all(_is_number_or_range(value) for value in values):
+        return sorted(values, key=_span_key)
     return values
 
 
@@ -298,9 +341,9 @@ class CatalogService:
     @staticmethod
     def _score_order(
         row: InvestigationRow, scores: dict[int, ScoreSet], sort: str
-    ) -> tuple[bool, float, str]:
+    ) -> tuple[bool, float, tuple[str, str]]:
         value = getattr(scores.get(row.investigation.id, ScoreSet()), sort)
-        return (value is None, -(value or 0.0), row.investigation.acronym)
+        return (value is None, -(value or 0.0), acronym_sort_key(row.investigation.acronym))
 
 
 def _finding_out(finding: Finding) -> FindingOut:

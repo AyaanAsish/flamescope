@@ -40,6 +40,7 @@ DOC_04 = REPO_ROOT / "docs" / "architecture" / "04-data-model.md"
 BACKTICKED = re.compile(r"`([^`]+)`")
 JSON_BLOCK = re.compile(r"```json\n(.*?)```", re.DOTALL)
 PSI_HOST = "psi.nasa.gov"
+NASA_DOMAIN = "nasa.gov"
 DOI_HOSTS = frozenset({"doi.org", "dx.doi.org"})
 S3_PSI_PREFIX = "s3://nasa-psi/"
 CHALLENGE_PAGE = "https://www.spaceappschallenge.org/2026/challenges/flame-in-freefall/"
@@ -114,11 +115,22 @@ def _is_psi_or_doi(uri: str) -> bool:
     return parsed.scheme == "https" and (parsed.netloc == PSI_HOST or parsed.netloc in DOI_HOSTS)
 
 
+def _is_nasa_page(uri: str) -> bool:
+    """NASA web pages and NTRS records (doc 04 section 3), for example ntrs.nasa.gov."""
+    parsed = urlparse(uri)
+    host = parsed.netloc
+    return parsed.scheme == "https" and (host == NASA_DOMAIN or host.endswith(f".{NASA_DOMAIN}"))
+
+
 def _curation_allows(source: SourceRef) -> bool:
     """Doc 06 section 5 and doc 04 section 3: the narrower curation rule for seed authors."""
     if source.kind == "curated":
         return _is_psi_or_doi(source.uri) or source.uri == CHALLENGE_PAGE
-    return _is_psi_or_doi(source.uri) or source.uri.startswith(S3_PSI_PREFIX)
+    return (
+        _is_psi_or_doi(source.uri)
+        or source.uri.startswith(S3_PSI_PREFIX)
+        or _is_nasa_page(source.uri)
+    )
 
 
 @pytest.fixture(scope="module")

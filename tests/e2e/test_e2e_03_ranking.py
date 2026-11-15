@@ -18,7 +18,8 @@ from playwright.sync_api import Locator, Page, expect
 
 pytestmark = pytest.mark.e2e
 
-RANK_LIMIT = 24
+# Doc 05 s1 maximum: the Ranking page ranks the whole catalog (FR-03).
+RANK_LIMIT = 100
 PRESET = "lunar_habitat"
 LENS_LABELS = {
     "overall": "Overall",

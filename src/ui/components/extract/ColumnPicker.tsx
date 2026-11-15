@@ -14,7 +14,7 @@ import { parseList, useUrlState } from "@/lib/use-url-state";
 
 function DictionaryTable({ columns }: { columns: ColumnInfo[] }) {
   return (
-    <Table>
+    <Table label="Data dictionary">
       <thead>
         <tr>
           <Th>Column</Th>

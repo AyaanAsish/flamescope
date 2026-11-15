@@ -5,12 +5,20 @@ from __future__ import annotations
 from decimal import Decimal
 from typing import Any
 
-from sqlalchemy import ColumnClause, literal_column
+from sqlalchemy import ColumnClause, ColumnElement, func, literal_column
 
+from flamescope_common.models import Investigation
 from flamescope_common.schemas.api import OpenRangePair
 
 # An explicit regconfig: a plain string bind would be sent as varchar and fail to resolve.
 ENGLISH_TS_CONFIG: ColumnClause[Any] = literal_column("'english'::regconfig")
+# The binary collation keeps the order locale-independent and equal to `acronym_sort_key`.
+BYTE_ORDER_COLLATION = "C"
+# Document 05 section 4 acronym order: `ORDER BY lower(acronym), acronym`.
+ACRONYM_ORDER: tuple[ColumnElement[str], ColumnElement[str]] = (
+    func.lower(Investigation.acronym).collate(BYTE_ORDER_COLLATION),
+    Investigation.acronym.collate(BYTE_ORDER_COLLATION),
+)
 
 
 def to_float(value: Decimal | float | None) -> float | None:

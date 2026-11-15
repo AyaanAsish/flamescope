@@ -143,8 +143,10 @@ def _list_page(api_url: str, params: list[tuple[str, Any]], page: int) -> dict[s
 
 
 @pytest.fixture(scope="session")
-def listed(stack: str) -> Callable[[Mapping[str, Any]], list[str]]:
-    """Sorted acronyms of every page of `GET /investigations` for the given query."""
+def listed(
+    stack: str, acronym_key: Callable[[str], tuple[str, str]]
+) -> Callable[[Mapping[str, Any]], list[str]]:
+    """Acronyms of every page of `GET /investigations` for the query, in acronym order."""
 
     def acronyms(params: Mapping[str, Any]) -> list[str]:
         pairs = list(params.items())
@@ -154,21 +156,74 @@ def listed(stack: str) -> Callable[[Mapping[str, Any]], list[str]]:
             body = _list_page(stack, pairs, page)
             found += [item["acronym"] for item in body["items"]]
             if len(found) >= body["total"] or not body["items"]:
-                return sorted(found)
+                return sorted(found, key=acronym_key)
             page += 1
 
     return acronyms
 
 
 @pytest.fixture(scope="session")
-def queried(sql: Callable[..., list[dict[str, Any]]]) -> Callable[..., list[str]]:
-    """Sorted acronyms of investigations (alias `i`) matching a SQL condition."""
+def queried(
+    sql: Callable[..., list[dict[str, Any]]], acronym_key: Callable[[str], tuple[str, str]]
+) -> Callable[..., list[str]]:
+    """Acronyms of investigations (alias `i`) matching a SQL condition, in acronym order."""
 
     def acronyms(where: str, **params: Any) -> list[str]:
-        statement = f"SELECT acronym FROM investigation i WHERE {where} ORDER BY acronym"  # noqa: S608
-        return [row["acronym"] for row in sql(statement, **params)]
+        statement = f"SELECT acronym FROM investigation i WHERE {where}"  # noqa: S608
+        return sorted((row["acronym"] for row in sql(statement, **params)), key=acronym_key)
 
     return acronyms
+
+
+RUN_CONDITIONS = (
+    "SELECT t.is_aggregate, t.varied_parameters, c.o2_fraction, c.pressure_kpa, "
+    "c.flow_speed_cm_s, c.gravity_g FROM test_run t "
+    "JOIN investigation i ON i.id = t.investigation_id "
+    "LEFT JOIN condition c ON c.test_run_id = t.id WHERE i.acronym = :acronym"
+)
+RANGED_DIMENSIONS = ("o2_fraction", "pressure_kpa", "flow_speed_cm_s", "gravity_g")
+
+
+def _stated_or_condition(row: Mapping[str, Any], dimension: str) -> Any:
+    """Docs 05 s4 and 08 s4.2: an aggregate run's stated range replaces its condition value;
+    equal endpoints are one point, two null endpoints no stated range."""
+    stated = (row["varied_parameters"] or {}).get(dimension) if row["is_aggregate"] else None
+    low, high = (
+        (stated.get("min"), stated.get("max")) if isinstance(stated, dict) else (None, None)
+    )
+    if low is None and high is None:
+        return None if row[dimension] is None else float(row[dimension])
+    return low if low == high else {"min": low, "max": high}
+
+
+@pytest.fixture(scope="session")
+def run_values(
+    sql: Callable[..., list[dict[str, Any]]],
+) -> Callable[[str], dict[str, list[Any]]]:
+    """Distinct documented values per condition dimension over one investigation's runs."""
+
+    def distinct(acronym: str) -> dict[str, list[Any]]:
+        values: dict[str, list[Any]] = {name: [] for name in RANGED_DIMENSIONS}
+        for row in sql(RUN_CONDITIONS, acronym=acronym):
+            for name in RANGED_DIMENSIONS:
+                value = _stated_or_condition(row, name)
+                if value is not None and value not in values[name]:
+                    values[name].append(value)
+        return values
+
+    return distinct
+
+
+@pytest.fixture(scope="session")
+def half_open_ranges(seed_records: dict[str, dict[str, Any]]) -> list[tuple[str, str, Any, Any]]:
+    """`(acronym, dimension, min, max)` of every seed card range with exactly one null end."""
+    found = []
+    for acronym, record in seed_records.items():
+        for dimension, stated in (record.get("conditions") or {}).items():
+            ends = (stated.get("min"), stated.get("max")) if isinstance(stated, dict) else ()
+            if len(ends) == 2 and (ends[0] is None) != (ends[1] is None):
+                found.append((acronym, dimension, *ends))
+    return found
 
 
 @pytest.fixture(scope="session")
@@ -367,7 +422,10 @@ def fixture_runs(stack: str, db: Engine) -> Iterator[list[int]]:
     """Two labelled runs on the first seeded investigation; removed after the test."""
     with db.begin() as connection:
         investigation = connection.execute(
-            text("SELECT id FROM investigation ORDER BY acronym LIMIT 1")
+            text(
+                'SELECT id FROM investigation ORDER BY lower(acronym) COLLATE "C", '
+                'acronym COLLATE "C" LIMIT 1'
+            )
         ).scalar_one()
         ids = [_insert_fixture_run(connection, investigation, run) for run in FIXTURE_RUNS]
     yield ids

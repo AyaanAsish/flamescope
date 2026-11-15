@@ -41,6 +41,8 @@ WORKED_CONFIDENCE = 0.85
 DISCLAIMER = "Scores are relative decision aids, not safety certifications."
 FLOAT_TOLERANCE = 1e-9
 ROUNDING_TOLERANCE_PER_ITEM = 0.05
+# Mixed-case acronyms in document 05 section 4 order (case-insensitive, exact acronym second).
+MIXED_CASE_ORDER = ["Flame-Design", "FLEX", "s-Flame", "SLICE"]
 
 
 def _ratings(values: Mapping[str, float | None]) -> dict[str, CriterionRating]:
@@ -234,6 +236,31 @@ class TestOrdering:
         ]
         assert [item.rank for item in response.items] == [1, 2, 3, 4, 5]
         assert response.items[-1].score is None
+
+    def test_fr03_acronym_tie_break_is_case_insensitive(
+        self, rubric: Rubric, presets: Presets
+    ) -> None:
+        """FR-03, doc 05 s4 / doc 08 s2: equal score and confidence fall back to the
+        case-insensitive acronym order, not the code-point order (`FLEX` < `Flame-Design`)."""
+        all_three = dict.fromkeys(HABITAT_DEFAULTS, 3)
+        entries = [_habitat_entry(name, all_three) for name in sorted(MIXED_CASE_ORDER)]
+        response = _service(entries, rubric, presets).rank(
+            "habitat", WeightOverrides(), None, None
+        )
+        assert [item.acronym for item in response.items] == MIXED_CASE_ORDER
+
+    def test_fr03_equal_returned_scores_order_by_confidence(
+        self, rubric: Rubric, presets: Presets
+    ) -> None:
+        """FR-03, doc 08 s2: ordering uses the returned (rounded) score, so an item that only
+        differs below the shown decimal does not overtake a more confident one."""
+        entries = [
+            _habitat_entry("NARROW", {"fuel_realism": 3.001}),
+            _habitat_entry("BROAD", dict.fromkeys(HABITAT_DEFAULTS, 3)),
+        ]
+        items = _service(entries, rubric, presets).rank("habitat", WeightOverrides(), None, None)
+        observed = [(item.acronym, item.score, item.confidence) for item in items.items]
+        assert observed == [("BROAD", 60.0, 1.0), ("NARROW", 60.0, 0.25)]
 
     def test_fr03_response_rounds_worked_example(self, rubric: Rubric, presets: Presets) -> None:
         """FR-03: responses carry the score to one decimal (72.9) and confidence 0.85."""

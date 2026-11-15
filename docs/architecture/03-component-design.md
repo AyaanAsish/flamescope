@@ -37,7 +37,7 @@ Location: `src/common/flamescope_common/`
 | `models.py` | ORM models for every table in document 04. |
 | `migrations/` + `alembic.ini` | Alembic environment; revision `0001_initial` creates the schema and the `vector` extension. |
 | `sources.py` | `SourceRef` Pydantic model and helpers. |
-| `schemas/card.py` | `InvestigationCard` and nested models (document 04, section 4); unknown keys are ignored. `SeedInvestigation(InvestigationCard)` adds the seed-only keys (`psi_url`, `summary`, `runs`, `scores`, `documents`, `reviewed`) with `SeedRun`, `SeedScore`, `SeedDocument` (document 06, section 5). |
+| `schemas/card.py` | `InvestigationCard` and nested models (document 04, section 4); unknown keys are ignored. `SeedInvestigation(InvestigationCard)` adds the seed-only keys (`psi_url`, `summary`, `runs`, `scores`, `documents`, `reviewed`) with `SeedRun`, `SeedScore`, `SeedDocument` (document 06, section 5). `acronym_sort_key(acronym)` is the acronym order of document 05 section 4 (repositories use the equivalent `ACRONYM_ORDER` clauses of `flamescope_api.repositories`). |
 | `schemas/api.py` | Request and response models for document 05, including `PageRequest` (`page`, `page_size`, `sort`; the pagination and sort query of list endpoints, document 05 section 1 and 4). |
 | `schemas/agents.py` | Input and output models for every agent (document 07). |
 | `units.py` | Unit conversion: psi to kPa, percent to fraction, mm/s and cm/s, gravity labels to g. |

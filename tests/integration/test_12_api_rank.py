@@ -20,6 +20,11 @@ LENSES = ("habitat", "modeling", "controls")
 OVERALL = "overall"
 SCORE_SCALE = 20.0
 SCORE_TOLERANCE = 0.05
+# Half a unit of the last decimal is exact only in decimal; binary floats add a hair.
+HALF_UNIT_TOLERANCE = SCORE_TOLERANCE + 1e-9
+# Doc 08 s2 rounding of the returned values that the ordering compares.
+SCORE_DECIMALS = 1
+CONFIDENCE_DECIMALS = 3
 CONFIDENCE_TOLERANCE = 0.001
 DISCLAIMER = "Scores are relative decision aids, not safety certifications."
 RESPONSE_FIELDS = {"lens", "rubric_version", "weights_used", "items", "disclaimer"}
@@ -28,12 +33,16 @@ BREAKDOWN_FIELDS = {
     "criterion", "label", "value", "weight", "contribution", "rationale", "evidence", "origin",
 }  # fmt: skip
 LIMITED = 3
+# Doc 05 s1: page sizes are at most 100; `limit` shares that bound.
+FULL_LIST_LIMIT = 100
 OVERRIDDEN_CRITERION = ("habitat", "fuel_realism", 1.0)
 LensResult = tuple[float | None, float]
 
 
 def _rank(api: httpx.Client, body: Mapping[str, Any]) -> dict[str, Any]:
-    response = api.post("/rank", json=body)
+    """POST /rank for the full ordering unless the case sets its own `limit` (the default 24
+    truncates a larger catalog)."""
+    response = api.post("/rank", json={"limit": FULL_LIST_LIMIT, **body})
     assert response.status_code == httpx.codes.OK, response.text
     return dict(response.json())
 
@@ -65,10 +74,40 @@ def _overall(results: Mapping[str, LensResult], lens_weights: Mapping[str, float
     return sum(weights[lens] * score for lens, score in scored.items()) / scored_weight, confidence
 
 
-def _order_key(item: Mapping[str, Any]) -> tuple[bool, float, float, str]:
-    """Descending score, then descending confidence, then acronym; null scores last."""
+def _order_key(
+    item: Mapping[str, Any], acronym_key: Callable[[str], Any]
+) -> tuple[bool, float, float, Any]:
+    """Descending score, then descending confidence (both as returned), then the doc 05 s4
+    acronym order; null scores last."""
     score = item["score"]
-    return (score is None, -(score or 0.0), -item["confidence"], item["acronym"])
+    return (score is None, -(score or 0.0), -item["confidence"], acronym_key(item["acronym"]))
+
+
+def _expected_contributions(breakdown: list[dict[str, Any]]) -> list[float]:
+    """Document 08 section 2: `contribution_i = 20 * w_i * v_i / sum_{i in N} w_i`."""
+    weights = _normalized({item["criterion"]: item["weight"] for item in breakdown})
+    rated_weight = sum(
+        weights[item["criterion"]] for item in breakdown if item["value"] is not None
+    )
+    return [
+        0.0
+        if item["value"] is None
+        else SCORE_SCALE * weights[item["criterion"]] * item["value"] / rated_weight
+        for item in breakdown
+    ]
+
+
+def _contributions_consistent(breakdown: list[dict[str, Any]], score: float | None) -> bool:
+    """Each contribution follows the formula to response rounding; their sum equals the score
+    to the accumulated rounding of the rated terms."""
+    if score is None:
+        return True
+    returned = [item["contribution"] for item in breakdown]
+    expected = _expected_contributions(breakdown)
+    rated = sum(1 for item in breakdown if item["value"] is not None)
+    return all(map(_close, returned, expected, [HALF_UNIT_TOLERANCE] * len(returned))) and _close(
+        sum(returned), score, HALF_UNIT_TOLERANCE * (rated + 1)
+    )
 
 
 def _close(actual: float | None, expected: float | None, tolerance: float) -> bool:
@@ -137,11 +176,11 @@ def test_fr03_response_shape_and_disclaimer(
 
 @pytest.mark.parametrize("lens", [*LENSES, OVERALL])
 def test_fr03_descending_order_with_documented_tie_breaks(
-    lens: str, stack: str, api: httpx.Client
+    lens: str, stack: str, api: httpx.Client, acronym_key: Callable[[str], Any]
 ) -> None:
     """FR-03, doc 08 s2: score desc, confidence desc, acronym; null scores last."""
     items = _rank(api, {"lens": lens})["items"]
-    assert items == sorted(items, key=_order_key)
+    assert items == sorted(items, key=lambda item: _order_key(item, acronym_key))
 
 
 @pytest.mark.parametrize("lens", LENSES)
@@ -152,11 +191,10 @@ def test_fr03_lens_scores_recomputed_from_breakdown(
     wrong = []
     for item in _rank(api, {"lens": lens})["items"]:
         score, confidence = _lens_result(item["breakdown"])
-        contributions = sum(entry["contribution"] for entry in item["breakdown"])
         consistent = (
             _close(item["score"], score, SCORE_TOLERANCE)
             and _close(item["confidence"], confidence, CONFIDENCE_TOLERANCE)
-            and (score is None or _close(contributions, score, SCORE_TOLERANCE))
+            and _contributions_consistent(item["breakdown"], score)
         )
         if not consistent:
             wrong.append(item["acronym"])
@@ -203,19 +241,24 @@ def test_fr04_presets_set_documented_weights(
 
 @pytest.mark.parametrize("preset", ["lunar_habitat", "modeler", "equipment_designer"])
 def test_fr04_preset_order_follows_reweighted_scores(
-    preset: str, stack: str, api: httpx.Client
+    preset: str, stack: str, api: httpx.Client, acronym_key: Callable[[str], Any]
 ) -> None:
     """FR-04, CF-05: a preset re-ranks by the overall score recomputed with its weights."""
     ranked = _rank(api, {"lens": OVERALL, "preset": preset})
     results = _lens_results(api, {"preset": preset})
     expected = [
-        {"acronym": acronym, "score": score, "confidence": confidence}
+        {
+            "acronym": acronym,
+            "score": None if score is None else round(score, SCORE_DECIMALS),
+            "confidence": round(confidence, CONFIDENCE_DECIMALS),
+        }
         for acronym, (score, confidence) in (
             (a, _overall(r, ranked["weights_used"]["lens_weights"])) for a, r in results.items()
         )
     ]
     assert [item["acronym"] for item in ranked["items"]] == [
-        item["acronym"] for item in sorted(expected, key=_order_key)
+        item["acronym"]
+        for item in sorted(expected, key=lambda item: _order_key(item, acronym_key))
     ]
 
 
@@ -249,11 +292,14 @@ def test_fr04_filters_restrict_the_ranking(
     api: httpx.Client,
     listed: Callable[..., list[str]],
     sql: Callable[..., list[dict[str, Any]]],
+    acronym_key: Callable[[str], Any],
 ) -> None:
     """FR-04, doc 05 s5: `filters` keep the investigations the catalog filter returns."""
     hardware = sql("SELECT name FROM hardware ORDER BY name LIMIT 1")[0]["name"]
     items = _rank(api, {"lens": OVERALL, "filters": {"hardware": [hardware]}})["items"]
-    assert sorted(item["acronym"] for item in items) == listed({"hardware": hardware})
+    assert sorted((item["acronym"] for item in items), key=acronym_key) == listed(
+        {"hardware": hardware}
+    )
     assert [item["rank"] for item in items] == list(range(1, len(items) + 1))
 
 

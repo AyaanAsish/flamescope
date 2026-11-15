@@ -1,36 +1,3324 @@
 acronym: SAME-R
-title: SAME-R
+title: Smoke Aerosol Measurement Experiment-Reflight
 project: null
-platform: null
-gravity_level: null
-psi_url: https://psi.nasa.gov/physci/repo/search?q=combustion&data_source=psi&data_type=investigation
+platform: ISS
+gravity_level: microgravity
+psi_url: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
 hardware:
+  - {name: MSG, role: host}
   - {name: Smoke and dust instrument, role: instrument}
 summary: >
-  Studied smoke. One of its instruments was later reused for dust in DAFT and DAFT-2.
+  SAME-R reflew the SAME hardware on the ISS (July 16 to September 9, 2010; 66 test points) with a new material
+  (Pyrell foam), higher heating temperatures and no-flow heating. Teflon, Kapton, cotton, silicone rubber and Pyrell
+  were heated below ignition in air flows from quiescent to 8 cm/s, and the smoke was aged 11 to 1800 s. Most average
+  smoke particle sizes were 200 to 400 nm, with larger particles in some quiescent cases.
 objectives:
-  - text: Study of smoke.
-    source: &cur
-      kind: curated
-      uri: https://www.spaceappschallenge.org/2026/challenges/flame-in-freefall/
-      title: Challenge text as encoded in architecture doc 01 section 6
-      locator: doc 01 section 6, fourth bullet
-approach: null
-fuels: []
-conditions: null
-variables: {varied: [], fixed: []}
-measurements: []
-findings: []
-publications: []
-fire_safety_tags: [aerosol]
-data: {s3_prefix: null, volume_bytes: null, file_types: []}
-field_confidence: {objectives: 0.3, hardware: 0.3}
+  - text: Measure the growth of liquid smoke droplets in low gravity and relate the size distribution to how the smoke was generated and transported, addressing grid contamination seen in SAME.
+    source: &psi_record
+      kind: psi_page
+      uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+      title: PSI investigation PSI-101, Smoke Aerosol Measurement Experiment-Reflight
+      locator: Objectives (PSI repository search record, geode-py API)
+approach:
+  text: >
+    SAME-R used the SAME hardware on orbit with a new test material (Pyrell, an intumescent fire-retardant foam,
+    replacing DBP samples), broader test conditions including higher heating temperatures and no flow during sample
+    heating; flight tests ran from July 16 to September 9, 2010 and completed 66 test points.
+  source:
+    <<: *psi_record
+    locator: Approach (PSI repository search record, geode-py API)
+    quote: SAME-R flight tests were conducted from July 16, to September 9, 2010, successfully completing 66 test points.
+fuels:
+  - {name: Teflon, phase: solid, material_class: polymer, geometry: null, source: &mat
+      {kind: publication, uri: "https://ntrs.nasa.gov/citations/20130000422", title: "Particle Morphology and Size Results from the Smoke Aerosol Measurement Experiment-2 (Urban et al., 2012)",
+       locator: abstract, quote: "Five different materials representative of those found in spacecraft (Teflon, Kapton, cotton, silicone rubber and Pyrel"}}
+  - {name: Kapton, phase: solid, material_class: polymer, geometry: null, source: *mat}
+  - {name: cotton, phase: solid, material_class: fabric, geometry: null, source: *mat}
+  - {name: silicone rubber, phase: solid, material_class: polymer, geometry: null, source: *mat}
+  - {name: Pyrell, phase: solid, material_class: polymer, geometry: null, source: *mat}
+  - name: lampwick
+    phase: solid
+    material_class: null
+    geometry: null
+    source:
+      kind: psi_page
+      uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+      title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+      locator: Experimental table PSI-101_Experimental table_SAME-R.csv, column "Sample Type" (Lampwick rows)
+      quote: Lampwick,54,Baseline,29-Jul,8.1,1.245,60,11,8,57
+conditions:
+  o2_fraction: null
+  pressure_kpa: null
+  flow_speed_cm_s:
+    min: 0
+    max: 8
+    source: &flow
+      kind: publication
+      uri: https://ntrs.nasa.gov/citations/20130000422
+      title: Particle Morphology and Size Results from the Smoke Aerosol Measurement Experiment-2 (Urban et al., 2012)
+      locator: abstract (quiescent read as 0 cm/s)
+      quote: The air flow past the sample during the heating period ranged from quiescent to 8 cm/s.
+  flow_direction: [quiescent]
+  gravity_g: [0]
+variables:
+  varied: [sample material, heating temperature, air flow during heating, smoke aging time (11 to 1800 s)]
+  fixed: [gravity_g]
+runs:
+- label: cotton (aggregate, SAME-2 abstract)
+  fuel: cotton
+  condition:
+    flow_speed_cm_s: 4.0
+    gravity_g: 0.0
+  outcome:
+    ignited: false
+    notes: Heated below the ignition point; flow from quiescent to 8 cm/s (condition is the range midpoint, doc 08 section
+      4.2); smoke aged 11 to 1800 s.
+  varied_parameters:
+    flow_speed_cm_s:
+      min: 0
+      max: 8
+    aging_time_s:
+      min: 11
+      max: 1800
+  fixed_parameters: {}
+  is_aggregate: true
+  confidence: 0.6
+  source:
+    kind: publication
+    uri: https://ntrs.nasa.gov/citations/20130000422
+    title: Particle Morphology and Size Results from the Smoke Aerosol Measurement Experiment-2 (Urban et al., 2012)
+    locator: abstract; gravity 0 g microgravity per PSI Project Type
+    quote: The air flow past the sample during the heating period ranged from quiescent to 8 cm/s.
+- label: SAME-R test 51 (Kapton)
+  fuel: Kapton
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 8.1
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Kapton; SAME test 51; description "B.L. new formula"; date 21-Jul; inlet velocity 8.1 cm/s; Rt/R0 1.38; duration
+      60 s; primary aging 11 s; primary mixing 8 s; net aging 38 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.38
+    net_aging_time_s: 38.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 1; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Kapton,51,B.L. new formula,21-Jul,8.1,1.38,60,11,8,38
+- label: SAME-R test 51a (Kapton)
+  fuel: Kapton
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 8.1
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Kapton; SAME test 51a; description "B.L. new formula"; date 22-Jul; inlet velocity 8.1 cm/s; Rt/R0 1.38; duration
+      60 s; primary aging blank s; primary mixing blank s; net aging 261 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.38
+    net_aging_time_s: 261.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 2; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Kapton,51a,B.L. new formula,22-Jul,8.1,1.38,60,,,261
+- label: SAME-R test 61 (Kapton)
+  fuel: Kapton
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 8.1
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Kapton; SAME test 61; description "Baseline Aging"; date 2-Aug; inlet velocity 8.1 cm/s; Rt/R0 1.38; duration 60
+      s; primary aging 11 s; primary mixing 8 s; net aging 38 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.38
+    net_aging_time_s: 38.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 3; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Kapton,61,Baseline Aging,2-Aug,8.1,1.38,60,11,8,38
+- label: SAME-R test 61a (Kapton)
+  fuel: Kapton
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 8.1
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Kapton; SAME test 61a; description "aged"; date 2-Aug; inlet velocity 8.1 cm/s; Rt/R0 1.38; duration blank s; primary
+      aging blank s; primary mixing blank s; net aging 807 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.38
+    net_aging_time_s: 807.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 4; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Kapton,61a,aged,2-Aug,8.1,1.38,,,,807
+- label: SAME-R test 62 (Kapton)
+  fuel: Kapton
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 8.1
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Kapton; SAME test 62; description "High Temp aging"; date 2-Aug; inlet velocity 8.1 cm/s; Rt/R0 1.48; duration
+      60 s; primary aging 11 s; primary mixing 8 s; net aging 39 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.48
+    net_aging_time_s: 39.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 5; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Kapton,62,High Temp aging,2-Aug,8.1,1.48,60,11,8,39
+- label: SAME-R test 62a (Kapton)
+  fuel: Kapton
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 8.1
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Kapton; SAME test 62a; description "aged"; date 2-Aug; inlet velocity 8.1 cm/s; Rt/R0 1.48; duration blank s; primary
+      aging blank s; primary mixing blank s; net aging 808 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.48
+    net_aging_time_s: 808.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 6; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Kapton,62a,aged,2-Aug,8.1,1.48,,,,808
+- label: SAME-R test 70 (Kapton)
+  fuel: Kapton
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 8.1
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Kapton; SAME test 70; description "High temp aged STS det"; date 24-Aug; inlet velocity 8.1 cm/s; Rt/R0 1.48; duration
+      60 s; primary aging 720 s; primary mixing 8 s; net aging 747 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.48
+    net_aging_time_s: 747.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 7; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Kapton,70,High temp aged STS det,24-Aug,8.1,1.48,60,720,8,747
+- label: SAME-R test 73 (Kapton)
+  fuel: Kapton
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 8.1
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Kapton; SAME test 73; description "Baseline Aging"; date 26-Aug; inlet velocity 8.1 cm/s; Rt/R0 1.38; duration
+      60 s; primary aging 11 s; primary mixing 8 s; net aging 33 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.38
+    net_aging_time_s: 33.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 8; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Kapton,73,Baseline Aging,26-Aug,8.1,1.38,60,11,8,33
+- label: SAME-R test 73a (Kapton)
+  fuel: Kapton
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 8.1
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Kapton; SAME test 73a; description "aged"; date 26-Aug; inlet velocity 8.1 cm/s; Rt/R0 1.38; duration blank s;
+      primary aging blank s; primary mixing blank s; net aging 560 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.38
+    net_aging_time_s: 560.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 9; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Kapton,73a,aged,26-Aug,8.1,1.38,,,,560
+- label: SAME-R test 75 (Kapton)
+  fuel: Kapton
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 8.1
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Kapton; SAME test 75; description "Mid Temp aging (no Ptrak)"; date 26-Aug; inlet velocity 8.1 cm/s; Rt/R0 1.43;
+      duration 60 s; primary aging 11 s; primary mixing 8 s; net aging 32 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.43
+    net_aging_time_s: 32.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 10; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Kapton,75,Mid Temp aging (no Ptrak),26-Aug,8.1,1.43,60,11,8,32
+- label: SAME-R test 75a (Kapton)
+  fuel: Kapton
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 8.1
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Kapton; SAME test 75a; description "aged"; date 26-Aug; inlet velocity 8.1 cm/s; Rt/R0 1.43; duration blank s;
+      primary aging blank s; primary mixing blank s; net aging 563 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.43
+    net_aging_time_s: 563.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 11; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Kapton,75a,aged,26-Aug,8.1,1.43,,,,563
+- label: SAME-R test 77 (Kapton)
+  fuel: Kapton
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 8.1
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Kapton; SAME test 77; description "High Temp aging"; date 26-Aug; inlet velocity 8.1 cm/s; Rt/R0 1.48; duration
+      60 s; primary aging 11 s; primary mixing 8 s; net aging 31 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.48
+    net_aging_time_s: 31.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 12; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Kapton,77,High Temp aging,26-Aug,8.1,1.48,60,11,8,31
+- label: SAME-R test 77a (Kapton)
+  fuel: Kapton
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 8.1
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Kapton; SAME test 77a; description "aged"; date 26-Aug; inlet velocity 8.1 cm/s; Rt/R0 1.48; duration blank s;
+      primary aging blank s; primary mixing blank s; net aging 559 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.48
+    net_aging_time_s: 559.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 13; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Kapton,77a,aged,26-Aug,8.1,1.48,,,,559
+- label: SAME-R test 85 (Kapton)
+  fuel: Kapton
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 8.1
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Kapton; SAME test 85; description "Mid Temp aging run. Repeat 75"; date 30-Aug; inlet velocity 8.1 cm/s; Rt/R0
+      1.43; duration 60 s; primary aging 11 s; primary mixing 8 s; net aging 33 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.43
+    net_aging_time_s: 33.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 14; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Kapton,85,Mid Temp aging run. Repeat 75,30-Aug,8.1,1.43,60,11,8,33
+- label: SAME-R test 85a (Kapton)
+  fuel: Kapton
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 8.1
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Kapton; SAME test 85a; description "aged"; date 30-Aug; inlet velocity 8.1 cm/s; Rt/R0 1.43; duration blank s;
+      primary aging blank s; primary mixing blank s; net aging 563 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.43
+    net_aging_time_s: 563.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 15; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Kapton,85a,aged,30-Aug,8.1,1.43,,,,563
+- label: SAME-R test 90 (Kapton)
+  fuel: Kapton
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 8.1
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Kapton; SAME test 90; description "Mid Temp aging reburn 85"; date 30-Aug; inlet velocity 8.1 cm/s; Rt/R0 1.43;
+      duration 60 s; primary aging 11 s; primary mixing 8 s; net aging 38 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.43
+    net_aging_time_s: 38.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 16; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Kapton,90,Mid Temp aging reburn 85,30-Aug,8.1,1.43,60,11,8,38
+- label: SAME-R test 90a (Kapton)
+  fuel: Kapton
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 8.1
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Kapton; SAME test 90a; description "aged"; date 30-Aug; inlet velocity 8.1 cm/s; Rt/R0 1.43; duration blank s;
+      primary aging blank s; primary mixing blank s; net aging 569 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.43
+    net_aging_time_s: 569.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 17; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Kapton,90a,aged,30-Aug,8.1,1.43,,,,569
+- label: SAME-R test 92 (Kapton)
+  fuel: Kapton
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 8.1
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Kapton; SAME test 92; description "Baseline STS det"; date 7-Sep; inlet velocity 8.1 cm/s; Rt/R0 1.38; duration
+      60 s; primary aging 11 s; primary mixing 8 s; net aging 35 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.38
+    net_aging_time_s: 35.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 18; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Kapton,92,Baseline STS det,7-Sep,8.1,1.38,60,11,8,35
+- label: SAME-R test 93 (Kapton)
+  fuel: Kapton
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 8.1
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Kapton; SAME test 93; description "Mid Temp aging run 75 repeat"; date 7-Sep; inlet velocity 8.1 cm/s; Rt/R0 1.43;
+      duration 60 s; primary aging 11 s; primary mixing 8 s; net aging 36 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.43
+    net_aging_time_s: 36.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 19; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Kapton,93,Mid Temp aging run 75 repeat,7-Sep,8.1,1.43,60,11,8,36
+- label: SAME-R test 93a (Kapton)
+  fuel: Kapton
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 8.1
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Kapton; SAME test 93a; description "aged"; date 7-Sep; inlet velocity 8.1 cm/s; Rt/R0 1.43; duration blank s; primary
+      aging blank s; primary mixing blank s; net aging 568 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.43
+    net_aging_time_s: 568.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 20; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Kapton,93a,aged,7-Sep,8.1,1.43,,,,568
+- label: SAME-R test 94 (Kapton)
+  fuel: Kapton
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 8.1
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Kapton; SAME test 94; description "Mid Temp aging run mid high"; date 7-Sep; inlet velocity 8.1 cm/s; Rt/R0 1.45;
+      duration 60 s; primary aging 11 s; primary mixing 8 s; net aging 42 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.45
+    net_aging_time_s: 42.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 21; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Kapton,94,Mid Temp aging run mid high,7-Sep,8.1,1.45,60,11,8,42
+- label: SAME-R test 94a (Kapton)
+  fuel: Kapton
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 8.1
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Kapton; SAME test 94a; description "aged"; date 7-Sep; inlet velocity 8.1 cm/s; Rt/R0 1.45; duration blank s; primary
+      aging blank s; primary mixing blank s; net aging 567 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.45
+    net_aging_time_s: 567.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 22; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Kapton,94a,aged,7-Sep,8.1,1.45,,,,567
+- label: SAME-R test 101 (Kapton)
+  fuel: Kapton
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 0.0
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Kapton; SAME test 101; description "No flow run w/ aging"; date 8-Sep; inlet velocity 0 cm/s; Rt/R0 1.48; duration
+      60 s; primary aging 11 s; primary mixing 8 s; net aging 29 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.48
+    net_aging_time_s: 29.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 23; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Kapton,101,No flow run w/ aging,8-Sep,0,1.48,60,11,8,29
+- label: SAME-R test 101a (Kapton)
+  fuel: Kapton
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 0.0
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Kapton; SAME test 101a; description "aged"; date 8-Sep; inlet velocity 0 cm/s; Rt/R0 1.48; duration blank s; primary
+      aging blank s; primary mixing blank s; net aging 561 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.48
+    net_aging_time_s: 561.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 24; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Kapton,101a,aged,8-Sep,0,1.48,,,,561
+- label: SAME-R test 102 (Kapton)
+  fuel: Kapton
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 0.0
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Kapton; SAME test 102; description "No flow run w/ aging"; date 8-Sep; inlet velocity 0 cm/s; Rt/R0 1.48; duration
+      120 s; primary aging 11 s; primary mixing 8 s; net aging 28 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.48
+    net_aging_time_s: 28.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 25; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Kapton,102,No flow run w/ aging,8-Sep,0,1.48,120,11,8,28
+- label: SAME-R test 102a (Kapton)
+  fuel: Kapton
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 0.0
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Kapton; SAME test 102a; description "aged"; date 8-Sep; inlet velocity 0 cm/s; Rt/R0 1.48; duration blank s; primary
+      aging blank s; primary mixing blank s; net aging 563 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.48
+    net_aging_time_s: 563.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 26; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Kapton,102a,aged,8-Sep,0,1.48,,,,563
+- label: SAME-R test 108 (Kapton)
+  fuel: Kapton
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 1.0
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Kapton; SAME test 108; description "Low flow run w/aging"; date 9-Sep; inlet velocity 1 cm/s; Rt/R0 1.48; duration
+      60 s; primary aging 11 s; primary mixing 8 s; net aging 30 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.48
+    net_aging_time_s: 30.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 27; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Kapton,108,Low flow run w/aging,9-Sep,1,1.48,60,11,8,30
+- label: SAME-R test 108a (Kapton)
+  fuel: Kapton
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 1.0
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Kapton; SAME test 108a; description "aged"; date 9-Sep; inlet velocity 1 cm/s; Rt/R0 1.48; duration blank s; primary
+      aging blank s; primary mixing blank s; net aging 560 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.48
+    net_aging_time_s: 560.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 28; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Kapton,108a,aged,9-Sep,1,1.48,,,,560
+- label: SAME-R test 114 (Kapton)
+  fuel: Kapton
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 2.0
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Kapton; SAME test 114; description "low flow run w STS no Ptrak"; date 9-Sep; inlet velocity 2 cm/s; Rt/R0 1.43;
+      duration 60 s; primary aging 11 s; primary mixing 8 s; net aging 28 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.43
+    net_aging_time_s: 28.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 29; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Kapton,114,low flow run w STS no Ptrak,9-Sep,2,1.43,60,11,8,28
+- label: SAME-R test 48 (Silicone)
+  fuel: silicone rubber
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 8.0
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Silicone; SAME test 48; description "Low Temp"; date 16-Jul; inlet velocity 8 cm/s; Rt/R0 1.304; duration 60 s;
+      primary aging 11 s; primary mixing 8 s; net aging 62 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.304
+    net_aging_time_s: 62.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 30; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Silicone,48,Low Temp,16-Jul,8,1.304,60,11,8,62
+- label: SAME-R test 53 (Silicone)
+  fuel: silicone rubber
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 8.1
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Silicone; SAME test 53; description "HighTemp"; date 22-Jul; inlet velocity 8.1 cm/s; Rt/R0 1.35; duration 60 s;
+      primary aging 1 s; primary mixing 8 s; net aging 52 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.35
+    net_aging_time_s: 52.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 31; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Silicone,53,HighTemp,22-Jul,8.1,1.35,60,1,8,52
+- label: SAME-R test 59 (Silicone)
+  fuel: silicone rubber
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 8.1
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Silicone; SAME test 59; description "baseline aged"; date 30-Jul; inlet velocity 8.1 cm/s; Rt/R0 1.327; duration
+      60 s; primary aging 11 s; primary mixing 8 s; net aging 24 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.327
+    net_aging_time_s: 24.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 32; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Silicone,59,baseline aged,30-Jul,8.1,1.327,60,11,8,24
+- label: SAME-R test 59a (Silicone)
+  fuel: silicone rubber
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 8.1
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Silicone; SAME test 59a; description "aged"; date 30-Jul; inlet velocity 8.1 cm/s; Rt/R0 1.327; duration blank
+      s; primary aging blank s; primary mixing blank s; net aging 856 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.327
+    net_aging_time_s: 856.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 33; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Silicone,59a,aged,30-Jul,8.1,1.327,,,,856
+- label: SAME-R test 60 (Silicone)
+  fuel: silicone rubber
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 8.1
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Silicone; SAME test 60; description "Htemp ageing"; date 30-Jul; inlet velocity 8.1 cm/s; Rt/R0 1.35; duration
+      60 s; primary aging 11 s; primary mixing 8 s; net aging 49 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.35
+    net_aging_time_s: 49.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 34; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Silicone,60,Htemp ageing,30-Jul,8.1,1.35,60,11,8,49
+- label: SAME-R test 60a (Silicone)
+  fuel: silicone rubber
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 8.1
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Silicone; SAME test 60a; description "aged"; date 30-Jul; inlet velocity 8.1 cm/s; Rt/R0 1.35; duration blank s;
+      primary aging blank s; primary mixing blank s; net aging 856 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.35
+    net_aging_time_s: 856.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 35; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Silicone,60a,aged,30-Jul,8.1,1.35,,,,856
+- label: SAME-R test 65 (Silicone)
+  fuel: silicone rubber
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 8.1
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Silicone; SAME test 65; description "Baseline long aging"; date 23-Aug; inlet velocity 8.1 cm/s; Rt/R0 1.327; duration
+      60 s; primary aging 11 s; primary mixing 8 s; net aging 50 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.327
+    net_aging_time_s: 50.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 36; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Silicone,65,Baseline long aging,23-Aug,8.1,1.327,60,11,8,50
+- label: SAME-R test 65a (Silicone)
+  fuel: silicone rubber
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 8.1
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Silicone; SAME test 65a; description "aged"; date 23-Aug; inlet velocity 8.1 cm/s; Rt/R0 1.327; duration blank
+      s; primary aging blank s; primary mixing blank s; net aging 1923 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.327
+    net_aging_time_s: 1923.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 37; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Silicone,65a,aged,23-Aug,8.1,1.327,,,,1923
+- label: SAME-R test 66 (Silicone)
+  fuel: silicone rubber
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 8.1
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Silicone; SAME test 66; description "High T aging"; date 23-Aug; inlet velocity 8.1 cm/s; Rt/R0 1.36; duration
+      60 s; primary aging 11 s; primary mixing 8 s; net aging 42 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.36
+    net_aging_time_s: 42.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 38; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Silicone,66,High T aging,23-Aug,8.1,1.36,60,11,8,42
+- label: SAME-R test 66a (Silicone)
+  fuel: silicone rubber
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 8.1
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Silicone; SAME test 66a; description "aged"; date 23-Aug; inlet velocity 8.1 cm/s; Rt/R0 1.36; duration blank s;
+      primary aging blank s; primary mixing blank s; net aging 837 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.36
+    net_aging_time_s: 837.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 39; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Silicone,66a,aged,23-Aug,8.1,1.36,,,,837
+- label: SAME-R test 67 (Silicone)
+  fuel: silicone rubber
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 8.1
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Silicone; SAME test 67; description "High temp aged"; date 24-Aug; inlet velocity 8.1 cm/s; Rt/R0 1.35; duration
+      60 s; primary aging 720 s; primary mixing 8 s; net aging 751 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.35
+    net_aging_time_s: 751.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 40; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Silicone,67,High temp aged,24-Aug,8.1,1.35,60,720,8,751
+- label: SAME-R test 72 (Silicone)
+  fuel: silicone rubber
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 8.1
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Silicone; SAME test 72; description "Baseline STS det"; date 25-Aug; inlet velocity 8.1 cm/s; Rt/R0 1.327; duration
+      60 s; primary aging 11 s; primary mixing 8 s; net aging 42 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.327
+    net_aging_time_s: 42.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 41; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Silicone,72,Baseline STS det,25-Aug,8.1,1.327,60,11,8,42
+- label: SAME-R test 86 (Silicone)
+  fuel: silicone rubber
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 8.1
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Silicone; SAME test 86; description "Mid temp aging"; date 30-Aug; inlet velocity 8.1 cm/s; Rt/R0 1.345; duration
+      60 s; primary aging 11 s; primary mixing 8 s; net aging 50 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.345
+    net_aging_time_s: 50.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 42; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Silicone,86,Mid temp aging,30-Aug,8.1,1.345,60,11,8,50
+- label: SAME-R test 86a (Silicone)
+  fuel: silicone rubber
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 8.1
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Silicone; SAME test 86a; description "aged"; date 30-Aug; inlet velocity 8.1 cm/s; Rt/R0 1.345; duration blank
+      s; primary aging blank s; primary mixing blank s; net aging 628 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.345
+    net_aging_time_s: 628.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 43; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Silicone,86a,aged,30-Aug,8.1,1.345,,,,628
+- label: SAME-R test 91 (Silicone)
+  fuel: silicone rubber
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 8.1
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Silicone; SAME test 91; description "Baseline STS det"; date 7-Sep; inlet velocity 8.1 cm/s; Rt/R0 1.327; duration
+      60 s; primary aging 11 s; primary mixing 8 s; net aging 46 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.327
+    net_aging_time_s: 46.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 44; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Silicone,91,Baseline STS det,7-Sep,8.1,1.327,60,11,8,46
+- label: SAME-R test 99 (Silicone)
+  fuel: silicone rubber
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 0.0
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Silicone; SAME test 99; description "No flow run w/aging"; date 8-Sep; inlet velocity 0 cm/s; Rt/R0 1.35; duration
+      60 s; primary aging 11 s; primary mixing 8 s; net aging 48 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.35
+    net_aging_time_s: 48.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 45; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Silicone,99,No flow run w/aging,8-Sep,0,1.35,60,11,8,48
+- label: SAME-R test 99a (Silicone)
+  fuel: silicone rubber
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 0.0
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Silicone; SAME test 99a; description "aged"; date 8-Sep; inlet velocity 0 cm/s; Rt/R0 1.35; duration blank s; primary
+      aging blank s; primary mixing blank s; net aging 627 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.35
+    net_aging_time_s: 627.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 46; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Silicone,99a,aged,8-Sep,0,1.35,,,,627
+- label: SAME-R test 103 (Silicone)
+  fuel: silicone rubber
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 1.0
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Silicone; SAME test 103; description "low flow run w/ aging"; date 9-Sep; inlet velocity 1 cm/s; Rt/R0 1.35; duration
+      60 s; primary aging 11 s; primary mixing 8 s; net aging 48 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.35
+    net_aging_time_s: 48.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 47; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Silicone,103,low flow run w/ aging,9-Sep,1,1.35,60,11,8,48
+- label: SAME-R test 103a (Silicone)
+  fuel: silicone rubber
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 1.0
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Silicone; SAME test 103a; description "aged"; date 9-Sep; inlet velocity 1 cm/s; Rt/R0 1.35; duration blank s;
+      primary aging blank s; primary mixing blank s; net aging 619 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.35
+    net_aging_time_s: 619.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 48; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Silicone,103a,aged,9-Sep,1,1.35,,,,619
+- label: SAME-R test 104 (Silicone)
+  fuel: silicone rubber
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 0.0
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Silicone; SAME test 104; description "No flow run w/ aging"; date 9-Sep; inlet velocity 0 cm/s; Rt/R0 1.35; duration
+      60 s; primary aging 11 s; primary mixing 8 s; net aging 51 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.35
+    net_aging_time_s: 51.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 49; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Silicone,104,No flow run w/ aging,9-Sep,0,1.35,60,11,8,51
+- label: SAME-R test 104a (Silicone)
+  fuel: silicone rubber
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 0.0
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Silicone; SAME test 104a; description "aged"; date 9-Sep; inlet velocity 0 cm/s; Rt/R0 1.35; duration blank s;
+      primary aging blank s; primary mixing blank s; net aging 636 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.35
+    net_aging_time_s: 636.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 50; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Silicone,104a,aged,9-Sep,0,1.35,,,,636
+- label: SAME-R test 109 (Silicone)
+  fuel: silicone rubber
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 2.0
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Silicone; SAME test 109; description "low flow run w STS"; date 9-Sep; inlet velocity 2 cm/s; Rt/R0 1.35; duration
+      60 s; primary aging 11 s; primary mixing 8 s; net aging 28 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.35
+    net_aging_time_s: 28.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 51; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Silicone,109,low flow run w STS,9-Sep,2,1.35,60,11,8,28
+- label: SAME-R test 49 (Lampwick)
+  fuel: lampwick
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 8.0
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Lampwick; SAME test 49; description "B.L. High RT/R0"; date 19-Jul; inlet velocity 8 cm/s; Rt/R0 1.251; duration
+      60 s; primary aging 11 s; primary mixing 8 s; net aging 51 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.251
+    net_aging_time_s: 51.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 52; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Lampwick,49,B.L. High RT/R0,19-Jul,8,1.251,60,11,8,51
+- label: SAME-R test 54 (Lampwick)
+  fuel: lampwick
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 8.1
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Lampwick; SAME test 54; description "Baseline"; date 29-Jul; inlet velocity 8.1 cm/s; Rt/R0 1.245; duration 60
+      s; primary aging 11 s; primary mixing 8 s; net aging 57 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.245
+    net_aging_time_s: 57.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 53; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Lampwick,54,Baseline,29-Jul,8.1,1.245,60,11,8,57
+- label: SAME-R test 55 (Lampwick)
+  fuel: lampwick
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 8.1
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Lampwick; SAME test 55; description "High RT/R0 test aging"; date 29-Jul; inlet velocity 8.1 cm/s; Rt/R0 1.245;
+      duration 60 s; primary aging 11 s; primary mixing 8 s; net aging 47 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.245
+    net_aging_time_s: 47.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 54; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Lampwick,55,High RT/R0 test aging,29-Jul,8.1,1.245,60,11,8,47
+- label: SAME-R test 55a (Lampwick)
+  fuel: lampwick
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 8.1
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Lampwick; SAME test 55a; description "aged"; date 29-Jul; inlet velocity 8.1 cm/s; Rt/R0 1.245; duration blank
+      s; primary aging blank s; primary mixing blank s; net aging 218 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.245
+    net_aging_time_s: 218.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 55; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Lampwick,55a,aged,29-Jul,8.1,1.245,,,,218
+- label: SAME-R test 57 (Lampwick)
+  fuel: lampwick
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 8.1
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Lampwick; SAME test 57; description "High RT/R0 reburn sample"; date 29-Jul; inlet velocity 8.1 cm/s; Rt/R0 1.253;
+      duration 60 s; primary aging 11 s; primary mixing 8 s; net aging n/a s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.253
+    net_aging_time_s: null
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 56; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Lampwick,57,High RT/R0 reburn sample,29-Jul,8.1,1.253,60,11,8,n/a
+- label: SAME-R test 68 (Lampwick)
+  fuel: lampwick
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 8.1
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Lampwick; SAME test 68; description "High temp aged STS det"; date 24-Aug; inlet velocity 8.1 cm/s; Rt/R0 1.28;
+      duration 60 s; primary aging 720 s; primary mixing 8 s; net aging 747 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.28
+    net_aging_time_s: 747.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 57; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Lampwick,68,High temp aged STS det,24-Aug,8.1,1.28,60,720,8,747
+- label: SAME-R test 78 (Lampwick)
+  fuel: lampwick
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 8.1
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Lampwick; SAME test 78; description "Baseline aging"; date 26-Aug; inlet velocity 8.1 cm/s; Rt/R0 1.245; duration
+      60 s; primary aging 11 s; primary mixing 8 s; net aging 37 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.245
+    net_aging_time_s: 37.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 58; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Lampwick,78,Baseline aging,26-Aug,8.1,1.245,60,11,8,37
+- label: SAME-R test 78a (Lampwick)
+  fuel: lampwick
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 8.1
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Lampwick; SAME test 78a; description "aged"; date 26-Aug; inlet velocity 8.1 cm/s; Rt/R0 1.245; duration blank
+      s; primary aging blank s; primary mixing blank s; net aging 581 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.245
+    net_aging_time_s: 581.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 59; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Lampwick,78a,aged,26-Aug,8.1,1.245,,,,581
+- label: SAME-R test 80 (Lampwick)
+  fuel: lampwick
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 8.1
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Lampwick; SAME test 80; description "High temp aging"; date 26-Aug; inlet velocity 8.1 cm/s; Rt/R0 1.28; duration
+      60 s; primary aging 11 s; primary mixing 8 s; net aging 40 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.28
+    net_aging_time_s: 40.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 60; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Lampwick,80,High temp aging,26-Aug,8.1,1.28,60,11,8,40
+- label: SAME-R test 80a (Lampwick)
+  fuel: lampwick
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 8.1
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Lampwick; SAME test 80a; description "aged"; date 26-Aug; inlet velocity 8.1 cm/s; Rt/R0 1.28; duration blank s;
+      primary aging blank s; primary mixing blank s; net aging 580 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.28
+    net_aging_time_s: 580.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 61; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Lampwick,80a,aged,26-Aug,8.1,1.28,,,,580
+- label: SAME-R test 82 (Lampwick)
+  fuel: lampwick
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 8.1
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Lampwick; SAME test 82; description "Mid temp aging"; date 26-Aug; inlet velocity 8.1 cm/s; Rt/R0 1.265; duration
+      60 s; primary aging 11 s; primary mixing 8 s; net aging 39 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.265
+    net_aging_time_s: 39.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 62; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Lampwick,82,Mid temp aging,26-Aug,8.1,1.265,60,11,8,39
+- label: SAME-R test 82a (Lampwick)
+  fuel: lampwick
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 8.1
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Lampwick; SAME test 82a; description "aged"; date 27-Aug; inlet velocity 8.1 cm/s; Rt/R0 1.265; duration blank
+      s; primary aging blank s; primary mixing blank s; net aging 579 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.265
+    net_aging_time_s: 579.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 63; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Lampwick,82a,aged,27-Aug,8.1,1.265,,,,579
+- label: SAME-R test 88 (Lampwick)
+  fuel: lampwick
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 8.1
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Lampwick; SAME test 88; description "Baseline STS det"; date 30-Aug; inlet velocity 8.1 cm/s; Rt/R0 1.245; duration
+      60 s; primary aging 11 s; primary mixing 8 s; net aging n/a s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.245
+    net_aging_time_s: null
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 64; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Lampwick,88,Baseline STS det,30-Aug,8.1,1.245,60,11,8,n/a
+- label: SAME-R test 96 (Lampwick)
+  fuel: lampwick
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 0.0
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Lampwick; SAME test 96; description "No flow run w/aging"; date 7-Sep; inlet velocity 0 cm/s; Rt/R0 1.245; duration
+      60 s; primary aging 11 s; primary mixing 8 s; net aging 34 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.245
+    net_aging_time_s: 34.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 65; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Lampwick,96,No flow run w/aging,7-Sep,0,1.245,60,11,8,34
+- label: SAME-R test 96a (Lampwick)
+  fuel: lampwick
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 0.0
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Lampwick; SAME test 96a; description "aged"; date 7-Sep; inlet velocity 0 cm/s; Rt/R0 1.245; duration blank s;
+      primary aging blank s; primary mixing blank s; net aging 582 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.245
+    net_aging_time_s: 582.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 66; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Lampwick,96a,aged,7-Sep,0,1.245,,,,582
+- label: SAME-R test 98 (Lampwick)
+  fuel: lampwick
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 0.0
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Lampwick; SAME test 98; description "No flow run w/aging"; date 8-Sep; inlet velocity 0 cm/s; Rt/R0 1.28; duration
+      60 s; primary aging 11 s; primary mixing 8 s; net aging 37 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.28
+    net_aging_time_s: 37.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 67; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Lampwick,98,No flow run w/aging,8-Sep,0,1.28,60,11,8,37
+- label: SAME-R test 98a (Lampwick)
+  fuel: lampwick
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 0.0
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Lampwick; SAME test 98a; description "aged"; date 8-Sep; inlet velocity 0 cm/s; Rt/R0 1.28; duration blank s; primary
+      aging blank s; primary mixing blank s; net aging 585 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.28
+    net_aging_time_s: 585.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 68; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Lampwick,98a,aged,8-Sep,0,1.28,,,,585
+- label: SAME-R test 106 (Lampwick)
+  fuel: lampwick
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 0.0
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Lampwick; SAME test 106; description "No flow run w/aging"; date 9-Sep; inlet velocity 0 cm/s; Rt/R0 1.28; duration
+      60 s; primary aging 11 s; primary mixing 8 s; net aging 30 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.28
+    net_aging_time_s: 30.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 69; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Lampwick,106,No flow run w/aging,9-Sep,0,1.28,60,11,8,30
+- label: SAME-R test 106a (Lampwick)
+  fuel: lampwick
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 0.0
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Lampwick; SAME test 106a; description "aged"; date 9-Sep; inlet velocity 0 cm/s; Rt/R0 1.28; duration blank s;
+      primary aging blank s; primary mixing blank s; net aging 558 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.28
+    net_aging_time_s: 558.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 70; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Lampwick,106a,aged,9-Sep,0,1.28,,,,558
+- label: SAME-R test 110 (Lampwick)
+  fuel: lampwick
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 2.0
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Lampwick; SAME test 110; description "low flow run w/STS"; date 9-Sep; inlet velocity 2 cm/s; Rt/R0 1.28; duration
+      60 s; primary aging 11 s; primary mixing 8 s; net aging 21 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.28
+    net_aging_time_s: 21.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 71; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Lampwick,110,low flow run w/STS,9-Sep,2,1.28,60,11,8,21
+- label: SAME-R test 50 (Teflon)
+  fuel: Teflon
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 8.1
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Teflon; SAME test 50; description "B.L. High RT/R0"; date 20-Jul; inlet velocity 8.1 cm/s; Rt/R0 1.452; duration
+      60 s; primary aging 11 s; primary mixing 8 s; net aging 33 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.452
+    net_aging_time_s: 33.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 72; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Teflon,50,B.L. High RT/R0,20-Jul,8.1,1.452,60,11,8,33
+- label: SAME-R test 56 (Teflon)
+  fuel: Teflon
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 8.1
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Teflon; SAME test 56; description "Baseline"; date 29-Jul; inlet velocity 8.1 cm/s; Rt/R0 1.445; duration 60 s;
+      primary aging 11 s; primary mixing 8 s; net aging 41 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.445
+    net_aging_time_s: 41.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 73; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Teflon,56,Baseline,29-Jul,8.1,1.445,60,11,8,41
+- label: SAME-R test 57 (Teflon)
+  fuel: Teflon
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 8.1
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Teflon; SAME test 57; description "High RT/R0 reburn sample"; date 29-Jul; inlet velocity 8.1 cm/s; Rt/R0 1.253;
+      duration 60 s; primary aging 11 s; primary mixing 8 s; net aging n/a s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.253
+    net_aging_time_s: null
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 74; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Teflon,57,High RT/R0 reburn sample,29-Jul,8.1,1.253,60,11,8,n/a
+- label: SAME-R test 58 (Teflon)
+  fuel: Teflon
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 8.1
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Teflon; SAME test 58; description "Baseline aging"; date 30-Jul; inlet velocity 8.1 cm/s; Rt/R0 1.445; duration
+      60 s; primary aging 11 s; primary mixing 8 s; net aging 34 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.445
+    net_aging_time_s: 34.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 75; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Teflon,58,Baseline aging,30-Jul,8.1,1.445,60,11,8,34
+- label: SAME-R test 58a (Teflon)
+  fuel: Teflon
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 8.1
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Teflon; SAME test 58a; description "aged"; date 30-Jul; inlet velocity 8.1 cm/s; Rt/R0 1.445; duration blank s;
+      primary aging blank s; primary mixing blank s; net aging 805 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.445
+    net_aging_time_s: 805.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 76; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Teflon,58a,aged,30-Jul,8.1,1.445,,,,805
+- label: SAME-R test 69 (Teflon)
+  fuel: Teflon
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 8.1
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Teflon; SAME test 69; description "High temp aged STS det"; date 24-Aug; inlet velocity 8.1 cm/s; Rt/R0 1.45; duration
+      60 s; primary aging 720 s; primary mixing 8 s; net aging 745 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.45
+    net_aging_time_s: 745.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 77; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Teflon,69,High temp aged STS det,24-Aug,8.1,1.45,60,720,8,745
+- label: SAME-R test 79 (Teflon)
+  fuel: Teflon
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 8.1
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Teflon; SAME test 79; description "Baseline aging"; date 26-Aug; inlet velocity 8.1 cm/s; Rt/R0 1.445; duration
+      60 s; primary aging 11 s; primary mixing 8 s; net aging 33 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.445
+    net_aging_time_s: 33.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 78; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Teflon,79,Baseline aging,26-Aug,8.1,1.445,60,11,8,33
+- label: SAME-R test 79a (Teflon)
+  fuel: Teflon
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 8.1
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Teflon; SAME test 79a; description "aged"; date 26-Aug; inlet velocity 8.1 cm/s; Rt/R0 1.445; duration blank s;
+      primary aging blank s; primary mixing blank s; net aging 560 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.445
+    net_aging_time_s: 560.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 79; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Teflon,79a,aged,26-Aug,8.1,1.445,,,,560
+- label: SAME-R test 81 (Teflon)
+  fuel: Teflon
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 8.1
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Teflon; SAME test 81; description "High temp aging"; date 26-Aug; inlet velocity 8.1 cm/s; Rt/R0 1.45; duration
+      60 s; primary aging 11 s; primary mixing 8 s; net aging 30 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.45
+    net_aging_time_s: 30.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 80; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Teflon,81,High temp aging,26-Aug,8.1,1.45,60,11,8,30
+- label: SAME-R test 81a (Teflon)
+  fuel: Teflon
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 8.1
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Teflon; SAME test 81a; description "aged"; date 27-Aug; inlet velocity 8.1 cm/s; Rt/R0 1.45; duration blank s;
+      primary aging blank s; primary mixing blank s; net aging 559 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.45
+    net_aging_time_s: 559.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 81; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Teflon,81a,aged,27-Aug,8.1,1.45,,,,559
+- label: SAME-R test 83 (Teflon)
+  fuel: Teflon
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 8.1
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Teflon; SAME test 83; description "Mid temp aging"; date 26-Aug; inlet velocity 8.1 cm/s; Rt/R0 1.448; duration
+      60 s; primary aging 11 s; primary mixing 8 s; net aging 30 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.448
+    net_aging_time_s: 30.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 82; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Teflon,83,Mid temp aging,26-Aug,8.1,1.448,60,11,8,30
+- label: SAME-R test 83a (Teflon)
+  fuel: Teflon
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 8.1
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Teflon; SAME test 83a; description "aged"; date 27-Aug; inlet velocity 8.1 cm/s; Rt/R0 1.448; duration blank s;
+      primary aging blank s; primary mixing blank s; net aging 557 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.448
+    net_aging_time_s: 557.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 83; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Teflon,83a,aged,27-Aug,8.1,1.448,,,,557
+- label: SAME-R test 89 (Teflon)
+  fuel: Teflon
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 8.1
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Teflon; SAME test 89; description "Baseline STS det"; date 30-Aug; inlet velocity 8.1 cm/s; Rt/R0 1.445; duration
+      60 s; primary aging 11 s; primary mixing 8 s; net aging 31 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.445
+    net_aging_time_s: 31.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 84; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Teflon,89,Baseline STS det,30-Aug,8.1,1.445,60,11,8,31
+- label: SAME-R test 100 (Teflon)
+  fuel: Teflon
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 0.0
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Teflon; SAME test 100; description "No flow run w/ aging"; date 8-Sep; inlet velocity 0 cm/s; Rt/R0 1.45; duration
+      60 s; primary aging 11 s; primary mixing 8 s; net aging 29 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.45
+    net_aging_time_s: 29.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 85; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Teflon,100,No flow run w/ aging,8-Sep,0,1.45,60,11,8,29
+- label: SAME-R test 100a (Teflon)
+  fuel: Teflon
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 0.0
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Teflon; SAME test 100a; description "aged"; date 8-Sep; inlet velocity 0 cm/s; Rt/R0 1.45; duration blank s; primary
+      aging blank s; primary mixing blank s; net aging 560 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.45
+    net_aging_time_s: 560.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 86; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Teflon,100a,aged,8-Sep,0,1.45,,,,560
+- label: SAME-R test 105 (Teflon)
+  fuel: Teflon
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 0.0
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Teflon; SAME test 105; description "No flow run w/ aging"; date 9-Sep; inlet velocity 0 cm/s; Rt/R0 1.45; duration
+      60 s; primary aging 11 s; primary mixing 8 s; net aging 24 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.45
+    net_aging_time_s: 24.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 87; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Teflon,105,No flow run w/ aging,9-Sep,0,1.45,60,11,8,24
+- label: SAME-R test 105a (Teflon)
+  fuel: Teflon
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 0.0
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Teflon; SAME test 105a; description "aged"; date 9-Sep; inlet velocity 0 cm/s; Rt/R0 1.45; duration blank s; primary
+      aging blank s; primary mixing blank s; net aging 559 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.45
+    net_aging_time_s: 559.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 88; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Teflon,105a,aged,9-Sep,0,1.45,,,,559
+- label: SAME-R test 111 (Teflon)
+  fuel: Teflon
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 2.0
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Teflon; SAME test 111; description "low flow run w/ STS"; date 9-Sep; inlet velocity 2 cm/s; Rt/R0 1.45; duration
+      60 s; primary aging 11 s; primary mixing 8 s; net aging 43 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.45
+    net_aging_time_s: 43.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 89; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Teflon,111,low flow run w/ STS,9-Sep,2,1.45,60,11,8,43
+- label: SAME-R test 52 (Pyrell)
+  fuel: Pyrell
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 8.1
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Pyrell; SAME test 52; description "Baseline"; date 22-Jul; inlet velocity 8.1 cm/s; Rt/R0 1.22; duration 60 s;
+      primary aging 11 s; primary mixing 8 s; net aging n/a s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.22
+    net_aging_time_s: null
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 90; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Pyrell,52,Baseline,22-Jul,8.1,1.22,60,11,8,n/a
+- label: SAME-R test 63 (Pyrell)
+  fuel: Pyrell
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 8.1
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Pyrell; SAME test 63; description "Baseline Aging"; date 23-Aug; inlet velocity 8.1 cm/s; Rt/R0 1.22; duration
+      60 s; primary aging 11 s; primary mixing 8 s; net aging 56 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.22
+    net_aging_time_s: 56.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 91; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Pyrell,63,Baseline Aging,23-Aug,8.1,1.22,60,11,8,56
+- label: SAME-R test 63a (Pyrell)
+  fuel: Pyrell
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 8.1
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Pyrell; SAME test 63a; description "aged"; date 23-Aug; inlet velocity 8.1 cm/s; Rt/R0 1.22; duration blank s;
+      primary aging blank s; primary mixing blank s; net aging 840 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.22
+    net_aging_time_s: 840.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 92; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Pyrell,63a,aged,23-Aug,8.1,1.22,,,,840
+- label: SAME-R test 64 (Pyrell)
+  fuel: Pyrell
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 8.1
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Pyrell; SAME test 64; description "High Temp aging"; date 23-Aug; inlet velocity 8.1 cm/s; Rt/R0 1.23; duration
+      60 s; primary aging 11 s; primary mixing 8 s; net aging 47 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.23
+    net_aging_time_s: 47.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 93; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Pyrell,64,High Temp aging,23-Aug,8.1,1.23,60,11,8,47
+- label: SAME-R test 64a (Pyrell)
+  fuel: Pyrell
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 8.1
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Pyrell; SAME test 64a; description "aged"; date 23-Aug; inlet velocity 8.1 cm/s; Rt/R0 1.23; duration blank s;
+      primary aging blank s; primary mixing blank s; net aging 842 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.23
+    net_aging_time_s: 842.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 94; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Pyrell,64a,aged,23-Aug,8.1,1.23,,,,842
+- label: SAME-R test 71 (Pyrell)
+  fuel: Pyrell
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 8.1
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Pyrell; SAME test 71; description "High temp aged STS det"; date 24-Aug; inlet velocity 8.1 cm/s; Rt/R0 1.23; duration
+      60 s; primary aging 720 s; primary mixing 8 s; net aging 750 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.23
+    net_aging_time_s: 750.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 95; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Pyrell,71,High temp aged STS det,24-Aug,8.1,1.23,60,720,8,750
+- label: SAME-R test 74 (Pyrell)
+  fuel: Pyrell
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 8.1
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Pyrell; SAME test 74; description "Baseline Aging"; date 26-Aug; inlet velocity 8.1 cm/s; Rt/R0 1.22; duration
+      60 s; primary aging 11 s; primary mixing 8 s; net aging 48 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.22
+    net_aging_time_s: 48.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 96; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Pyrell,74,Baseline Aging,26-Aug,8.1,1.22,60,11,8,48
+- label: SAME-R test 74a (Pyrell)
+  fuel: Pyrell
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 8.1
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Pyrell; SAME test 74a; description "aged"; date 26-Aug; inlet velocity 8.1 cm/s; Rt/R0 1.22; duration blank s;
+      primary aging blank s; primary mixing blank s; net aging 623 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.22
+    net_aging_time_s: 623.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 97; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Pyrell,74a,aged,26-Aug,8.1,1.22,,,,623
+- label: SAME-R test 76 (Pyrell)
+  fuel: Pyrell
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 8.1
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Pyrell; SAME test 76; description "High Temp aging"; date 26-Aug; inlet velocity 8.1 cm/s; Rt/R0 1.23; duration
+      60 s; primary aging 11 s; primary mixing 8 s; net aging 51 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.23
+    net_aging_time_s: 51.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 98; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Pyrell,76,High Temp aging,26-Aug,8.1,1.23,60,11,8,51
+- label: SAME-R test 76a (Pyrell)
+  fuel: Pyrell
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 8.1
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Pyrell; SAME test 76a; description "aged"; date 26-Aug; inlet velocity 8.1 cm/s; Rt/R0 1.23; duration blank s;
+      primary aging blank s; primary mixing blank s; net aging 625 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.23
+    net_aging_time_s: 625.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 99; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Pyrell,76a,aged,26-Aug,8.1,1.23,,,,625
+- label: SAME-R test 84 (Pyrell)
+  fuel: Pyrell
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 8.1
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Pyrell; SAME test 84; description "Mid Temp aging retry"; date 30-Aug; inlet velocity 8.1 cm/s; Rt/R0 1.225; duration
+      60 s; primary aging 11 s; primary mixing 8 s; net aging 53 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.225
+    net_aging_time_s: 53.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 100; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Pyrell,84,Mid Temp aging retry,30-Aug,8.1,1.225,60,11,8,53
+- label: SAME-R test 84a (Pyrell)
+  fuel: Pyrell
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 8.1
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Pyrell; SAME test 84a; description "aged"; date 30-Aug; inlet velocity 8.1 cm/s; Rt/R0 1.225; duration blank s;
+      primary aging blank s; primary mixing blank s; net aging 632 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.225
+    net_aging_time_s: 632.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 101; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Pyrell,84a,aged,30-Aug,8.1,1.225,,,,632
+- label: SAME-R test 87 (Pyrell)
+  fuel: Pyrell
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 8.1
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Pyrell; SAME test 87; description "Baseline STS det"; date 30-Aug; inlet velocity 8.1 cm/s; Rt/R0 1.22; duration
+      60 s; primary aging 11 s; primary mixing 8 s; net aging 45 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.22
+    net_aging_time_s: 45.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 102; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Pyrell,87,Baseline STS det,30-Aug,8.1,1.22,60,11,8,45
+- label: SAME-R test 95 (Pyrell)
+  fuel: Pyrell
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 0.0
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Pyrell; SAME test 95; description "No flow run w/ aging"; date 7-Sep; inlet velocity 0 cm/s; Rt/R0 1.22; duration
+      60 s; primary aging 11 s; primary mixing 8 s; net aging 38 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.22
+    net_aging_time_s: 38.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 103; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Pyrell,95,No flow run w/ aging,7-Sep,0,1.22,60,11,8,38
+- label: SAME-R test 95a (Pyrell)
+  fuel: Pyrell
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 0.0
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Pyrell; SAME test 95a; description "aged"; date 7-Sep; inlet velocity 0 cm/s; Rt/R0 1.22; duration blank s; primary
+      aging blank s; primary mixing blank s; net aging n/a s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.22
+    net_aging_time_s: null
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 104; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Pyrell,95a,aged,7-Sep,0,1.22,,,,n/a
+- label: SAME-R test 97 (Pyrell)
+  fuel: Pyrell
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 0.0
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Pyrell; SAME test 97; description "No flow run w/aging"; date 8-Sep; inlet velocity 0 cm/s; Rt/R0 1.23; duration
+      60 s; primary aging 11 s; primary mixing 8 s; net aging 48 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.23
+    net_aging_time_s: 48.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 105; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Pyrell,97,No flow run w/aging,8-Sep,0,1.23,60,11,8,48
+- label: SAME-R test 97a (Pyrell)
+  fuel: Pyrell
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 0.0
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Pyrell; SAME test 97a; description "aged"; date 8-Sep; inlet velocity 0 cm/s; Rt/R0 1.23; duration blank s; primary
+      aging blank s; primary mixing blank s; net aging 624 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.23
+    net_aging_time_s: 624.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 106; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Pyrell,97a,aged,8-Sep,0,1.23,,,,624
+- label: SAME-R test 107 (Pyrell)
+  fuel: Pyrell
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 1.0
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Pyrell; SAME test 107; description "Low flow run w/aging"; date 9-Sep; inlet velocity 1 cm/s; Rt/R0 1.23; duration
+      60 s; primary aging 11 s; primary mixing 8 s; net aging 32 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.23
+    net_aging_time_s: 32.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 107; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Pyrell,107,Low flow run w/aging,9-Sep,1,1.23,60,11,8,32
+- label: SAME-R test 107a (Pyrell)
+  fuel: Pyrell
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 1.0
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Pyrell; SAME test 107a; description "aged"; date 9-Sep; inlet velocity 1 cm/s; Rt/R0 1.23; duration blank s; primary
+      aging blank s; primary mixing blank s; net aging 559 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.23
+    net_aging_time_s: 559.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 108; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Pyrell,107a,aged,9-Sep,1,1.23,,,,559
+- label: SAME-R test 113 (Pyrell)
+  fuel: Pyrell
+  geometry: null
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 2.0
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Pyrell; SAME test 113; description "low flow run w STS"; date 9-Sep; inlet velocity 2 cm/s; Rt/R0 1.23; duration
+      60 s; primary aging 11 s; primary mixing 8 s; net aging 31 s
+  varied_parameters:
+    heater_resistance_ratio_rt_r0: 1.23
+    net_aging_time_s: 31.0
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    title: PSI-101 Experimental table (PSI-101_Experimental table_SAME-R.csv)
+    locator: 'Experimental table PSI-101_Experimental table_SAME-R.csv, row 109; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); flow_speed_cm_s = Inlet velocity (cm/s)'
+    quote: Pyrell,113,low flow run w STS,9-Sep,2,1.23,60,11,8,31
+measurements:
+  - instrument: prototype two-moment smoke detector and moment diagnostics
+    quantity: particle number concentration, diameter concentration and mass concentration (moments of the size distribution)
+    source:
+      kind: publication
+      uri: https://ntrs.nasa.gov/citations/20130000422
+      title: Particle Morphology and Size Results from the Smoke Aerosol Measurement Experiment-2 (Urban et al., 2012)
+      locator: abstract
+      quote: The diagnostics included a prototype two-moment smoke detector and three different measures of moments of the particle s
+  - instrument: Transmission Electron Microscope (TEM) grids
+    quantity: smoke particle morphology and size
+    source:
+      kind: publication
+      uri: https://ntrs.nasa.gov/citations/20130000422
+      title: Particle Morphology and Size Results from the Smoke Aerosol Measurement Experiment-2 (Urban et al., 2012)
+      locator: abstract
+      quote: Smoke particle samples were collected on Transmission Electron Microscope (TEM) grids for post-flight analysis.
+findings:
+  - statement: The majority of average smoke particle sizes from overheated spacecraft materials in low gravity were in the 200 nm to 400 nm range, with some quiescent cases producing substantially larger particles.
+    category: detection
+    source:
+      kind: publication
+      uri: https://ntrs.nasa.gov/citations/20130000422
+      title: Particle Morphology and Size Results from the Smoke Aerosol Measurement Experiment-2 (Urban et al., 2012)
+      locator: abstract
+      quote: Overall the majority of the average smoke particle sizes were found to be in the 200 nm to 400 nm range with the quiesc
+    confidence: 0.8
+  - statement: SAME and SAME-R results are intended as the reduced-gravity baseline for evaluating future spacecraft smoke detection technology.
+    category: detection
+    source:
+      <<: *psi_record
+      locator: Research Impacts/Earth Benefits (PSI repository record, geode-py API)
+      quote: The results from SAME are needed to provide the reduced gravity baseline data against which future detection technology
+    confidence: 0.6
+publications:
+- doi: 10.2514/6.2012-3536
+  title: Particle Morphology and Size Results from the Smoke Aerosol Measurement Experiment-2
+  year: 2012
+  authors:
+  - David L. Urban
+  - Gary A. Ruff
+  - Paul S. Greenberg
+  - David Fischer
+  - Marit Meyer
+  - George Mulholland
+  - Zeng-Guang Yuan
+  - Victoria Bryg
+  - Thomas Cleary
+  - Jiann Yang
+  venue: 42nd International Conference on Environmental Systems (AIAA 2012-3536)
+  url: https://ntrs.nasa.gov/citations/20130000422
+  key_findings: []
+- doi: null
+  title: Particle Morphology Results from the Smoke Aerosol Measurement Experiment-Reflight
+  year: 2012
+  authors:
+  - David Urban
+  - Gary Ruff
+  - Paul Greenberg
+  - Marit Meyer
+  - Thomas Cleary
+  - Jiann Yang
+  - George Mulholland
+  - Zeng-guang Yuan
+  - Victoria Bryg
+  venue: null
+  url: https://ntrs.nasa.gov/citations/20150010172
+  key_findings: []
+- doi: 10.2514/6.2013-3433
+  title: 'Smoke Aerosol Measurement Experiment-2: Comparison of Flight Experiment Results with Ground Test Results'
+  year: null
+  authors:
+  - Meyer Marit E.
+  - Urban David L.
+  - Ruff Gary A.
+  - Mulholland George
+  - Yuan Zeng-guang
+  - Bryg Victoria
+  - Cleary Thomas
+  - Yang Jiann
+  venue: null
+  url: https://doi.org/10.2514/6.2013-3433
+  key_findings: []
+- doi: null
+  title: Evaluation of Low-Gravity Smoke Particulate for Spacecraft Fire Detection
+  year: null
+  authors:
+  - D Urban
+  - G Ruff
+  - G Mulholland
+  - M Meyer
+  - ZG Yuan
+  - T Cleary
+  - J Yang
+  - P Greenberg
+  - V Bryg
+  venue: null
+  url: null
+  key_findings: []
+- doi: null
+  title: Preliminary Results from the Smoke Aerosol Measurement Experiment - Reflight
+  year: null
+  authors:
+  - D Urban
+  - G Ruff
+  - M Meyer
+  - T Cleary
+  - J Yang
+  - G Mulholland
+  - ZG Yuan
+  - V Bryg
+  venue: null
+  url: null
+  key_findings: []
+- doi: null
+  title: Detection of Smoke from Microgravity Fires
+  year: null
+  authors:
+  - DL Urban
+  - D Griffin
+  - G Ruff
+  - T Cleary
+  - J Yang
+  - G Mulholland
+  - ZG Yuan
+  venue: null
+  url: null
+  key_findings: []
+- doi: 10.1016/j.firesaf.2018.04.004
+  title: Evaluation of spacecraft smoke detector performance in the low-gravity environment
+  year: null
+  authors:
+  - Meyer Marit E.
+  - Urban David L.
+  - Mulholland George W.
+  - Bryg Victoria
+  - Yuan Zeng-Guang
+  - Ruff Gary A.
+  - Cleary Thomas
+  - Yang Jiann
+  venue: null
+  url: https://doi.org/10.1016/j.firesaf.2018.04.004
+  key_findings: []
+fire_safety_tags: [smoke_detection, aerosol, material_screening]
+data: {s3_prefix: null, volume_bytes: null, file_types: [csv, pdf, xls]}
+field_confidence: {objectives: 0.7, fuels: 0.8, conditions: 0.7}
+documents:
+  - title: SAME-R PSI overview (approach, research impacts; verbatim excerpts)
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+    section: PSI repository record
+    text: >
+      Smoke Aerosol Measurement Experiment-Reflight (SAME-R). PSI accession PSI-101; sub-research area: Spacecraft Fire
+      Safety; hardware: Comparitive Soot Diagnostic Hardware. Approach: "SAME-R utilized the SAME hardware used
+      on-orbit." "Based on the experience gained from SAME, SAME-R included the following modifications: 1) a new test
+      material," "Pyrell®, an intumescent fire-retardant foam by Foamex, was introduced to replace DBP samples," "test
+      conditions were broadened including higher heating temperatures and no-flow during sample heating time," "SAME-R
+      flight tests were conducted from July 16, to September 9, 2010, successfully completing 66 test points."
+      Research impacts: "Along with the results from the original SAME investigation, the results from SAME-R can lead
+      to technology for an advan[ced] [...]". "The results from SAME are needed to provide the reduced gravity baseline
+      data against which future detection technology [...]". "The smoke detectors developed from the results of SAME can
+      also be useful in other extreme environments on Earth, such [...]". "Accurate detection of smoke in these
+      environments can save lives."
+  - title: Particle Morphology and Size Results from the Smoke Aerosol Measurement Experiment-2 (abstract, verbatim excerpts)
+    uri: https://ntrs.nasa.gov/citations/20130000422
+    section: abstract
+    text: >
+      "Results are presented from the Reflight of the Smoke Aerosol Measurement Experiment (SAME-2) which was conducted
+      during E[xpedition] [...]". "The air flow past the sample during the heating period ranged from quiescent to 8
+      cm/s." "This effective transport time was varied by holding the smoke in the aging chamber for times ranging from
+      11 to 1800 s." "Smoke particle samples were collected on Transmission Electron Microscope (TEM) grids for
+      post-flight analysis." "The TEM grids were analyzed to observe the particle morphology and size parameters."
+      "Overall the majority of the average smoke particle sizes were found to be in the 200 nm to 400 nm range with the
+      quiesc[ent] [cases producing some cases with substantially larger particles]".
 open_questions:
-  - Full title not confirmed; the acronym is used as a placeholder title.
-  - Platform and gravity level are not stated in the sources opened; left null.
-  - Per-investigation PSI page not retrieved (PSI pages render client-side); psi_url is the generic PSI repository search page.
-  - The aerosol tag is a reading of "studied smoke" and needs curator confirmation.
-  - Relationship to SAME (reflight or successor) is not stated in the sources opened.
-  - Fuels, conditions, measurements, findings and publications unknown pending PSI documents.
-  - Every stated fact is from the challenge text only and is not yet confirmed against PSI sources.
+  - The NTRS paper names the flight SAME-2 ("Reflight of the Smoke Aerosol Measurement Experiment"); it is taken to be SAME-R (PSI-101) because both are the 2010 reflight.
+  - Heating temperatures are not stated numerically in the sources opened ("heated to temperatures below the ignition point").
+  - Cabin oxygen and pressure during the tests are not stated; left null.
+  - Runs are the 109 rows of PSI-101_Experimental table_SAME-R.csv (Kapton, Silicone, Lampwick, Pyrell, Teflon); inlet velocity is the run flow speed, Rt/R0 (heater resistance ratio, the heating-level setting) and net aging time are varied parameters. Rows with an "a" suffix are the aged measurement of the same smoke sample.
+  - The table names "Lampwick" where the NTRS abstract names cotton; the cotton aggregate run from the abstract is kept because no table row is labelled cotton, and whether lampwick is that cotton sample is for a curator to confirm.
+  - Particle-size results per test are not in the table; outcomes carry only the table text.
 reviewed: false

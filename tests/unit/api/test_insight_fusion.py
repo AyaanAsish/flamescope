@@ -157,10 +157,20 @@ class TestRetrieval:
     async def test_fr11_vector_threshold_follows_embed_provider(
         self, monkeypatch: pytest.MonkeyPatch, provider: str, kept: list[int]
     ) -> None:
-        """FR-11, doc 05 s10: cosine floor 0.2 for mock, 0.5 for ollama (`nomic-embed-text`)."""
+        """FR-11, doc 05 s10: cosine floor 0.2 for mock, 0.55 for ollama (`nomic-embed-text`)."""
         monkeypatch.setenv("EMBED_PROVIDER", provider)
         get_settings.cache_clear()
         events = await _events(_service([], [_hit(1, score=0.45)]))
+        assert _retrieved_ids(events) == kept
+
+    @pytest.mark.parametrize(("score", "kept"), [(0.54, []), (0.55, [1])])
+    async def test_fr11_ollama_threshold_boundary(
+        self, monkeypatch: pytest.MonkeyPatch, score: float, kept: list[int]
+    ) -> None:
+        """FR-11, doc 05 s10: the `nomic-embed-text` floor is 0.55, inclusive."""
+        monkeypatch.setenv("EMBED_PROVIDER", "ollama")
+        get_settings.cache_clear()
+        events = await _events(_service([], [_hit(1, score=score)]))
         assert _retrieved_ids(events) == kept
 
     async def test_fr11_retrieval_keeps_best_top_k(self) -> None:

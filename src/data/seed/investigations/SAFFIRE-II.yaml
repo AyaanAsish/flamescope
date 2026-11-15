@@ -1,0 +1,775 @@
+acronym: SAFFIRE-II
+title: Spacecraft Fire Experiment-II
+project: null
+platform: ISS
+gravity_level: mixed
+psi_url: https://psi.nasa.gov/physci/repo/data/investigations/PSI-99
+hardware: []
+summary: >
+  Saffire-II burned nine 5 cm x 29 cm samples (Sibal fabric, silicone, structural PMMA, flat PMMA and PMMA with Nomex)
+  in the Cygnus pressurized cargo module after it left the ISS, in concurrent or opposed air flow of 20 or 30 cm/s, to
+  compare low-gravity flammability limits with NASA's normal-gravity material screening test.
+objectives:
+  - text: Measure how quickly a large-scale fire grows in low gravity and compare low-gravity flammability limits with those of NASA's normal-gravity material flammability screening test.
+    source: &psi_record
+      kind: psi_page
+      uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-99
+      title: PSI investigation PSI-99, Spacecraft Fire Experiment-II
+      locator: Objectives (PSI repository search record, geode-py API)
+approach:
+  text: A sample card with nine 5 cm x 29 cm samples in the Saffire flow duct on Cygnus after it deberthed from the ISS, with air flow of 20 or 30 cm/s, concurrent or opposed depending on the sample.
+  source:
+    <<: *psi_record
+    locator: Approach (PSI repository search record, geode-py API)
+    quote: 9 samples, each 5 cm x 29 cm.
+fuels:
+  - {name: cotton-fiberglass (SIBAL), phase: solid, material_class: fabric, geometry: {shape: flat sample, dimensions_mm: {width: 50, length: 290}}, source: &mat
+      {kind: psi_page, uri: "https://psi.nasa.gov/physci/repo/data/investigations/PSI-99", title: "PSI investigation PSI-99, Spacecraft Fire Experiment-II",
+       locator: "Approach (PSI repository search record, geode-py API)", quote: "SIBAL, silicone, structure PMMA, flat PMMA, and PMMA with Nomex."}}
+  - {name: silicone, phase: solid, material_class: polymer, geometry: {shape: flat sample, dimensions_mm: {width: 50, length: 290}}, source: *mat}
+  - {name: PMMA, phase: solid, material_class: polymer, geometry: {shape: flat and structural samples, dimensions_mm: {width: 50, length: 290}}, source: *mat}
+  - {name: PMMA with Nomex, phase: solid, material_class: polymer, geometry: {shape: flat sample, dimensions_mm: {width: 50, length: 290}}, source: *mat}
+conditions:
+  o2_fraction:
+    min: 0.215
+    max: 0.221
+    source:
+      kind: psi_page
+      uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-99
+      title: PSI-99 Experimental table (PSI-99_Experimental table_SAFFIRE-2.csv)
+      locator: Experimental table PSI-99_Experimental table_SAFFIRE-2.csv, column "Percent O2 (Note 1)", minimum ~21.5 (row 1), maximum ~22.1 (rows 2 to 7); Note 1 says derived from measured CO2 production
+      quote: 2-2,Silicone,0.61 mm,29 cm,5 cm,20 cm/s,~ 22.1,80 W,9.2 s,Insignificant,Concurrent,~ 0,n/a,7.6 cm,1.2 mm/s,n/a,S2C2
+  pressure_kpa: null
+  flow_speed_cm_s:
+    min: 20
+    max: 30
+    source: &flow
+      <<: *psi_record
+      locator: Approach (PSI repository search record, geode-py API)
+      quote: either 20 or 30 cm/s
+  flow_direction: [concurrent, opposed]
+  gravity_g: [0, 1]
+variables:
+  varied: [sample material, sample thickness, flow direction, gravity_g (flight and 1-g reference)]
+  fixed: [flow_speed_cm_s (20 cm/s in the table)]
+runs:
+- label: SAFFIRE-II sample 2-1 (flight)
+  fuel: silicone
+  geometry:
+    shape: flat sample
+    dimensions_mm:
+      thickness: 0.27
+      length: 290.0
+      width: 50.0
+  condition:
+    o2_fraction: 0.215
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 20.0
+    flow_direction: concurrent
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    flame_spread_rate_mm_s: null
+    notes: 'Sample 2-1; material "Silicone"; thickness "0.27 mm"; length 29 cm; width 5 cm; air flow 20 cm/s; percent O2 "~
+      21.5" (Note 1: derived from measured CO2 production); ignition power 80 W; ignition time 9.2 s; burn time Insignificant;
+      flow direction Concurrent; flight burn length "~ 0"; flight spread "n/a"'
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.8
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-99
+    title: PSI-99 Experimental table (PSI-99_Experimental table_SAFFIRE-2.csv)
+    locator: 'Experimental table PSI-99_Experimental table_SAFFIRE-2.csv, row 1; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, flight platform Cygnus Spacecraft); flight columns are the header cells "?-g Burn
+      Length" and "?-g Spread Length" (symbol lost in the PSI file), read as the flight counterpart of the 1-g columns'
+    quote: 2-1,Silicone,0.27 mm,29 cm,5 cm,20 cm/s,~ 21.5,80 W,9.2 s,Insignificant,Concurrent,~ 0,n/a,Complete,Acceleratory,S1C1,S1C2
+- label: SAFFIRE-II sample 2-1 (1-g reference)
+  fuel: silicone
+  geometry:
+    shape: flat sample
+    dimensions_mm:
+      thickness: 0.27
+      length: 290.0
+      width: 50.0
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 1.0
+  outcome:
+    ignited: null
+    extinction: null
+    flame_spread_rate_mm_s: null
+    notes: Sample 2-1; material "Silicone"; 1-g burn length "Complete"; 1-g spread rate "Acceleratory"; the 1-g test oxygen,
+      flow speed and direction are not stated in the table
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-99
+    title: PSI-99 Experimental table (PSI-99_Experimental table_SAFFIRE-2.csv)
+    locator: 'Experimental table PSI-99_Experimental table_SAFFIRE-2.csv, row 1; gravity 1 g: the table''s "1-g Burn Length"
+      and "1-g Spread Rate" columns (normal-gravity reference tests)'
+    quote: 2-1,Silicone,0.27 mm,29 cm,5 cm,20 cm/s,~ 21.5,80 W,9.2 s,Insignificant,Concurrent,~ 0,n/a,Complete,Acceleratory,S1C1,S1C2
+- label: SAFFIRE-II sample 2-2 (flight)
+  fuel: silicone
+  geometry:
+    shape: flat sample
+    dimensions_mm:
+      thickness: 0.61
+      length: 290.0
+      width: 50.0
+  condition:
+    o2_fraction: 0.221
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 20.0
+    flow_direction: concurrent
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    flame_spread_rate_mm_s: null
+    notes: 'Sample 2-2; material "Silicone"; thickness "0.61 mm"; length 29 cm; width 5 cm; air flow 20 cm/s; percent O2 "~
+      22.1" (Note 1: derived from measured CO2 production); ignition power 80 W; ignition time 9.2 s; burn time Insignificant;
+      flow direction Concurrent; flight burn length "~ 0"; flight spread "n/a"'
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.8
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-99
+    title: PSI-99 Experimental table (PSI-99_Experimental table_SAFFIRE-2.csv)
+    locator: 'Experimental table PSI-99_Experimental table_SAFFIRE-2.csv, row 2; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, flight platform Cygnus Spacecraft); flight columns are the header cells "?-g Burn
+      Length" and "?-g Spread Length" (symbol lost in the PSI file), read as the flight counterpart of the 1-g columns'
+    quote: 2-2,Silicone,0.61 mm,29 cm,5 cm,20 cm/s,~ 22.1,80 W,9.2 s,Insignificant,Concurrent,~ 0,n/a,7.6 cm,1.2 mm/s,n/a,S2C2
+- label: SAFFIRE-II sample 2-2 (1-g reference)
+  fuel: silicone
+  geometry:
+    shape: flat sample
+    dimensions_mm:
+      thickness: 0.61
+      length: 290.0
+      width: 50.0
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 1.0
+  outcome:
+    ignited: null
+    extinction: null
+    flame_spread_rate_mm_s: 1.2
+    notes: Sample 2-2; material "Silicone"; 1-g burn length "7.6 cm"; 1-g spread rate "1.2 mm/s"; the 1-g test oxygen, flow
+      speed and direction are not stated in the table
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-99
+    title: PSI-99 Experimental table (PSI-99_Experimental table_SAFFIRE-2.csv)
+    locator: 'Experimental table PSI-99_Experimental table_SAFFIRE-2.csv, row 2; gravity 1 g: the table''s "1-g Burn Length"
+      and "1-g Spread Rate" columns (normal-gravity reference tests)'
+    quote: 2-2,Silicone,0.61 mm,29 cm,5 cm,20 cm/s,~ 22.1,80 W,9.2 s,Insignificant,Concurrent,~ 0,n/a,7.6 cm,1.2 mm/s,n/a,S2C2
+- label: SAFFIRE-II sample 2-3 (flight)
+  fuel: silicone
+  geometry:
+    shape: flat sample
+    dimensions_mm:
+      thickness: 1.03
+      length: 290.0
+      width: 50.0
+  condition:
+    o2_fraction: 0.221
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 20.0
+    flow_direction: concurrent
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    flame_spread_rate_mm_s: null
+    notes: 'Sample 2-3; material "Silicone"; thickness "1.03 mm"; length 29 cm; width 5 cm; air flow 20 cm/s; percent O2 "~
+      22.1" (Note 1: derived from measured CO2 production); ignition power 80 W; ignition time 9.2 s; burn time Insignificant;
+      flow direction Concurrent; flight burn length "~ 0"; flight spread "n/a"'
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.8
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-99
+    title: PSI-99 Experimental table (PSI-99_Experimental table_SAFFIRE-2.csv)
+    locator: 'Experimental table PSI-99_Experimental table_SAFFIRE-2.csv, row 3; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, flight platform Cygnus Spacecraft); flight columns are the header cells "?-g Burn
+      Length" and "?-g Spread Length" (symbol lost in the PSI file), read as the flight counterpart of the 1-g columns'
+    quote: 2-3,Silicone,1.03 mm,29 cm,5 cm,20 cm/s,~ 22.1,80 W,9.2 s,Insignificant,Concurrent,~ 0,n/a,~ 0,n/a,,S3C2
+- label: SAFFIRE-II sample 2-3 (1-g reference)
+  fuel: silicone
+  geometry:
+    shape: flat sample
+    dimensions_mm:
+      thickness: 1.03
+      length: 290.0
+      width: 50.0
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 1.0
+  outcome:
+    ignited: null
+    extinction: null
+    flame_spread_rate_mm_s: null
+    notes: Sample 2-3; material "Silicone"; 1-g burn length "~ 0"; 1-g spread rate "n/a"; the 1-g test oxygen, flow speed
+      and direction are not stated in the table
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-99
+    title: PSI-99 Experimental table (PSI-99_Experimental table_SAFFIRE-2.csv)
+    locator: 'Experimental table PSI-99_Experimental table_SAFFIRE-2.csv, row 3; gravity 1 g: the table''s "1-g Burn Length"
+      and "1-g Spread Rate" columns (normal-gravity reference tests)'
+    quote: 2-3,Silicone,1.03 mm,29 cm,5 cm,20 cm/s,~ 22.1,80 W,9.2 s,Insignificant,Concurrent,~ 0,n/a,~ 0,n/a,,S3C2
+- label: SAFFIRE-II sample 2-4 (flight)
+  fuel: silicone
+  geometry:
+    shape: flat sample
+    dimensions_mm:
+      length: 290.0
+      width: 50.0
+  condition:
+    o2_fraction: 0.221
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 20.0
+    flow_direction: opposed
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    flame_spread_rate_mm_s: null
+    notes: 'Sample 2-4; material "Silicone"; thickness "037 mm"; length 29 cm; width 5 cm; air flow 20 cm/s; percent O2 "~
+      22.1" (Note 1: derived from measured CO2 production); ignition power 80 W; ignition time 9.2 s; burn time Insignificant;
+      flow direction Opposed; flight burn length "~ 0"; flight spread "n/a"'
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.8
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-99
+    title: PSI-99 Experimental table (PSI-99_Experimental table_SAFFIRE-2.csv)
+    locator: 'Experimental table PSI-99_Experimental table_SAFFIRE-2.csv, row 4; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, flight platform Cygnus Spacecraft); flight columns are the header cells "?-g Burn
+      Length" and "?-g Spread Length" (symbol lost in the PSI file), read as the flight counterpart of the 1-g columns'
+    quote: 2-4,Silicone,037 mm,29 cm,5 cm,20 cm/s,~ 22.1,80 W,9.2 s,Insignificant,Opposed,~ 0,n/a,Complete,0.6 mm/s,S4C1,S4C1
+- label: SAFFIRE-II sample 2-4 (1-g reference)
+  fuel: silicone
+  geometry:
+    shape: flat sample
+    dimensions_mm:
+      length: 290.0
+      width: 50.0
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 1.0
+  outcome:
+    ignited: null
+    extinction: null
+    flame_spread_rate_mm_s: 0.6
+    notes: Sample 2-4; material "Silicone"; 1-g burn length "Complete"; 1-g spread rate "0.6 mm/s"; the 1-g test oxygen, flow
+      speed and direction are not stated in the table
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-99
+    title: PSI-99 Experimental table (PSI-99_Experimental table_SAFFIRE-2.csv)
+    locator: 'Experimental table PSI-99_Experimental table_SAFFIRE-2.csv, row 4; gravity 1 g: the table''s "1-g Burn Length"
+      and "1-g Spread Rate" columns (normal-gravity reference tests)'
+    quote: 2-4,Silicone,037 mm,29 cm,5 cm,20 cm/s,~ 22.1,80 W,9.2 s,Insignificant,Opposed,~ 0,n/a,Complete,0.6 mm/s,S4C1,S4C1
+- label: SAFFIRE-II sample 2-5 (flight)
+  fuel: cotton-fiberglass (SIBAL)
+  geometry:
+    shape: flat sample
+    dimensions_mm:
+      length: 290.0
+      width: 50.0
+  condition:
+    o2_fraction: 0.221
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 20.0
+    flow_direction: concurrent
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    flame_spread_rate_mm_s: 2.1
+    notes: 'Sample 2-5; material "Cotton-Fiberglass (SIBAL)"; thickness "037 mm"; length 29 cm; width 5 cm; air flow 20 cm/s;
+      percent O2 "~ 22.1" (Note 1: derived from measured CO2 production); ignition power 80 W; ignition time 9.2 s; burn time
+      145 s; flow direction Concurrent; flight burn length "29 cm"; flight spread "2.1 mm/s"'
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.8
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-99
+    title: PSI-99 Experimental table (PSI-99_Experimental table_SAFFIRE-2.csv)
+    locator: 'Experimental table PSI-99_Experimental table_SAFFIRE-2.csv, row 5; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, flight platform Cygnus Spacecraft); flight columns are the header cells "?-g Burn
+      Length" and "?-g Spread Length" (symbol lost in the PSI file), read as the flight counterpart of the 1-g columns'
+    quote: 2-5,Cotton-Fiberglass (SIBAL),037 mm,29 cm,5 cm,20 cm/s,~ 22.1,80 W,9.2 s,145 s,Concurrent,29 cm,2.1 mm/s,Complete,Acceleratory,S5C1,S5C2
+- label: SAFFIRE-II sample 2-5 (1-g reference)
+  fuel: cotton-fiberglass (SIBAL)
+  geometry:
+    shape: flat sample
+    dimensions_mm:
+      length: 290.0
+      width: 50.0
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 1.0
+  outcome:
+    ignited: null
+    extinction: null
+    flame_spread_rate_mm_s: null
+    notes: Sample 2-5; material "Cotton-Fiberglass (SIBAL)"; 1-g burn length "Complete"; 1-g spread rate "Acceleratory"; the
+      1-g test oxygen, flow speed and direction are not stated in the table
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-99
+    title: PSI-99 Experimental table (PSI-99_Experimental table_SAFFIRE-2.csv)
+    locator: 'Experimental table PSI-99_Experimental table_SAFFIRE-2.csv, row 5; gravity 1 g: the table''s "1-g Burn Length"
+      and "1-g Spread Rate" columns (normal-gravity reference tests)'
+    quote: 2-5,Cotton-Fiberglass (SIBAL),037 mm,29 cm,5 cm,20 cm/s,~ 22.1,80 W,9.2 s,145 s,Concurrent,29 cm,2.1 mm/s,Complete,Acceleratory,S5C1,S5C2
+- label: SAFFIRE-II sample 2-6 (flight)
+  fuel: null
+  geometry:
+    shape: flat sample
+    dimensions_mm:
+      length: 290.0
+      width: 50.0
+  condition:
+    o2_fraction: 0.221
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 20.0
+    flow_direction: concurrent
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    flame_spread_rate_mm_s: 2.6
+    notes: 'Sample 2-6; material "blank"; thickness "037 mm"; length 29 cm; width 5 cm; air flow 20 cm/s; percent O2 "~ 22.1"
+      (Note 1: derived from measured CO2 production); ignition power 80 W; ignition time 9.2 s; burn time 115 s; flow direction
+      Concurrent; flight burn length "29 cm"; flight spread "2.6 mm/s"'
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.8
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-99
+    title: PSI-99 Experimental table (PSI-99_Experimental table_SAFFIRE-2.csv)
+    locator: 'Experimental table PSI-99_Experimental table_SAFFIRE-2.csv, row 6; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, flight platform Cygnus Spacecraft); flight columns are the header cells "?-g Burn
+      Length" and "?-g Spread Length" (symbol lost in the PSI file), read as the flight counterpart of the 1-g columns'
+    quote: 2-6,,037 mm,29 cm,5 cm,20 cm/s,~ 22.1,80 W,9.2 s,115 s,Concurrent,29 cm,2.6 mm/s,Complete,Acceleratory,S6C1,S56C2
+- label: SAFFIRE-II sample 2-6 (1-g reference)
+  fuel: null
+  geometry:
+    shape: flat sample
+    dimensions_mm:
+      length: 290.0
+      width: 50.0
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 1.0
+  outcome:
+    ignited: null
+    extinction: null
+    flame_spread_rate_mm_s: null
+    notes: Sample 2-6; material "blank"; 1-g burn length "Complete"; 1-g spread rate "Acceleratory"; the 1-g test oxygen,
+      flow speed and direction are not stated in the table
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-99
+    title: PSI-99 Experimental table (PSI-99_Experimental table_SAFFIRE-2.csv)
+    locator: 'Experimental table PSI-99_Experimental table_SAFFIRE-2.csv, row 6; gravity 1 g: the table''s "1-g Burn Length"
+      and "1-g Spread Rate" columns (normal-gravity reference tests)'
+    quote: 2-6,,037 mm,29 cm,5 cm,20 cm/s,~ 22.1,80 W,9.2 s,115 s,Concurrent,29 cm,2.6 mm/s,Complete,Acceleratory,S6C1,S56C2
+- label: SAFFIRE-II sample 2-7 (flight)
+  fuel: PMMA with Nomex
+  geometry:
+    shape: flat sample
+    dimensions_mm:
+      width: 50.0
+  condition:
+    o2_fraction: 0.221
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 20.0
+    flow_direction: concurrent
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    flame_spread_rate_mm_s: null
+    notes: 'Sample 2-7; material "PMMA & Nomex"; thickness "0.85 and 0.37 mm"; length 5 and 24 cm; width 5 cm; air flow 20
+      cm/s; percent O2 "~ 22.1" (Note 1: derived from measured CO2 production); ignition power 80 W; ignition time 9.2 s;
+      burn time 140 s; flow direction Concurrent; flight burn length "5 cm & 0 (note 2)"; flight spread "n/a (Nomex)"'
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.8
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-99
+    title: PSI-99 Experimental table (PSI-99_Experimental table_SAFFIRE-2.csv)
+    locator: 'Experimental table PSI-99_Experimental table_SAFFIRE-2.csv, row 7; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, flight platform Cygnus Spacecraft); flight columns are the header cells "?-g Burn
+      Length" and "?-g Spread Length" (symbol lost in the PSI file), read as the flight counterpart of the 1-g columns'
+    quote: 2-7,PMMA & Nomex,0.85 and 0.37 mm,5 and 24 cm,5 cm,20 cm/s,~ 22.1,80 W,9.2 s,140 s,Concurrent,5 cm & 0 (note 2),n/a
+      (Nomex),~ 0 (Nomex),n/a (Nomex),S7C1,n/a
+- label: SAFFIRE-II sample 2-7 (1-g reference)
+  fuel: PMMA with Nomex
+  geometry:
+    shape: flat sample
+    dimensions_mm:
+      width: 50.0
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 1.0
+  outcome:
+    ignited: null
+    extinction: null
+    flame_spread_rate_mm_s: null
+    notes: Sample 2-7; material "PMMA & Nomex"; 1-g burn length "~ 0 (Nomex)"; 1-g spread rate "n/a (Nomex)"; the 1-g test
+      oxygen, flow speed and direction are not stated in the table
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-99
+    title: PSI-99 Experimental table (PSI-99_Experimental table_SAFFIRE-2.csv)
+    locator: 'Experimental table PSI-99_Experimental table_SAFFIRE-2.csv, row 7; gravity 1 g: the table''s "1-g Burn Length"
+      and "1-g Spread Rate" columns (normal-gravity reference tests)'
+    quote: 2-7,PMMA & Nomex,0.85 and 0.37 mm,5 and 24 cm,5 cm,20 cm/s,~ 22.1,80 W,9.2 s,140 s,Concurrent,5 cm & 0 (note 2),n/a
+      (Nomex),~ 0 (Nomex),n/a (Nomex),S7C1,n/a
+- label: SAFFIRE-II sample 2-8 (flight)
+  fuel: PMMA
+  geometry:
+    shape: flat sample
+    dimensions_mm:
+      length: 290.0
+      width: 50.0
+  condition:
+    o2_fraction: 0.2205
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 20.0
+    flow_direction: concurrent
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    flame_spread_rate_mm_s: null
+    notes: 'Sample 2-8; material "PMMA"; thickness "See Fig. 5"; length 29 cm; width 5 cm; air flow 20 cm/s; percent O2 "22.1
+      to 22.0" (Note 1: derived from measured CO2 production); ignition power 97 W; ignition time 30 s; burn time 600 s; flow
+      direction Concurrent; flight burn length "~ 10 cm (note 3)"; flight spread "Note 4"'
+  varied_parameters:
+    o2_fraction:
+      min: 0.22
+      max: 0.221
+  fixed_parameters: {}
+  is_aggregate: true
+  confidence: 0.8
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-99
+    title: PSI-99 Experimental table (PSI-99_Experimental table_SAFFIRE-2.csv)
+    locator: 'Experimental table PSI-99_Experimental table_SAFFIRE-2.csv, row 8; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, flight platform Cygnus Spacecraft); flight columns are the header cells "?-g Burn
+      Length" and "?-g Spread Length" (symbol lost in the PSI file), read as the flight counterpart of the 1-g columns'
+    quote: 2-8,PMMA,See Fig. 5,29 cm,5 cm,20 cm/s,22.1 to 22.0,97 W,30 s,600 s,Concurrent,~ 10 cm (note 3),Note 4,Complete,Acceleratory,S8C1,n/a
+- label: SAFFIRE-II sample 2-8 (1-g reference)
+  fuel: PMMA
+  geometry:
+    shape: flat sample
+    dimensions_mm:
+      length: 290.0
+      width: 50.0
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 1.0
+  outcome:
+    ignited: null
+    extinction: null
+    flame_spread_rate_mm_s: null
+    notes: Sample 2-8; material "PMMA"; 1-g burn length "Complete"; 1-g spread rate "Acceleratory"; the 1-g test oxygen, flow
+      speed and direction are not stated in the table
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-99
+    title: PSI-99 Experimental table (PSI-99_Experimental table_SAFFIRE-2.csv)
+    locator: 'Experimental table PSI-99_Experimental table_SAFFIRE-2.csv, row 8; gravity 1 g: the table''s "1-g Burn Length"
+      and "1-g Spread Rate" columns (normal-gravity reference tests)'
+    quote: 2-8,PMMA,See Fig. 5,29 cm,5 cm,20 cm/s,22.1 to 22.0,97 W,30 s,600 s,Concurrent,~ 10 cm (note 3),Note 4,Complete,Acceleratory,S8C1,n/a
+- label: SAFFIRE-II sample 2-9 (flight)
+  fuel: null
+  geometry:
+    shape: flat sample
+    dimensions_mm:
+      thickness: 10.0
+      length: 290.0
+      width: 50.0
+  condition:
+    o2_fraction: 0.2195
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 20.0
+    flow_direction: concurrent
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    flame_spread_rate_mm_s: null
+    notes: 'Sample 2-9; material "blank"; thickness "1 cm"; length 29 cm; width 5 cm; air flow 20 cm/s; percent O2 "22.0 to
+      21.9" (Note 1: derived from measured CO2 production); ignition power 97 W; ignition time 30 s; burn time 900 s; flow
+      direction Concurrent; flight burn length "~ 10 cm (note 4)"; flight spread "Note 4"'
+  varied_parameters:
+    o2_fraction:
+      min: 0.219
+      max: 0.22
+  fixed_parameters: {}
+  is_aggregate: true
+  confidence: 0.8
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-99
+    title: PSI-99 Experimental table (PSI-99_Experimental table_SAFFIRE-2.csv)
+    locator: 'Experimental table PSI-99_Experimental table_SAFFIRE-2.csv, row 9; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, flight platform Cygnus Spacecraft); flight columns are the header cells "?-g Burn
+      Length" and "?-g Spread Length" (symbol lost in the PSI file), read as the flight counterpart of the 1-g columns'
+    quote: 2-9,,1 cm,29 cm,5 cm,20 cm/s,22.0 to 21.9,97 W,30 s,900 s,Concurrent,~ 10 cm (note 4),Note 4,Complete,Acceleratory,S9C1,n/a
+- label: SAFFIRE-II sample 2-9 (1-g reference)
+  fuel: null
+  geometry:
+    shape: flat sample
+    dimensions_mm:
+      thickness: 10.0
+      length: 290.0
+      width: 50.0
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 1.0
+  outcome:
+    ignited: null
+    extinction: null
+    flame_spread_rate_mm_s: null
+    notes: Sample 2-9; material "blank"; 1-g burn length "Complete"; 1-g spread rate "Acceleratory"; the 1-g test oxygen,
+      flow speed and direction are not stated in the table
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-99
+    title: PSI-99 Experimental table (PSI-99_Experimental table_SAFFIRE-2.csv)
+    locator: 'Experimental table PSI-99_Experimental table_SAFFIRE-2.csv, row 9; gravity 1 g: the table''s "1-g Burn Length"
+      and "1-g Spread Rate" columns (normal-gravity reference tests)'
+    quote: 2-9,,1 cm,29 cm,5 cm,20 cm/s,22.0 to 21.9,97 W,30 s,900 s,Concurrent,~ 10 cm (note 4),Note 4,Complete,Acceleratory,S9C1,n/a
+measurements: []
+findings: []
+publications:
+- doi: null
+  title: 'Buoyant Effects on the Flammability of Silicone Samples Planned for the Spacecraft Fire Experiment (Saffire), Conference:
+    45th International Conference on Environmental Systems ICES-2015-[293] 12-16 July 2015, Bellevue, Washington'
+  year: null
+  authors:
+  - JE Niehaus
+  - PV Ferkul
+  - SA Gokoglu
+  - GA Ruff
+  venue: null
+  url: null
+  key_findings: []
+- doi: null
+  title: The Spacecraft Fire Experiment (Saffire) - Objectives, Development and Status
+  year: null
+  authors:
+  - W Schoren
+  - GA Ruff
+  - DL Urban
+  venue: null
+  url: null
+  key_findings: []
+- doi: 10.1016/j.combustflame.2018.10.012
+  title: 'Flame spread: Effects of microgravity and scale'
+  year: null
+  authors:
+  - Urban David L.
+  - Ferkul Paul
+  - Olson Sandra
+  - Ruff Gary A.
+  - Easton John
+  - T'ien James S.
+  - Liao Ya-Ting T.
+  - Li Chengyao
+  - Fernandez-Pello Carlos
+  - Torero Jose L.
+  - Legros Guillaume
+  - Eigenbrod Christian
+  - Smirnov Nickolay
+  - Fujita Osamu
+  - Rouvreau Sébastien
+  - Toth Balazs
+  - Jomaas Grunde
+  venue: null
+  url: https://doi.org/10.1016/j.combustflame.2018.10.012
+  key_findings: []
+- doi: 10.1016/j.combustflame.2018.10.016
+  title: Buoyancy effects on concurrent flame spread over thick PMMA
+  year: null
+  authors:
+  - Thomsen Maria
+  - Fernandez-Pello Carlos
+  - Ruff Gary A.
+  - Urban David L.
+  venue: null
+  url: https://doi.org/10.1016/j.combustflame.2018.10.016
+  key_findings: []
+- doi: 10.1007/s10694-019-00863-3
+  title: Concurrent Flame Spread Over Two-Sided Thick PMMA Slabs in Microgravity
+  year: null
+  authors:
+  - Olson Sandra L.
+  - Urban David L.
+  - Ruff Gary A.
+  - Ferkul Paul V.
+  - Toth Balazs
+  - Eigenbrod Christian
+  - Meyer Florian
+  - Jomaas Grunde
+  venue: null
+  url: https://doi.org/10.1007/s10694-019-00863-3
+  key_findings: []
+- doi: 10.1016/j.proci.2018.05.168
+  title: Transient flame growth and spread processes over a large solid fabric in concurrent low-speed flows in microgravity
+    – Model versus experiment
+  year: null
+  authors:
+  - Li Chengyao
+  - Liao Ya-Ting T.
+  - T'ien James S.
+  - Urban David L.
+  - Ferkul Paul
+  - Olson Sandra
+  - Ruff Gary A.
+  - Easton John
+  venue: null
+  url: https://doi.org/10.1016/j.proci.2018.05.168
+  key_findings: []
+- doi: 10.1016/j.firesaf.2020.102977
+  title: Evaluation of gas and particle sensors for detecting spacecraft-relevant fire emissions
+  year: null
+  authors:
+  - Wang Xiaoliang
+  - Zhou Hao
+  - Arnott W. Patrick
+  - Meyer Marit E.
+  - Taylor Samuel
+  - Firouzkouhi Hatef
+  - Moosmüller Hans
+  - Chow Judith C.
+  - Watson John G.
+  venue: null
+  url: https://doi.org/10.1016/j.firesaf.2020.102977
+  key_findings: []
+fire_safety_tags: [solid_fuel, flame_spread, material_screening, flow_effects]
+data: {s3_prefix: null, volume_bytes: null, file_types: []}
+field_confidence: {objectives: 0.7, fuels: 0.85, conditions: 0.7}
+documents:
+  - title: Saffire-II PSI overview (approach, research impacts; verbatim excerpts)
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-99
+    section: PSI repository record
+    text: >
+      Spacecraft Fire Experiment-II (SAFFIRE-II). PSI accession PSI-99. Hardware: Cygnus Pressurized Cargo Module
+      SAFFIRE. The PSI record states that the experiment ran on the Cygnus resupply vehicle after it deberthed from the
+      ISS and added samples to Saffire-I: "SIBAL, silicone, structure PMMA, flat PMMA, and PMMA with Nomex." The sample
+      card held "9 samples, each 5 cm x 29 cm." Air flow was "either 20 or 30 cm/s", concurrent or opposed depending on
+      the sample. Sensors recorded "pressure, CO2 and O2 mole faction." Research impacts: "The Saffire-II experiment
+      provides a new way to study a realistic fire on an exploration vehicle, which has not been pos[sible] [...]".
+      "Instruments on an unmanned cargo vessel measure oxygen, carbon dioxide, heat, pressure and flame growth, and two
+      video [...]".
+open_questions:
+  - Added from the PSI combustion catalog (PSI-99). Runs are the nine samples (2-1 to 2-9) of PSI-99_Experimental table_SAFFIRE-2.csv, each twice, as the flight burn (0 g, PSI Microgravity Investigation, flight platform Cygnus Spacecraft) and the table's normal-gravity reference columns "1-g Burn Length" and "1-g Spread Rate" (1 g). They replace the four per-material aggregates from the PSI approach.
+  - Every table row lists 20 cm/s, while the PSI approach says "either 20 or 30 cm/s" depending on material; the card keeps the approach range and no run is given 30 cm/s.
+  - The flight columns are headed "?-g Burn Length" and "?-g Spread Length" in the PSI file (the symbol is lost); they are read as the flight counterpart of the 1-g columns. Spread rates such as "2.1 mm/s" become flame_spread_rate_mm_s; "Acceleratory", "Complete", "~ 0" and "n/a" stay in notes.
+  - The 1-g reference runs state no oxygen, flow speed or flow direction; those stay null. Samples 2-6 and 2-9 have a blank Material cell, so their fuel is null. Thickness "037 mm" (samples 2-4 to 2-6) and "See Fig. 5" are not converted.
+  - PSI states the flight platform as "Cygnus Spacecraft", which the platform vocabulary does not hold; platform stays ISS as for SAFFIRE-I and -III, whose PSI records name the ISS. Cabin pressure is not in the table.
+reviewed: false

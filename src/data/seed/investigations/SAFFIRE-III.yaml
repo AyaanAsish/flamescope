@@ -1,0 +1,157 @@
+acronym: SAFFIRE-III
+title: Spacecraft Fire Experiment-III
+project: null
+platform: ISS
+gravity_level: microgravity
+psi_url: https://psi.nasa.gov/physci/repo/data/investigations/PSI-100
+hardware: []
+summary: >
+  Saffire-III repeated the large-scale Sibal fabric burn of Saffire-I in the Cygnus vehicle after it left the ISS, at an
+  air flow of 30 cm/s instead of 20 cm/s, concurrent or opposed, to measure large-fire growth in low gravity and compare
+  low-gravity flammability limits with NASA's normal-gravity screening test.
+objectives:
+  - text: Measure how quickly a large-scale fire grows in low gravity and compare low-gravity flammability limits with those of NASA's normal-gravity material flammability screening test.
+    source: &psi_record
+      kind: psi_page
+      uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-100
+      title: PSI investigation PSI-100, Spacecraft Fire Experiment-III
+      locator: Objectives (PSI repository search record, geode-py API)
+approach:
+  text: A Sibal sample burned in the Saffire III enclosure on Cygnus after it deberthed from the ISS at a flow of 30 cm/s (compared with 20 cm/s in Saffire-I), recorded by cameras, thermocouples, radiometers and pressure, CO2 and O2 sensors.
+  source:
+    <<: *psi_record
+    locator: Approach (PSI repository search record, geode-py API)
+    quote: 30 cm/s compared to 20 cm/s during Saffire I
+fuels:
+  - name: cotton-fiberglass (SIBAL)
+    phase: solid
+    material_class: fabric
+    geometry: {shape: flat fabric sheet, dimensions_mm: {}}
+    source:
+      <<: *psi_record
+      locator: Approach (PSI repository search record, geode-py API)
+      quote: SIBAL
+conditions:
+  o2_fraction: null
+  pressure_kpa: null
+  flow_speed_cm_s:
+    min: 30
+    max: 30
+    source: &flow
+      <<: *psi_record
+      locator: Approach (PSI repository search record, geode-py API)
+      quote: 30 cm/s compared to 20 cm/s during Saffire I
+  flow_direction: [concurrent, opposed]
+  gravity_g: [0]
+variables:
+  varied: []
+  fixed: [flow_speed_cm_s, sample material, gravity_g]
+runs:
+- label: SAFFIRE-III sample S1
+  fuel: cotton-fiberglass (SIBAL)
+  geometry:
+    shape: flat fabric sheet
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 30.0
+    flow_direction: concurrent
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Sample Number S1; Material SIBAL Fabric; Sample Thickness .33 cm; Sample Length 94 cm; Sample Width 40.6 cm; Air
+      Flow 30 cm/s; Direction Concurrent ; Camera 1 S1C1; Camera 2 S1C2
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.9
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-100
+    title: PSI-100 Experimental table (PSI-100_Experimental table_SAFFIRE-3.csv)
+    locator: 'Experimental table PSI-100_Experimental table_SAFFIRE-3.csv, row 1; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); air flow in cm/s; percent O2 converted to a fraction (a stated range is an aggregate)'
+    quote: S1,SIBAL Fabric,.33 cm,94 cm,40.6 cm,30 cm/s,Concurrent ,S1C1,S1C2
+- label: SAFFIRE-III sample S2
+  fuel: cotton-fiberglass (SIBAL)
+  geometry:
+    shape: flat fabric sheet
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 30.0
+    flow_direction: opposed
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Sample Number S2; Material SIBAL Fabric; Sample Thickness .33 cm; Sample Length 94 cm; Sample Width 40.6 cm; Air
+      Flow 30 cm/s; Direction Opposed; Camera 1 S2C1; Camera 2 S2C2
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.9
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-100
+    title: PSI-100 Experimental table (PSI-100_Experimental table_SAFFIRE-3.csv)
+    locator: 'Experimental table PSI-100_Experimental table_SAFFIRE-3.csv, row 2; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); air flow in cm/s; percent O2 converted to a fraction (a stated range is an aggregate)'
+    quote: S2,SIBAL Fabric,.33 cm,94 cm,40.6 cm,30 cm/s,Opposed,S2C1,S2C2
+measurements: []
+findings: []
+publications:
+- doi: null
+  title: Buoyant Effects on the Flammability of Silicone Samples Planned for the Spacecraft Fire Experiment (Saffire), 45th
+    International Conference on Environmental Systems ICES-2015-[293] 12-16 July 2015, Bellevue, Washington
+  year: null
+  authors:
+  - JE Niehaus
+  - PV Ferkul
+  - SA Gokoglu
+  - GA Ruff
+  venue: null
+  url: null
+  key_findings: []
+- doi: null
+  title: The Spacecraft Fire Experiment (Saffire) - Objectives, Development and Status
+  year: null
+  authors:
+  - W Schoren
+  - GA Ruff
+  - DL Urban
+  venue: null
+  url: null
+  key_findings: []
+- doi: null
+  title: Operation and Development Status of the Spacecraft Fire Experiments (Saffire), 46th International Conference on Environmental
+    Systems (ICES), July 2016
+  year: null
+  authors:
+  - https://ntrs.nasa.gov/citations/20170000230
+  venue: null
+  url: null
+  key_findings: []
+fire_safety_tags: [solid_fuel, flame_spread, material_screening, flow_effects]
+data: {s3_prefix: null, volume_bytes: null, file_types: []}
+field_confidence: {objectives: 0.7, fuels: 0.8, conditions: 0.7}
+documents:
+  - title: Saffire-III PSI overview (approach, research impacts; verbatim excerpts)
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-100
+    section: PSI repository record
+    text: >
+      Spacecraft Fire Experiment-III (SAFFIRE-III). PSI accession PSI-100. Project type: Microgravity Investigation;
+      hardware: Saffire III enclosure in Cygnus; sub-research area: Spacecraft Fire Safety. The PSI record states that
+      the experiment ran on the Cygnus resupply vehicle after it deberthed from the ISS, used "SIBAL" as the sample
+      material as a follow-on to Saffire I, with flow at "30 cm/s compared to 20 cm/s during Saffire I", concurrent or
+      opposed, and that solid-state sensors measured "pressure, CO2 and O2 mole faction." Research impacts: "Instruments
+      on an unmanned cargo vessel measure oxygen, carbon dioxide, heat, pressure and flame growth, and two video [...]".
+open_questions:
+  - Added from the PSI combustion catalog (PSI-100). Runs are the two samples of PSI-100_Experimental table_SAFFIRE-3.csv (S1 concurrent, S2 opposed, SIBAL, 30 cm/s); cabin oxygen and pressure and burn results are not in the table and stay null.
+  - The table lists thickness ".33 cm", length 94 cm and width 40.6 cm without saying which side faced the flow; the cells stay in run notes and geometry dimensions are left empty.
+reviewed: false

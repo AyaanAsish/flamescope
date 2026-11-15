@@ -1,4 +1,4 @@
-import { screen, within } from "@testing-library/react";
+import { fireEvent, screen, waitFor, within } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 import InvestigationPage from "@/app/(dashboard)/investigations/[id]/page";
 import { apiGet } from "@/lib/api/client";
@@ -20,6 +20,8 @@ vi.mock("@/lib/api/client", async (importOriginal) => ({
 
 const DETAIL_ROUTE = "GET /investigations/BASS-II";
 const RUNS_ROUTE = "GET /investigations/BASS-II/runs";
+// Doc 05 section 1 maximum page size, the size the runs tab requests.
+const RUNS_PAGE_SIZE = 100;
 const DATA = {
   [DETAIL_ROUTE]: DETAIL,
   [RUNS_ROUTE]: pageOf([RUN]),
@@ -76,6 +78,31 @@ describe("Investigation detail /investigations/[id] (doc 10 section 5, CF-04)", 
     const runs = await findPanelState("runs-table", "data");
     expect(within(runs).getByText("21 % O₂")).toBeInTheDocument();
     expect(within(runs).getByText("101.3 kPa")).toBeInTheDocument();
+  });
+
+  it("FR-06: the runs tab pages through investigations with more runs than one page", async () => {
+    setUrl("/investigations/BASS-II?tab=runs");
+    const firstPage = { ...pageOf([RUN]), page_size: RUNS_PAGE_SIZE, total: RUNS_PAGE_SIZE + 1 };
+    serveApi({ ...DATA, [RUNS_ROUTE]: firstPage });
+    await renderDetail();
+    const runs = await findPanelState("runs-table", "data");
+    const pagination = within(runs).getByRole("navigation", { name: "Pagination" });
+    expect(pagination).toHaveTextContent("page 1 of 2");
+    fireEvent.click(within(pagination).getByRole("button", { name: /next/i }));
+    await waitFor(() =>
+      expect(vi.mocked(apiGet)).toHaveBeenCalledWith("/investigations/BASS-II/runs", {
+        page: 2,
+        page_size: RUNS_PAGE_SIZE,
+      }),
+    );
+  });
+
+  it("FR-06: the runs tab has no pagination when every run fits on one page", async () => {
+    setUrl("/investigations/BASS-II?tab=runs");
+    serveApi(DATA);
+    await renderDetail();
+    const runs = await findPanelState("runs-table", "data");
+    expect(within(runs).queryByRole("navigation", { name: "Pagination" })).toBeNull();
   });
 
   it("FR-01: the acronym in the URL is decoded before the API call", async () => {

@@ -1,6 +1,6 @@
-# Earth application seeds (objective O4). The three entries are the examples named in the challenge
-# statement (architecture doc 01 section 1, O4). No investigation links are asserted because no
-# source retrieved in this session connects them to specific investigations.
+# Earth application seeds (objective O4). The first three entries are the examples named in the challenge
+# statement (architecture doc 01 section 1, O4). Investigation links are asserted only where a source opened
+# in curation states the terrestrial benefit for that investigation.
 reviewed: false
 applications:
   - title: Fine water mist extinguishers
@@ -16,11 +16,23 @@ applications:
         locator: doc 01 section 1, O4
   - title: Smoke detection
     sector: detection
-    description: Example terrestrial application named in the challenge statement.
+    description: >
+      Example terrestrial application named in the challenge statement. PSI states that smoke detectors developed
+      from the SAME results can also be useful in other extreme environments on Earth.
     maturity: null
-    investigations: []
+    investigations: [SAME, SAME-R, PSI-115]
     references:
       - *cur
+      - kind: psi_page
+        uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-101
+        title: PSI investigation PSI-101, Smoke Aerosol Measurement Experiment-Reflight
+        locator: Research Impacts/Earth Benefits (PSI repository record, geode-py API)
+        quote: The smoke detectors developed from the results of SAME can also be useful in other extreme environments on Earth, such
+      - kind: psi_page
+        uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-115
+        title: PSI investigation PSI-115, Utilization of the Smoke Aerosol Measurement Experiment Data for Advanced Modeling and Simulation of Smoke Generation in Micro-Gravity
+        locator: researchImpacts (PSI repository record, geode-py API)
+        quote: This would directly lead to better smoke detection devices and prevent fires that can lead to loss of materiel and loss of life.
   - title: Firefighter gear
     sector: firefighting
     description: Example terrestrial application named in the challenge statement.
@@ -28,5 +40,18 @@ applications:
     investigations: []
     references:
       - *cur
+  - title: Electric-field control of flames to reduce pollutant emissions
+    sector: industrial
+    description: >
+      Using electric fields to control flames can reduce harmful pollutants in practical terrestrial combustion and
+      may allow more efficient combustion with lower fuel consumption (E-FIELD Flames Earth applications).
+    maturity: null
+    investigations: [E-FIELD-Flames]
+    references:
+      - kind: document
+        uri: https://science.nasa.gov/biological-physical/investigations/e-field-flames/
+        title: Electric-Field Effects on Laminar Diffusion Flames (E-FIELD Flames) - NASA Science
+        locator: Earth Applications
+        quote: The use of electric fields to control flames can reduce the production of harmful pollutants in practical terrestrial co
 open_questions:
-  - Links from these applications to investigations and findings are unknown pending PSI sources.
+  - Links from the challenge examples (water mist, firefighter gear) to investigations are not supported by any source opened; left empty.

@@ -10,7 +10,7 @@ from typing import Any
 from sqlalchemy import ColumnElement, func, select
 from sqlalchemy.orm import Session
 
-from flamescope_api.repositories import to_float
+from flamescope_api.repositories import ACRONYM_ORDER, to_float
 from flamescope_common.models import Condition, Fuel, Investigation, TestRun
 from flamescope_common.schemas.api import ExtractFilters, RangePair
 from flamescope_common.schemas.card import RunOutcome
@@ -143,7 +143,7 @@ class RunRepo:
             .outerjoin(Fuel, Fuel.id == TestRun.fuel_id)
             .outerjoin(Condition, Condition.test_run_id == TestRun.id)
             .where(*clauses)
-            .order_by(Investigation.acronym, TestRun.id)
+            .order_by(*ACRONYM_ORDER, TestRun.id)
         )
         return [
             _to_record(run, acronym, fuel, condition)

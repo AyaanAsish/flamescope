@@ -24,7 +24,7 @@ export function formatExtractCell(column: ColumnInfo, value: unknown): string {
 function Rows({ table }: { table: ExtractTable }) {
   return (
     <>
-      <Table>
+      <Table label="Extract preview">
         <thead>
           <tr>
             {table.columns.map((column) => (

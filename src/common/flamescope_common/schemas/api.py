@@ -29,7 +29,7 @@ DEFAULT_ASK_TOP_K = 8
 MAX_ASK_TOP_K = 20
 DEFAULT_SCENARIO_LIMIT = 10
 DEFAULT_EXTRACT_LIMIT = 50
-MAX_EXTRACT_LIMIT = 1000
+MAX_EXTRACT_LIMIT = 5000
 
 RankLens = Literal["habitat", "modeling", "controls", "overall"]
 SortKey = Literal["acronym", "overall", "habitat", "modeling", "controls"]

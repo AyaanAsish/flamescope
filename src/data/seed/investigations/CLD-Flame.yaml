@@ -1,0 +1,1404 @@
+acronym: CLD-Flame
+title: Coflow Laminar Diffusion Flame
+project: ACME
+platform: ISS
+gravity_level: microgravity
+psi_url: https://psi.nasa.gov/physci/repo/data/investigations/PSI-21
+hardware:
+  - {name: CIR, role: host}
+  - {name: ACME insert, role: apparatus}
+summary: >
+  CLD Flame, an ACME experiment in the Combustion Integrated Rack, characterised weak and sooting coflow laminar
+  diffusion flames of diluted methane and ethylene in an air coflow as functions of velocity and fuel dilution, to
+  test computational models with improved soot sub-models. Dilution limits of both fuels were extended in
+  microgravity, and the flames were taller and wider than in normal gravity.
+objectives:
+  - text: Characterize the behavior of weak coflow diffusion flames of methane and ethylene, as a function of velocity and fuel [...]
+    source: &psi_record
+      kind: psi_page
+      uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-21
+      title: PSI investigation PSI-21, ACME Coflow Laminar Diffusion Flame
+      locator: Objectives (PSI repository search record, geode-py API)
+      quote: (A) Characterize the behavior of weak coflow diffusion flames of methane and ethylene, as a function of velocity and fuel
+  - text: Characterize the sooting tendencies of diffusion flames with long residence times, as a function of velocity and fuel [...]
+    source:
+      <<: *psi_record
+      quote: (B) Characterize the sooting tendencies of diffusion flames with long residence times, as a function of velocity and fuel
+approach:
+  text: Methane and ethylene diffusion flames studied over a wide range of test conditions, with OH* and CH* chemiluminescence for dilute flames and soot luminosity and laser extinction for fuel-rich flames.
+  source:
+    <<: *psi_record
+    locator: Approach (PSI repository search record, geode-py API)
+    quote: Experimentally, we plan to study methane and ethylene diffusion flames over a wide range of test conditions.
+fuels:
+  - {name: methane, phase: gas, material_class: hydrocarbon gas, geometry: {shape: coflow burner, dimensions_mm: {}}, source: &fuels
+      {kind: publication, uri: "https://ntrs.nasa.gov/citations/20210021781", title: "Recent Research on Flames of Gaseous Fuel Aboard the International Space Station (Stocker, 2021)",
+       locator: "CLD Flame section, conference paper full text", quote: "the structure of diluted methane and ethylene flames in an air coflow"}}
+  - {name: ethylene, phase: gas, material_class: hydrocarbon gas, geometry: {shape: coflow burner, dimensions_mm: {}}, source: *fuels}
+conditions:
+  o2_fraction: null
+  pressure_kpa: null
+  flow_speed_cm_s: null
+  flow_direction: [coflow]
+  gravity_g: [0]
+variables:
+  varied: [fuel, fuel dilution, matched fuel and coflow velocity]
+  fixed: [gravity_g, air coflow]
+measurements: []
+findings:
+  - statement: Dilution limits for both methane and ethylene coflow flames were extended in microgravity.
+    category: fundamental
+    source: &jasmac
+      kind: publication
+      uri: https://ntrs.nasa.gov/citations/20210021781
+      title: Recent Research on Flames of Gaseous Fuel Aboard the International Space Station (Stocker, 2021)
+      locator: CLD Flame section, conference paper full text
+      quote: dilution limits for both methane and ethylene flames were extended in microgravity
+    confidence: 0.8
+  - statement: The microgravity coflow flames were taller and wider than their normal-gravity counterparts.
+    category: fundamental
+    source:
+      <<: *jasmac
+      quote: These microgravity flames are also taller and wider.
+    confidence: 0.75
+publications:
+- doi: 10.1016/j.combustflame.2016.02.012
+  title: Analysis of CH* concentration and flame heat release rate in laminar coflow diffusion flames under microgravity and
+    normal gravity
+  year: null
+  authors:
+  - D Giassi
+  - S Cao
+  - BA Bennett
+  - DP Stocker
+  - F Takahashi
+  - MD Smooke
+  - MB Long
+  venue: null
+  url: https://doi.org/10.1016/j.combustflame.2016.02.012
+  key_findings: []
+- doi: 10.1007/s00348-016-2218-5
+  title: Signal-to-noise ratio improvements in laser flow diagnostics using time-resolved image averaging and high dynamic
+    range imaging
+  year: null
+  authors:
+  - Giassi Davide
+  - Long Marshall B.
+  venue: null
+  url: https://doi.org/10.1007/s00348-016-2218-5
+  key_findings: []
+- doi: 10.1016/j.proci.2014.05.138
+  title: 'A computational and experimental study of coflow laminar methane/air diffusion flames: Effects of fuel dilution,
+    inlet velocity, and gravity'
+  year: null
+  authors:
+  - Cao S.
+  - Ma B.
+  - Bennett B.A.V.
+  - Giassi D.
+  - Stocker D.P.
+  - Takahashi F.
+  - Long M.B.
+  - Smooke M.D.
+  venue: null
+  url: https://doi.org/10.1016/j.proci.2014.05.138
+  key_findings: []
+- doi: 10.1080/00102202.2022.2041621
+  title: A Combined Experimental and Computational Study of Soot Formation in Normal and Microgravity Conditions
+  year: null
+  authors:
+  - Dobbins Richard R.
+  - Tinjero Jesse
+  - Squeo Joseph
+  - Zhao Xinyu
+  - Hall Robert J.
+  - Colket Meredith B.
+  - Long Marshall B.
+  - Smooke Mitchell D.
+  venue: null
+  url: https://doi.org/10.1080/00102202.2022.2041621
+  key_findings: []
+- doi: 10.1016/j.proci.2020.06.034
+  title: Constrained-temperature solutions of coflow laminar diffusion flames
+  year: null
+  authors:
+  - Kempema Nathan J.
+  - Dobbins Richard R.
+  - Long Marshall B.
+  - Smooke Mitchell D.
+  venue: null
+  url: https://doi.org/10.1016/j.proci.2020.06.034
+  key_findings: []
+- doi: 10.1080/13647830.2017.1403051
+  title: 'Effects of pressure and fuel dilution on coflow laminar methane–air diffusion flames: A computational and experimental
+    study'
+  year: null
+  authors:
+  - Cao Su
+  - Ma Bin
+  - Giassi Davide
+  - Bennett Beth Anne V.
+  - Long Marshall B.
+  - Smooke Mitchell D.
+  venue: null
+  url: https://doi.org/10.1080/13647830.2017.1403051
+  key_findings: []
+- doi: 10.1364/OL.43.001103
+  title: Effect of soot self-absorption on color-ratio pyrometry in laminar coflow diffusion flames
+  year: null
+  authors:
+  - Kempema Nathan J.
+  - Long Marshall B.
+  venue: null
+  url: https://doi.org/10.1364/OL.43.001103
+  key_findings: []
+- doi: 10.1016/j.proci.2014.05.064
+  title: An experimental and computational study of soot formation in a coflow jet flame under microgravity and normal gravity
+  year: null
+  authors:
+  - Ma Bin
+  - Cao Su
+  - Giassi Davide
+  - Stocker Dennis P.
+  - Takahashi Fumiaki
+  - Bennett Beth Anne V.
+  - Smooke Mitchell D.
+  - Long Marshall B.
+  venue: null
+  url: https://doi.org/10.1016/j.proci.2014.05.064
+  key_findings: []
+- doi: 10.1016/j.proci.2012.05.030
+  title: Absolute light calibration using S-type thermocouples
+  year: null
+  authors:
+  - Ma Bin
+  - Long Marshall B.
+  venue: null
+  url: https://doi.org/10.1016/j.proci.2012.05.030
+  key_findings: []
+- doi: 10.1016/j.carbon.2011.07.050
+  title: A comparison of Raman signatures and laser-induced incandescence with direct numerical simulation of soot growth
+    in non-premixed ethylene/air flames
+  year: null
+  authors:
+  - Herdman Jennifer D.
+  - Connelly Blair C.
+  - Smooke Mitchell D.
+  - Long Marshall B.
+  - Miller J. Houston
+  venue: null
+  url: https://doi.org/10.1016/j.carbon.2011.07.050
+  key_findings: []
+- doi: 10.1016/j.proci.2010.05.006
+  title: Soot and thin-filament pyrometry using a color digital camera
+  year: null
+  authors:
+  - Kuhn Peter B.
+  - Ma Bin
+  - Connelly Blair C.
+  - Smooke Mitchell D.
+  - Long Marshall B.
+  venue: null
+  url: https://doi.org/10.1016/j.proci.2010.05.006
+  key_findings: []
+- doi: 10.1142/9789814295789_0004
+  title: 'IMAGING FLAMES: FROM ADVANCED LASER DIAGNOSTICS TO SNAPSHOTS'
+  year: null
+  authors:
+  - LONG MARSHALL
+  venue: null
+  url: https://doi.org/10.1142/9789814295789_0004
+  key_findings: []
+- doi: 10.1016/j.proci.2008.05.066
+  title: A paradigm shift in the interaction of experiments and computations in combustion research
+  year: null
+  authors:
+  - Connelly B.C.
+  - Bennett B.A.V.
+  - Smooke M.D.
+  - Long M.B.
+  venue: null
+  url: https://doi.org/10.1016/j.proci.2008.05.066
+  key_findings: []
+- doi: 10.1016/j.proci.2008.06.182
+  title: Computational and experimental investigation of the interaction of soot and NO in coflow diffusion flames
+  year: null
+  authors:
+  - Connelly B.C.
+  - Long M.B.
+  - Smooke M.D.
+  - Hall R.J.
+  - Colket M.B.
+  venue: null
+  url: https://doi.org/10.1016/j.proci.2008.06.182
+  key_findings: []
+- doi: 10.1080/13647830903159293
+  title: Distributed-memory parallel computation of a forced, time-dependent, sooting, ethylene/air coflow diffusion flame
+  year: null
+  authors:
+  - Dworkin S. B.
+  - Cooke J. A.
+  - Bennett B. A.V.
+  - Connelly B. C.
+  - Long M. B.
+  - Smooke M. D.
+  - Hall R. J.
+  - Colket M. B.
+  venue: null
+  url: https://doi.org/10.1080/13647830903159293
+  key_findings: []
+- doi: 10.1016/j.proci.2008.05.083
+  title: 'Measurements and calculations of formaldehyde concentrations in a methane/N2/air, non-premixed flame: Implications
+    for heat release rate'
+  year: null
+  authors:
+  - Dworkin S.B.
+  - Schaffer A.M.
+  - Connelly B.C.
+  - Long M.B.
+  - Smooke M.D.
+  - Puccio M.A.
+  - McAndrew B.
+  - Miller J.H.
+  venue: null
+  url: https://doi.org/10.1016/j.proci.2008.05.083
+  key_findings: []
+- doi: 10.1016/j.proci.2006.08.109
+  title: Computational and experimental study of a forced, time-dependent, methane–air coflow diffusion flame
+  year: null
+  authors:
+  - Dworkin S.B.
+  - Connelly B.C.
+  - Schaffer A.M.
+  - Bennett B.A.V.
+  - Long M.B.
+  - Smooke M.D.
+  - Puccio M.P.
+  - McAndrews B.
+  - Miller J.H.
+  venue: null
+  url: https://doi.org/10.1016/j.proci.2006.08.109
+  key_findings: []
+fire_safety_tags: [gaseous_fuel, soot, flow_effects, flammability_limit]
+data: {s3_prefix: null, volume_bytes: null, file_types: []}
+field_confidence: {objectives: 0.85, fuels: 0.85}
+runs:
+- label: CLD Flame test day 17319 (40% CH4)
+  fuel: methane
+  geometry:
+    shape: coflow burner
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: N2
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: coflow
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: Methane based test; test day 17319 (YYDDD); fuel bottle cell "40% CH4"; fuel concentration 30%-40% (nitrogen dilution,
+      volume basis); flames ignited that day 10
+  varied_parameters:
+    fuel_mole_fraction:
+      min: 0.3
+      max: 0.4
+  fixed_parameters:
+    fuel_mfc_max_slpm: 0.1
+    n2_mfc_max_slpm: 0.1
+    fuel_bottle: 40% CH4
+  is_aggregate: false
+  confidence: 0.75
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-21
+    title: PSI-21 Experimental table (PSI-21_Experimental table_CLD Flame.csv)
+    locator: 'Experimental table PSI-21_Experimental table_CLD Flame.csv, row 1; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); fuel from the Test Type column (bottle cells increment as a spreadsheet fill)'
+    quote: Methane based test,17319,0.1,0.1,40% CH4,30%-40%,10,"Test Day - includes the year as the first two digits followed
+      by the 3-digit day of the year (where any late-hour transition to the next day is neglected). MFC - identifies the maximum
+      fl
+- label: CLD Flame test day 17324 (40% CH5)
+  fuel: methane
+  geometry:
+    shape: coflow burner
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: N2
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: coflow
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: Methane based test; test day 17324 (YYDDD); fuel bottle cell "40% CH5"; fuel concentration 30%-40% (nitrogen dilution,
+      volume basis); flames ignited that day 5
+  varied_parameters:
+    fuel_mole_fraction:
+      min: 0.3
+      max: 0.4
+  fixed_parameters:
+    fuel_mfc_max_slpm: 0.1
+    n2_mfc_max_slpm: 0.1
+    fuel_bottle: 40% CH5
+  is_aggregate: false
+  confidence: 0.75
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-21
+    title: PSI-21 Experimental table (PSI-21_Experimental table_CLD Flame.csv)
+    locator: 'Experimental table PSI-21_Experimental table_CLD Flame.csv, row 2; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); fuel from the Test Type column (bottle cells increment as a spreadsheet fill)'
+    quote: Methane based test,17324,0.1,0.1,40% CH5,30%-40%,5,
+- label: CLD Flame test day 17342 (40% CH6)
+  fuel: methane
+  geometry:
+    shape: coflow burner
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: N2
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: coflow
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: Methane based test; test day 17342 (YYDDD); fuel bottle cell "40% CH6"; fuel concentration 40% (nitrogen dilution,
+      volume basis); flames ignited that day 8
+  varied_parameters:
+    fuel_mole_fraction:
+      min: 0.4
+      max: 0.4
+  fixed_parameters:
+    fuel_mfc_max_slpm: 0.1
+    n2_mfc_max_slpm: 0.1
+    fuel_bottle: 40% CH6
+  is_aggregate: false
+  confidence: 0.75
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-21
+    title: PSI-21 Experimental table (PSI-21_Experimental table_CLD Flame.csv)
+    locator: 'Experimental table PSI-21_Experimental table_CLD Flame.csv, row 3; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); fuel from the Test Type column (bottle cells increment as a spreadsheet fill)'
+    quote: Methane based test,17342,0.1,0.1,40% CH6,40%,8,
+- label: CLD Flame test day 17356 (40% CH7)
+  fuel: methane
+  geometry:
+    shape: coflow burner
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: N2
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: coflow
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: Methane based test; test day 17356 (YYDDD); fuel bottle cell "40% CH7"; fuel concentration 30%-40% (nitrogen dilution,
+      volume basis); flames ignited that day 3
+  varied_parameters:
+    fuel_mole_fraction:
+      min: 0.3
+      max: 0.4
+  fixed_parameters:
+    fuel_mfc_max_slpm: 0.1
+    n2_mfc_max_slpm: 0.1
+    fuel_bottle: 40% CH7
+  is_aggregate: false
+  confidence: 0.75
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-21
+    title: PSI-21 Experimental table (PSI-21_Experimental table_CLD Flame.csv)
+    locator: 'Experimental table PSI-21_Experimental table_CLD Flame.csv, row 4; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); fuel from the Test Type column (bottle cells increment as a spreadsheet fill)'
+    quote: Methane based test,17356,0.1,0.1,40% CH7,30%-40%,3,
+- label: CLD Flame test day 18003 (40% CH8)
+  fuel: methane
+  geometry:
+    shape: coflow burner
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: N2
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: coflow
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: Methane based test; test day 18003 (YYDDD); fuel bottle cell "40% CH8"; fuel concentration 25%-40% (nitrogen dilution,
+      volume basis); flames ignited that day 9
+  varied_parameters:
+    fuel_mole_fraction:
+      min: 0.25
+      max: 0.4
+  fixed_parameters:
+    fuel_mfc_max_slpm: 0.1
+    n2_mfc_max_slpm: 0.1
+    fuel_bottle: 40% CH8
+  is_aggregate: false
+  confidence: 0.75
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-21
+    title: PSI-21 Experimental table (PSI-21_Experimental table_CLD Flame.csv)
+    locator: 'Experimental table PSI-21_Experimental table_CLD Flame.csv, row 5; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); fuel from the Test Type column (bottle cells increment as a spreadsheet fill)'
+    quote: Methane based test,18003,0.1,0.1,40% CH8,25%-40%,9,
+- label: CLD Flame test day 18005 (40% CH9)
+  fuel: methane
+  geometry:
+    shape: coflow burner
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: N2
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: coflow
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: Methane based test; test day 18005 (YYDDD); fuel bottle cell "40% CH9"; fuel concentration 30%-40% (nitrogen dilution,
+      volume basis); flames ignited that day 7
+  varied_parameters:
+    fuel_mole_fraction:
+      min: 0.3
+      max: 0.4
+  fixed_parameters:
+    fuel_mfc_max_slpm: 0.1
+    n2_mfc_max_slpm: 0.1
+    fuel_bottle: 40% CH9
+  is_aggregate: false
+  confidence: 0.75
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-21
+    title: PSI-21 Experimental table (PSI-21_Experimental table_CLD Flame.csv)
+    locator: 'Experimental table PSI-21_Experimental table_CLD Flame.csv, row 6; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); fuel from the Test Type column (bottle cells increment as a spreadsheet fill)'
+    quote: Methane based test,18005,0.1,0.1,40% CH9,30%-40%,7,
+- label: CLD Flame test day 18008 (40% CH10)
+  fuel: methane
+  geometry:
+    shape: coflow burner
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: N2
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: coflow
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: Methane based test; test day 18008 (YYDDD); fuel bottle cell "40% CH10"; fuel concentration 25%-40% (nitrogen dilution,
+      volume basis); flames ignited that day 8
+  varied_parameters:
+    fuel_mole_fraction:
+      min: 0.25
+      max: 0.4
+  fixed_parameters:
+    fuel_mfc_max_slpm: 0.1
+    n2_mfc_max_slpm: 0.1
+    fuel_bottle: 40% CH10
+  is_aggregate: false
+  confidence: 0.75
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-21
+    title: PSI-21 Experimental table (PSI-21_Experimental table_CLD Flame.csv)
+    locator: 'Experimental table PSI-21_Experimental table_CLD Flame.csv, row 7; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); fuel from the Test Type column (bottle cells increment as a spreadsheet fill)'
+    quote: Methane based test,18008,0.1,0.1,40% CH10,25%-40%,8,
+- label: CLD Flame test day 18011 (40% CH11)
+  fuel: methane
+  geometry:
+    shape: coflow burner
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: N2
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: coflow
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: Methane based test; test day 18011 (YYDDD); fuel bottle cell "40% CH11"; fuel concentration 25%-40% (nitrogen dilution,
+      volume basis); flames ignited that day 14
+  varied_parameters:
+    fuel_mole_fraction:
+      min: 0.25
+      max: 0.4
+  fixed_parameters:
+    fuel_mfc_max_slpm: 0.1
+    n2_mfc_max_slpm: 0.1
+    fuel_bottle: 40% CH11
+  is_aggregate: false
+  confidence: 0.75
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-21
+    title: PSI-21 Experimental table (PSI-21_Experimental table_CLD Flame.csv)
+    locator: 'Experimental table PSI-21_Experimental table_CLD Flame.csv, row 8; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); fuel from the Test Type column (bottle cells increment as a spreadsheet fill)'
+    quote: Methane based test,18011,0.1,0.1,40% CH11,25%-40%,14,
+- label: CLD Flame test day 18022 (40% CH12)
+  fuel: methane
+  geometry:
+    shape: coflow burner
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: N2
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: coflow
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: Methane based test; test day 18022 (YYDDD); fuel bottle cell "40% CH12"; fuel concentration 30%-40% (nitrogen dilution,
+      volume basis); flames ignited that day 3
+  varied_parameters:
+    fuel_mole_fraction:
+      min: 0.3
+      max: 0.4
+  fixed_parameters:
+    fuel_mfc_max_slpm: 0.1
+    n2_mfc_max_slpm: 0.1
+    fuel_bottle: 40% CH12
+  is_aggregate: false
+  confidence: 0.75
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-21
+    title: PSI-21 Experimental table (PSI-21_Experimental table_CLD Flame.csv)
+    locator: 'Experimental table PSI-21_Experimental table_CLD Flame.csv, row 9; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); fuel from the Test Type column (bottle cells increment as a spreadsheet fill)'
+    quote: Methane based test,18022,0.1,0.1,40% CH12,30%-40%,3,
+- label: CLD Flame test day 18026 (40% CH13)
+  fuel: methane
+  geometry:
+    shape: coflow burner
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: N2
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: coflow
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: Methane based test; test day 18026 (YYDDD); fuel bottle cell "40% CH13"; fuel concentration 25%-40% (nitrogen dilution,
+      volume basis); flames ignited that day 16
+  varied_parameters:
+    fuel_mole_fraction:
+      min: 0.25
+      max: 0.4
+  fixed_parameters:
+    fuel_mfc_max_slpm: 0.1
+    n2_mfc_max_slpm: 0.1
+    fuel_bottle: 40% CH13
+  is_aggregate: false
+  confidence: 0.75
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-21
+    title: PSI-21 Experimental table (PSI-21_Experimental table_CLD Flame.csv)
+    locator: 'Experimental table PSI-21_Experimental table_CLD Flame.csv, row 10; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); fuel from the Test Type column (bottle cells increment as a spreadsheet fill)'
+    quote: Methane based test,18026,0.1,0.1,40% CH13,25%-40%,16,
+- label: CLD Flame test day 18032 (40% CH14)
+  fuel: methane
+  geometry:
+    shape: coflow burner
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: N2
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: coflow
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: Methane based test; test day 18032 (YYDDD); fuel bottle cell "40% CH14"; fuel concentration 30%-40% (nitrogen dilution,
+      volume basis); flames ignited that day 13
+  varied_parameters:
+    fuel_mole_fraction:
+      min: 0.3
+      max: 0.4
+  fixed_parameters:
+    fuel_mfc_max_slpm: 0.1
+    n2_mfc_max_slpm: 0.1
+    fuel_bottle: 40% CH14
+  is_aggregate: false
+  confidence: 0.75
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-21
+    title: PSI-21 Experimental table (PSI-21_Experimental table_CLD Flame.csv)
+    locator: 'Experimental table PSI-21_Experimental table_CLD Flame.csv, row 11; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); fuel from the Test Type column (bottle cells increment as a spreadsheet fill)'
+    quote: Methane based test,18032,0.1,0.1,40% CH14,30%-40%,13,
+- label: CLD Flame test day 18039 (100% CH4)
+  fuel: methane
+  geometry:
+    shape: coflow burner
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: N2
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: coflow
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: Methane based test; test day 18039 (YYDDD); fuel bottle cell "100% CH4"; fuel concentration 50%-80% (nitrogen dilution,
+      volume basis); flames ignited that day 8
+  varied_parameters:
+    fuel_mole_fraction:
+      min: 0.5
+      max: 0.8
+  fixed_parameters:
+    fuel_mfc_max_slpm: 0.1
+    n2_mfc_max_slpm: 0.05
+    fuel_bottle: 100% CH4
+  is_aggregate: false
+  confidence: 0.75
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-21
+    title: PSI-21 Experimental table (PSI-21_Experimental table_CLD Flame.csv)
+    locator: 'Experimental table PSI-21_Experimental table_CLD Flame.csv, row 12; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); fuel from the Test Type column (bottle cells increment as a spreadsheet fill)'
+    quote: Methane based test,18039,0.1,0.05,100% CH4,50%-80%,8,
+- label: CLD Flame test day 18043 (100% CH5)
+  fuel: methane
+  geometry:
+    shape: coflow burner
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: N2
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: coflow
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: Methane based test; test day 18043 (YYDDD); fuel bottle cell "100% CH5"; fuel concentration 50%-100% (nitrogen
+      dilution, volume basis); flames ignited that day 10
+  varied_parameters:
+    fuel_mole_fraction:
+      min: 0.5
+      max: 1.0
+  fixed_parameters:
+    fuel_mfc_max_slpm: 0.1
+    n2_mfc_max_slpm: 0.05
+    fuel_bottle: 100% CH5
+  is_aggregate: false
+  confidence: 0.75
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-21
+    title: PSI-21 Experimental table (PSI-21_Experimental table_CLD Flame.csv)
+    locator: 'Experimental table PSI-21_Experimental table_CLD Flame.csv, row 13; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); fuel from the Test Type column (bottle cells increment as a spreadsheet fill)'
+    quote: Methane based test,18043,0.1,0.05,100% CH5,50%-100%,10,
+- label: CLD Flame test day 18053 (100% CH6)
+  fuel: methane
+  geometry:
+    shape: coflow burner
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: N2
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: coflow
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: Methane based test; test day 18053 (YYDDD); fuel bottle cell "100% CH6"; fuel concentration 30%-40% (nitrogen dilution,
+      volume basis); flames ignited that day 16
+  varied_parameters:
+    fuel_mole_fraction:
+      min: 0.3
+      max: 0.4
+  fixed_parameters:
+    fuel_mfc_max_slpm: 0.1
+    n2_mfc_max_slpm: 0.02
+    fuel_bottle: 100% CH6
+  is_aggregate: false
+  confidence: 0.75
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-21
+    title: PSI-21 Experimental table (PSI-21_Experimental table_CLD Flame.csv)
+    locator: 'Experimental table PSI-21_Experimental table_CLD Flame.csv, row 14; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); fuel from the Test Type column (bottle cells increment as a spreadsheet fill)'
+    quote: Methane based test,18053,0.1,0.02,100% CH6,30%-40%,16,
+- label: CLD Flame test day 18145 (100% C2H4)
+  fuel: ethylene
+  geometry:
+    shape: coflow burner
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: N2
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: coflow
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: Ethylene based test; test day 18145 (YYDDD); fuel bottle cell "100% C2H4"; fuel concentration 80%-100% (nitrogen
+      dilution, volume basis); flames ignited that day 3
+  varied_parameters:
+    fuel_mole_fraction:
+      min: 0.8
+      max: 1.0
+  fixed_parameters:
+    fuel_mfc_max_slpm: 0.2
+    n2_mfc_max_slpm: 0.1
+    fuel_bottle: 100% C2H4
+  is_aggregate: false
+  confidence: 0.75
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-21
+    title: PSI-21 Experimental table (PSI-21_Experimental table_CLD Flame.csv)
+    locator: 'Experimental table PSI-21_Experimental table_CLD Flame.csv, row 15; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); fuel from the Test Type column (bottle cells increment as a spreadsheet fill)'
+    quote: Ethylene based test,18145,0.2,0.1,100% C2H4,80%-100%,3,
+- label: CLD Flame test day 18151 (100% C2H5)
+  fuel: ethylene
+  geometry:
+    shape: coflow burner
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: N2
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: coflow
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: Ethylene based test; test day 18151 (YYDDD); fuel bottle cell "100% C2H5"; fuel concentration 100% (nitrogen dilution,
+      volume basis); flames ignited that day 2
+  varied_parameters:
+    fuel_mole_fraction:
+      min: 1.0
+      max: 1.0
+  fixed_parameters:
+    fuel_mfc_max_slpm: 0.2
+    n2_mfc_max_slpm: 0.1
+    fuel_bottle: 100% C2H5
+  is_aggregate: false
+  confidence: 0.75
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-21
+    title: PSI-21 Experimental table (PSI-21_Experimental table_CLD Flame.csv)
+    locator: 'Experimental table PSI-21_Experimental table_CLD Flame.csv, row 16; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); fuel from the Test Type column (bottle cells increment as a spreadsheet fill)'
+    quote: Ethylene based test,18151,0.2,0.1,100% C2H5,100%,2,
+- label: CLD Flame test day 18177 (100% C2H6)
+  fuel: ethylene
+  geometry:
+    shape: coflow burner
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: N2
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: coflow
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: Ethylene based test; test day 18177 (YYDDD); fuel bottle cell "100% C2H6"; fuel concentration 80%-100% (nitrogen
+      dilution, volume basis); flames ignited that day 9
+  varied_parameters:
+    fuel_mole_fraction:
+      min: 0.8
+      max: 1.0
+  fixed_parameters:
+    fuel_mfc_max_slpm: 0.2
+    n2_mfc_max_slpm: 0.1
+    fuel_bottle: 100% C2H6
+  is_aggregate: false
+  confidence: 0.75
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-21
+    title: PSI-21 Experimental table (PSI-21_Experimental table_CLD Flame.csv)
+    locator: 'Experimental table PSI-21_Experimental table_CLD Flame.csv, row 17; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); fuel from the Test Type column (bottle cells increment as a spreadsheet fill)'
+    quote: Ethylene based test,18177,0.2,0.1,100% C2H6,80%-100%,9,
+- label: CLD Flame test day 18186 (100% C2H7)
+  fuel: ethylene
+  geometry:
+    shape: coflow burner
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: N2
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: coflow
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: Ethylene based test; test day 18186 (YYDDD); fuel bottle cell "100% C2H7"; fuel concentration 60%-100% (nitrogen
+      dilution, volume basis); flames ignited that day 14
+  varied_parameters:
+    fuel_mole_fraction:
+      min: 0.6
+      max: 1.0
+  fixed_parameters:
+    fuel_mfc_max_slpm: 0.2
+    n2_mfc_max_slpm: 0.1
+    fuel_bottle: 100% C2H7
+  is_aggregate: false
+  confidence: 0.75
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-21
+    title: PSI-21 Experimental table (PSI-21_Experimental table_CLD Flame.csv)
+    locator: 'Experimental table PSI-21_Experimental table_CLD Flame.csv, row 18; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); fuel from the Test Type column (bottle cells increment as a spreadsheet fill)'
+    quote: Ethylene based test,18186,0.2,0.1,100% C2H7,60%-100%,14,
+- label: CLD Flame test day 18192 (100% C2H8)
+  fuel: ethylene
+  geometry:
+    shape: coflow burner
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: N2
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: coflow
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: Ethylene based test; test day 18192 (YYDDD); fuel bottle cell "100% C2H8"; fuel concentration 50%-60% (nitrogen
+      dilution, volume basis); flames ignited that day 10
+  varied_parameters:
+    fuel_mole_fraction:
+      min: 0.5
+      max: 0.6
+  fixed_parameters:
+    fuel_mfc_max_slpm: 0.2
+    n2_mfc_max_slpm: 0.1
+    fuel_bottle: 100% C2H8
+  is_aggregate: false
+  confidence: 0.75
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-21
+    title: PSI-21 Experimental table (PSI-21_Experimental table_CLD Flame.csv)
+    locator: 'Experimental table PSI-21_Experimental table_CLD Flame.csv, row 19; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); fuel from the Test Type column (bottle cells increment as a spreadsheet fill)'
+    quote: Ethylene based test,18192,0.2,0.1,100% C2H8,50%-60%,10,
+- label: CLD Flame test day 18199 (100% C2H9)
+  fuel: ethylene
+  geometry:
+    shape: coflow burner
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: N2
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: coflow
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: Ethylene based test; test day 18199 (YYDDD); fuel bottle cell "100% C2H9"; fuel concentration 40%-100% (nitrogen
+      dilution, volume basis); flames ignited that day 16
+  varied_parameters:
+    fuel_mole_fraction:
+      min: 0.4
+      max: 1.0
+  fixed_parameters:
+    fuel_mfc_max_slpm: 0.2
+    n2_mfc_max_slpm: 0.1
+    fuel_bottle: 100% C2H9
+  is_aggregate: false
+  confidence: 0.75
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-21
+    title: PSI-21 Experimental table (PSI-21_Experimental table_CLD Flame.csv)
+    locator: 'Experimental table PSI-21_Experimental table_CLD Flame.csv, row 20; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); fuel from the Test Type column (bottle cells increment as a spreadsheet fill)'
+    quote: Ethylene based test,18199,0.2,0.1,100% C2H9,40%-100%,16,
+- label: CLD Flame test day 18214 (100% C2H10)
+  fuel: ethylene
+  geometry:
+    shape: coflow burner
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: N2
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: coflow
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: Ethylene based test; test day 18214 (YYDDD); fuel bottle cell "100% C2H10"; fuel concentration 100% (nitrogen dilution,
+      volume basis); flames ignited that day 13
+  varied_parameters:
+    fuel_mole_fraction:
+      min: 1.0
+      max: 1.0
+  fixed_parameters:
+    fuel_mfc_max_slpm: 0.2
+    n2_mfc_max_slpm: 0.05
+    fuel_bottle: 100% C2H10
+  is_aggregate: false
+  confidence: 0.75
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-21
+    title: PSI-21 Experimental table (PSI-21_Experimental table_CLD Flame.csv)
+    locator: 'Experimental table PSI-21_Experimental table_CLD Flame.csv, row 21; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); fuel from the Test Type column (bottle cells increment as a spreadsheet fill)'
+    quote: Ethylene based test,18214,0.2,0.05,100% C2H10,100%,13,
+- label: CLD Flame test day 18218 (100% C2H11)
+  fuel: ethylene
+  geometry:
+    shape: coflow burner
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: N2
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: coflow
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: Ethylene based test; test day 18218 (YYDDD); fuel bottle cell "100% C2H11"; fuel concentration 80% (nitrogen dilution,
+      volume basis); flames ignited that day 18
+  varied_parameters:
+    fuel_mole_fraction:
+      min: 0.8
+      max: 0.8
+  fixed_parameters:
+    fuel_mfc_max_slpm: 0.2
+    n2_mfc_max_slpm: 0.05
+    fuel_bottle: 100% C2H11
+  is_aggregate: false
+  confidence: 0.75
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-21
+    title: PSI-21 Experimental table (PSI-21_Experimental table_CLD Flame.csv)
+    locator: 'Experimental table PSI-21_Experimental table_CLD Flame.csv, row 22; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); fuel from the Test Type column (bottle cells increment as a spreadsheet fill)'
+    quote: Ethylene based test,18218,0.2,0.05,100% C2H11,80%,18,
+- label: CLD Flame test day 18235 (50% C2H4)
+  fuel: ethylene
+  geometry:
+    shape: coflow burner
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: N2
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: coflow
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: Ethylene based test; test day 18235 (YYDDD); fuel bottle cell "50% C2H4"; fuel concentration 50% (nitrogen dilution,
+      volume basis); flames ignited that day 16
+  varied_parameters:
+    fuel_mole_fraction:
+      min: 0.5
+      max: 0.5
+  fixed_parameters:
+    fuel_mfc_max_slpm: 0.2
+    n2_mfc_max_slpm: 0.1
+    fuel_bottle: 50% C2H4
+  is_aggregate: false
+  confidence: 0.75
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-21
+    title: PSI-21 Experimental table (PSI-21_Experimental table_CLD Flame.csv)
+    locator: 'Experimental table PSI-21_Experimental table_CLD Flame.csv, row 23; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); fuel from the Test Type column (bottle cells increment as a spreadsheet fill)'
+    quote: Ethylene based test,18235,0.2,0.1,50% C2H4,50%,16,
+- label: CLD Flame test day 18239 (50% C2H5)
+  fuel: ethylene
+  geometry:
+    shape: coflow burner
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: N2
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: coflow
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: Ethylene based test; test day 18239 (YYDDD); fuel bottle cell "50% C2H5"; fuel concentration 40% (nitrogen dilution,
+      volume basis); flames ignited that day 14
+  varied_parameters:
+    fuel_mole_fraction:
+      min: 0.4
+      max: 0.4
+  fixed_parameters:
+    fuel_mfc_max_slpm: 0.2
+    n2_mfc_max_slpm: 0.1
+    fuel_bottle: 50% C2H5
+  is_aggregate: false
+  confidence: 0.75
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-21
+    title: PSI-21 Experimental table (PSI-21_Experimental table_CLD Flame.csv)
+    locator: 'Experimental table PSI-21_Experimental table_CLD Flame.csv, row 24; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); fuel from the Test Type column (bottle cells increment as a spreadsheet fill)'
+    quote: Ethylene based test,18239,0.2,0.1,50% C2H5,40%,14,
+- label: CLD Flame test day 18241 (50% C2H6)
+  fuel: ethylene
+  geometry:
+    shape: coflow burner
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: N2
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: coflow
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: Ethylene based test; test day 18241 (YYDDD); fuel bottle cell "50% C2H6"; fuel concentration 10%-20% (nitrogen
+      dilution, volume basis); flames ignited that day 6
+  varied_parameters:
+    fuel_mole_fraction:
+      min: 0.1
+      max: 0.2
+  fixed_parameters:
+    fuel_mfc_max_slpm: 0.1
+    n2_mfc_max_slpm: 0.2
+    fuel_bottle: 50% C2H6
+  is_aggregate: false
+  confidence: 0.75
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-21
+    title: PSI-21 Experimental table (PSI-21_Experimental table_CLD Flame.csv)
+    locator: 'Experimental table PSI-21_Experimental table_CLD Flame.csv, row 25; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); fuel from the Test Type column (bottle cells increment as a spreadsheet fill)'
+    quote: Ethylene based test,18241,0.1,0.2,50% C2H6,10%-20%,6,
+- label: CLD Flame test day 18249 (50% C2H7)
+  fuel: ethylene
+  geometry:
+    shape: coflow burner
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: N2
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: coflow
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: Ethylene based test; test day 18249 (YYDDD); fuel bottle cell "50% C2H7"; fuel concentration 10%-30% (nitrogen
+      dilution, volume basis); flames ignited that day 12
+  varied_parameters:
+    fuel_mole_fraction:
+      min: 0.1
+      max: 0.3
+  fixed_parameters:
+    fuel_mfc_max_slpm: 0.1
+    n2_mfc_max_slpm: 0.2
+    fuel_bottle: 50% C2H7
+  is_aggregate: false
+  confidence: 0.75
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-21
+    title: PSI-21 Experimental table (PSI-21_Experimental table_CLD Flame.csv)
+    locator: 'Experimental table PSI-21_Experimental table_CLD Flame.csv, row 26; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); fuel from the Test Type column (bottle cells increment as a spreadsheet fill)'
+    quote: Ethylene based test,18249,0.1,0.2,50% C2H7,10%-30%,12,
+- label: CLD Flame test day 18253 (50% C2H8)
+  fuel: ethylene
+  geometry:
+    shape: coflow burner
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: N2
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: coflow
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: Ethylene based test; test day 18253 (YYDDD); fuel bottle cell "50% C2H8"; fuel concentration 15%-30% (nitrogen
+      dilution, volume basis); flames ignited that day 14
+  varied_parameters:
+    fuel_mole_fraction:
+      min: 0.15
+      max: 0.3
+  fixed_parameters:
+    fuel_mfc_max_slpm: 0.1
+    n2_mfc_max_slpm: 0.2
+    fuel_bottle: 50% C2H8
+  is_aggregate: false
+  confidence: 0.75
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-21
+    title: PSI-21 Experimental table (PSI-21_Experimental table_CLD Flame.csv)
+    locator: 'Experimental table PSI-21_Experimental table_CLD Flame.csv, row 27; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); fuel from the Test Type column (bottle cells increment as a spreadsheet fill)'
+    quote: Ethylene based test,18253,0.1,0.2,50% C2H8,15%-30%,14,
+- label: CLD Flame test day 18257 (50% C2H9)
+  fuel: ethylene
+  geometry:
+    shape: coflow burner
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: N2
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: coflow
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: Ethylene based test; test day 18257 (YYDDD); fuel bottle cell "50% C2H9"; fuel concentration 15%-20% (nitrogen
+      dilution, volume basis); flames ignited that day 15
+  varied_parameters:
+    fuel_mole_fraction:
+      min: 0.15
+      max: 0.2
+  fixed_parameters:
+    fuel_mfc_max_slpm: 0.1
+    n2_mfc_max_slpm: 0.2
+    fuel_bottle: 50% C2H9
+  is_aggregate: false
+  confidence: 0.75
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-21
+    title: PSI-21 Experimental table (PSI-21_Experimental table_CLD Flame.csv)
+    locator: 'Experimental table PSI-21_Experimental table_CLD Flame.csv, row 28; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); fuel from the Test Type column (bottle cells increment as a spreadsheet fill)'
+    quote: Ethylene based test,18257,0.1,0.2,50% C2H9,15%-20%,15,
+- label: CLD Flame test day 21041 (30% C2H4)
+  fuel: ethylene
+  geometry:
+    shape: coflow burner
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: N2
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: coflow
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: Improved coflow tests; test day 21041 (YYDDD); fuel bottle cell "30% C2H4"; fuel concentration 0%-30% (nitrogen
+      dilution, volume basis); flames ignited that day 9
+  varied_parameters:
+    fuel_mole_fraction:
+      min: 0.0
+      max: 0.3
+  fixed_parameters:
+    fuel_mfc_max_slpm: 0.2
+    n2_mfc_max_slpm: 0.2
+    fuel_bottle: 30% C2H4
+  is_aggregate: false
+  confidence: 0.75
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-21
+    title: PSI-21 Experimental table (PSI-21_Experimental table_CLD Flame.csv)
+    locator: 'Experimental table PSI-21_Experimental table_CLD Flame.csv, row 29; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); fuel from the Test Type column (bottle cells increment as a spreadsheet fill)'
+    quote: Improved coflow tests,21041,0.2,0.2,30% C2H4,0%-30%,9,
+- label: CLD Flame test day 21046 (30% C2H5)
+  fuel: ethylene
+  geometry:
+    shape: coflow burner
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: N2
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: coflow
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: Improved coflow tests; test day 21046 (YYDDD); fuel bottle cell "30% C2H5"; fuel concentration 15%-20% (nitrogen
+      dilution, volume basis); flames ignited that day 16
+  varied_parameters:
+    fuel_mole_fraction:
+      min: 0.15
+      max: 0.2
+  fixed_parameters:
+    fuel_mfc_max_slpm: 0.2
+    n2_mfc_max_slpm: 0.2
+    fuel_bottle: 30% C2H5
+  is_aggregate: false
+  confidence: 0.75
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-21
+    title: PSI-21 Experimental table (PSI-21_Experimental table_CLD Flame.csv)
+    locator: 'Experimental table PSI-21_Experimental table_CLD Flame.csv, row 30; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); fuel from the Test Type column (bottle cells increment as a spreadsheet fill)'
+    quote: Improved coflow tests,21046,0.2,0.2,30% C2H5,15%-20%,16,
+- label: CLD Flame test day 21050 (40% CH4)
+  fuel: methane
+  geometry:
+    shape: coflow burner
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: N2
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: coflow
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: Improved coflow tests; test day 21050 (YYDDD); fuel bottle cell "40% CH4"; fuel concentration 20%-40% (nitrogen
+      dilution, volume basis); flames ignited that day 16
+  varied_parameters:
+    fuel_mole_fraction:
+      min: 0.2
+      max: 0.4
+  fixed_parameters:
+    fuel_mfc_max_slpm: 0.2
+    n2_mfc_max_slpm: 0.2
+    fuel_bottle: 40% CH4
+  is_aggregate: false
+  confidence: 0.75
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-21
+    title: PSI-21 Experimental table (PSI-21_Experimental table_CLD Flame.csv)
+    locator: 'Experimental table PSI-21_Experimental table_CLD Flame.csv, row 31; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); fuel from the Test Type column (bottle cells increment as a spreadsheet fill)'
+    quote: Improved coflow tests,21050,0.2,0.2,40% CH4,20%-40%,16,
+- label: CLD Flame test day 21062 (40% CH5)
+  fuel: methane
+  geometry:
+    shape: coflow burner
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: N2
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: coflow
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: Improved coflow tests; test day 21062 (YYDDD); fuel bottle cell "40% CH5"; fuel concentration 30%-40% (nitrogen
+      dilution, volume basis); flames ignited that day 11
+  varied_parameters:
+    fuel_mole_fraction:
+      min: 0.3
+      max: 0.4
+  fixed_parameters:
+    fuel_mfc_max_slpm: 0.2
+    n2_mfc_max_slpm: 0.2
+    fuel_bottle: 40% CH5
+  is_aggregate: false
+  confidence: 0.75
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-21
+    title: PSI-21 Experimental table (PSI-21_Experimental table_CLD Flame.csv)
+    locator: 'Experimental table PSI-21_Experimental table_CLD Flame.csv, row 32; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); fuel from the Test Type column (bottle cells increment as a spreadsheet fill)'
+    quote: Improved coflow tests,21062,0.2,0.2,40% CH5,30%-40%,11,
+documents:
+  - title: CLD Flame PSI overview (objectives, approach, research impacts; verbatim excerpts)
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-21
+    section: PSI repository record
+    text: >
+      Advanced Combustion via Microgravity Experiments / Coflow Laminar Diffusion Flame (ACME CLD Flame). PSI accession
+      PSI-21. Project type: Microgravity Investigation; flight platform: International Space Station (ISS); hardware:
+      Combustion Integrated Rack (CIR), ACME. Objectives: "(A) Characterize the behavior of weak coflow diffusion flames
+      of methane and ethylene, as a function of velocity and fuel [...]". "(B) Characterize the sooting tendencies of
+      diffusion flames with long residence times, as a function of velocity and fuel [...]". Approach: "The enhanced
+      time and spatial scales in a microgravity environment will be important for achieving both goals."
+      "Experimentally, we plan to study methane and ethylene diffusion flames over a wide range of test conditions."
+      Research impacts: "Diffusion flames are the flame type of most practical combustion devices."
+  - title: Recent Research on Flames of Gaseous Fuel Aboard the ISS, CLD Flame excerpts (verbatim)
+    uri: https://ntrs.nasa.gov/citations/20210021781
+    section: conference paper, CLD Flame section
+    text: >
+      "This investigation's objective is to extend the range of flame conditions that can be accurately predicted".
+      "the structure of diluted methane and ethylene flames in an air coflow". "The dependence of normal coflow flames on
+      injection velocity and fuel dilution is carefully examined". "in an air coflow, where the fuel and air velocities
+      are typically matched". "dilution limits for both methane and ethylene flames were extended in microgravity".
+      "These microgravity flames are also taller and wider." ISS operations: "Nov. 2017–Feb. 2018"; "May-Sept. 2018";
+      "Feb.-March 2021".
+open_questions:
+  - Added from the PSI combustion catalog (PSI-21); the acronym key CLD-Flame replaces the spaced PSI name so it is a valid URL key.
+  - Runs are the 32 test days of PSI-21_Experimental table_CLD Flame.csv; each carries the fuel concentration range of that day (nitrogen dilution, volume basis) as varied_parameters.fuel_mole_fraction and the maximum MFC flows (slpm, nitrogen basis) as fixed parameters. The table states no oxygen, pressure or coflow velocity, so those stay null.
+  - The Fuel Bottle cells increment (CH5 to CH14, C2H5 to C2H11), a spreadsheet fill artefact; the fuel is taken from the Test Type column (methane or ethylene) and, for "Improved coflow tests", from the bottle prefix (C2H -> ethylene, CH -> methane); the cell text stays in notes.
+  - Publications are the PSI record list; years are taken from PSI titles only where given.
+reviewed: false

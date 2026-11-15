@@ -1,0 +1,1277 @@
+acronym: s-Flame
+title: Structure and Response of Spherical Diffusion Flames
+project: ACME
+platform: ISS
+gravity_level: microgravity
+psi_url: https://psi.nasa.gov/physci/repo/data/investigations/PSI-23
+hardware:
+  - {name: CIR, role: host}
+  - {name: ACME insert, role: apparatus}
+summary: >
+  s-Flame, an ACME experiment in the Combustion Integrated Rack, issued hydrogen, methane, hydrogen/methane mixtures and
+  ethylene with nitrogen or helium diluent from a porous spherical burner to measure the transient structure and the
+  extinction limits of spherical diffusion flames for comparison with detailed simulations. Radiative extinction
+  appeared at high flow rates and kinetic extinction at low flow rates.
+objectives:
+  - text: Measure and characterize the transient structure (such as temperature and species distribution) of diffusion flames [...]
+    source: &psi_record
+      kind: psi_page
+      uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-23
+      title: PSI investigation PSI-23, ACME Structure and Response of Spherical Diffusion Flames
+      locator: Objectives (PSI repository search record, geode-py API)
+      quote: (A) Measure and characterize the transient structure (such as temperature and species distribution) of diffusion flames
+  - text: Determine the quasi-steady convective/chemical-kinetic extinction limits (low system Damköhler numbers) [...]
+    source:
+      <<: *psi_record
+      quote: (B) Determine the quasi-steady convective/chemical-kinetic extinction limits (low system Damköhler numbers) and
+approach:
+  text: Mixtures of gaseous fuels and diluents are issued from a spherical burner; synchronized spectrally resolved images and flame and burner temperatures are compared with detailed numerical simulations.
+  source:
+    <<: *psi_record
+    locator: Approach (PSI repository search record, geode-py API)
+    quote: These data are to be used for comparisons of flame behavior and structure with detailed numerical simulations of the flames.
+fuels:
+  - {name: hydrogen, phase: gas, material_class: null, geometry: {shape: porous spherical burner, dimensions_mm: {}}, source: &fuels
+      {kind: publication, uri: "https://ntrs.nasa.gov/citations/20210021781", title: "Recent Research on Flames of Gaseous Fuel Aboard the International Space Station (Stocker, 2021)",
+       locator: "s-Flame section, conference paper full text", quote: "The fuel gases included hydrogen, methane, hydrogen/methane mixtures, and ethylene"}}
+  - {name: methane, phase: gas, material_class: hydrocarbon gas, geometry: {shape: porous spherical burner, dimensions_mm: {}}, source: *fuels}
+  - {name: ethylene, phase: gas, material_class: hydrocarbon gas, geometry: {shape: porous spherical burner, dimensions_mm: {}}, source: *fuels}
+  - name: hydrogen / methane
+    phase: gas
+    material_class: null
+    geometry: {shape: porous spherical burner, dimensions_mm: {}}
+    source:
+      kind: psi_page
+      uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-23
+      title: PSI-23 Experimental table (PSI-23_Experimental table_ACME s-Flame.csv)
+      locator: Experimental table PSI-23_Experimental table_ACME s-Flame.csv, row 6, column "Fuel Bottle"
+      quote: First round of tests with nitrogen-diluted fuel and oxygen,20006,2020,Jan.,6,~21% O2 with N3,44.4% H2 with CH4,17,
+conditions:
+  o2_fraction:
+    min: 0.21
+    max: 0.3
+    source:
+      kind: psi_page
+      uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-23
+      title: PSI-23 Experimental table (PSI-23_Experimental table_ACME s-Flame.csv)
+      locator: Experimental table PSI-23_Experimental table_ACME s-Flame.csv, column "Atmosphere*" (~21% and ~30% O2, approximate)
+      quote: Second round of tests with helium-diluted fuel and oxygen,20155,2020,June,3,~30% and ~21% O2 with He,45% H2 with He,9,
+  pressure_kpa:
+    min: 101.325
+    max: 101.325
+    source:
+      kind: psi_page
+      uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-23
+      title: PSI-23 Experimental table (PSI-23_Experimental table_ACME s-Flame.csv)
+      locator: Experimental table PSI-23_Experimental table_ACME s-Flame.csv, row 2, Notes (~1 atm, 101.325 kPa per atm)
+      quote: '*Atmosphere is ~1 atm but pressure increases and O2% drops with vitiation.'
+  flow_speed_cm_s: null
+  flow_direction: []
+  gravity_g: [0]
+variables:
+  varied: [fuel, diluent (nitrogen or helium), flow rate, o2_fraction (~0.21 or ~0.30)]
+  fixed: [gravity_g]
+measurements: []
+findings:
+  - statement: Radiative extinction of spherical diffusion flames seemed to occur at high flow rates and kinetic extinction at low flow rates.
+    category: fundamental
+    source: &jasmac
+      kind: publication
+      uri: https://ntrs.nasa.gov/citations/20210021781
+      title: Recent Research on Flames of Gaseous Fuel Aboard the International Space Station (Stocker, 2021)
+      locator: s-Flame section, conference paper full text
+      quote: Radiative extinction seems to occur at high flow rates and kinetic extinction at low flow rates.
+    confidence: 0.75
+  - statement: Using helium rather than nitrogen to dilute both fuel and oxygen shifted the extinction limits.
+    category: fundamental
+    source:
+      <<: *jasmac
+      quote: With helium, rather than nitrogen, dilution of both the fuel and oxygen, the extinction limits are shifted
+    confidence: 0.7
+publications:
+- doi: 10.1016/0360-1285(94)90006-X
+  title: Opportunities and challenges of combustion in microgravity
+  year: null
+  authors:
+  - Law C.K.
+  - Faeth G.M.
+  venue: null
+  url: https://doi.org/10.1016/0360-1285(94)90006-X
+  key_findings: []
+- doi: 10.1016/S0082-0784(06)80819-2
+  title: On burner-stabilized cylindrical premixed flames in microgravity
+  year: null
+  authors:
+  - Eng J.A.
+  - Law C.K.
+  - Zhu D.L.
+  venue: null
+  url: https://doi.org/10.1016/S0082-0784(06)80819-2
+  key_findings: []
+- doi: 10.1016/0010-2180(94)00102-X
+  title: On the structure, stabilization, and dual response of flat-burner flames
+  year: null
+  authors:
+  - Eng J.A.
+  - Zhu D.L.
+  - Law C.K.
+  venue: null
+  url: https://doi.org/10.1016/0010-2180(94)00102-X
+  key_findings: []
+- doi: 10.1016/S0082-0784(96)80296-7
+  title: Extinction mechanisms of near-limit premixed flames and extended limits of flammability
+  year: null
+  authors:
+  - Sung C.J.
+  - Law C.K.
+  venue: null
+  url: https://doi.org/10.1016/S0082-0784(96)80296-7
+  key_findings: []
+- doi: 10.1016/S0010-2180(97)00069-2
+  title: On the spreading of unsteady cylindrical diffusion flames
+  year: null
+  authors:
+  - Qian J.
+  - Law C.K.
+  venue: null
+  url: https://doi.org/10.1016/S0010-2180(97)00069-2
+  key_findings: []
+- doi: 10.1016/S0010-2180(97)00051-5
+  title: On the response of spherical premixed flames under rotation
+  year: null
+  authors:
+  - Qian J.
+  - Bechtold J.K.
+  - Law C.K.
+  venue: null
+  url: https://doi.org/10.1016/S0010-2180(97)00051-5
+  key_findings: []
+- doi: 10.1016/S0082-0784(98)80038-6
+  title: Role of flamefront motion and criterion for global quasi-steadiness in droplet burning
+  year: null
+  authors:
+  - He Longtin
+  - Tse Stephen D.
+  - Law Chung K.
+  venue: null
+  url: https://doi.org/10.1016/S0082-0784(98)80038-6
+  key_findings: []
+- doi: 10.1016/S0082-0784(98)80108-2
+  title: On micro-buoyancy spherical diffusion flames and a double luminous zone structure of the hydrogen/methane flame
+  year: null
+  authors:
+  - Sung C.J.
+  - Zhu D.L.
+  - Law C.K.
+  venue: null
+  url: https://doi.org/10.1016/S0082-0784(98)80108-2
+  key_findings: []
+- doi: 10.1016/S0360-1285(00)00018-6
+  title: Structure, aerodynamics, and geometry of premixed flamelets
+  year: null
+  authors:
+  - Law C.K
+  - Sung C.J
+  venue: null
+  url: https://doi.org/10.1016/S0360-1285(00)00018-6
+  key_findings: []
+- doi: 10.1016/S0010-2180(01)00247-4
+  title: 'Microgravity burner-generated spherical diffusion flames: experiment and computation'
+  year: null
+  authors:
+  - Tse Stephen D
+  - Zhu Delin
+  - Sung Chih-Jen
+  - Ju Yiguang
+  - Law Chung K
+  venue: null
+  url: https://doi.org/10.1016/S0010-2180(01)00247-4
+  key_findings: []
+- doi: 10.1016/S1540-7489(02)80204-8
+  title: Chemiluminescent OH* and CH* flame structure and aerodynamic scaling of weakly buoyant, nearly spherical diffusion
+    flames
+  year: null
+  authors:
+  - Yoo S.W.
+  - Law C.K.
+  - Tse S.D.
+  venue: null
+  url: https://doi.org/10.1016/S1540-7489(02)80204-8
+  key_findings: []
+- doi: 10.1016/S1540-7489(02)80008-6
+  title: 'Oscillatory extinction of spherical diffusion flames: Micro-buoyancy experiment and computation'
+  year: null
+  authors:
+  - Yoo S.W.
+  - Christiansen E.W.
+  - Law C.K.
+  venue: null
+  url: https://doi.org/10.1016/S1540-7489(02)80008-6
+  key_findings: []
+- doi: 10.2514/2.7289
+  title: Development of Comprehensive Detailed and Reduced Reaction Mechanisms for Combustion Modeling
+  year: null
+  authors:
+  - Law C. K.
+  - Sung C. J.
+  - Wang H.
+  - Lu T. F.
+  venue: null
+  url: https://doi.org/10.2514/2.7289
+  key_findings: []
+- doi: 10.1080/13647830500098423
+  title: Response of spherical diffusion flames under rotation with general Lewis numbers
+  year: null
+  authors:
+  - Yoo S. W.
+  - Qian J.
+  - Bechtold J. K.
+  - Law C. K.
+  venue: null
+  url: https://doi.org/10.1080/13647830500098423
+  key_findings: []
+- doi: 10.1063/1.2212399
+  title: Porous spherical burner for combustion experimentation
+  year: null
+  authors:
+  - Yoo Sean W.
+  - Zhu Delin
+  - Law Chung K.
+  venue: null
+  url: https://doi.org/10.1063/1.2212399
+  key_findings: []
+- doi: 10.1016/j.proci.2006.07.183
+  title: On intrinsic oscillation in radiation-affected diffusion flames
+  year: null
+  authors:
+  - Wang H.Y.
+  - Law C.K.
+  venue: null
+  url: https://doi.org/10.1016/j.proci.2006.07.183
+  key_findings: []
+- doi: 10.1016/j.ijheatmasstransfer.2006.12.014
+  title: Effects of variable density on response of spherical diffusion flames under rotation
+  year: null
+  authors:
+  - Yoo S.W.
+  - Law C.K.
+  venue: null
+  url: https://doi.org/10.1016/j.ijheatmasstransfer.2006.12.014
+  key_findings: []
+- doi: 10.1016/j.combustflame.2009.09.018
+  title: A mechanistic study of Soret diffusion in hydrogen–air flames
+  year: null
+  authors:
+  - Yang F.
+  - Law C.K.
+  - Sung C.J.
+  - Zhang H.Q.
+  venue: null
+  url: https://doi.org/10.1016/j.combustflame.2009.09.018
+  key_findings: []
+- doi: 10.1103/PhysRevE.83.026305
+  title: Self-similar accelerative propagation of expanding wrinkled flames and explosion triggering
+  year: null
+  authors:
+  - Akkerman V’yacheslav
+  - Law Chung K.
+  - Bychkov Vitaly
+  venue: null
+  url: https://doi.org/10.1103/PhysRevE.83.026305
+  key_findings: []
+- doi: 10.1016/j.combustflame.2011.07.013
+  title: 'Response of spherical diffusion flames subjected to rotation: Microgravity experimentation and computational simulation'
+  year: null
+  authors:
+  - Yoo Sean W.
+  - Chaudhuri Swetaprovo
+  - Sacksteder Kurt R.
+  - Zhang Peng
+  - Zhu Delin
+  - Law Chung K.
+  venue: null
+  url: https://doi.org/10.1016/j.combustflame.2011.07.013
+  key_findings: []
+- doi: 10.2514/1.J051328
+  title: Fuel Options for Next-Generation Chemical Propulsion
+  year: null
+  authors:
+  - Law Chung K.
+  venue: null
+  url: https://doi.org/10.2514/1.J051328
+  key_findings: []
+- doi: 10.1016/j.combustflame.2012.03.005
+  title: A mechanistic evaluation of Soret diffusion in heptane/air flames
+  year: null
+  authors:
+  - Xin Yuxuan
+  - Sung Chih-Jen
+  - Law Chung K.
+  venue: null
+  url: https://doi.org/10.1016/j.combustflame.2012.03.005
+  key_findings: []
+- doi: 10.1016/j.proci.2012.05.068
+  title: An experimental investigation on self-acceleration of cellular spherical flames
+  year: null
+  authors:
+  - Wu Fujia
+  - Jomaas Grunde
+  - Law Chung K.
+  venue: null
+  url: https://doi.org/10.1016/j.proci.2012.05.068
+  key_findings: []
+- doi: 10.1016/j.fuel.2015.11.025
+  title: Initiation and propagation of laminar premixed cool flames
+  year: null
+  authors:
+  - Zhao Peng
+  - Liang Wenkai
+  - Deng Sili
+  - Law Chung K.
+  venue: null
+  url: https://doi.org/10.1016/j.fuel.2015.11.025
+  key_findings: []
+- doi: 10.1016/j.combustflame.2015.10.029
+  title: 'On colliding spherical flames: Morphology, corner dynamics, and flame-generated vorticity'
+  year: null
+  authors:
+  - Yang Sheng
+  - Zhu Delin
+  - Law Chung K.
+  venue: null
+  url: https://doi.org/10.1016/j.combustflame.2015.10.029
+  key_findings: []
+- doi: 10.1016/j.combustflame.2017.06.015
+  title: Extended flammability limits of n-heptane/air mixtures with cool flames
+  year: null
+  authors:
+  - Liang Wenkai
+  - Law Chung K.
+  venue: null
+  url: https://doi.org/10.1016/j.combustflame.2017.06.015
+  key_findings: []
+- doi: 10.1016/j.combustflame.2017.10.003
+  title: Theory of first-stage ignition delay in hydrocarbon NTC chemistry
+  year: null
+  authors:
+  - Liang Wenkai
+  - Law Chung K.
+  venue: null
+  url: https://doi.org/10.1016/j.combustflame.2017.10.003
+  key_findings: []
+- doi: 10.1016/j.proci.2018.06.191
+  title: 'Direct Numerical Simulation of turbulent nonpremixed “cool” flames: Applicability of flamelet models'
+  year: null
+  authors:
+  - Novoselov Alex G.
+  - Law Chung K.
+  - Mueller Michael E.
+  venue: null
+  url: https://doi.org/10.1016/j.proci.2018.06.191
+  key_findings: []
+- doi: 10.1146/annurev-chembioeng-060718-030141
+  title: On Radical-Induced Ignition in Combustion Systems
+  year: null
+  authors:
+  - Liang Wenkai
+  - Law Chung K.
+  venue: null
+  url: https://doi.org/10.1146/annurev-chembioeng-060718-030141
+  key_findings: []
+- doi: 10.1016/j.proci.2018.06.198
+  title: 'Binary collision of a burning droplet and a non-burning droplet of xylene: Outcome regimes and flame dynamics'
+  year: null
+  authors:
+  - Xiong Gang
+  - Gandhi Rahul
+  - Zhong Xiaosheng
+  - Mädler Lutz
+  - Tse Stephen D.
+  venue: null
+  url: https://doi.org/10.1016/j.proci.2018.06.198
+  key_findings: []
+- doi: 10.2514/6.1994-571
+  title: Stabilization mechanisms and burning rates of cylindrical burner flames
+  year: null
+  authors:
+  - Eng J.
+  - Law C.
+  - Zhu D.
+  venue: null
+  url: https://doi.org/10.2514/6.1994-571
+  key_findings: []
+- doi: 10.2514/6.1998-563
+  title: On burner-supported, spherical diffusion flames under micro-buoyancy conditions
+  year: null
+  authors:
+  - Sung C.
+  - Zhu D.
+  - Tse S.
+  - Law C.
+  venue: null
+  url: https://doi.org/10.2514/6.1998-563
+  key_findings: []
+- doi: 10.2514/6.2005-1140
+  title: Thin-Flame Theory for Droplet Combustion at Low Grashof Numbers
+  year: null
+  authors:
+  - Chen Shr-Jing
+  - Tse Stephen
+  venue: null
+  url: https://doi.org/10.2514/6.2005-1140
+  key_findings: []
+- doi: 10.2514/6.2005-544
+  title: Nonlinear Analysis of Pulsating Instabilities in Diffusion Flames
+  year: null
+  authors:
+  - Wang Heyang
+  - Bechtold John
+  - Law Chung
+  venue: null
+  url: https://doi.org/10.2514/6.2005-544
+  key_findings: []
+- doi: 10.2514/6.2005-1141
+  title: An Experimental Study on the Response of Spherical Diffusion Flames Subjected to Rotation and Nonequidiffusion
+  year: null
+  authors:
+  - Zhu Delin
+  - Yoo Sean
+  - Law C
+  - Sacksteder Kurt
+  venue: null
+  url: https://doi.org/10.2514/6.2005-1141
+  key_findings: []
+- doi: null
+  title: A comprehensive evaluation of soret diffusion in heptane-air flames
+  year: null
+  authors:
+  - YX Xin
+  - CJ Sung
+  - CK Law
+  venue: null
+  url: null
+  key_findings: []
+- doi: 10.2514/6.2012-1251
+  title: Dynamics and morphology of spherical diffusion flames under rotation
+  year: null
+  authors:
+  - S Yoo
+  - S Chaudhuri
+  - K Sacksteder
+  - P Zhang
+  - D Zhu
+  - C Law
+  venue: null
+  url: https://doi.org/10.2514/6.2012-1251
+  key_findings: []
+- doi: null
+  title: Dynamics and morphology of colliding spherical flames
+  year: null
+  authors:
+  - S Yang
+  - S Chaudhuri
+  - D Zhu
+  - CK Law
+  venue: null
+  url: null
+  key_findings: []
+- doi: null
+  title: On the structure and dynamics of stationary and rotating spherical diffusion flames
+  year: null
+  authors:
+  - SW Yoo
+  venue: null
+  url: null
+  key_findings: []
+- doi: null
+  title: 'Weakly Buoyant Spherical Diffusion Flames: Properties of Hydrogen-CO Ethylene Flames'
+  year: null
+  authors:
+  - L Paxton
+  venue: null
+  url: null
+  key_findings: []
+- doi: null
+  title: Computational Simulation of Spherical Diffusion Flame Dynamics and Extinction in Microgravity
+  year: null
+  authors:
+  - T Xia
+  venue: null
+  url: null
+  key_findings: []
+- doi: null
+  title: 'Combustion Science: A Researcher''s Guide to International Space Station'
+  year: null
+  authors:
+  - SA Gokoglu
+  - DL Dietrich
+  - DP Stocker
+  - PV Ferkul
+  - SL Olson
+  venue: null
+  url: null
+  key_findings: []
+fire_safety_tags: [gaseous_fuel, extinction]
+data: {s3_prefix: null, volume_bytes: null, file_types: []}
+field_confidence: {objectives: 0.85, fuels: 0.85}
+runs:
+- label: s-Flame test day 19254 (50% C2H4 with N2, ~21% O2 with N2)
+  fuel: ethylene
+  geometry:
+    shape: porous spherical burner
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.21
+    diluent: N2
+    pressure_kpa: 101.325
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: 'First round of tests with nitrogen-diluted fuel and oxygen; 2019 Sept. 11; atmosphere cell "~21% O2 with N2";
+      fuel bottle "50% C2H4 with N2"; flames ignited that day 13; table note: atmosphere is ~1 atm but pressure increases
+      and O2% drops with vitiation'
+  varied_parameters: {}
+  fixed_parameters:
+    fuel_bottle: 50% C2H4 with N2
+  is_aggregate: false
+  confidence: 0.75
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-23
+    title: PSI-23 Experimental table (PSI-23_Experimental table_ACME s-Flame.csv)
+    locator: 'Experimental table PSI-23_Experimental table_ACME s-Flame.csv, row 1; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); approximate (~) oxygen percent converted to a fraction; pressure ~1 atm per
+      the table note (101.325 kPa per atm); diluent N3 to N6 cells read as N2 (spreadsheet fill)'
+    quote: First round of tests with nitrogen-diluted fuel and oxygen,19254,2019,Sept.,11,~21% O2 with N2,50% C2H4 with N2,13,*Test
+      Day is formatted YYDDD where YY identfies year and DDD identifies day of year (GMT).
+- label: s-Flame test day 19256 (50% C2H4 with N3, ~21% O2 with N2)
+  fuel: ethylene
+  geometry:
+    shape: porous spherical burner
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.21
+    diluent: N2
+    pressure_kpa: 101.325
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: 'First round of tests with nitrogen-diluted fuel and oxygen; 2019 Sept. 13; atmosphere cell "~21% O2 with N3";
+      fuel bottle "50% C2H4 with N3"; flames ignited that day 16; table note: atmosphere is ~1 atm but pressure increases
+      and O2% drops with vitiation'
+  varied_parameters: {}
+  fixed_parameters:
+    fuel_bottle: 50% C2H4 with N3
+  is_aggregate: false
+  confidence: 0.75
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-23
+    title: PSI-23 Experimental table (PSI-23_Experimental table_ACME s-Flame.csv)
+    locator: 'Experimental table PSI-23_Experimental table_ACME s-Flame.csv, row 2; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); approximate (~) oxygen percent converted to a fraction; pressure ~1 atm per
+      the table note (101.325 kPa per atm); diluent N3 to N6 cells read as N2 (spreadsheet fill)'
+    quote: First round of tests with nitrogen-diluted fuel and oxygen,19256,2019,Sept.,13,~21% O2 with N3,50% C2H4 with N3,16,*Atmosphere
+      is ~1 atm but pressure increases and O2% drops with vitiation.
+- label: s-Flame test day 19304 (45% CH4 with N2, ~21% O2 with N2)
+  fuel: methane
+  geometry:
+    shape: porous spherical burner
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.21
+    diluent: N2
+    pressure_kpa: 101.325
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: 'First round of tests with nitrogen-diluted fuel and oxygen; 2019 Oct. 31; atmosphere cell "~21% O2 with N4"; fuel
+      bottle "45% CH4 with N2"; flames ignited that day 9; table note: atmosphere is ~1 atm but pressure increases and O2%
+      drops with vitiation'
+  varied_parameters: {}
+  fixed_parameters:
+    fuel_bottle: 45% CH4 with N2
+  is_aggregate: false
+  confidence: 0.75
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-23
+    title: PSI-23 Experimental table (PSI-23_Experimental table_ACME s-Flame.csv)
+    locator: 'Experimental table PSI-23_Experimental table_ACME s-Flame.csv, row 3; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); approximate (~) oxygen percent converted to a fraction; pressure ~1 atm per
+      the table note (101.325 kPa per atm); diluent N3 to N6 cells read as N2 (spreadsheet fill)'
+    quote: First round of tests with nitrogen-diluted fuel and oxygen,19304,2019,Oct.,31,~21% O2 with N4,45% CH4 with N2,9,*Flames
+      Ignited is the number ignited on that day (neglecting the day change on ISS).
+- label: s-Flame test day 19308 (45% CH4 with N3, ~30% O2 with N2)
+  fuel: methane
+  geometry:
+    shape: porous spherical burner
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.3
+    diluent: N2
+    pressure_kpa: 101.325
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: 'First round of tests with nitrogen-diluted fuel and oxygen; 2019 Nov. 4; atmosphere cell "~30% O2 with N2"; fuel
+      bottle "45% CH4 with N3"; flames ignited that day 21; table note: atmosphere is ~1 atm but pressure increases and O2%
+      drops with vitiation'
+  varied_parameters: {}
+  fixed_parameters:
+    fuel_bottle: 45% CH4 with N3
+  is_aggregate: false
+  confidence: 0.75
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-23
+    title: PSI-23 Experimental table (PSI-23_Experimental table_ACME s-Flame.csv)
+    locator: 'Experimental table PSI-23_Experimental table_ACME s-Flame.csv, row 4; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); approximate (~) oxygen percent converted to a fraction; pressure ~1 atm per
+      the table note (101.325 kPa per atm); diluent N3 to N6 cells read as N2 (spreadsheet fill)'
+    quote: First round of tests with nitrogen-diluted fuel and oxygen,19308,2019,Nov.,4,~30% O2 with N2,45% CH4 with N3,21,
+- label: s-Flame test day 19352 (100% H2, ~21% O2 with N2)
+  fuel: hydrogen
+  geometry:
+    shape: porous spherical burner
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.21
+    diluent: N2
+    pressure_kpa: 101.325
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: 'First round of tests with nitrogen-diluted fuel and oxygen; 2019 Dec. 18; atmosphere cell "~21% O2 with N2"; fuel
+      bottle "100% H2"; flames ignited that day 10; table note: atmosphere is ~1 atm but pressure increases and O2% drops
+      with vitiation'
+  varied_parameters: {}
+  fixed_parameters:
+    fuel_bottle: 100% H2
+  is_aggregate: false
+  confidence: 0.75
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-23
+    title: PSI-23 Experimental table (PSI-23_Experimental table_ACME s-Flame.csv)
+    locator: 'Experimental table PSI-23_Experimental table_ACME s-Flame.csv, row 5; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); approximate (~) oxygen percent converted to a fraction; pressure ~1 atm per
+      the table note (101.325 kPa per atm); diluent N3 to N6 cells read as N2 (spreadsheet fill)'
+    quote: First round of tests with nitrogen-diluted fuel and oxygen,19352,2019,Dec.,18,~21% O2 with N2,100% H2,10,
+- label: s-Flame test day 20006 (44.4% H2 with CH4, ~21% O2 with N2)
+  fuel: hydrogen / methane
+  geometry:
+    shape: porous spherical burner
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.21
+    diluent: N2
+    pressure_kpa: 101.325
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: 'First round of tests with nitrogen-diluted fuel and oxygen; 2020 Jan. 6; atmosphere cell "~21% O2 with N3"; fuel
+      bottle "44.4% H2 with CH4"; flames ignited that day 17; table note: atmosphere is ~1 atm but pressure increases and
+      O2% drops with vitiation'
+  varied_parameters: {}
+  fixed_parameters:
+    fuel_bottle: 44.4% H2 with CH4
+  is_aggregate: false
+  confidence: 0.75
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-23
+    title: PSI-23 Experimental table (PSI-23_Experimental table_ACME s-Flame.csv)
+    locator: 'Experimental table PSI-23_Experimental table_ACME s-Flame.csv, row 6; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); approximate (~) oxygen percent converted to a fraction; pressure ~1 atm per
+      the table note (101.325 kPa per atm); diluent N3 to N6 cells read as N2 (spreadsheet fill)'
+    quote: First round of tests with nitrogen-diluted fuel and oxygen,20006,2020,Jan.,6,~21% O2 with N3,44.4% H2 with CH4,17,
+- label: s-Flame test day 20013 (66.7% H2 with CH4, ~21% O2 with N2)
+  fuel: hydrogen / methane
+  geometry:
+    shape: porous spherical burner
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.21
+    diluent: N2
+    pressure_kpa: 101.325
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: 'First round of tests with nitrogen-diluted fuel and oxygen; 2020 Jan. 13; atmosphere cell "~21% O2 with N4"; fuel
+      bottle "66.7% H2 with CH4"; flames ignited that day 22; table note: atmosphere is ~1 atm but pressure increases and
+      O2% drops with vitiation'
+  varied_parameters: {}
+  fixed_parameters:
+    fuel_bottle: 66.7% H2 with CH4
+  is_aggregate: false
+  confidence: 0.75
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-23
+    title: PSI-23 Experimental table (PSI-23_Experimental table_ACME s-Flame.csv)
+    locator: 'Experimental table PSI-23_Experimental table_ACME s-Flame.csv, row 7; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); approximate (~) oxygen percent converted to a fraction; pressure ~1 atm per
+      the table note (101.325 kPa per atm); diluent N3 to N6 cells read as N2 (spreadsheet fill)'
+    quote: First round of tests with nitrogen-diluted fuel and oxygen,20013,2020,Jan.,13,~21% O2 with N4,66.7% H2 with CH4,22,
+- label: s-Flame test day 20024 (100% H2, ~21% O2 with N2)
+  fuel: hydrogen
+  geometry:
+    shape: porous spherical burner
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.21
+    diluent: N2
+    pressure_kpa: 101.325
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: 'First round of tests with nitrogen-diluted fuel and oxygen; 2020 Jan. 24; atmosphere cell "~21% O2 with N5"; fuel
+      bottle "100% H2"; flames ignited that day 16; table note: atmosphere is ~1 atm but pressure increases and O2% drops
+      with vitiation'
+  varied_parameters: {}
+  fixed_parameters:
+    fuel_bottle: 100% H2
+  is_aggregate: false
+  confidence: 0.75
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-23
+    title: PSI-23 Experimental table (PSI-23_Experimental table_ACME s-Flame.csv)
+    locator: 'Experimental table PSI-23_Experimental table_ACME s-Flame.csv, row 8; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); approximate (~) oxygen percent converted to a fraction; pressure ~1 atm per
+      the table note (101.325 kPa per atm); diluent N3 to N6 cells read as N2 (spreadsheet fill)'
+    quote: First round of tests with nitrogen-diluted fuel and oxygen,20024,2020,Jan.,24,~21% O2 with N5,100% H2,16,
+- label: s-Flame test day 20029 (50% C2H4 with N2, ~21% O2 with N2)
+  fuel: ethylene
+  geometry:
+    shape: porous spherical burner
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.21
+    diluent: N2
+    pressure_kpa: 101.325
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: 'First round of tests with nitrogen-diluted fuel and oxygen; 2020 Jan. 29; atmosphere cell "~21% O2 with N6"; fuel
+      bottle "50% C2H4 with N2"; flames ignited that day 21; table note: atmosphere is ~1 atm but pressure increases and O2%
+      drops with vitiation'
+  varied_parameters: {}
+  fixed_parameters:
+    fuel_bottle: 50% C2H4 with N2
+  is_aggregate: false
+  confidence: 0.75
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-23
+    title: PSI-23 Experimental table (PSI-23_Experimental table_ACME s-Flame.csv)
+    locator: 'Experimental table PSI-23_Experimental table_ACME s-Flame.csv, row 9; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); approximate (~) oxygen percent converted to a fraction; pressure ~1 atm per
+      the table note (101.325 kPa per atm); diluent N3 to N6 cells read as N2 (spreadsheet fill)'
+    quote: First round of tests with nitrogen-diluted fuel and oxygen,20029,2020,Jan.,29,~21% O2 with N6,50% C2H4 with N2,21,
+- label: s-Flame test day 20132 (25% H2, 20% CH4, with He, ~21% O2 with He)
+  fuel: hydrogen / methane
+  geometry:
+    shape: porous spherical burner
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.21
+    diluent: He
+    pressure_kpa: 101.325
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: 'First round of tests with nitrogen-diluted fuel and oxygen; 2020 May 11; atmosphere cell "~21% O2 with He"; fuel
+      bottle "25% H2, 20% CH4, with He"; flames ignited that day 7; table note: atmosphere is ~1 atm but pressure increases
+      and O2% drops with vitiation'
+  varied_parameters: {}
+  fixed_parameters:
+    fuel_bottle: 25% H2, 20% CH4, with He
+  is_aggregate: false
+  confidence: 0.75
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-23
+    title: PSI-23 Experimental table (PSI-23_Experimental table_ACME s-Flame.csv)
+    locator: 'Experimental table PSI-23_Experimental table_ACME s-Flame.csv, row 10; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); approximate (~) oxygen percent converted to a fraction; pressure ~1 atm per
+      the table note (101.325 kPa per atm); diluent N3 to N6 cells read as N2 (spreadsheet fill)'
+    quote: First round of tests with nitrogen-diluted fuel and oxygen,20132,2020,May,11,~21% O2 with He,"25% H2, 20% CH4,
+      with He",7,
+- label: s-Flame test day 20136 (20% H2, 25% CH4, with He, ~21% O2 with He)
+  fuel: hydrogen / methane
+  geometry:
+    shape: porous spherical burner
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.21
+    diluent: He
+    pressure_kpa: 101.325
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: 'Second round of tests with helium-diluted fuel and oxygen; 2020 May 15; atmosphere cell "~21% O2 with He"; fuel
+      bottle "20% H2, 25% CH4, with He"; flames ignited that day 11; table note: atmosphere is ~1 atm but pressure increases
+      and O2% drops with vitiation'
+  varied_parameters: {}
+  fixed_parameters:
+    fuel_bottle: 20% H2, 25% CH4, with He
+  is_aggregate: false
+  confidence: 0.75
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-23
+    title: PSI-23 Experimental table (PSI-23_Experimental table_ACME s-Flame.csv)
+    locator: 'Experimental table PSI-23_Experimental table_ACME s-Flame.csv, row 11; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); approximate (~) oxygen percent converted to a fraction; pressure ~1 atm per
+      the table note (101.325 kPa per atm); diluent N3 to N6 cells read as N2 (spreadsheet fill)'
+    quote: Second round of tests with helium-diluted fuel and oxygen,20136,2020,May,15,~21% O2 with He,"20% H2, 25% CH4, with
+      He",11,
+- label: s-Flame test day 20142 (30% H2, 15% CH4, with He, ~30% O2 with He)
+  fuel: hydrogen / methane
+  geometry:
+    shape: porous spherical burner
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.3
+    diluent: He
+    pressure_kpa: 101.325
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: 'Second round of tests with helium-diluted fuel and oxygen; 2020 May 21; atmosphere cell "~30% O2 with He"; fuel
+      bottle "30% H2, 15% CH4, with He"; flames ignited that day 17; table note: atmosphere is ~1 atm but pressure increases
+      and O2% drops with vitiation'
+  varied_parameters: {}
+  fixed_parameters:
+    fuel_bottle: 30% H2, 15% CH4, with He
+  is_aggregate: false
+  confidence: 0.75
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-23
+    title: PSI-23 Experimental table (PSI-23_Experimental table_ACME s-Flame.csv)
+    locator: 'Experimental table PSI-23_Experimental table_ACME s-Flame.csv, row 12; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); approximate (~) oxygen percent converted to a fraction; pressure ~1 atm per
+      the table note (101.325 kPa per atm); diluent N3 to N6 cells read as N2 (spreadsheet fill)'
+    quote: Second round of tests with helium-diluted fuel and oxygen,20142,2020,May,21,~30% O2 with He,"30% H2, 15% CH4, with
+      He",17,
+- label: s-Flame test day 20155 (45% H2 with He, ~30% O2 with He)
+  fuel: hydrogen
+  geometry:
+    shape: porous spherical burner
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.3
+    diluent: He
+    pressure_kpa: 101.325
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: 'Second round of tests with helium-diluted fuel and oxygen; 2020 June 3; atmosphere cell "~30% and ~21% O2 with
+      He"; fuel bottle "45% H2 with He"; flames ignited that day 9; table note: atmosphere is ~1 atm but pressure increases
+      and O2% drops with vitiation'
+  varied_parameters: {}
+  fixed_parameters:
+    fuel_bottle: 45% H2 with He
+  is_aggregate: false
+  confidence: 0.75
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-23
+    title: PSI-23 Experimental table (PSI-23_Experimental table_ACME s-Flame.csv)
+    locator: 'Experimental table PSI-23_Experimental table_ACME s-Flame.csv, row 13; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); approximate (~) oxygen percent converted to a fraction; pressure ~1 atm per
+      the table note (101.325 kPa per atm); diluent N3 to N6 cells read as N2 (spreadsheet fill)'
+    quote: Second round of tests with helium-diluted fuel and oxygen,20155,2020,June,3,~30% and ~21% O2 with He,45% H2 with
+      He,9,
+- label: s-Flame test day 20155 (45% H2 with He, ~21% O2 with He)
+  fuel: hydrogen
+  geometry:
+    shape: porous spherical burner
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.21
+    diluent: He
+    pressure_kpa: 101.325
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: 'Second round of tests with helium-diluted fuel and oxygen; 2020 June 3; atmosphere cell "~30% and ~21% O2 with
+      He"; fuel bottle "45% H2 with He"; flames ignited that day 9; table note: atmosphere is ~1 atm but pressure increases
+      and O2% drops with vitiation'
+  varied_parameters: {}
+  fixed_parameters:
+    fuel_bottle: 45% H2 with He
+  is_aggregate: false
+  confidence: 0.75
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-23
+    title: PSI-23 Experimental table (PSI-23_Experimental table_ACME s-Flame.csv)
+    locator: 'Experimental table PSI-23_Experimental table_ACME s-Flame.csv, row 13; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); approximate (~) oxygen percent converted to a fraction; pressure ~1 atm per
+      the table note (101.325 kPa per atm); diluent N3 to N6 cells read as N2 (spreadsheet fill)'
+    quote: Second round of tests with helium-diluted fuel and oxygen,20155,2020,June,3,~30% and ~21% O2 with He,45% H2 with
+      He,9,
+- label: s-Flame test day 20160 (45% CH4 with He, ~30% O2 with He)
+  fuel: methane
+  geometry:
+    shape: porous spherical burner
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.3
+    diluent: He
+    pressure_kpa: 101.325
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: 'Second round of tests with helium-diluted fuel and oxygen; 2020 June 8; atmosphere cell "~30% and ~21% O2 with
+      He"; fuel bottle "45% CH4 with He"; flames ignited that day 12; table note: atmosphere is ~1 atm but pressure increases
+      and O2% drops with vitiation'
+  varied_parameters: {}
+  fixed_parameters:
+    fuel_bottle: 45% CH4 with He
+  is_aggregate: false
+  confidence: 0.75
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-23
+    title: PSI-23 Experimental table (PSI-23_Experimental table_ACME s-Flame.csv)
+    locator: 'Experimental table PSI-23_Experimental table_ACME s-Flame.csv, row 14; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); approximate (~) oxygen percent converted to a fraction; pressure ~1 atm per
+      the table note (101.325 kPa per atm); diluent N3 to N6 cells read as N2 (spreadsheet fill)'
+    quote: Second round of tests with helium-diluted fuel and oxygen,20160,2020,June,8,~30% and ~21% O2 with He,45% CH4 with
+      He,12,
+- label: s-Flame test day 20160 (45% CH4 with He, ~21% O2 with He)
+  fuel: methane
+  geometry:
+    shape: porous spherical burner
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.21
+    diluent: He
+    pressure_kpa: 101.325
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: 'Second round of tests with helium-diluted fuel and oxygen; 2020 June 8; atmosphere cell "~30% and ~21% O2 with
+      He"; fuel bottle "45% CH4 with He"; flames ignited that day 12; table note: atmosphere is ~1 atm but pressure increases
+      and O2% drops with vitiation'
+  varied_parameters: {}
+  fixed_parameters:
+    fuel_bottle: 45% CH4 with He
+  is_aggregate: false
+  confidence: 0.75
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-23
+    title: PSI-23 Experimental table (PSI-23_Experimental table_ACME s-Flame.csv)
+    locator: 'Experimental table PSI-23_Experimental table_ACME s-Flame.csv, row 14; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); approximate (~) oxygen percent converted to a fraction; pressure ~1 atm per
+      the table note (101.325 kPa per atm); diluent N3 to N6 cells read as N2 (spreadsheet fill)'
+    quote: Second round of tests with helium-diluted fuel and oxygen,20160,2020,June,8,~30% and ~21% O2 with He,45% CH4 with
+      He,12,
+- label: s-Flame test day 20164 (20% C2H4 with He, ~30% O2 with He)
+  fuel: ethylene
+  geometry:
+    shape: porous spherical burner
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.3
+    diluent: He
+    pressure_kpa: 101.325
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: 'Second round of tests with helium-diluted fuel and oxygen; 2020 June 12; atmosphere cell "~30% O2 with He"; fuel
+      bottle "20% C2H4 with He"; flames ignited that day 11; table note: atmosphere is ~1 atm but pressure increases and O2%
+      drops with vitiation'
+  varied_parameters: {}
+  fixed_parameters:
+    fuel_bottle: 20% C2H4 with He
+  is_aggregate: false
+  confidence: 0.75
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-23
+    title: PSI-23 Experimental table (PSI-23_Experimental table_ACME s-Flame.csv)
+    locator: 'Experimental table PSI-23_Experimental table_ACME s-Flame.csv, row 15; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); approximate (~) oxygen percent converted to a fraction; pressure ~1 atm per
+      the table note (101.325 kPa per atm); diluent N3 to N6 cells read as N2 (spreadsheet fill)'
+    quote: Second round of tests with helium-diluted fuel and oxygen,20164,2020,June,12,~30% O2 with He,20% C2H4 with He,11,
+- label: s-Flame test day 20170 (25% C2H4 with He, ~30% O2 with He)
+  fuel: ethylene
+  geometry:
+    shape: porous spherical burner
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.3
+    diluent: He
+    pressure_kpa: 101.325
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: 'Second round of tests with helium-diluted fuel and oxygen; 2020 June 18; atmosphere cell "~30% and ~21% O2 with
+      He"; fuel bottle "25% C2H4 with He"; flames ignited that day 20; table note: atmosphere is ~1 atm but pressure increases
+      and O2% drops with vitiation'
+  varied_parameters: {}
+  fixed_parameters:
+    fuel_bottle: 25% C2H4 with He
+  is_aggregate: false
+  confidence: 0.75
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-23
+    title: PSI-23 Experimental table (PSI-23_Experimental table_ACME s-Flame.csv)
+    locator: 'Experimental table PSI-23_Experimental table_ACME s-Flame.csv, row 16; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); approximate (~) oxygen percent converted to a fraction; pressure ~1 atm per
+      the table note (101.325 kPa per atm); diluent N3 to N6 cells read as N2 (spreadsheet fill)'
+    quote: Second round of tests with helium-diluted fuel and oxygen,20170,2020,June,18,~30% and ~21% O2 with He,25% C2H4
+      with He,20,
+- label: s-Flame test day 20170 (25% C2H4 with He, ~21% O2 with He)
+  fuel: ethylene
+  geometry:
+    shape: porous spherical burner
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.21
+    diluent: He
+    pressure_kpa: 101.325
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: 'Second round of tests with helium-diluted fuel and oxygen; 2020 June 18; atmosphere cell "~30% and ~21% O2 with
+      He"; fuel bottle "25% C2H4 with He"; flames ignited that day 20; table note: atmosphere is ~1 atm but pressure increases
+      and O2% drops with vitiation'
+  varied_parameters: {}
+  fixed_parameters:
+    fuel_bottle: 25% C2H4 with He
+  is_aggregate: false
+  confidence: 0.75
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-23
+    title: PSI-23 Experimental table (PSI-23_Experimental table_ACME s-Flame.csv)
+    locator: 'Experimental table PSI-23_Experimental table_ACME s-Flame.csv, row 16; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); approximate (~) oxygen percent converted to a fraction; pressure ~1 atm per
+      the table note (101.325 kPa per atm); diluent N3 to N6 cells read as N2 (spreadsheet fill)'
+    quote: Second round of tests with helium-diluted fuel and oxygen,20170,2020,June,18,~30% and ~21% O2 with He,25% C2H4
+      with He,20,
+- label: s-Flame test day 20176 (30% C2H4 with He, ~30% O2 with He)
+  fuel: ethylene
+  geometry:
+    shape: porous spherical burner
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.3
+    diluent: He
+    pressure_kpa: 101.325
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: 'Second round of tests with helium-diluted fuel and oxygen; 2020 June 24; atmosphere cell "~30% and ~21% O2 with
+      He"; fuel bottle "30% C2H4 with He"; flames ignited that day 23; table note: atmosphere is ~1 atm but pressure increases
+      and O2% drops with vitiation'
+  varied_parameters: {}
+  fixed_parameters:
+    fuel_bottle: 30% C2H4 with He
+  is_aggregate: false
+  confidence: 0.75
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-23
+    title: PSI-23 Experimental table (PSI-23_Experimental table_ACME s-Flame.csv)
+    locator: 'Experimental table PSI-23_Experimental table_ACME s-Flame.csv, row 17; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); approximate (~) oxygen percent converted to a fraction; pressure ~1 atm per
+      the table note (101.325 kPa per atm); diluent N3 to N6 cells read as N2 (spreadsheet fill)'
+    quote: Second round of tests with helium-diluted fuel and oxygen,20176,2020,June,24,~30% and ~21% O2 with He,30% C2H4
+      with He,23,
+- label: s-Flame test day 20176 (30% C2H4 with He, ~21% O2 with He)
+  fuel: ethylene
+  geometry:
+    shape: porous spherical burner
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.21
+    diluent: He
+    pressure_kpa: 101.325
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: 'Second round of tests with helium-diluted fuel and oxygen; 2020 June 24; atmosphere cell "~30% and ~21% O2 with
+      He"; fuel bottle "30% C2H4 with He"; flames ignited that day 23; table note: atmosphere is ~1 atm but pressure increases
+      and O2% drops with vitiation'
+  varied_parameters: {}
+  fixed_parameters:
+    fuel_bottle: 30% C2H4 with He
+  is_aggregate: false
+  confidence: 0.75
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-23
+    title: PSI-23 Experimental table (PSI-23_Experimental table_ACME s-Flame.csv)
+    locator: 'Experimental table PSI-23_Experimental table_ACME s-Flame.csv, row 17; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); approximate (~) oxygen percent converted to a fraction; pressure ~1 atm per
+      the table note (101.325 kPa per atm); diluent N3 to N6 cells read as N2 (spreadsheet fill)'
+    quote: Second round of tests with helium-diluted fuel and oxygen,20176,2020,June,24,~30% and ~21% O2 with He,30% C2H4
+      with He,23,
+- label: s-Flame test day 20190 (35% H2 with He, ~30% O2 with He)
+  fuel: hydrogen
+  geometry:
+    shape: porous spherical burner
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.3
+    diluent: He
+    pressure_kpa: 101.325
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: 'Second round of tests with helium-diluted fuel and oxygen; 2020 July 8; atmosphere cell "~30% and ~21% O2 with
+      He"; fuel bottle "35% H2 with He"; flames ignited that day 21; table note: atmosphere is ~1 atm but pressure increases
+      and O2% drops with vitiation'
+  varied_parameters: {}
+  fixed_parameters:
+    fuel_bottle: 35% H2 with He
+  is_aggregate: false
+  confidence: 0.75
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-23
+    title: PSI-23 Experimental table (PSI-23_Experimental table_ACME s-Flame.csv)
+    locator: 'Experimental table PSI-23_Experimental table_ACME s-Flame.csv, row 18; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); approximate (~) oxygen percent converted to a fraction; pressure ~1 atm per
+      the table note (101.325 kPa per atm); diluent N3 to N6 cells read as N2 (spreadsheet fill)'
+    quote: Second round of tests with helium-diluted fuel and oxygen,20190,2020,July,8,~30% and ~21% O2 with He,35% H2 with
+      He,21,
+- label: s-Flame test day 20190 (35% H2 with He, ~21% O2 with He)
+  fuel: hydrogen
+  geometry:
+    shape: porous spherical burner
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.21
+    diluent: He
+    pressure_kpa: 101.325
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: 'Second round of tests with helium-diluted fuel and oxygen; 2020 July 8; atmosphere cell "~30% and ~21% O2 with
+      He"; fuel bottle "35% H2 with He"; flames ignited that day 21; table note: atmosphere is ~1 atm but pressure increases
+      and O2% drops with vitiation'
+  varied_parameters: {}
+  fixed_parameters:
+    fuel_bottle: 35% H2 with He
+  is_aggregate: false
+  confidence: 0.75
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-23
+    title: PSI-23 Experimental table (PSI-23_Experimental table_ACME s-Flame.csv)
+    locator: 'Experimental table PSI-23_Experimental table_ACME s-Flame.csv, row 18; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); approximate (~) oxygen percent converted to a fraction; pressure ~1 atm per
+      the table note (101.325 kPa per atm); diluent N3 to N6 cells read as N2 (spreadsheet fill)'
+    quote: Second round of tests with helium-diluted fuel and oxygen,20190,2020,July,8,~30% and ~21% O2 with He,35% H2 with
+      He,21,
+documents:
+  - title: s-Flame PSI overview (objectives, approach, research impacts; verbatim excerpts)
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-23
+    section: PSI repository record
+    text: >
+      Advanced Combustion via Microgravity Experiments-Structure and Response of Spherical Diffusion Flames (ACME
+      s-Flame). PSI accession PSI-23. Project type: Microgravity Investigation; flight platform: International Space
+      Station (ISS); hardware: Combustion Integrated Rack (CIR), ACME. Objectives: "(A) Measure and characterize the
+      transient structure (such as temperature and species distribution) of diffusion flames [...]". "(B) Determine the
+      quasi-steady convective/chemical-kinetic extinction limits (low system Damköhler numbers) and [...]". Approach:
+      "These data are to be used for comparisons of flame behavior and structure with detailed numerical simulations of
+      the flames." "Conventional gaseous fuels including hydrogen, methane, and ethylene will be used." "Hydrogen is the
+      simplest fuel and its reaction mechanism is also reasonably established." Research impacts: "The impact of this
+      work consists of both practical and fundamental aspects."
+  - title: Recent Research on Flames of Gaseous Fuel Aboard the ISS, s-Flame excerpts (verbatim)
+    uri: https://ntrs.nasa.gov/citations/20210021781
+    section: conference paper, s-Flame section
+    text: >
+      "This study's goal is to advance our ability to predict the structure and dynamics of non-premixed spherical
+      flames". "The fuel gases included hydrogen, methane, hydrogen/methane mixtures, and ethylene". "Tests were
+      conducted with either nitrogen or helium as the diluent in both the fuel and chamber atmosphere." "Radiative
+      extinction seems to occur at high flow rates and kinetic extinction at low flow rates." "With helium, rather than
+      nitrogen, dilution of both the fuel and oxygen, the extinction limits are shifted". ISS operations: "July
+      2019–Jan. 2020"; "April-July 2020".
+open_questions:
+  - Added from the PSI combustion catalog (PSI-23).
+  - Runs are the 18 test days of PSI-23_Experimental table_ACME s-Flame.csv, one run per stated oxygen level (days listing "~30% and ~21%" give two runs); oxygen and pressure are approximate ("~") and the table notes that pressure rises and O2 falls with vitiation.
+  - The Atmosphere and Fuel Bottle cells increment N2, N3, N4 ... (a spreadsheet fill); the diluent is read as N2. Fuel flow rates and per-flame extinction results are not in the table; outcome.ignited only reflects the number of flames ignited per day.
+  - Publications are the PSI record list (many predate the flight); years are taken from PSI titles only where given.
+  - Hydrogen has no material class in fuel_taxonomy.yaml; left null.
+reviewed: false

@@ -139,10 +139,22 @@ def repo_root() -> Path:
     return REPO_ROOT
 
 
+def acronym_sort_key(acronym: str) -> tuple[str, str]:
+    """Document 05 section 4 acronym order: case-insensitive, the exact acronym breaks ties."""
+    return (acronym.lower(), acronym)
+
+
+@pytest.fixture(scope="session")
+def acronym_key() -> Callable[[str], tuple[str, str]]:
+    """The documented acronym order as a sort key (`sorted(names, key=acronym_key)`)."""
+    return acronym_sort_key
+
+
 @pytest.fixture(scope="session")
 def seed_acronyms() -> list[str]:
-    """Investigation acronyms: the seed file names `<acronym>.yaml` (document 06 section 5)."""
-    acronyms = sorted(path.stem for path in SEED_INVESTIGATIONS_DIR.glob("*.yaml"))
+    """Seed file names `<acronym>.yaml` (document 06 section 5) in the documented order."""
+    stems = (path.stem for path in SEED_INVESTIGATIONS_DIR.glob("*.yaml"))
+    acronyms = sorted(stems, key=acronym_sort_key)
     assert acronyms, f"no seed files in {SEED_INVESTIGATIONS_DIR}"
     return acronyms
 

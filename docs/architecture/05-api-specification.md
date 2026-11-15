@@ -40,6 +40,8 @@ Base path: `/api/v1`. JSON over HTTP; `POST /ask` responds with `text/event-stre
 ### GET `/investigations`
 Query: `q`, `fuel_phase` (repeatable), `material`, `hardware` (repeatable), `project`, `tag` (repeatable), `o2_min`, `o2_max`, `pressure_min_kpa`, `pressure_max_kpa`, `gravity_level`, `sort` (`acronym`, `overall`, `habitat`, `modeling`, `controls`; default `acronym`), `page`, `page_size`.
 
+Acronym order (binding wherever the API orders acronyms: this sort, the tie-breaks of score sorts, `/rank` and `/scenario`, member lists in `/projects`, `/insights/safety-tech` and `/earth-applications`, and the lineage nodes): case-insensitive, with the exact acronym as tie-break, compared by code point and independent of the database locale, so `Flame-Design` < `FLEX` < `s-Flame` < `SLICE`. SQL `ORDER BY lower(acronym) COLLATE "C", acronym COLLATE "C"`; Python `key=acronym_sort_key` (`flamescope_common.schemas.card`, the pair `(acronym.lower(), acronym)`). Score sorts are descending on the returned (rounded) score with null scores last, then this acronym order.
+
 Range filters keep investigations whose derived range (document 04 section 2) overlaps the requested bounds; a null endpoint is open on that side, so `o2_max=0.3` keeps an investigation stated as `[null, 0.85]`; investigations without data for the dimension are excluded.
 
 Item shape (`InvestigationSummary`):
@@ -61,6 +63,8 @@ Query: `page`, `page_size`. Items: `{"id":..,"label":"..","fuel":{"name":"PMMA",
 
 ### GET `/investigations/{id}/variables`
 `{"varied":[{"name":"o2_fraction","values":[0.14,0.17,0.21],"unit":"fraction"}],"fixed":[{"name":"pressure_kpa","value":101.3,"unit":"kPa"}],"run_count":12}` (FR-06).
+
+Values are collected per parameter over the runs: the condition columns and the other keys of `varied_parameters` (each list element once). For an aggregate run with a stated range for a condition column (document 08 section 4.2) the value is the range `{"min":..,"max":..}` instead of the midpoint in `condition`, with a null endpoint kept (open); a stated range of an explicit run is ignored. A range with equal endpoints is that single number. A parameter is varied when it has more than one distinct value or a value that is a range; it is fixed when its only value is one number. Varied values are ordered by their low end, then high end (a number is its own low and high end, an open end is minus or plus infinity), for example `[{"min":null,"max":55},{"min":0.14,"max":0.21}]`; non-numeric values keep run order. Card-declared parameters without run values follow with empty `values` or a null `value`.
 
 ### GET `/investigations/{id}/publications`
 List of publications with `doi`, `title`, `authors`, `year`, `venue`, `url`, `key_findings`.
@@ -163,7 +167,7 @@ Response:
 Default columns: `investigation`, `run_label`, `fuel_name`, `fuel_phase`, `shape`, `characteristic_dimension_mm`, `o2_fraction`, `diluent`, `pressure_kpa`, `flow_speed_cm_s`, `flow_direction`, `gravity_g`, `ignited`, `flame_spread_rate_mm_s`, `extinction`, `is_aggregate`, `confidence`, `source_uri`, `source_locator`. `columns` omitted or empty means the default columns; an unknown column name is HTTP 400 `bad_request`.
 
 - `characteristic_dimension_mm` is the first stated dimension in the run's `geometry.dimensions_mm`, or null.
-- `limit` (default 50, at most 1000) bounds the preview rows only; `total` counts every matching run. `POST /extract/export` returns every matching run.
+- `limit` (default 50, at most 5000, enough for every seed run in one coverage request) bounds the preview rows only; `total` counts every matching run. `POST /extract/export` returns every matching run.
 - `filters.scenario_id` is the `scenario_id` returned by `POST /scenario` (section 7). The service decodes it into the resolved scenario and keeps only runs with similarity >= 0.6 to it (document 08 section 4.2, `matching_runs`), after the other filters. An id that is not valid unpadded URL-safe base64 of a resolved-scenario JSON object is HTTP 400 `bad_request`.
 
 ## 9. Insights and Earth applications
@@ -190,7 +194,7 @@ Response: `text/event-stream`. Events in order:
 | `done` | `{"status":"ok"}` |
 | `error` | `{"code":"llm_unavailable","message":".."}` (terminal) |
 
-The `citations` event carries the verified final answer; the UI replaces the streamed draft with it. Retrieval fuses keyword and vector hits by reciprocal rank fusion (constant 60) and keeps the best `top_k` (default 8). Every keyword match counts; a vector hit counts only with cosine similarity at or above `MIN_VECTOR_SIMILARITY` of the embedding provider (`EMBED_PROVIDER`, constants in `services/insight.py`): 0.2 for `mock` (content-word hashing, document 07 section 6) and 0.5 for `ollama`. The `ollama` value is calibrated for `nomic-embed-text` against the 28 seed chunks: the best chunk for eight corpus questions (flame spread, BASS, droplets and cool flames, reduced pressure, smoke detection, electric fields, FLEX fuels, flow and extinction) scored 0.60 to 0.76 and their eighth-best 0.52 to 0.68, while the best chunk for eight off-corpus questions ("What is the capital of France?", sourdough bread, football, guitar, spiders, Hamlet, bitcoin, car tyres) scored 0.38 to 0.47 (measured 2026-11). A different `EMBED_MODEL` needs a new calibration. If retrieval returns nothing above the threshold, the answer is the fixed sentence "The curated PSI corpus does not contain enough information to answer that." with no citations.
+The `citations` event carries the verified final answer; the UI replaces the streamed draft with it. Retrieval fuses keyword and vector hits by reciprocal rank fusion (constant 60) and keeps the best `top_k` (default 8). Every keyword match counts; a vector hit counts only with cosine similarity at or above `MIN_VECTOR_SIMILARITY` of the embedding provider (`EMBED_PROVIDER`, constants in `services/insight.py`): 0.2 for `mock` (content-word hashing, document 07 section 6) and 0.55 for `ollama`. The `ollama` value is calibrated for `nomic-embed-text` against the 215 chunks of the 25-investigation seed catalog: the best chunk for ten corpus questions (FLEX fuels, solids above 30% oxygen, low-flow flame spread, smoke detection, cool flames, SAFFIRE-II, SPICE smoke point, CIR users, droplet extinction, BASS-II fabrics) scored 0.694 to 0.838 and their eighth-best at least 0.626, while the best chunk for eight off-corpus questions ("What is the capital of France?", sourdough bread, football, stock prices, quantum entanglement, vaccines, laptops, African mountains) scored 0.413 to 0.490 (measured 2026-11-15; first calibration on the 28-chunk stub catalog gave 0.5). A different `EMBED_MODEL` needs a new calibration. If retrieval returns nothing above the threshold, the answer is the fixed sentence "The curated PSI corpus does not contain enough information to answer that." with no citations.
 
 ## 11. Endpoint inventory (for tests)
 

@@ -45,6 +45,9 @@ compose.override.yaml
 tests/reports/
 tests/e2e/artifacts/
 
+# Deck screenshot captures (embedded in the .pptx files; recapture from the running stack)
+docs/decks/screens/
+
 # macOS and editors
 .DS_Store
 .idea/

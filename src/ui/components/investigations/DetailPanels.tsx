@@ -143,7 +143,7 @@ export function MeasurementsPanel({ detail }: { detail: InvestigationDetail }) {
   if (detail.measurements.length === 0)
     return <p className="text-muted text-sm">No measurements are recorded.</p>;
   return (
-    <Table>
+    <Table label="Investigation details">
       <thead>
         <tr>
           {["Instrument", "Quantity", "Units", "File pattern", "Source"].map((h) => (
@@ -229,8 +229,8 @@ export function ScoresPanel({ detail }: { detail: InvestigationDetail }) {
   });
   return (
     <div className="space-y-4">
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-[320px_minmax(0,1fr)]">
-        <Card>
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-[360px_minmax(0,1fr)]">
+        <Card className="lg:sticky lg:top-4 lg:self-start">
           <CardHeader
             title="Lens scores"
             description={`Overall ${formatScore(detail.scores.overall)} / 100`}

@@ -27,7 +27,7 @@ function LensScoreCells({ item }: { item: RankItem }) {
 
 export function RankTable({ data, lens, onSelect }: RankTableProps) {
   return (
-    <Table>
+    <Table label="Ranked investigations">
       <thead>
         <tr>
           <Th className="w-12">#</Th>

@@ -46,11 +46,11 @@ def _expected_runs(record: dict[str, Any]) -> int:
 
 
 def test_fr01_one_investigation_per_seed_file(
-    stack: str, seed_acronyms: list[str], sql: Rows
+    stack: str, seed_acronyms: list[str], sql: Rows, acronym_key: Callable[[str], Any]
 ) -> None:
-    """FR-01, CF-02: investigations equal the seed files, keyed by acronym."""
-    acronyms = [row["acronym"] for row in sql("SELECT acronym FROM investigation ORDER BY 1")]
-    assert acronyms == sorted(seed_acronyms)
+    """FR-01, CF-02: investigations equal the seed files, keyed by acronym (one row each)."""
+    acronyms = [row["acronym"] for row in sql("SELECT acronym FROM investigation")]
+    assert sorted(acronyms, key=acronym_key) == seed_acronyms
 
 
 @pytest.mark.parametrize(
@@ -108,7 +108,8 @@ def test_fr11_every_investigation_has_a_chunk(stack: str, sql: Rows) -> None:
 def test_fr12_hardware_links_match_seed_files(
     stack: str, seed_records: dict[str, dict[str, Any]], sql: Rows
 ) -> None:
-    """FR-12, CF-02: every investigation links its seed hardware with the stated role."""
+    """FR-12, CF-02: every investigation links exactly its seed hardware with the stated role;
+    a seed file without hardware (unknown) has no links."""
     expected = sorted(
         (acronym, item["name"], item["role"])
         for acronym, record in seed_records.items()
@@ -117,10 +118,17 @@ def test_fr12_hardware_links_match_seed_files(
     rows = sql(
         "SELECT i.acronym, h.name, ih.role FROM investigation_hardware ih "
         "JOIN investigation i ON i.id = ih.investigation_id "
-        "JOIN hardware h ON h.id = ih.hardware_id ORDER BY 1, 2, 3"
+        "JOIN hardware h ON h.id = ih.hardware_id"
     )
-    assert [(row["acronym"], row["name"], row["role"]) for row in rows] == expected
-    assert {acronym for acronym, _, _ in expected} == set(seed_records)
+    assert sorted((row["acronym"], row["name"], row["role"]) for row in rows) == expected
+    unlinked = sql(
+        "SELECT acronym FROM investigation i WHERE NOT EXISTS "
+        "(SELECT 1 FROM investigation_hardware ih WHERE ih.investigation_id = i.id)"
+    )
+    without_hardware = {
+        acronym for acronym, record in seed_records.items() if not record.get("hardware")
+    }
+    assert {row["acronym"] for row in unlinked} == without_hardware
 
 
 def test_cf02_latest_ingest_run_per_investigation_is_ok(stack: str, sql: Rows) -> None:

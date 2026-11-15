@@ -1,13 +1,13 @@
 # Fuel name normalization vocabulary (doc 06 section 3.5). Entries map fuel names and aliases to a
 # phase and material class. This is a naming vocabulary only; it does not state that any
-# investigation burned a given fuel. Names and classes are those listed in architecture doc 04 section 2.
+# investigation burned a given fuel (the investigation seed files carry those facts with sources).
 # phase: gas | liquid | solid
 reviewed: false
 fuels:
   - name: PMMA
     phase: solid
     material_class: polymer
-    aliases: [polymethyl methacrylate, acrylic]
+    aliases: [polymethyl methacrylate, polymethylmethacrylate, acrylic]
   - name: n-heptane
     phase: liquid
     material_class: alkane
@@ -19,7 +19,134 @@ fuels:
   - name: cotton-fiberglass (SIBAL)
     phase: solid
     material_class: fabric
-    aliases: [SIBAL]
+    aliases: [SIBAL, cotton-fiberglass]
+  - name: methanol
+    phase: liquid
+    material_class: alcohol
+    aliases: []
+  - name: ethanol
+    phase: liquid
+    material_class: alcohol
+    aliases: []
+  - name: n-octane
+    phase: liquid
+    material_class: alkane
+    aliases: [octane]
+  - name: iso-octane
+    phase: liquid
+    material_class: alkane
+    aliases: [isooctane]
+  - name: n-decane
+    phase: liquid
+    material_class: alkane
+    aliases: [decane]
+  - name: n-dodecane
+    phase: liquid
+    material_class: alkane
+    aliases: [dodecane]
+  - name: ethylene
+    phase: gas
+    material_class: hydrocarbon gas
+    aliases: [C2H4]
+  - name: ethane
+    phase: gas
+    material_class: hydrocarbon gas
+    aliases: [C2H6]
+  - name: propane
+    phase: gas
+    material_class: hydrocarbon gas
+    aliases: [C3H8]
+  - name: n-butane
+    phase: gas
+    material_class: hydrocarbon gas
+    aliases: [butane]
+  - name: propylene
+    phase: gas
+    material_class: hydrocarbon gas
+    aliases: [propene]
+  - name: Teflon
+    phase: solid
+    material_class: polymer
+    aliases: [PTFE]
+  - name: Kapton
+    phase: solid
+    material_class: polymer
+    aliases: []
+  - name: silicone rubber
+    phase: solid
+    material_class: polymer
+    aliases: []
+  # Names below mirror the investigation cards (PSI experimental tables and records); class null where no source states one.
+  - name: hydrogen
+    phase: gas
+    aliases: [H2]
+  - name: hydrogen / methane
+    phase: gas
+    aliases: []
+  - name: dimethyl ether
+    phase: gas
+    aliases: [DME]
+  - name: n-dodecane / iso-dodecane
+    phase: liquid
+    material_class: alkane
+    aliases: []
+  - name: farnesane
+    phase: liquid
+    material_class: alkane
+    aliases: []
+  - name: n-heptane 50% / iso-octane 50%
+    phase: liquid
+    material_class: alkane
+    aliases: []
+  - name: propanol 95% / glycerol 5%
+    phase: liquid
+    material_class: alcohol
+    aliases: []
+  - name: propanol 80% / glycerol 20%
+    phase: liquid
+    material_class: alcohol
+    aliases: []
+  - name: dibutyl phthalate
+    phase: liquid
+    aliases: [DBP]
+  - name: silicone
+    phase: solid
+    material_class: polymer
+    aliases: []
+  - name: PMMA with Nomex
+    phase: solid
+    material_class: polymer
+    aliases: []
+  - name: Pyrell
+    phase: solid
+    material_class: polymer
+    aliases: []
+  - name: cotton
+    phase: solid
+    material_class: fabric
+    aliases: []
+  - name: lampwick
+    phase: solid
+    aliases: []
+  - name: Nomex
+    phase: solid
+    aliases: [Nomex III]
+  - name: Ultem
+    phase: solid
+    aliases: []
+  - name: candle wax
+    phase: solid
+    aliases: [candle]
+  - name: paraffin wax
+    phase: solid
+    aliases: [paraffin]
+  - name: Japan wax
+    phase: solid
+    aliases: []
+  - name: wax
+    phase: solid
+    aliases: []
 material_classes: [polymer, fabric, alkane, alcohol, hydrocarbon gas]
 open_questions:
-  - Fuel names actually used by each investigation are unknown until PSI sources are retrieved; extend this file then.
+  - Classes for hydrogen, hydrogen / methane, dimethyl ether, dibutyl phthalate, lampwick, Nomex, Ultem and the waxes are not set here; no source opened states one, so the investigation files keep them null.
+  - The phases of dimethyl ether (gas) and dibutyl phthalate (liquid) follow the investigation cards and need curator confirmation.

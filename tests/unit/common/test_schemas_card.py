@@ -16,6 +16,7 @@ from flamescope_common.schemas.card import (
     InvestigationCard,
     Platform,
     SeedInvestigation,
+    acronym_sort_key,
 )
 
 pytestmark = pytest.mark.unit
@@ -206,3 +207,11 @@ def test_seed_investigation_is_an_investigation_card() -> None:
 
     assert isinstance(seed, InvestigationCard)
     assert (seed.runs, seed.scores, seed.documents, seed.reviewed) == ([], {}, [], False)
+
+
+def test_acronym_order_is_case_insensitive_with_exact_tie_break() -> None:
+    """Doc 05 s4: `(lower(acronym), acronym)`, compared by code point (no locale)."""
+    acronyms = ["SLICE", "s-Flame", "FLEX-2", "Flame-Design", "FLEX", "flex", "BASS-II", "BASS"]
+    assert sorted(acronyms, key=acronym_sort_key) == [
+        "BASS", "BASS-II", "Flame-Design", "FLEX", "flex", "FLEX-2", "s-Flame", "SLICE",
+    ]  # fmt: skip

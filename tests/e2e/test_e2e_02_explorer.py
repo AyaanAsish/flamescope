@@ -10,6 +10,7 @@ from __future__ import annotations
 import re
 from collections.abc import Callable
 from typing import Any
+from urllib.parse import quote
 
 import httpx
 import pytest
@@ -19,6 +20,8 @@ pytestmark = pytest.mark.e2e
 
 DOC_10 = "10-ui-architecture.md"
 PAGE_SIZE = 24
+# Doc 05 s1 maximum page size, the page the Test runs tab requests.
+RUNS_PAGE_SIZE = 100
 DETAIL_TABS = re.compile(r"tabs: (.+)$")
 FALLBACK_PHASE = "solid"
 
@@ -73,7 +76,7 @@ def test_fuel_phase_filter_updates_cards_url_and_clears(
     page = goto("/explorer")
     if facets:
         page.get_by_test_id("explorer-filters").get_by_role(
-            "checkbox", name=re.compile(phase, re.I)
+            "checkbox", name=re.compile(rf"^{re.escape(phase)}\b", re.I)
         ).click()
     else:
         page.goto(f"/explorer?fuel_phase={phase}")
@@ -136,7 +139,7 @@ def test_detail_header_psi_link_and_tabs(
 
 def test_runs_table_rows_equal_runs_endpoint(page: Page, api: httpx.Client, sample: Any) -> None:
     """FR-06: the Test runs tab lists the `/runs` page (empty state when none are recorded)."""
-    runs = api.get(f"/investigations/{sample.any}/runs").json()["items"]
+    runs = _runs_page(api, sample.any, 1)["items"]
     _open_detail(page, sample.any)
     page.get_by_test_id("detail-tabs").get_by_role("tab", name="Test runs").click()
     table = page.get_by_test_id("runs-table")
@@ -146,6 +149,32 @@ def test_runs_table_rows_equal_runs_endpoint(page: Page, api: httpx.Client, samp
     expect(table.locator("tbody tr")).to_have_count(len(runs))
     for index, run in enumerate(runs):
         expect(table.locator("tbody tr").nth(index)).to_contain_text(run["label"])
+
+
+def _runs_page(api: httpx.Client, acronym: str, number: int) -> dict[str, Any]:
+    params = {"page": number, "page_size": RUNS_PAGE_SIZE}
+    return dict(api.get(f"/investigations/{quote(acronym, safe='')}/runs", params=params).json())
+
+
+def test_runs_table_pages_through_the_largest_investigation(page: Page, api: httpx.Client) -> None:
+    """FR-06: an investigation with more runs than one page pages through all of them."""
+    items = api.get("/investigations", params={"page_size": RUNS_PAGE_SIZE}).json()["items"]
+    totals = {item["acronym"]: _runs_page(api, item["acronym"], 1)["total"] for item in items}
+    acronym = max(totals, key=lambda key: totals[key])
+    if totals[acronym] <= RUNS_PAGE_SIZE:
+        pytest.skip("no seeded investigation has more runs than one page (doc 01 OI-06)")
+    last = -(-totals[acronym] // RUNS_PAGE_SIZE)
+    page.goto(f"/investigations/{quote(acronym, safe='')}")
+    page.get_by_test_id("detail-tabs").get_by_role("tab", name="Test runs").click()
+    table = page.get_by_test_id("runs-table")
+    pagination = table.get_by_role("navigation", name="Pagination")
+    expect(pagination).to_contain_text(f"page 1 of {last}")
+    for _ in range(last - 1):
+        pagination.get_by_role("button", name="Next").click()
+    expected = _runs_page(api, acronym, last)["items"]
+    expect(pagination).to_contain_text(f"page {last} of {last}")
+    expect(table.locator("tbody tr")).to_have_count(len(expected))
+    expect(table.locator("tbody tr").last).to_contain_text(expected[-1]["label"])
 
 
 def test_variables_panel_shows_varied_and_fixed(

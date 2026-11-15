@@ -1,34 +1,643 @@
 acronym: FLEX-2
-title: FLEX-2
+title: Flame Extinguishment Experiment - 2
 project: null
 platform: ISS
 gravity_level: microgravity
-psi_url: https://psi.nasa.gov/physci/repo/search?q=combustion&data_source=psi&data_type=investigation
+psi_url: https://psi.nasa.gov/physci/repo/data/investigations/PSI-68
 hardware:
   - {name: CIR, role: host}
   - {name: MDCA, role: apparatus}
 summary: >
-  Burned liquid fuel droplets in the Multi-user Droplet Combustion Apparatus in the Combustion Integrated Rack.
+  FLEX-2 extended the FLEX droplet-combustion results to further fuels and environmental conditions in the
+  Multi-user Droplet Combustion Apparatus of the Combustion Integrated Rack on the ISS. Its PSI test matrix lists
+  eight pure and mixed liquid fuels burned as 1.5 to 5 mm droplets in O2/N2 or O2/He at oxygen mole fractions of
+  0.17 to 0.30, pressures of 0.5 to 3.0 atm and flow velocities of 0.1 to 5 cm/s.
 objectives:
-  - text: Combustion of liquid fuel droplets in the Multi-user Droplet Combustion Apparatus.
-    source: &cur
-      kind: curated
-      uri: https://www.spaceappschallenge.org/2026/challenges/flame-in-freefall/
-      title: Challenge text as encoded in architecture doc 01 section 6
-      locator: doc 01 section 6, second bullet
-approach: null
-fuels: []
-conditions: null
-variables: {varied: [], fixed: []}
+  - text: The primary goal of the FLEX-2 flight experiments is to extend the results of FLEX-1 to fuels and environmental conditions [...]
+    source:
+      kind: psi_page
+      uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-68
+      title: PSI investigation PSI-68, Flame Extinguishment Experiment - 2
+      locator: objective (PSI repository record, geode-py API)
+      quote: The primary goal of the FLEX-2 flight experiments is to extend the results of FLEX-1 to fuels and environmental
+approach:
+  text: >
+    The chamber was filled with the test atmosphere, varied in pressure between 0.5 atm and 3.0 atm and in O2
+    concentration; after a settling time of about 2 minutes a predetermined amount of fuel, based on the target droplet
+    size, was dispensed.
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-68
+    title: PSI investigation PSI-68, Flame Extinguishment Experiment - 2
+    locator: approach (PSI repository record, geode-py API)
+    quote: The chamber was filled with the appropriate atmosphere, which was varied in pressure between 0.5 atm to 3.0 atm and O2
+fuels:
+  - {name: iso-octane, phase: liquid, material_class: alkane, geometry: {shape: droplet, dimensions_mm: {}}, source: &table
+      {kind: psi_page, uri: "https://psi.nasa.gov/physci/repo/data/investigations/PSI-68", title: "PSI-68 Experimental table (PSI-68_Experimental table_Flex2.csv)",
+       locator: "Experimental table PSI-68_Experimental table_Flex2.csv, column Sample (Fuel Type)",
+       quote: "Sample (Fuel Type),Initial Droplet Diameter (mm),Ambient Gas Mixture ,Oxygen Mole Fraction,Ambient Pressure (atm), Ambient Temperature (C),Flow Velocity (cm/s)"}}
+  - {name: n-octane, phase: liquid, material_class: alkane, geometry: {shape: droplet, dimensions_mm: {}}, source: *table}
+  - {name: n-heptane, phase: liquid, material_class: alkane, geometry: {shape: droplet, dimensions_mm: {}}, source: *table}
+  - {name: n-decane, phase: liquid, material_class: alkane, geometry: {shape: droplet, dimensions_mm: {}}, source: *table}
+  - {name: ethanol, phase: liquid, material_class: alcohol, geometry: {shape: droplet, dimensions_mm: {}}, source: *table}
+  - {name: propanol 95% / glycerol 5%, phase: liquid, material_class: alcohol, geometry: {shape: droplet, dimensions_mm: {}}, source: *table}
+  - {name: n-heptane 50% / iso-octane 50%, phase: liquid, material_class: alkane, geometry: {shape: droplet, dimensions_mm: {}}, source: *table}
+  - {name: propanol 80% / glycerol 20%, phase: liquid, material_class: alcohol, geometry: {shape: droplet, dimensions_mm: {}}, source: *table}
+conditions:
+  o2_fraction: {min: 0.17, max: 0.3, source: &matrix
+      {kind: psi_page, uri: "https://psi.nasa.gov/physci/repo/data/investigations/PSI-68", title: "PSI-68 Experimental table (PSI-68_Experimental table_Flex2.csv)",
+       locator: "Experimental table PSI-68_Experimental table_Flex2.csv, rows 1-8 (identical conditions for every fuel); pressure converted at 101.325 kPa per atm",
+       quote: "IsoOctane (pure),1.5 - 5,O2/N2 or O2/He,0.17; 0.21;0.25; 0.3,0.5; 1.0; 1.5; 2.0; or 3.0 ,25,0.1 - 5"}}
+  pressure_kpa: {min: 50.663, max: 303.975, source: *matrix}
+  flow_speed_cm_s: {min: 0.1, max: 5, source: *matrix}
+  flow_direction: []
+  gravity_g: [0]
+variables:
+  varied:
+    - fuel
+    - "o2_fraction (0.17, 0.21, 0.25, 0.30)"
+    - "pressure_kpa (0.5, 1.0, 1.5, 2.0, 3.0 atm)"
+    - diluent (N2 or He)
+    - droplet initial diameter (1.5 to 5 mm)
+    - flow_speed_cm_s
+  fixed: [ambient temperature 25 C, gravity_g]
+runs:
+  - &run
+    label: iso-octane (aggregate, PSI test matrix row 1)
+    fuel: iso-octane
+    geometry: {shape: droplet, dimensions_mm: {}}
+    condition: {o2_fraction: 0.235, diluent: N2 or He, pressure_kpa: 177.319, flow_speed_cm_s: 2.55, flow_direction: null, gravity_g: 0.0, temperature_k: 298.15}
+    outcome: {notes: "Test-matrix range row; condition values are range midpoints (doc 08 section 4.2). Stated levels: O2 0.17, 0.21, 0.25, 0.3; pressure 0.5, 1.0, 1.5, 2.0 or 3.0 atm."}
+    varied_parameters:
+      o2_fraction: {min: 0.17, max: 0.3}
+      pressure_kpa: {min: 50.663, max: 303.975}
+      flow_speed_cm_s: {min: 0.1, max: 5}
+      initial_diameter_mm: {min: 1.5, max: 5}
+    fixed_parameters: {ambient_temperature_c: 25, gravity: microgravity per PSI Project Type}
+    is_aggregate: true
+    confidence: 0.8
+    source:
+      kind: psi_page
+      uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-68
+      title: PSI-68 Experimental table (PSI-68_Experimental table_Flex2.csv)
+      locator: Experimental table PSI-68_Experimental table_Flex2.csv, row 1; gravity 0 g microgravity per PSI Project Type
+      quote: IsoOctane (pure),1.5 - 5,O2/N2 or O2/He,0.17; 0.21;0.25; 0.3,0.5; 1.0; 1.5; 2.0; or 3.0 ,25,0.1 - 5
+  - <<: *run
+    label: n-octane (aggregate, PSI test matrix row 2)
+    fuel: n-octane
+    source: {kind: psi_page, uri: "https://psi.nasa.gov/physci/repo/data/investigations/PSI-68", locator: "Experimental table PSI-68_Experimental table_Flex2.csv, row 2; gravity 0 g microgravity per PSI Project Type",
+             quote: "n-Octane (pure),1.5 - 5,O2/N2 or O2/He,0.17; 0.21;0.25; 0.3,0.5; 1.0; 1.5; 2.0; or 3.0 ,25,0.1 - 5"}
+  - <<: *run
+    label: n-heptane (aggregate, PSI test matrix row 3)
+    fuel: n-heptane
+    source: {kind: psi_page, uri: "https://psi.nasa.gov/physci/repo/data/investigations/PSI-68", locator: "Experimental table PSI-68_Experimental table_Flex2.csv, row 3; gravity 0 g microgravity per PSI Project Type",
+             quote: "Heptane (pure),1.5 - 5,O2/N2 or O2/He,0.17; 0.21;0.25; 0.3,0.5; 1.0; 1.5; 2.0; or 3.0 ,25,0.1 - 5"}
+  - <<: *run
+    label: n-decane (aggregate, PSI test matrix row 4)
+    fuel: n-decane
+    source: {kind: psi_page, uri: "https://psi.nasa.gov/physci/repo/data/investigations/PSI-68", locator: "Experimental table PSI-68_Experimental table_Flex2.csv, row 4; gravity 0 g microgravity per PSI Project Type",
+             quote: "Decane (pure),1.5 - 5,O2/N2 or O2/He,0.17; 0.21;0.25; 0.3,0.5; 1.0; 1.5; 2.0; or 3.0 ,25,0.1 - 5"}
+  - <<: *run
+    label: ethanol (aggregate, PSI test matrix row 5)
+    fuel: ethanol
+    source: {kind: psi_page, uri: "https://psi.nasa.gov/physci/repo/data/investigations/PSI-68", locator: "Experimental table PSI-68_Experimental table_Flex2.csv, row 5; gravity 0 g microgravity per PSI Project Type",
+             quote: "Ethanol (pure),1.5 - 5,O2/N2 or O2/He,0.17; 0.21;0.25; 0.3,0.5; 1.0; 1.5; 2.0; or 3.0 ,25,0.1 - 5"}
+  - <<: *run
+    label: propanol 95% / glycerol 5% (aggregate, PSI test matrix row 6)
+    fuel: propanol 95% / glycerol 5%
+    source: {kind: psi_page, uri: "https://psi.nasa.gov/physci/repo/data/investigations/PSI-68", locator: "Experimental table PSI-68_Experimental table_Flex2.csv, row 6; gravity 0 g microgravity per PSI Project Type",
+             quote: "Propanol (95%) Glycerol (5%) (mixture),1.5 - 5,O2/N2 or O2/He,0.17; 0.21;0.25; 0.3,0.5; 1.0; 1.5; 2.0; or 3.0 ,25,0.1 - 5"}
+  - <<: *run
+    label: n-heptane 50% / iso-octane 50% (aggregate, PSI test matrix row 7)
+    fuel: n-heptane 50% / iso-octane 50%
+    source: {kind: psi_page, uri: "https://psi.nasa.gov/physci/repo/data/investigations/PSI-68", locator: "Experimental table PSI-68_Experimental table_Flex2.csv, row 7; gravity 0 g microgravity per PSI Project Type",
+             quote: "Heptane (50%) IsoOctane (50%) (mixture),1.5 - 5,O2/N2 or O2/He,0.17; 0.21;0.25; 0.3,0.5; 1.0; 1.5; 2.0; or 3.0 ,25,0.1 - 5"}
+  - <<: *run
+    label: propanol 80% / glycerol 20% (aggregate, PSI test matrix row 8)
+    fuel: propanol 80% / glycerol 20%
+    source: {kind: psi_page, uri: "https://psi.nasa.gov/physci/repo/data/investigations/PSI-68", locator: "Experimental table PSI-68_Experimental table_Flex2.csv, row 8; gravity 0 g microgravity per PSI Project Type",
+             quote: "Propanol (80%) Glycerol (20%) (mixture),1.5 - 5,O2/N2 or O2/He,0.17; 0.21;0.25; 0.3,0.5; 1.0; 1.5; 2.0; or 3.0 ,25,0.1 - 5"}
 measurements: []
 findings: []
-publications: []
-fire_safety_tags: [liquid_fuel, droplet]
-data: {s3_prefix: null, volume_bytes: null, file_types: []}
-field_confidence: {objectives: 0.3, hardware: 0.3}
+publications:
+- doi: 10.1007/s12217-014-9372-2
+  title: Droplet Combustion Experiments Aboard the International Space Station
+  year: null
+  authors:
+  - Dietrich Daniel L.
+  - Nayagam Vedha
+  - Hicks Michael C.
+  - Ferkul Paul V.
+  - Dryer Frederick L.
+  - Farouk Tanvir
+  - Shaw Benjamin D.
+  - Suh Hyun Kyu
+  - Choi Mun Y.
+  - Liu Yu Cheng
+  - Avedisian C. Thomas
+  - Williams Forman A.
+  venue: null
+  url: https://doi.org/10.1007/s12217-014-9372-2
+  key_findings: []
+- doi: 10.2514/6.2014-1019
+  title: 'Experimental Study of Initial Diameter Effects on Convection-free Droplet Combustion in the Standard Atmosphere
+    for n-Heptane, n-Octane, and n-Decane: International Space Station and Ground-based Experiments'
+  year: null
+  authors:
+  - Liu Yu Cheng
+  - Rah Jeff K.
+  - Trenou Koffi N.
+  - Hicks Michael C.
+  - Avedisian C Thomas
+  venue: null
+  url: https://doi.org/10.2514/6.2014-1019
+  key_findings: []
+- doi: 10.1080/00102202.2015.1072176
+  title: Oxygen Lewis Number Effects on Reduced Gravity Combustion of Methanol and Heptane Droplets
+  year: null
+  authors:
+  - Shaw Benjamin D.
+  - Vang Chang L.
+  venue: null
+  url: https://doi.org/10.1080/00102202.2015.1072176
+  key_findings: []
+- doi: 10.1007/s12217-014-9377-x
+  title: ISS Droplet Combustion Experiments - Uncertainties in Droplet Sizes and Burning Rates
+  year: null
+  authors:
+  - Shaw Benjamin D.
+  venue: null
+  url: https://doi.org/10.1007/s12217-014-9377-x
+  key_findings: []
+- doi: 10.1021/acs.energyfuels.5b00158
+  title: Combustion of Butanol, Gasoline, and Butanol/Gasoline Mixture Droplets
+  year: null
+  authors:
+  - Xu Yuhao
+  - Avedisian C. Thomas
+  venue: null
+  url: https://doi.org/10.1021/acs.energyfuels.5b00158
+  key_findings: []
+- doi: null
+  title: 'n-Butanol droplet combustion: Numerical modeling and reduced gravity experiments'
+  year: null
+  authors:
+  - FE Alam
+  - YC Liu
+  - CT Avedisian
+  - FL Dryer
+  - TI Farouk
+  venue: null
+  url: null
+  key_findings: []
+- doi: null
+  title: Multistage oscillatory “Cool Flame” behavior for isolated alkane droplet combustion in elevated pressure microgravity
+    condition
+  year: null
+  authors:
+  - TI Farouk
+  - MC Hicks
+  - FL Dryer
+  venue: null
+  url: null
+  key_findings: []
+- doi: null
+  title: Computational modeling of the effects of support fibers on evaporation of fiber-supported droplets in reduced gravity
+  year: null
+  authors:
+  - N Ghata
+  - BD Shaw
+  venue: null
+  url: null
+  key_findings: []
+- doi: 10.1080/00102202.2014.971950
+  title: 'Computational Modeling of Unsupported and Fiber-Supported n-Heptane Droplet Combustion in Reduced Gravity: A Study
+    of Fiber Effects'
+  year: null
+  authors:
+  - Ghata Narugopal
+  - Shaw Benjamin D.
+  venue: null
+  url: https://doi.org/10.1080/00102202.2014.971950
+  key_findings: []
+- doi: null
+  title: The effect of support fibers on micro-convection in droplet combustion experiments
+  year: null
+  authors:
+  - YC Liu
+  - Y Xu
+  - CT Avedisian
+  - MC Hicks
+  venue: null
+  url: null
+  key_findings: []
+- doi: null
+  title: Cool-flame extinction during n-alkane droplet combustion in microgravity
+  year: null
+  authors:
+  - V Nayagam
+  - DL Dietrich
+  - MC Hicks
+  - FA Williams
+  venue: null
+  url: null
+  key_findings: []
+- doi: null
+  title: A short mechanism for the low-temperature ignition of n-heptane at high pressures
+  year: null
+  authors:
+  - JC Prince
+  - FA Williams
+  - GE Ovando
+  venue: null
+  url: null
+  key_findings: []
+- doi: 10.1080/13647830.2014.934296
+  title: The role of cool-flame chemistry in quasi-steady combustion and extinction of n-heptane droplets
+  year: null
+  authors:
+  - Paczko Guenter
+  - Peters Norbert
+  - Seshadri Kalyanasundaram
+  - Williams Forman Arthur
+  venue: null
+  url: https://doi.org/10.1080/13647830.2014.934296
+  key_findings: []
+- doi: 10.1155/2013/154202
+  title: Combustion of Submillimeter Heptane/Methanol and Heptane/Ethanol Droplets in Reduced Gravity
+  year: null
+  authors:
+  - Aharon I.
+  - Tam V. K.
+  - Shaw B. D.
+  venue: null
+  url: https://doi.org/10.1155/2013/154202
+  key_findings: []
+- doi: 10.1016/j.combustflame.2013.09.011
+  title: 'Isolated n-heptane droplet combustion in microgravity: “Cool Flames” – Two-stage combustion'
+  year: null
+  authors:
+  - Farouk Tanvir I.
+  - Dryer Frederick L.
+  venue: null
+  url: https://doi.org/10.1016/j.combustflame.2013.09.011
+  key_findings: []
+- doi: 10.1016/j.proci.2012.07.074
+  title: 'Sub-millimeter sized methyl butanoate droplet combustion: Microgravity experiments and detailed numerical modeling'
+  year: null
+  authors:
+  - Farouk T.I.
+  - Liu Y.C.
+  - Savas A.J.
+  - Avedisian C.T.
+  - Dryer F.L.
+  venue: null
+  url: https://doi.org/10.1016/j.proci.2012.07.074
+  key_findings: []
+- doi: null
+  title: On the spherically symmetrical combustion of methyl decanoate droplets and comparisons with detailed numerical modeling
+  year: null
+  authors:
+  - YC Liu
+  - T Farouk
+  - AJ Savas
+  - FL Dryer
+  - CT Avedisian
+  venue: null
+  url: null
+  key_findings: []
+- doi: null
+  title: The spherically symmetric droplet burning characteristics of Jet-A and biofuels derived from camelina and tallow
+  year: null
+  authors:
+  - YC Liu
+  - AJ Savas
+  - CT Avedisian
+  venue: null
+  url: null
+  key_findings: []
+- doi: null
+  title: Spherically symmetric droplet combustion of three and four component miscible mixtures as surrogates for Jet-A
+  year: null
+  authors:
+  - YC Liu
+  - AJ Savas
+  - CT Avedisian
+  venue: null
+  url: null
+  key_findings: []
+- doi: 10.5566/ias.v31.p137-148
+  title: AUTOMATED DATA ANALYSIS FOR CONSECUTIVE IMAGES FROM DROPLET COMBUSTION EXPERIMENTS
+  year: null
+  authors:
+  - Dembia Christopher Lee
+  - Liu Yu Cheng
+  - Avedisian C. Thomas
+  venue: null
+  url: https://doi.org/10.5566/ias.v31.p137-148
+  key_findings: []
+- doi: 10.1016/j.combustflame.2012.04.005
+  title: On the extinction characteristics of alcohol droplet combustion under microgravity conditions – A numerical study
+  year: null
+  authors:
+  - Farouk Tanvir I.
+  - Dryer Frederick L.
+  venue: null
+  url: https://doi.org/10.1016/j.combustflame.2012.04.005
+  key_findings: []
+- doi: 10.1016/j.combustflame.2011.08.015
+  title: A comparison of the spherical flame characteristics of sub-millimeter droplets of binary mixtures of n-heptane/iso-octane
+    and n-heptane/toluene with a commercial unleaded gasoline
+  year: null
+  authors:
+  - Liu Yu Cheng
+  - Avedisian C. Thomas
+  venue: null
+  url: https://doi.org/10.1016/j.combustflame.2011.08.015
+  key_findings: []
+- doi: 10.1021/ef3007849
+  title: Comparison of the Burning Characteristics of Indolene and Commercial Grade Gasoline Droplets without Convection
+  year: null
+  authors:
+  - Liu Yu Cheng
+  - Savas Anthony J.
+  - Avedisian C. Thomas
+  venue: null
+  url: https://doi.org/10.1021/ef3007849
+  key_findings: []
+- doi: 10.1016/j.combustflame.2012.07.012
+  title: Can cool flames support quasi-steady alkane droplet burning?
+  year: null
+  authors:
+  - V Nayagam
+  - DL Dietrich
+  - PV Ferkul
+  - MC Hicks
+  - FA Williams
+  venue: null
+  url: https://doi.org/10.1016/j.combustflame.2012.07.012
+  key_findings: []
+- doi: 10.1080/00102202.2012.759946
+  title: Experiments on Submillimeter Free Droplet Flame Extinction
+  year: null
+  authors:
+  - Shaw B. D.
+  - Wang D. F.
+  venue: null
+  url: https://doi.org/10.1080/00102202.2012.759946
+  key_findings: []
+- doi: null
+  title: Influences of support fibers on vaporizing fuel droplets
+  year: null
+  authors:
+  - D Shringi
+  - HA Dwyer
+  - BD Shaw
+  venue: null
+  url: null
+  key_findings: []
+- doi: 10.1155/2012/587987
+  title: Combustion of Methanol Droplets in Air-Diluent Environments with Reduced and Normal Gravity
+  year: null
+  authors:
+  - Shaw Benjamin
+  - Wei Jingbin
+  venue: null
+  url: https://doi.org/10.1155/2012/587987
+  key_findings: []
+- doi: 10.1080/13647830.2010.547601
+  title: 'Microgravity droplet combustion: effect of tethering fiber on burning rate and flame structure'
+  year: null
+  authors:
+  - Farouk T.
+  - Dryer F. L.
+  venue: null
+  url: https://doi.org/10.1080/13647830.2010.547601
+  key_findings: []
+- doi: 10.1080/00102202.2010.498798
+  title: Influence of Gravity and Ambient Pressure on Combustion and Flammability of n-Heptane and 1-Propanol Droplets in
+    Air-Diluent Environments
+  year: null
+  authors:
+  - Shaw B. D.
+  - Wei J. B.
+  venue: null
+  url: https://doi.org/10.1080/00102202.2010.498798
+  key_findings: []
+- doi: 10.1016/j.icheatmasstransfer.2009.10.006
+  title: Ignition and combustion of n-heptane droplets in carbon dioxide enriched environments
+  year: null
+  authors:
+  - Dzik Justin
+  - Nayagam Vedha
+  - Williams Forman A.
+  venue: null
+  url: https://doi.org/10.1016/j.icheatmasstransfer.2009.10.006
+  key_findings: []
+- doi: 10.1016/j.ijheatmasstransfer.2010.08.005
+  title: Computational modeling of n-heptane droplet combustion in air–diluent environments under reduced-gravity
+  year: null
+  authors:
+  - Jin Y.
+  - Shaw B.D.
+  venue: null
+  url: https://doi.org/10.1016/j.ijheatmasstransfer.2010.08.005
+  key_findings: []
+- doi: 10.1007/s12217-008-9096-2
+  title: Numerical Simulation of Unsteady Flows and Shape Oscillations in Liquid Droplets Induced by Deployment Needle Retraction
+  year: null
+  authors:
+  - Yan Jin
+  - Shaw Benjamin D.
+  venue: null
+  url: https://doi.org/10.1007/s12217-008-9096-2
+  key_findings: []
+- doi: 10.1016/j.proci.2008.06.221
+  title: 'Nonane droplet combustion with and without buoyant convection: Flame structure, burning rate and extinction in air
+    and helium'
+  year: null
+  authors:
+  - Bae J.H.
+  - Avedisian C.T.
+  venue: null
+  url: https://doi.org/10.1016/j.proci.2008.06.221
+  key_findings: []
+- doi: 10.1016/j.optlaseng.2009.05.004
+  title: Temperature and fiber optic spectroscopy composition measurements of heated propanol–acetone droplets
+  year: null
+  authors:
+  - Xiao J.S.
+  - Wei J.B.
+  - Shaw B.D.
+  - Peng Z.
+  venue: null
+  url: https://doi.org/10.1016/j.optlaseng.2009.05.004
+  key_findings: []
+- doi: null
+  title: Laser-induced fluorescence imaging of acetone inside evaporating and burning fuel droplets
+  year: null
+  authors:
+  - DS Shringi
+  - BD Shaw
+  - HA Dwyer
+  venue: null
+  url: null
+  key_findings: []
+- doi: 10.1080/00102200903190851
+  title: Reduced Gravity Combustion of Propanol Droplets in Oxygen-Inert Environments
+  year: null
+  authors:
+  - Wei J. B.
+  - Shaw B. D.
+  venue: null
+  url: https://doi.org/10.1080/00102200903190851
+  key_findings: []
+- doi: 10.1080/00102200601057394
+  title: PROPANOL DROPLET FLAMMABILITY AND COMBUSTION IN AIR-DILUENT ENVIRONMENTS UNDER NORMAL AND REDUCED GRAVITY
+  year: null
+  authors:
+  - SHAW B. D.
+  - WEI J. B.
+  venue: null
+  url: https://doi.org/10.1080/00102200601057394
+  key_findings: []
+- doi: 10.1007/978-81-322-2211-8_16
+  title: 'Developing Surrogates for Liquid Transportation Fuels: The Role of Spherically Symmetric Droplet Combustion'
+  year: null
+  authors:
+  - Avedisian C. Thomas
+  venue: null
+  url: https://doi.org/10.1007/978-81-322-2211-8_16
+  key_findings: []
+- doi: 10.1080/00102202.2016.1225730
+  title: Experimental Observations of the Low-Temperature Burning of Decane/Hexanol Droplets in Microgravity
+  year: null
+  authors:
+  - Dietrich D. L.
+  - Calabria R.
+  - Massoli P.
+  - Nayagam V.
+  - Williams F. A.
+  venue: null
+  url: https://doi.org/10.1080/00102202.2016.1225730
+  key_findings: []
+- doi: 10.1016/j.combustflame.2019.10.036
+  title: Cool-flame dodecane-droplet extinction diameters
+  year: null
+  authors:
+  - Williams Forman A.
+  - Nayagam Vedha
+  venue: null
+  url: https://doi.org/10.1016/j.combustflame.2019.10.036
+  key_findings: []
+- doi: 10.1080/13647830.2019.1588380
+  title: Quasi-steady combustion of normal-alkane droplets supported by Cool-Flame chemistry near diffusive extinction
+  year: null
+  authors:
+  - Williams Forman A.
+  - Nayagam Vedha
+  venue: null
+  url: https://doi.org/10.1080/13647830.2019.1588380
+  key_findings: []
+- doi: 10.1016/j.combustflame.2019.04.027
+  title: 'Radiative extinction of burner-supported spherical diffusion flames: A scaling analysis'
+  year: null
+  authors:
+  - Nayagam Vedha
+  - Dietrich Daniel L.
+  - Williams Forman A.
+  venue: null
+  url: https://doi.org/10.1016/j.combustflame.2019.04.027
+  key_findings: []
+- doi: 10.1016/j.combustflame.2018.01.035
+  title: Unsteady droplet combustion with fuel thermal expansion
+  year: null
+  authors:
+  - Nayagam Vedha
+  - Dietrich Daniel L.
+  - Williams Forman A.
+  venue: null
+  url: https://doi.org/10.1016/j.combustflame.2018.01.035
+  key_findings: []
+- doi: 10.1016/j.combustflame.2018.04.023
+  title: Radiative extinction of large n-alkane droplets in oxygen-inert mixtures in microgravity
+  year: null
+  authors:
+  - Nayagam Vedha
+  - Dietrich Daniel L.
+  - Hicks Michael C.
+  - Williams Forman A.
+  venue: null
+  url: https://doi.org/10.1016/j.combustflame.2018.04.023
+  key_findings: []
+- doi: 10.1016/j.icheatmasstransfer.2017.06.016
+  title: A Burke-Schumann analysis of dual-flame structure supported by a burning droplet
+  year: null
+  authors:
+  - Nayagam Vedha
+  - Dietrich Daniel L.
+  - Williams Forman A.
+  venue: null
+  url: https://doi.org/10.1016/j.icheatmasstransfer.2017.06.016
+  key_findings: []
+- doi: 10.1080/13647830.2017.1280182
+  title: A Burke–Schumann analysis of diffusion-flame structures supported by a burning droplet
+  year: null
+  authors:
+  - Nayagam Vedha
+  - Dietrich Daniel L.
+  - Williams Forman A.
+  venue: null
+  url: https://doi.org/10.1080/13647830.2017.1280182
+  key_findings: []
+- doi: null
+  title: 'Dynamic Differential Image Circle Diameter Measurement Precision Assessment: Application to Burning Droplets'
+  year: null
+  authors:
+  - RB Rasul
+  - CT Avedisian
+  - Y Xu
+  - MC Hicks
+  - AP Reeves
+  venue: null
+  url: null
+  key_findings: []
+- doi: 10.2478/gsr-2014-0007
+  title: Interpretation of Backlit Droplet Images from ISS Droplet Combustion Experiments
+  year: null
+  authors:
+  - Yu Fei
+  - Shaw Benjamin D.
+  venue: null
+  url: https://doi.org/10.2478/gsr-2014-0007
+  key_findings: []
+fire_safety_tags: [liquid_fuel, droplet, extinction, flow_effects, high_oxygen]
+data: {s3_prefix: null, volume_bytes: null, file_types: [csv]}
+field_confidence: {objectives: 0.8, fuels: 0.9, conditions: 0.8}
+documents:
+  - title: FLEX-2 PSI overview (objective, approach, hypothesis, research impacts; verbatim excerpts)
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-68
+    section: PSI repository record
+    text: >
+      Title: Flame Extinguishment Experiment - 2 (FLEX-2). PSI accession PSI-68; PSI dataset DOI 10.60555/byp8-h018.
+      Project type: Microgravity Investigation; flight program: International Space Station (ISS); hardware:
+      Combustion Integrated Rack (CIR), Multi-user Droplet Combustion Apparatus (MDCA); sub-research area:
+      Spacecraft Fire Safety. Objective: "The primary goal of the FLEX-2 flight experiments is to extend the results
+      of FLEX-1 to fuels and environmental [...]". Approach: "The chamber was filled with the appropriate atmosphere,
+      which was varied in pressure between 0.5 atm to 3.0 atm and O2 [...]". "A settling time of approximately 2
+      minutes elapsed prior to initiating the test in order to ensure that the [...]". Hypothesis: "The validity of
+      the assumptions or the hypothesis used in these simulation have not been confirmed by using benchmark data."
+      "By conducting these experiments in a microgravity environment, the effects of buoyancy are minimized, and the
+      droplet [...]". Research impacts: "The combustion of liquid fuels is the overwhelming energy source in the
+      transportation sector." "Insights gained from these studies can lead to more efficient and cleaner combustion
+      technologies which are crucial for [...]". Test matrix (PSI-68_Experimental table_Flex2.csv): fuels iso-octane,
+      n-octane, heptane, decane and ethanol (pure) and the mixtures propanol 95% / glycerol 5%, heptane 50% /
+      iso-octane 50% and propanol 80% / glycerol 20%; initial droplet diameter 1.5 - 5 mm; ambient gas O2/N2 or O2/He;
+      oxygen mole fraction 0.17, 0.21, 0.25 or 0.3; ambient pressure 0.5, 1.0, 1.5, 2.0 or 3.0 atm; ambient
+      temperature 25 C; flow velocity 0.1 - 5 cm/s.
 open_questions:
-  - Full title not confirmed; the acronym is used as a placeholder title.
-  - Per-investigation PSI page not retrieved (PSI pages render client-side); psi_url is the generic PSI repository search page.
-  - Fuels, conditions, measurements, findings and publications unknown pending PSI documents.
-  - Every stated fact is from the challenge text only and is not yet confirmed against PSI sources.
+  - The PSI table is a test matrix per fuel, not a list of individual tests, so runs are aggregate ranges; individual FLEX-2 test points are not in the files opened.
+  - Flow direction relative to the droplet is not stated in the test matrix; left null.
+  - No outcome data (burning rates, extinction diameters) were in the PSI table opened; findings left empty.
+  - Publication years and some author lists are not given in the PSI record; left null or empty.
 reviewed: false

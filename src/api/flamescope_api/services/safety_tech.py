@@ -18,7 +18,7 @@ from flamescope_common.schemas.api import (
     SafetyGroup,
     SafetyTechResponse,
 )
-from flamescope_common.schemas.card import FindingCategory
+from flamescope_common.schemas.card import FindingCategory, acronym_sort_key
 from flamescope_common.sources import SourceRef
 
 CATEGORY_LABELS: dict[FindingCategory, str] = {
@@ -176,7 +176,7 @@ class SafetyTechService:
                         )
                         for row in members
                     ],
-                    investigations=sorted({row.acronym for row in members}),
+                    investigations=sorted({row.acronym for row in members}, key=acronym_sort_key),
                 )
             )
         return SafetyTechResponse(groups=groups)

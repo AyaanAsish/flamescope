@@ -1,6 +1,8 @@
 "use client";
 
+import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
+import { Pagination } from "@/components/ui/pagination";
 import { DataPanel } from "@/components/ui/panel-state";
 import { PhaseBadge } from "@/components/ui/phase-badge";
 import { Table, Td, Th, Tr } from "@/components/ui/table";
@@ -16,6 +18,10 @@ import {
   formatSpreadRate,
   NOT_AVAILABLE,
 } from "@/lib/format";
+
+// Doc 05 section 1 maximum page size; larger investigations page through their runs.
+const RUNS_PAGE_SIZE = 100;
+const FIRST_PAGE = 1;
 
 const HEADERS = [
   "Run",
@@ -73,7 +79,8 @@ function RunRow({ run }: { run: RunItem }) {
 }
 
 export function RunsTable({ id }: { id: string }) {
-  const runs = useRuns(id);
+  const [pageNumber, setPageNumber] = useState(FIRST_PAGE);
+  const runs = useRuns(id, pageNumber, RUNS_PAGE_SIZE);
   return (
     <DataPanel
       query={runs}
@@ -83,7 +90,7 @@ export function RunsTable({ id }: { id: string }) {
     >
       {(page) => (
         <>
-          <Table>
+          <Table label="Test runs">
             <thead>
               <tr>
                 {HEADERS.map((header) => (
@@ -100,6 +107,14 @@ export function RunsTable({ id }: { id: string }) {
           <p className="text-muted mt-2 text-xs">
             Showing {page.items.length} of {page.total} runs. Missing values are unknown, not zero.
           </p>
+          {page.total > page.page_size ? (
+            <Pagination
+              page={page.page}
+              pageSize={page.page_size}
+              total={page.total}
+              onPageChange={setPageNumber}
+            />
+          ) : null}
         </>
       )}
     </DataPanel>

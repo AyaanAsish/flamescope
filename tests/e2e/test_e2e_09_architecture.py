@@ -17,6 +17,7 @@ from typing import Any
 import httpx
 import pytest
 from playwright.sync_api import Locator, Page, expect
+from playwright.sync_api import TimeoutError as PlaywrightTimeoutError
 
 pytestmark = pytest.mark.e2e
 
@@ -31,6 +32,7 @@ REACT_FLOW = "React Flow"
 DIMMED_OPACITY = "0.35"
 SAMPLE_NODE = "C-SVC"
 ZOOM_STEPS = 3
+TRIAL_CLICK_MS = 1_500
 
 
 def _tabs(doc_table: Callable[[str, str], list[dict[str, str]]]) -> list[dict[str, str]]:
@@ -67,6 +69,29 @@ def _overlaps(boxes: list[dict[str, float]]) -> list[tuple[int, int]]:
     return [(i, j) for i, j in pairs if intersects(boxes[i], boxes[j])]
 
 
+def _covered_nodes(nodes: Locator) -> list[str]:
+    """Nodes a click cannot reach because an overlay (legend, controls, minimap) covers them."""
+    covered = []
+    for index in range(nodes.count()):
+        try:
+            nodes.nth(index).click(trial=True, timeout=TRIAL_CLICK_MS)
+        except PlaywrightTimeoutError:
+            covered.append(nodes.nth(index).inner_text().splitlines()[0])
+    return covered
+
+
+def _token_color(page: Page, token: str) -> str:
+    """The computed colour a CSS variable resolves to, in the form `getComputedStyle` reports."""
+    script = """(token) => { const probe = document.createElement('div');
+        probe.style.backgroundColor = `var(${token})`; document.body.append(probe);
+        const color = getComputedStyle(probe).backgroundColor; probe.remove(); return color; }"""
+    return str(page.evaluate(script, token))
+
+
+def _background(locator: Locator) -> str:
+    return str(locator.evaluate("(el) => getComputedStyle(el).backgroundColor"))
+
+
 def test_seven_tabs_in_documented_order(
     goto: Callable[..., Page], doc_table: Callable[[str, str], list[dict[str, str]]]
 ) -> None:
@@ -96,6 +121,22 @@ def test_canvas_tab_renders_json_nodes_edges_minimap_legend(
     boxes = [box for box in (nodes.nth(i).bounding_box() for i in range(nodes.count())) if box]
     assert len(boxes) == len(diagram["nodes"])
     assert _overlaps(boxes) == []
+    assert _covered_nodes(nodes) == []
+
+
+def test_canvas_minimap_and_controls_are_dark(
+    goto: Callable[..., Page], doc_table: Callable[[str, str], list[dict[str, str]]]
+) -> None:
+    """FR-13, NFR-03: the minimap and zoom controls use the dark `--surface-1` token (doc 10
+    s6.3 "minimap (dark)", s2.3 no pure white)."""
+    page = goto("/architecture")
+    canvas = _open_tab(page, _canvas_tabs(doc_table)[0][0])
+    surface = _token_color(page, "--surface-1")
+    shown = {
+        "minimap": _background(canvas.locator(".react-flow__minimap")),
+        "controls": _background(canvas.locator(".react-flow__controls-button").first),
+    }
+    assert shown == {"minimap": surface, "controls": surface}
 
 
 def test_components_tab_has_every_doc_03_component(goto: Callable[..., Page]) -> None:

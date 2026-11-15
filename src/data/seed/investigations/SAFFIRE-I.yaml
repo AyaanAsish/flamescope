@@ -1,0 +1,262 @@
+acronym: SAFFIRE-I
+title: Spacecraft Fire Safety Experiment-I
+project: null
+platform: ISS
+gravity_level: microgravity
+psi_url: https://psi.nasa.gov/physci/repo/data/investigations/PSI-98
+hardware: []
+summary: >
+  Saffire-I burned a large sample of Sibal cotton-fiberglass fabric (about 0.94 m long and 0.4 m wide) in a flow duct
+  inside the Cygnus resupply vehicle after it left the ISS, at an air flow of 20 cm/s, to measure how fast a large fire
+  grows in low gravity and to probe low-gravity flammability limits. Cameras, thermocouples, radiometers and gas
+  sensors recorded the fire.
+objectives:
+  - text: Determine how rapidly a large scale fire grows in low-gravity and investigate the low-g flammability limits [...]
+    source: &psi_record
+      kind: psi_page
+      uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-98
+      title: PSI investigation PSI-98, Spacecraft Fire Safety Experiment-I
+      locator: Objectives (PSI repository search record, geode-py API)
+      quote: (1) determine how rapidly a large scale fire grows in low-gravity and (2) investigate the low-g flammability limits
+approach:
+  text: A Sibal fabric sample card in the middle of a large flow duct on the Cygnus vehicle after it deberthed from the ISS, burned at an air flow velocity of 20 cm/s and recorded by two cameras, thermocouples and radiometers.
+  source:
+    <<: *psi_record
+    locator: Approach (PSI repository search record, geode-py API)
+    quote: Saffire-I was conducted at an air flow velocity of 20 cm/s.
+fuels:
+  - name: cotton-fiberglass (SIBAL)
+    phase: solid
+    material_class: fabric
+    geometry: {shape: flat fabric sheet, dimensions_mm: {length: 940, width: 400}}
+    source:
+      <<: *psi_record
+      locator: Approach (PSI repository search record, geode-py API)
+      quote: The sample was approximately 0.94 meters long and 0.4 meters wide, simulating a large piece of flammable fabric.
+conditions:
+  o2_fraction:
+    min: 0.215
+    max: 0.217
+    source:
+      kind: psi_page
+      uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-98
+      title: PSI-98 Experimental table (PSI-98_Experimental table_SAFFIRE-1.csv)
+      locator: Experimental table PSI-98_Experimental table_SAFFIRE-1.csv, column "Percent O2" (rows 1 and 2)
+      quote: S1,SIBAL Fabric,0.37,40.6,94,20,21.5 - 21.7,182,8,420,Concurrent,S1C1,S1C2
+  pressure_kpa: null
+  flow_speed_cm_s:
+    min: 20
+    max: 20
+    source: &flow
+      <<: *psi_record
+      locator: Approach (PSI repository search record, geode-py API)
+      quote: Saffire-I was conducted at an air flow velocity of 20 cm/s.
+  flow_direction: [concurrent, opposed]
+  gravity_g: [0]
+variables:
+  varied: []
+  fixed: [flow_speed_cm_s, sample material, gravity_g]
+runs:
+- label: SAFFIRE-I sample S1
+  fuel: cotton-fiberglass (SIBAL)
+  geometry:
+    shape: flat fabric sheet
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.216
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 20.0
+    flow_direction: concurrent
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Sample Number S1; Material SIBAL Fabric; Sample Thickness (cm) 0.37; Sample Length (cm) 40.6; Sample Width (cm)
+      94; Air Flow (cm/s) 20; Percent O2 21.5 - 21.7; Ignition Power (W) 182; Ignition Time (s) 8; Burn Time (s) 420; Flow
+      Direction Concurrent; Camera 1 S1C1; Camera 2 S1C2
+  varied_parameters:
+    o2_fraction:
+      min: 0.215
+      max: 0.217
+  fixed_parameters: {}
+  is_aggregate: true
+  confidence: 0.9
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-98
+    title: PSI-98 Experimental table (PSI-98_Experimental table_SAFFIRE-1.csv)
+    locator: 'Experimental table PSI-98_Experimental table_SAFFIRE-1.csv, row 1; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); air flow in cm/s; percent O2 converted to a fraction (a stated range is an aggregate)'
+    quote: S1,SIBAL Fabric,0.37,40.6,94,20,21.5 - 21.7,182,8,420,Concurrent,S1C1,S1C2
+- label: SAFFIRE-I sample S2
+  fuel: cotton-fiberglass (SIBAL)
+  geometry:
+    shape: flat fabric sheet
+    dimensions_mm: {}
+  condition:
+    o2_fraction: 0.215
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: 20.0
+    flow_direction: opposed
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Sample Number S2; Material SIBAL Fabric; Sample Thickness (cm) 0.37; Sample Length (cm) 40.6; Sample Width (cm)
+      94; Air Flow (cm/s) 20; Percent O2 ~ 21.5; Ignition Power (W) 182; Ignition Time (s) 8; Burn Time (s) 70; Flow Direction
+      Opposed; Camera 1 S2C1; Camera 2 S2C2
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.9
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-98
+    title: PSI-98 Experimental table (PSI-98_Experimental table_SAFFIRE-1.csv)
+    locator: 'Experimental table PSI-98_Experimental table_SAFFIRE-1.csv, row 2; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); air flow in cm/s; percent O2 converted to a fraction (a stated range is an aggregate)'
+    quote: S2,SIBAL Fabric,0.37,40.6,94,20,~ 21.5,182,8,70,Opposed,S2C1,S2C2
+measurements:
+  - instrument: thermocouples and radiometers
+    quantity: flow, flame and plume temperatures; flame radiation
+    source:
+      <<: *psi_record
+      locator: Approach (PSI repository search record, geode-py API)
+      quote: In addition, thermocouples provided flow, flame, and plume temperatures, two radiometers recorded flame radiation,
+findings:
+  - statement: Saffire results determine microgravity flammability limits for several spacecraft materials and help validate NASA's material flammability screening approach.
+    category: material_screening
+    source:
+      <<: *psi_record
+      locator: Research Impacts/Earth Benefits (PSI repository search record, geode-py API)
+      quote: Results determine microgravity flammability limits for several spacecraft materials, help to validate NASA's material
+    confidence: 0.6
+  - statement: There is a significant lack of microgravity data on which spacecraft designers can base fire safety decisions, which large-scale tests in an uncrewed vehicle address.
+    category: atmosphere_design
+    source:
+      <<: *psi_record
+      locator: Hypothesis (PSI repository search record, geode-py API)
+      quote: There is a significant lack of microgravity data available for spacecraft designers on which to base their fire safety
+    confidence: 0.5
+publications:
+- doi: null
+  title: The Spacecraft Fire Experiment (Saffire) - Objectives, Development and Status
+  year: null
+  authors:
+  - W Schoren
+  - GA Ruff
+  - DL Urban
+  venue: null
+  url: null
+  key_findings: []
+- doi: 10.1016/j.combustflame.2018.10.012
+  title: 'Flame spread: Effects of microgravity and scale'
+  year: null
+  authors:
+  - Urban David L.
+  - Ferkul Paul
+  - Olson Sandra
+  - Ruff Gary A.
+  - Easton John
+  - T'ien James S.
+  - Liao Ya-Ting T.
+  - Li Chengyao
+  - Fernandez-Pello Carlos
+  - Torero Jose L.
+  - Legros Guillaume
+  - Eigenbrod Christian
+  - Smirnov Nickolay
+  - Fujita Osamu
+  - Rouvreau Sébastien
+  - Toth Balazs
+  - Jomaas Grunde
+  venue: null
+  url: https://doi.org/10.1016/j.combustflame.2018.10.012
+  key_findings: []
+- doi: 10.1016/j.proci.2018.05.168
+  title: Transient flame growth and spread processes over a large solid fabric in concurrent low-speed flows in microgravity
+    – Model versus experiment
+  year: null
+  authors:
+  - Li Chengyao
+  - Liao Ya-Ting T.
+  - T'ien James S.
+  - Urban David L.
+  - Ferkul Paul
+  - Olson Sandra
+  - Ruff Gary A.
+  - Easton John
+  venue: null
+  url: https://doi.org/10.1016/j.proci.2018.05.168
+  key_findings: []
+- doi: 10.1016/j.actaastro.2014.11.025
+  title: Fire safety in space – beyond flammability testing of small samples
+  year: null
+  authors:
+  - Jomaas Grunde
+  - Torero Jose L.
+  - Eigenbrod Christian
+  - Niehaus Justin
+  - Olson Sandra L.
+  - Ferkul Paul V.
+  - Legros Guillaume
+  - Fernandez-Pello A. Carlos
+  - Cowlard Adam J.
+  - Rouvreau Sebastien
+  - Smirnov Nickolay
+  - Fujita Osamu
+  - T׳ien James S.
+  - Ruff Gary A.
+  - Urban David L.
+  venue: null
+  url: https://doi.org/10.1016/j.actaastro.2014.11.025
+  key_findings: []
+- doi: null
+  title: Buoyant Effects on the Flammability of Silicone Samples Planned for the Spacecraft Fire Experiment (Saffire)
+  year: null
+  authors:
+  - JE Niehaus
+  - PV Ferkul
+  - SA Gokoglu
+  - GA Ruff
+  venue: null
+  url: null
+  key_findings: []
+- doi: null
+  title: Operation and Development Status of the Spacecraft Fire Experiments (Saffire)
+  year: null
+  authors:
+  - Gary A. Ruff and David L. Urban.
+  venue: null
+  url: null
+  key_findings: []
+fire_safety_tags: [solid_fuel, flame_spread, material_screening, flow_effects]
+data: {s3_prefix: null, volume_bytes: null, file_types: []}
+field_confidence: {objectives: 0.85, fuels: 0.85, conditions: 0.7}
+documents:
+  - title: Saffire-I PSI overview (objectives, approach, hypothesis, research impacts; verbatim excerpts)
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-98
+    section: PSI repository record
+    text: >
+      Spacecraft Fire Safety Experiment-I (SAFFIRE-I). PSI accession PSI-98. Project type: Microgravity Investigation;
+      flight platform: International Space Station (ISS); hardware: Saffire 1 enclosure in Cygnus; sub-research area:
+      Spacecraft Fire, Smoke Distribution. Objectives: "(1) determine how rapidly a large scale fire grows in
+      low-gravity and (2) investigate the low-g flammability limits [...]". Approach: "The Saffire-1 experiments was
+      performed on the Orbital Science's Cygnus resupply vehicle after it deberthed from the ISS." "The sample material
+      for Saffire-I is a composite fabric called Sibal consisting of cotton on a fiberglass [...]". "The sample was
+      approximately 0.94 meters long and 0.4 meters wide, simulating a large piece of flammable fabric." "The Saffire-1
+      flight unit had a sample card installed in the middle of a large flow duct." "Saffire-I was conducted at an air
+      flow velocity of 20 cm/s." "Once the sample was ignited flame images were captured using two cameras." "All data
+      was compressed, and subsequently downlinked." Hypothesis: "There is a significant lack of microgravity data
+      available for spacecraft designers on which to base their fire safety [...]". Research impacts: "Results
+      determine microgravity flammability limits for several spacecraft materials, help to validate NASA's material
+      [...]". "The investigation is crucial for the safety of current and future space missions."
+open_questions:
+  - Added from the PSI combustion catalog (PSI-98). The burn took place in the Cygnus vehicle after it left the ISS; platform follows the PSI flight platform (ISS).
+  - The Saffire flow duct is not in hardware.yaml; hardware left empty.
+  - Runs are the two samples of PSI-98_Experimental table_SAFFIRE-1.csv (S1 concurrent, S2 opposed, 20 cm/s); S1 lists oxygen as "21.5 - 21.7" percent, a stated range, so it is an aggregate run with the midpoint as its condition. The pre-test flow-visualisation rows (F1C1/F1C2, F2C1/F2C2) are not tests and are skipped.
+  - The table gives sample thickness 0.37 under a "(cm)" header and length 40.6 cm by width 94 cm, while the PSI approach states about 0.94 m long and 0.4 m wide; run geometry dimensions are left empty and the cells stay in notes. Cabin pressure and flame spread rates are not in the table.
+  - Publication DOIs are filled from the PSI record where it gives them.
+reviewed: false

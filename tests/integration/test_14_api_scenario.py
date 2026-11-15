@@ -32,6 +32,12 @@ SIMILARITY_TOLERANCE = 0.001
 EPSILON = 1e-9
 INSIDE_FRACTION = 0.5
 OUTSIDE_MARGIN = 1.0
+# Doc 05 s1: oxygen is a fraction 0 to 1; pressure and flow are non-negative.
+REQUEST_BOUNDS = {
+    "o2_fraction": (0.0, 1.0),
+    "pressure_kpa": (0.0, math.inf),
+    "flow_speed_cm_s": (0.0, math.inf),
+}
 # Condition values plus the known endpoints of aggregate-run ranges (doc 08 s4.2).
 CATALOG_VALUES = (
     "SELECT c.{dimension} AS v FROM condition c WHERE c.{dimension} IS NOT NULL "
@@ -57,8 +63,11 @@ def _canonical_id(scenario: Mapping[str, Any]) -> str:
     return base64.urlsafe_b64encode(canonical.encode()).decode().rstrip("=")
 
 
-def _match_order(match: Mapping[str, Any]) -> tuple[float, float, str]:
-    return (-match["similarity"], -match["median_similarity"], match["acronym"])
+def _match_order(
+    match: Mapping[str, Any], acronym_key: Callable[[str], Any]
+) -> tuple[float, float, Any]:
+    """Doc 08 s4.2: similarity, median (descending), then the doc 05 s4 acronym order."""
+    return (-match["similarity"], -match["median_similarity"], acronym_key(match["acronym"]))
 
 
 @pytest.fixture(scope="module")
@@ -121,12 +130,13 @@ def test_fr07_matches_bounded_and_sorted(
     api: httpx.Client,
     presets_doc: dict[str, dict[str, float]],
     seed_acronyms: list[str],
+    acronym_key: Callable[[str], Any],
 ) -> None:
     """FR-07, doc 08 s4.2: similarity in [0, 1]; sorted by similarity, median, acronym."""
     for name in presets_doc:
         matches = _scenario(api, {"preset": name, "limit": len(seed_acronyms)})["matches"]
         assert all(0.0 <= match["similarity"] <= 1.0 for match in matches)
-        assert matches == sorted(matches, key=_match_order)
+        assert matches == sorted(matches, key=lambda match: _match_order(match, acronym_key))
 
 
 def test_fr07_explicit_values_override_preset(
@@ -147,6 +157,19 @@ def test_fr07_unknown_preset_or_empty_is_bad_request(
     assert_error_envelope(api.post("/scenario", json=body), 400, "bad_request")
 
 
+def _outside(catalog: list[float], bounds: tuple[float, float]) -> float:
+    """A valid request value outside the catalog range: above it when the request bound
+    leaves room, else below it."""
+    low_bound, high_bound = bounds
+    if catalog[1] + OUTSIDE_MARGIN <= high_bound:
+        return catalog[1] + OUTSIDE_MARGIN
+    if catalog[1] < high_bound:
+        return (catalog[1] + high_bound) / 2
+    if catalog[0] <= low_bound:
+        pytest.skip("precondition absent: the catalog range spans every valid request value")
+    return (low_bound + catalog[0]) / 2
+
+
 @pytest.mark.parametrize("dimension", sorted(NUMERIC_DIMENSIONS))
 def test_fr07_numeric_coverage_states(
     dimension: str, stack: str, api: httpx.Client, catalog_ranges: dict[str, list[float] | None]
@@ -158,7 +181,7 @@ def test_fr07_numeric_coverage_states(
         if catalog is None
         else {
             "covered": catalog[0] + (catalog[1] - catalog[0]) * INSIDE_FRACTION,
-            "extrapolated": catalog[1] + OUTSIDE_MARGIN,
+            "extrapolated": _outside(catalog, REQUEST_BOUNDS[dimension]),
         }
     )
     for state, value in probes.items():

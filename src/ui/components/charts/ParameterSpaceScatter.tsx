@@ -25,9 +25,16 @@ export interface ScatterPoint {
 }
 
 const PHASE_SHAPES = { gas: "circle", liquid: "diamond", solid: "square" } as const;
-const PRESSURE_AXIS_MAX = 110;
+// The axis reaches at least ambient pressure and otherwise rounds the highest run up to a
+// whole step, so the top tick is a round number rather than the raw maximum.
+const PRESSURE_AXIS_MIN_TOP = 110;
+const PRESSURE_AXIS_STEP = 100;
+const pressureAxisTop = (dataMax: number) =>
+  Math.max(PRESSURE_AXIS_MIN_TOP, Math.ceil(dataMax / PRESSURE_AXIS_STEP) * PRESSURE_AXIS_STEP);
 const O2_AXIS: [number, number] = [0, 100];
 const POINT_OPACITY = 0.75;
+// Above the plot: below it the legend collides with the oxygen axis label.
+const LEGEND_WRAPPER = { paddingBottom: 8 } as const;
 
 interface TooltipPayloadEntry {
   payload?: ScatterPoint;
@@ -109,7 +116,7 @@ export function ParameterSpaceScatter({ points }: { points: ScatterPoint[] }) {
           <YAxis
             type="number"
             dataKey="pressureKpa"
-            domain={[0, PRESSURE_AXIS_MAX]}
+            domain={[0, pressureAxisTop]}
             unit=" kPa"
             tick={axisTick}
             stroke="var(--border)"
@@ -121,6 +128,8 @@ export function ParameterSpaceScatter({ points }: { points: ScatterPoint[] }) {
             cursor={{ strokeDasharray: "3 3", stroke: "var(--border-strong)" }}
           />
           <Legend
+            verticalAlign="top"
+            wrapperStyle={LEGEND_WRAPPER}
             onClick={(entry) => toggle(String(entry.value))}
             formatter={(value: string) => (
               <span

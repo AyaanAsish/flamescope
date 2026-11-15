@@ -1,35 +1,1621 @@
 acronym: BRE
-title: BRE
+title: Burning Rate Emulator
 project: ACME
 platform: ISS
 gravity_level: microgravity
-psi_url: https://psi.nasa.gov/physci/repo/search?q=combustion&data_source=psi&data_type=investigation
+psi_url: https://psi.nasa.gov/physci/repo/data/investigations/PSI-20
 hardware:
   - {name: CIR, role: host}
   - {name: ACME insert, role: apparatus}
 summary: >
-  One of the ACME experiments, which burned gaseous fuels with one modular hardware set in the Combustion Integrated Rack.
-  It studied materials flammability in still atmospheres, emulated with gaseous fuel.
+  BRE, the ACME experiment focused on spacecraft fire prevention, emulated the burning of solid and liquid materials
+  with gaseous fuels (pure or nitrogen-diluted ethylene and methane) fed through flat porous burners of 25 and 50 mm
+  diameter in quiescent microgravity. Tests covered oxygen concentrations from 21% to 40% and reduced pressures
+  considered for crewed spacecraft; flames self-extinguished below about 25% oxygen.
 objectives:
-  - text: Materials flammability in still atmospheres, emulated with gaseous fuel.
-    source: &cur
-      kind: curated
-      uri: https://www.spaceappschallenge.org/2026/challenges/flame-in-freefall/
-      title: Challenge text as encoded in architecture doc 01 section 6
-      locator: doc 01 section 6, first bullet
-approach: null
-fuels: []
-conditions: null
-variables: {varied: [], fixed: []}
+  - text: BRE's objective is to improve fundamental understanding of materials flammability, such as extinction behavior [...]
+    source:
+      kind: document
+      uri: https://science.nasa.gov/biological-physical/investigations/bre/
+      title: Burning Rate Emulator (BRE) - NASA Science
+      locator: Experiment Description
+      quote: More specifically, BRE’s objective is to improve fundamental understanding of materials flammability, such as extinction
+  - text: >
+      Observe burning behavior in long-duration microgravity for CH4/N2 and C2H4/N2 mixtures on porous circular burners
+      of 25 and 50 mm diameter, in O2/N2 ambients including NASA-considered atmospheres for human space missions.
+    source: &psi_record
+      kind: psi_page
+      uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-20
+      title: PSI investigation PSI-20, ACME Burning Rate Emulator
+      locator: Objectives (PSI repository search record, geode-py API)
+      quote: "NASA - considered atmosphere for human space missions will be examined: 14.7 psia, 21 % oxygen: 10.2 psia, 26.5 %; and 8.2 psia, 34 % oxygen"
+approach:
+  text: A flat porous burner fed with gaseous fuel simulates the burning of solid and liquid fuels; the heat fed back to the burner is measured.
+  source:
+    kind: document
+    uri: https://science.nasa.gov/biological-physical/investigations/bre/
+    title: Burning Rate Emulator (BRE) - NASA Science
+    locator: Experiment Description
+    quote: A flat porous burner fed with gaseous fuel simulates the burning of solid and liquid fuels.
+fuels:
+  - name: ethylene
+    phase: gas
+    material_class: hydrocarbon gas
+    geometry: {shape: flat porous circular burner, dimensions_mm: {diameter: null}}
+    source: &jasmac_fuel
+      kind: publication
+      uri: https://ntrs.nasa.gov/citations/20210021781
+      title: Recent Research on Flames of Gaseous Fuel Aboard the International Space Station (Stocker, 2021)
+      locator: BRE section, conference paper full text
+      quote: pure or nitrogen-diluted ethylene and methane were used to simulate the burning of materials
+  - name: methane
+    phase: gas
+    material_class: hydrocarbon gas
+    geometry: {shape: flat porous circular burner, dimensions_mm: {diameter: null}}
+    source: *jasmac_fuel
+conditions:
+  o2_fraction:
+    min: 0.21
+    max: 0.4
+    source:
+      kind: psi_page
+      uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-20
+      title: PSI-20 Experimental table (PSI-20_Experimental table_ACME BRE.csv)
+      locator: column "Oxygen Conc (percent)", rows 1-18
+      quote: 2019,Feb,25,25,50% C2H4,21; 26.5; 34; 40,8,
+  pressure_kpa:
+    min: 56.537
+    max: 101.353
+    source:
+      <<: *psi_record
+      locator: Objectives (planned atmospheres 8.2 to 14.7 psia, converted at 6.894757 kPa per psi); the experimental table states that chamber pressures were varied but does not list them
+  flow_speed_cm_s: null
+  flow_direction: [quiescent]
+  gravity_g: [0]
+variables:
+  varied: [fuel, fuel dilution with nitrogen, o2_fraction, pressure_kpa, burner diameter (25 or 50 mm), fuel flow rate]
+  fixed: [gravity_g, quiescent ambient]
+runs:
+- label: BRE 2019-02-08, 25 mm burner, 100% C2H4, O2 21%
+  fuel: ethylene
+  geometry:
+    shape: flat porous circular burner
+    dimensions_mm:
+      burner_size: 25.0
+  condition:
+    o2_fraction: 0.21
+    diluent: N2
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: Test day 2019-02-08; burner size 25 mm; fuel bottle 100% C2H4; flames ignited that day 10; oxygen cell "21; 26.5;
+      40"
+  varied_parameters: {}
+  fixed_parameters:
+    fuel_bottle: 100% C2H4
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-20
+    title: PSI-20 Experimental table (PSI-20_Experimental table_ACME BRE.csv)
+    locator: 'Experimental table PSI-20_Experimental table_ACME BRE.csv, row 1; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); oxygen percent by volume converted to a fraction'
+    quote: 2019,Feb,8,25,100% C2H4,21; 26.5; 40,10,Oxygen Conc. (as diluted with nitrogen on a volume basis) was varied between
+      tests where approximate concentrations for tests that ignited are listed. The chamber pressures were also varied but
+      are no
+- label: BRE 2019-02-08, 25 mm burner, 100% C2H4, O2 26.5%
+  fuel: ethylene
+  geometry:
+    shape: flat porous circular burner
+    dimensions_mm:
+      burner_size: 25.0
+  condition:
+    o2_fraction: 0.265
+    diluent: N2
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: Test day 2019-02-08; burner size 25 mm; fuel bottle 100% C2H4; flames ignited that day 10; oxygen cell "21; 26.5;
+      40"
+  varied_parameters: {}
+  fixed_parameters:
+    fuel_bottle: 100% C2H4
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-20
+    title: PSI-20 Experimental table (PSI-20_Experimental table_ACME BRE.csv)
+    locator: 'Experimental table PSI-20_Experimental table_ACME BRE.csv, row 1; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); oxygen percent by volume converted to a fraction'
+    quote: 2019,Feb,8,25,100% C2H4,21; 26.5; 40,10,Oxygen Conc. (as diluted with nitrogen on a volume basis) was varied between
+      tests where approximate concentrations for tests that ignited are listed. The chamber pressures were also varied but
+      are no
+- label: BRE 2019-02-08, 25 mm burner, 100% C2H4, O2 40%
+  fuel: ethylene
+  geometry:
+    shape: flat porous circular burner
+    dimensions_mm:
+      burner_size: 25.0
+  condition:
+    o2_fraction: 0.4
+    diluent: N2
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: Test day 2019-02-08; burner size 25 mm; fuel bottle 100% C2H4; flames ignited that day 10; oxygen cell "21; 26.5;
+      40"
+  varied_parameters: {}
+  fixed_parameters:
+    fuel_bottle: 100% C2H4
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-20
+    title: PSI-20 Experimental table (PSI-20_Experimental table_ACME BRE.csv)
+    locator: 'Experimental table PSI-20_Experimental table_ACME BRE.csv, row 1; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); oxygen percent by volume converted to a fraction'
+    quote: 2019,Feb,8,25,100% C2H4,21; 26.5; 40,10,Oxygen Conc. (as diluted with nitrogen on a volume basis) was varied between
+      tests where approximate concentrations for tests that ignited are listed. The chamber pressures were also varied but
+      are no
+- label: BRE 2019-02-20, 25 mm burner, 100% C2H4, O2 26.5%
+  fuel: ethylene
+  geometry:
+    shape: flat porous circular burner
+    dimensions_mm:
+      burner_size: 25.0
+  condition:
+    o2_fraction: 0.265
+    diluent: N2
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: Test day 2019-02-20; burner size 25 mm; fuel bottle 100% C2H4; flames ignited that day 8; oxygen cell "26.5; 34"
+  varied_parameters: {}
+  fixed_parameters:
+    fuel_bottle: 100% C2H4
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-20
+    title: PSI-20 Experimental table (PSI-20_Experimental table_ACME BRE.csv)
+    locator: 'Experimental table PSI-20_Experimental table_ACME BRE.csv, row 2; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); oxygen percent by volume converted to a fraction'
+    quote: 2019,Feb,20,25,100% C2H4,26.5; 34,8,Flames Ignited is the number ignited on that day (neglecting the day change
+      on ISS).
+- label: BRE 2019-02-20, 25 mm burner, 100% C2H4, O2 34%
+  fuel: ethylene
+  geometry:
+    shape: flat porous circular burner
+    dimensions_mm:
+      burner_size: 25.0
+  condition:
+    o2_fraction: 0.34
+    diluent: N2
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: Test day 2019-02-20; burner size 25 mm; fuel bottle 100% C2H4; flames ignited that day 8; oxygen cell "26.5; 34"
+  varied_parameters: {}
+  fixed_parameters:
+    fuel_bottle: 100% C2H4
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-20
+    title: PSI-20 Experimental table (PSI-20_Experimental table_ACME BRE.csv)
+    locator: 'Experimental table PSI-20_Experimental table_ACME BRE.csv, row 2; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); oxygen percent by volume converted to a fraction'
+    quote: 2019,Feb,20,25,100% C2H4,26.5; 34,8,Flames Ignited is the number ignited on that day (neglecting the day change
+      on ISS).
+- label: BRE 2019-02-25, 25 mm burner, 50% C2H4, O2 21%
+  fuel: ethylene
+  geometry:
+    shape: flat porous circular burner
+    dimensions_mm:
+      burner_size: 25.0
+  condition:
+    o2_fraction: 0.21
+    diluent: N2
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: Test day 2019-02-25; burner size 25 mm; fuel bottle 50% C2H4; flames ignited that day 8; oxygen cell "21; 26.5;
+      34; 40"
+  varied_parameters: {}
+  fixed_parameters:
+    fuel_bottle: 50% C2H4
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-20
+    title: PSI-20 Experimental table (PSI-20_Experimental table_ACME BRE.csv)
+    locator: 'Experimental table PSI-20_Experimental table_ACME BRE.csv, row 3; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); oxygen percent by volume converted to a fraction'
+    quote: 2019,Feb,25,25,50% C2H4,21; 26.5; 34; 40,8,
+- label: BRE 2019-02-25, 25 mm burner, 50% C2H4, O2 26.5%
+  fuel: ethylene
+  geometry:
+    shape: flat porous circular burner
+    dimensions_mm:
+      burner_size: 25.0
+  condition:
+    o2_fraction: 0.265
+    diluent: N2
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: Test day 2019-02-25; burner size 25 mm; fuel bottle 50% C2H4; flames ignited that day 8; oxygen cell "21; 26.5;
+      34; 40"
+  varied_parameters: {}
+  fixed_parameters:
+    fuel_bottle: 50% C2H4
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-20
+    title: PSI-20 Experimental table (PSI-20_Experimental table_ACME BRE.csv)
+    locator: 'Experimental table PSI-20_Experimental table_ACME BRE.csv, row 3; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); oxygen percent by volume converted to a fraction'
+    quote: 2019,Feb,25,25,50% C2H4,21; 26.5; 34; 40,8,
+- label: BRE 2019-02-25, 25 mm burner, 50% C2H4, O2 34%
+  fuel: ethylene
+  geometry:
+    shape: flat porous circular burner
+    dimensions_mm:
+      burner_size: 25.0
+  condition:
+    o2_fraction: 0.34
+    diluent: N2
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: Test day 2019-02-25; burner size 25 mm; fuel bottle 50% C2H4; flames ignited that day 8; oxygen cell "21; 26.5;
+      34; 40"
+  varied_parameters: {}
+  fixed_parameters:
+    fuel_bottle: 50% C2H4
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-20
+    title: PSI-20 Experimental table (PSI-20_Experimental table_ACME BRE.csv)
+    locator: 'Experimental table PSI-20_Experimental table_ACME BRE.csv, row 3; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); oxygen percent by volume converted to a fraction'
+    quote: 2019,Feb,25,25,50% C2H4,21; 26.5; 34; 40,8,
+- label: BRE 2019-02-25, 25 mm burner, 50% C2H4, O2 40%
+  fuel: ethylene
+  geometry:
+    shape: flat porous circular burner
+    dimensions_mm:
+      burner_size: 25.0
+  condition:
+    o2_fraction: 0.4
+    diluent: N2
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: Test day 2019-02-25; burner size 25 mm; fuel bottle 50% C2H4; flames ignited that day 8; oxygen cell "21; 26.5;
+      34; 40"
+  varied_parameters: {}
+  fixed_parameters:
+    fuel_bottle: 50% C2H4
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-20
+    title: PSI-20 Experimental table (PSI-20_Experimental table_ACME BRE.csv)
+    locator: 'Experimental table PSI-20_Experimental table_ACME BRE.csv, row 3; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); oxygen percent by volume converted to a fraction'
+    quote: 2019,Feb,25,25,50% C2H4,21; 26.5; 34; 40,8,
+- label: BRE 2019-03-04, 25 mm burner, 50% C2H4, O2 26.5%
+  fuel: ethylene
+  geometry:
+    shape: flat porous circular burner
+    dimensions_mm:
+      burner_size: 25.0
+  condition:
+    o2_fraction: 0.265
+    diluent: N2
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: Test day 2019-03-04; burner size 25 mm; fuel bottle 50% C2H4; flames ignited that day 6; oxygen cell "26.5; 40"
+  varied_parameters: {}
+  fixed_parameters:
+    fuel_bottle: 50% C2H4
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-20
+    title: PSI-20 Experimental table (PSI-20_Experimental table_ACME BRE.csv)
+    locator: 'Experimental table PSI-20_Experimental table_ACME BRE.csv, row 4; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); oxygen percent by volume converted to a fraction'
+    quote: 2019,March,4,25,50% C2H4,26.5; 40,6,
+- label: BRE 2019-03-04, 25 mm burner, 50% C2H4, O2 40%
+  fuel: ethylene
+  geometry:
+    shape: flat porous circular burner
+    dimensions_mm:
+      burner_size: 25.0
+  condition:
+    o2_fraction: 0.4
+    diluent: N2
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: Test day 2019-03-04; burner size 25 mm; fuel bottle 50% C2H4; flames ignited that day 6; oxygen cell "26.5; 40"
+  varied_parameters: {}
+  fixed_parameters:
+    fuel_bottle: 50% C2H4
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-20
+    title: PSI-20 Experimental table (PSI-20_Experimental table_ACME BRE.csv)
+    locator: 'Experimental table PSI-20_Experimental table_ACME BRE.csv, row 4; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); oxygen percent by volume converted to a fraction'
+    quote: 2019,March,4,25,50% C2H4,26.5; 40,6,
+- label: BRE 2019-03-07, 25 mm burner, 50% C2H4
+  fuel: ethylene
+  geometry:
+    shape: flat porous circular burner
+    dimensions_mm:
+      burner_size: 25.0
+  condition:
+    o2_fraction: null
+    diluent: N2
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Test day 2019-03-07; burner size 25 mm; fuel bottle 50% C2H4; flames ignited that day 6; oxygen cell "3400%"
+  varied_parameters: {}
+  fixed_parameters:
+    fuel_bottle: 50% C2H4
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-20
+    title: PSI-20 Experimental table (PSI-20_Experimental table_ACME BRE.csv)
+    locator: 'Experimental table PSI-20_Experimental table_ACME BRE.csv, row 5; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); oxygen cell is a cell-format error, left null'
+    quote: 2019,March,7,25,50% C2H4,3400%,6,
+- label: BRE 2019-03-11, 25 mm burner, 50% C2H4, O2 26.5%
+  fuel: ethylene
+  geometry:
+    shape: flat porous circular burner
+    dimensions_mm:
+      burner_size: 25.0
+  condition:
+    o2_fraction: 0.265
+    diluent: N2
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: Test day 2019-03-11; burner size 25 mm; fuel bottle 50% C2H4; flames ignited that day 7; oxygen cell "26.5; 34"
+  varied_parameters: {}
+  fixed_parameters:
+    fuel_bottle: 50% C2H4
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-20
+    title: PSI-20 Experimental table (PSI-20_Experimental table_ACME BRE.csv)
+    locator: 'Experimental table PSI-20_Experimental table_ACME BRE.csv, row 6; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); oxygen percent by volume converted to a fraction'
+    quote: 2019,March,11,25,50% C2H4,26.5; 34,7,
+- label: BRE 2019-03-11, 25 mm burner, 50% C2H4, O2 34%
+  fuel: ethylene
+  geometry:
+    shape: flat porous circular burner
+    dimensions_mm:
+      burner_size: 25.0
+  condition:
+    o2_fraction: 0.34
+    diluent: N2
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: Test day 2019-03-11; burner size 25 mm; fuel bottle 50% C2H4; flames ignited that day 7; oxygen cell "26.5; 34"
+  varied_parameters: {}
+  fixed_parameters:
+    fuel_bottle: 50% C2H4
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-20
+    title: PSI-20 Experimental table (PSI-20_Experimental table_ACME BRE.csv)
+    locator: 'Experimental table PSI-20_Experimental table_ACME BRE.csv, row 6; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); oxygen percent by volume converted to a fraction'
+    quote: 2019,March,11,25,50% C2H4,26.5; 34,7,
+- label: BRE 2019-03-28, 25 mm burner, 100%C2H4, O2 26.5%
+  fuel: ethylene
+  geometry:
+    shape: flat porous circular burner
+    dimensions_mm:
+      burner_size: 25.0
+  condition:
+    o2_fraction: 0.265
+    diluent: N2
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: Test day 2019-03-28; burner size 25 mm; fuel bottle 100%C2H4; flames ignited that day 8; oxygen cell "26.5; 34"
+  varied_parameters: {}
+  fixed_parameters:
+    fuel_bottle: 100%C2H4
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-20
+    title: PSI-20 Experimental table (PSI-20_Experimental table_ACME BRE.csv)
+    locator: 'Experimental table PSI-20_Experimental table_ACME BRE.csv, row 7; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); oxygen percent by volume converted to a fraction'
+    quote: 2019,March,28,25,100%C2H4,26.5; 34,8,
+- label: BRE 2019-03-28, 25 mm burner, 100%C2H4, O2 34%
+  fuel: ethylene
+  geometry:
+    shape: flat porous circular burner
+    dimensions_mm:
+      burner_size: 25.0
+  condition:
+    o2_fraction: 0.34
+    diluent: N2
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: Test day 2019-03-28; burner size 25 mm; fuel bottle 100%C2H4; flames ignited that day 8; oxygen cell "26.5; 34"
+  varied_parameters: {}
+  fixed_parameters:
+    fuel_bottle: 100%C2H4
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-20
+    title: PSI-20 Experimental table (PSI-20_Experimental table_ACME BRE.csv)
+    locator: 'Experimental table PSI-20_Experimental table_ACME BRE.csv, row 7; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); oxygen percent by volume converted to a fraction'
+    quote: 2019,March,28,25,100%C2H4,26.5; 34,8,
+- label: BRE 2019-04-01, 25 mm burner, 100%C2H4
+  fuel: ethylene
+  geometry:
+    shape: flat porous circular burner
+    dimensions_mm:
+      burner_size: 25.0
+  condition:
+    o2_fraction: null
+    diluent: N2
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: false
+    extinction: null
+    notes: Test day 2019-04-01; burner size 25 mm; fuel bottle 100%C2H4; flames ignited that day 0; oxygen cell "2100%"
+  varied_parameters: {}
+  fixed_parameters:
+    fuel_bottle: 100%C2H4
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-20
+    title: PSI-20 Experimental table (PSI-20_Experimental table_ACME BRE.csv)
+    locator: 'Experimental table PSI-20_Experimental table_ACME BRE.csv, row 8; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); oxygen cell is a cell-format error, left null'
+    quote: 2019,April,1,25,100%C2H4,2100%,0,
+- label: BRE 2019-04-04, 25 mm burner, 100%C2H4, O2 21%
+  fuel: ethylene
+  geometry:
+    shape: flat porous circular burner
+    dimensions_mm:
+      burner_size: 25.0
+  condition:
+    o2_fraction: 0.21
+    diluent: N2
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: Test day 2019-04-04; burner size 25 mm; fuel bottle 100%C2H4; flames ignited that day 9; oxygen cell "21; 26.5;
+      34"
+  varied_parameters: {}
+  fixed_parameters:
+    fuel_bottle: 100%C2H4
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-20
+    title: PSI-20 Experimental table (PSI-20_Experimental table_ACME BRE.csv)
+    locator: 'Experimental table PSI-20_Experimental table_ACME BRE.csv, row 9; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); oxygen percent by volume converted to a fraction'
+    quote: 2019,April,4,25,100%C2H4,21; 26.5; 34,9,
+- label: BRE 2019-04-04, 25 mm burner, 100%C2H4, O2 26.5%
+  fuel: ethylene
+  geometry:
+    shape: flat porous circular burner
+    dimensions_mm:
+      burner_size: 25.0
+  condition:
+    o2_fraction: 0.265
+    diluent: N2
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: Test day 2019-04-04; burner size 25 mm; fuel bottle 100%C2H4; flames ignited that day 9; oxygen cell "21; 26.5;
+      34"
+  varied_parameters: {}
+  fixed_parameters:
+    fuel_bottle: 100%C2H4
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-20
+    title: PSI-20 Experimental table (PSI-20_Experimental table_ACME BRE.csv)
+    locator: 'Experimental table PSI-20_Experimental table_ACME BRE.csv, row 9; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); oxygen percent by volume converted to a fraction'
+    quote: 2019,April,4,25,100%C2H4,21; 26.5; 34,9,
+- label: BRE 2019-04-04, 25 mm burner, 100%C2H4, O2 34%
+  fuel: ethylene
+  geometry:
+    shape: flat porous circular burner
+    dimensions_mm:
+      burner_size: 25.0
+  condition:
+    o2_fraction: 0.34
+    diluent: N2
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: Test day 2019-04-04; burner size 25 mm; fuel bottle 100%C2H4; flames ignited that day 9; oxygen cell "21; 26.5;
+      34"
+  varied_parameters: {}
+  fixed_parameters:
+    fuel_bottle: 100%C2H4
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-20
+    title: PSI-20 Experimental table (PSI-20_Experimental table_ACME BRE.csv)
+    locator: 'Experimental table PSI-20_Experimental table_ACME BRE.csv, row 9; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); oxygen percent by volume converted to a fraction'
+    quote: 2019,April,4,25,100%C2H4,21; 26.5; 34,9,
+- label: BRE 2020-09-03, 50 mm burner, 100% C2H4, O2 25%
+  fuel: ethylene
+  geometry:
+    shape: flat porous circular burner
+    dimensions_mm:
+      burner_size: 50.0
+  condition:
+    o2_fraction: 0.25
+    diluent: N2
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: Test day 2020-09-03; burner size 50 mm; fuel bottle 100% C2H4; flames ignited that day 13; oxygen cell "25; 34;
+      40"
+  varied_parameters: {}
+  fixed_parameters:
+    fuel_bottle: 100% C2H4
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-20
+    title: PSI-20 Experimental table (PSI-20_Experimental table_ACME BRE.csv)
+    locator: 'Experimental table PSI-20_Experimental table_ACME BRE.csv, row 10; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); oxygen percent by volume converted to a fraction'
+    quote: 2020,Sept,3,50,100% C2H4,25; 34; 40,13,
+- label: BRE 2020-09-03, 50 mm burner, 100% C2H4, O2 34%
+  fuel: ethylene
+  geometry:
+    shape: flat porous circular burner
+    dimensions_mm:
+      burner_size: 50.0
+  condition:
+    o2_fraction: 0.34
+    diluent: N2
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: Test day 2020-09-03; burner size 50 mm; fuel bottle 100% C2H4; flames ignited that day 13; oxygen cell "25; 34;
+      40"
+  varied_parameters: {}
+  fixed_parameters:
+    fuel_bottle: 100% C2H4
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-20
+    title: PSI-20 Experimental table (PSI-20_Experimental table_ACME BRE.csv)
+    locator: 'Experimental table PSI-20_Experimental table_ACME BRE.csv, row 10; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); oxygen percent by volume converted to a fraction'
+    quote: 2020,Sept,3,50,100% C2H4,25; 34; 40,13,
+- label: BRE 2020-09-03, 50 mm burner, 100% C2H4, O2 40%
+  fuel: ethylene
+  geometry:
+    shape: flat porous circular burner
+    dimensions_mm:
+      burner_size: 50.0
+  condition:
+    o2_fraction: 0.4
+    diluent: N2
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: Test day 2020-09-03; burner size 50 mm; fuel bottle 100% C2H4; flames ignited that day 13; oxygen cell "25; 34;
+      40"
+  varied_parameters: {}
+  fixed_parameters:
+    fuel_bottle: 100% C2H4
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-20
+    title: PSI-20 Experimental table (PSI-20_Experimental table_ACME BRE.csv)
+    locator: 'Experimental table PSI-20_Experimental table_ACME BRE.csv, row 10; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); oxygen percent by volume converted to a fraction'
+    quote: 2020,Sept,3,50,100% C2H4,25; 34; 40,13,
+- label: BRE 2020-10-17, 25 mm burner, 100% C2H4, O2 26.5%
+  fuel: ethylene
+  geometry:
+    shape: flat porous circular burner
+    dimensions_mm:
+      burner_size: 25.0
+  condition:
+    o2_fraction: 0.265
+    diluent: N2
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: Test day 2020-10-17; burner size 25 mm; fuel bottle 100% C2H4; flames ignited that day 13; oxygen cell "26.5; 34"
+  varied_parameters: {}
+  fixed_parameters:
+    fuel_bottle: 100% C2H4
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-20
+    title: PSI-20 Experimental table (PSI-20_Experimental table_ACME BRE.csv)
+    locator: 'Experimental table PSI-20_Experimental table_ACME BRE.csv, row 11; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); oxygen percent by volume converted to a fraction'
+    quote: 2020,Oct,17,25,100% C2H4,26.5; 34,13,
+- label: BRE 2020-10-17, 25 mm burner, 100% C2H4, O2 34%
+  fuel: ethylene
+  geometry:
+    shape: flat porous circular burner
+    dimensions_mm:
+      burner_size: 25.0
+  condition:
+    o2_fraction: 0.34
+    diluent: N2
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: Test day 2020-10-17; burner size 25 mm; fuel bottle 100% C2H4; flames ignited that day 13; oxygen cell "26.5; 34"
+  varied_parameters: {}
+  fixed_parameters:
+    fuel_bottle: 100% C2H4
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-20
+    title: PSI-20 Experimental table (PSI-20_Experimental table_ACME BRE.csv)
+    locator: 'Experimental table PSI-20_Experimental table_ACME BRE.csv, row 11; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); oxygen percent by volume converted to a fraction'
+    quote: 2020,Oct,17,25,100% C2H4,26.5; 34,13,
+- label: BRE 2020-12-05, 25 mm burner, 100% CH4, O2 25%
+  fuel: methane
+  geometry:
+    shape: flat porous circular burner
+    dimensions_mm:
+      burner_size: 25.0
+  condition:
+    o2_fraction: 0.25
+    diluent: N2
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: Test day 2020-12-05; burner size 25 mm; fuel bottle 100% CH4; flames ignited that day 21; oxygen cell "25; 34;
+      40"
+  varied_parameters: {}
+  fixed_parameters:
+    fuel_bottle: 100% CH4
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-20
+    title: PSI-20 Experimental table (PSI-20_Experimental table_ACME BRE.csv)
+    locator: 'Experimental table PSI-20_Experimental table_ACME BRE.csv, row 12; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); oxygen percent by volume converted to a fraction'
+    quote: 2020,Dec,5,25,100% CH4,25; 34; 40,21,
+- label: BRE 2020-12-05, 25 mm burner, 100% CH4, O2 34%
+  fuel: methane
+  geometry:
+    shape: flat porous circular burner
+    dimensions_mm:
+      burner_size: 25.0
+  condition:
+    o2_fraction: 0.34
+    diluent: N2
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: Test day 2020-12-05; burner size 25 mm; fuel bottle 100% CH4; flames ignited that day 21; oxygen cell "25; 34;
+      40"
+  varied_parameters: {}
+  fixed_parameters:
+    fuel_bottle: 100% CH4
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-20
+    title: PSI-20 Experimental table (PSI-20_Experimental table_ACME BRE.csv)
+    locator: 'Experimental table PSI-20_Experimental table_ACME BRE.csv, row 12; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); oxygen percent by volume converted to a fraction'
+    quote: 2020,Dec,5,25,100% CH4,25; 34; 40,21,
+- label: BRE 2020-12-05, 25 mm burner, 100% CH4, O2 40%
+  fuel: methane
+  geometry:
+    shape: flat porous circular burner
+    dimensions_mm:
+      burner_size: 25.0
+  condition:
+    o2_fraction: 0.4
+    diluent: N2
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: Test day 2020-12-05; burner size 25 mm; fuel bottle 100% CH4; flames ignited that day 21; oxygen cell "25; 34;
+      40"
+  varied_parameters: {}
+  fixed_parameters:
+    fuel_bottle: 100% CH4
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-20
+    title: PSI-20 Experimental table (PSI-20_Experimental table_ACME BRE.csv)
+    locator: 'Experimental table PSI-20_Experimental table_ACME BRE.csv, row 12; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); oxygen percent by volume converted to a fraction'
+    quote: 2020,Dec,5,25,100% CH4,25; 34; 40,21,
+- label: BRE 2020-12-04, 25 mm burner, 100% CH4, O2 25%
+  fuel: methane
+  geometry:
+    shape: flat porous circular burner
+    dimensions_mm:
+      burner_size: 25.0
+  condition:
+    o2_fraction: 0.25
+    diluent: N2
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: Test day 2020-12-04; burner size 25 mm; fuel bottle 100% CH4; flames ignited that day 18; oxygen cell "25; 40"
+  varied_parameters: {}
+  fixed_parameters:
+    fuel_bottle: 100% CH4
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-20
+    title: PSI-20 Experimental table (PSI-20_Experimental table_ACME BRE.csv)
+    locator: 'Experimental table PSI-20_Experimental table_ACME BRE.csv, row 13; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); oxygen percent by volume converted to a fraction'
+    quote: 2020,Dec,4,25,100% CH4,25; 40,18,
+- label: BRE 2020-12-04, 25 mm burner, 100% CH4, O2 40%
+  fuel: methane
+  geometry:
+    shape: flat porous circular burner
+    dimensions_mm:
+      burner_size: 25.0
+  condition:
+    o2_fraction: 0.4
+    diluent: N2
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: Test day 2020-12-04; burner size 25 mm; fuel bottle 100% CH4; flames ignited that day 18; oxygen cell "25; 40"
+  varied_parameters: {}
+  fixed_parameters:
+    fuel_bottle: 100% CH4
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-20
+    title: PSI-20 Experimental table (PSI-20_Experimental table_ACME BRE.csv)
+    locator: 'Experimental table PSI-20_Experimental table_ACME BRE.csv, row 13; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); oxygen percent by volume converted to a fraction'
+    quote: 2020,Dec,4,25,100% CH4,25; 40,18,
+- label: BRE 2020-12-11, 25 mm burner, 50% C2H4, O2 25%
+  fuel: ethylene
+  geometry:
+    shape: flat porous circular burner
+    dimensions_mm:
+      burner_size: 25.0
+  condition:
+    o2_fraction: 0.25
+    diluent: N2
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: Test day 2020-12-11; burner size 25 mm; fuel bottle 50% C2H4; flames ignited that day 12; oxygen cell "25; 40"
+  varied_parameters: {}
+  fixed_parameters:
+    fuel_bottle: 50% C2H4
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-20
+    title: PSI-20 Experimental table (PSI-20_Experimental table_ACME BRE.csv)
+    locator: 'Experimental table PSI-20_Experimental table_ACME BRE.csv, row 14; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); oxygen percent by volume converted to a fraction'
+    quote: 2020,Dec,11,25,50% C2H4,25; 40,12,
+- label: BRE 2020-12-11, 25 mm burner, 50% C2H4, O2 40%
+  fuel: ethylene
+  geometry:
+    shape: flat porous circular burner
+    dimensions_mm:
+      burner_size: 25.0
+  condition:
+    o2_fraction: 0.4
+    diluent: N2
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: Test day 2020-12-11; burner size 25 mm; fuel bottle 50% C2H4; flames ignited that day 12; oxygen cell "25; 40"
+  varied_parameters: {}
+  fixed_parameters:
+    fuel_bottle: 50% C2H4
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-20
+    title: PSI-20 Experimental table (PSI-20_Experimental table_ACME BRE.csv)
+    locator: 'Experimental table PSI-20_Experimental table_ACME BRE.csv, row 14; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); oxygen percent by volume converted to a fraction'
+    quote: 2020,Dec,11,25,50% C2H4,25; 40,12,
+- label: BRE 2020-12-17, 25 mm burner, 100% C2H4, O2 34%
+  fuel: ethylene
+  geometry:
+    shape: flat porous circular burner
+    dimensions_mm:
+      burner_size: 25.0
+  condition:
+    o2_fraction: 0.34
+    diluent: N2
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: Test day 2020-12-17; burner size 25 mm; fuel bottle 100% C2H4; flames ignited that day 10; oxygen cell "34; 40"
+  varied_parameters: {}
+  fixed_parameters:
+    fuel_bottle: 100% C2H4
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-20
+    title: PSI-20 Experimental table (PSI-20_Experimental table_ACME BRE.csv)
+    locator: 'Experimental table PSI-20_Experimental table_ACME BRE.csv, row 15; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); oxygen percent by volume converted to a fraction'
+    quote: 2020,Dec,17,25,100% C2H4,34; 40,10,
+- label: BRE 2020-12-17, 25 mm burner, 100% C2H4, O2 40%
+  fuel: ethylene
+  geometry:
+    shape: flat porous circular burner
+    dimensions_mm:
+      burner_size: 25.0
+  condition:
+    o2_fraction: 0.4
+    diluent: N2
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: Test day 2020-12-17; burner size 25 mm; fuel bottle 100% C2H4; flames ignited that day 10; oxygen cell "34; 40"
+  varied_parameters: {}
+  fixed_parameters:
+    fuel_bottle: 100% C2H4
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-20
+    title: PSI-20 Experimental table (PSI-20_Experimental table_ACME BRE.csv)
+    locator: 'Experimental table PSI-20_Experimental table_ACME BRE.csv, row 15; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); oxygen percent by volume converted to a fraction'
+    quote: 2020,Dec,17,25,100% C2H4,34; 40,10,
+- label: BRE 2020-12-23, 25 mm burner, 100% C2H4, O2 25%
+  fuel: ethylene
+  geometry:
+    shape: flat porous circular burner
+    dimensions_mm:
+      burner_size: 25.0
+  condition:
+    o2_fraction: 0.25
+    diluent: N2
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: Test day 2020-12-23; burner size 25 mm; fuel bottle 100% C2H4; flames ignited that day 17; oxygen cell "25; 34;
+      40"
+  varied_parameters: {}
+  fixed_parameters:
+    fuel_bottle: 100% C2H4
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-20
+    title: PSI-20 Experimental table (PSI-20_Experimental table_ACME BRE.csv)
+    locator: 'Experimental table PSI-20_Experimental table_ACME BRE.csv, row 16; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); oxygen percent by volume converted to a fraction'
+    quote: 2020,Dec,23,25,100% C2H4,25; 34; 40,17,
+- label: BRE 2020-12-23, 25 mm burner, 100% C2H4, O2 34%
+  fuel: ethylene
+  geometry:
+    shape: flat porous circular burner
+    dimensions_mm:
+      burner_size: 25.0
+  condition:
+    o2_fraction: 0.34
+    diluent: N2
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: Test day 2020-12-23; burner size 25 mm; fuel bottle 100% C2H4; flames ignited that day 17; oxygen cell "25; 34;
+      40"
+  varied_parameters: {}
+  fixed_parameters:
+    fuel_bottle: 100% C2H4
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-20
+    title: PSI-20 Experimental table (PSI-20_Experimental table_ACME BRE.csv)
+    locator: 'Experimental table PSI-20_Experimental table_ACME BRE.csv, row 16; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); oxygen percent by volume converted to a fraction'
+    quote: 2020,Dec,23,25,100% C2H4,25; 34; 40,17,
+- label: BRE 2020-12-23, 25 mm burner, 100% C2H4, O2 40%
+  fuel: ethylene
+  geometry:
+    shape: flat porous circular burner
+    dimensions_mm:
+      burner_size: 25.0
+  condition:
+    o2_fraction: 0.4
+    diluent: N2
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: Test day 2020-12-23; burner size 25 mm; fuel bottle 100% C2H4; flames ignited that day 17; oxygen cell "25; 34;
+      40"
+  varied_parameters: {}
+  fixed_parameters:
+    fuel_bottle: 100% C2H4
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-20
+    title: PSI-20 Experimental table (PSI-20_Experimental table_ACME BRE.csv)
+    locator: 'Experimental table PSI-20_Experimental table_ACME BRE.csv, row 16; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); oxygen percent by volume converted to a fraction'
+    quote: 2020,Dec,23,25,100% C2H4,25; 34; 40,17,
+- label: BRE 2021-01-20, 25 mm burner, 100% C2H4, O2 21%
+  fuel: ethylene
+  geometry:
+    shape: flat porous circular burner
+    dimensions_mm:
+      burner_size: 25.0
+  condition:
+    o2_fraction: 0.21
+    diluent: N2
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: Test day 2021-01-20; burner size 25 mm; fuel bottle 100% C2H4; flames ignited that day 15; oxygen cell "21; 26.5;
+      34"
+  varied_parameters: {}
+  fixed_parameters:
+    fuel_bottle: 100% C2H4
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-20
+    title: PSI-20 Experimental table (PSI-20_Experimental table_ACME BRE.csv)
+    locator: 'Experimental table PSI-20_Experimental table_ACME BRE.csv, row 17; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); oxygen percent by volume converted to a fraction'
+    quote: 2021,Jan,20,25,100% C2H4,21; 26.5; 34,15,
+- label: BRE 2021-01-20, 25 mm burner, 100% C2H4, O2 26.5%
+  fuel: ethylene
+  geometry:
+    shape: flat porous circular burner
+    dimensions_mm:
+      burner_size: 25.0
+  condition:
+    o2_fraction: 0.265
+    diluent: N2
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: Test day 2021-01-20; burner size 25 mm; fuel bottle 100% C2H4; flames ignited that day 15; oxygen cell "21; 26.5;
+      34"
+  varied_parameters: {}
+  fixed_parameters:
+    fuel_bottle: 100% C2H4
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-20
+    title: PSI-20 Experimental table (PSI-20_Experimental table_ACME BRE.csv)
+    locator: 'Experimental table PSI-20_Experimental table_ACME BRE.csv, row 17; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); oxygen percent by volume converted to a fraction'
+    quote: 2021,Jan,20,25,100% C2H4,21; 26.5; 34,15,
+- label: BRE 2021-01-20, 25 mm burner, 100% C2H4, O2 34%
+  fuel: ethylene
+  geometry:
+    shape: flat porous circular burner
+    dimensions_mm:
+      burner_size: 25.0
+  condition:
+    o2_fraction: 0.34
+    diluent: N2
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: Test day 2021-01-20; burner size 25 mm; fuel bottle 100% C2H4; flames ignited that day 15; oxygen cell "21; 26.5;
+      34"
+  varied_parameters: {}
+  fixed_parameters:
+    fuel_bottle: 100% C2H4
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-20
+    title: PSI-20 Experimental table (PSI-20_Experimental table_ACME BRE.csv)
+    locator: 'Experimental table PSI-20_Experimental table_ACME BRE.csv, row 17; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); oxygen percent by volume converted to a fraction'
+    quote: 2021,Jan,20,25,100% C2H4,21; 26.5; 34,15,
+- label: BRE 2021-01-28, 50 mm burner, 100% C2H4, O2 25%
+  fuel: ethylene
+  geometry:
+    shape: flat porous circular burner
+    dimensions_mm:
+      burner_size: 50.0
+  condition:
+    o2_fraction: 0.25
+    diluent: N2
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: Test day 2021-01-28; burner size 50 mm; fuel bottle 100% C2H4; flames ignited that day 13; oxygen cell "25; 34;
+      40"
+  varied_parameters: {}
+  fixed_parameters:
+    fuel_bottle: 100% C2H4
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-20
+    title: PSI-20 Experimental table (PSI-20_Experimental table_ACME BRE.csv)
+    locator: 'Experimental table PSI-20_Experimental table_ACME BRE.csv, row 18; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); oxygen percent by volume converted to a fraction'
+    quote: 2021,Jan,28,50,100% C2H4,25; 34; 40,13,
+- label: BRE 2021-01-28, 50 mm burner, 100% C2H4, O2 34%
+  fuel: ethylene
+  geometry:
+    shape: flat porous circular burner
+    dimensions_mm:
+      burner_size: 50.0
+  condition:
+    o2_fraction: 0.34
+    diluent: N2
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: Test day 2021-01-28; burner size 50 mm; fuel bottle 100% C2H4; flames ignited that day 13; oxygen cell "25; 34;
+      40"
+  varied_parameters: {}
+  fixed_parameters:
+    fuel_bottle: 100% C2H4
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-20
+    title: PSI-20 Experimental table (PSI-20_Experimental table_ACME BRE.csv)
+    locator: 'Experimental table PSI-20_Experimental table_ACME BRE.csv, row 18; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); oxygen percent by volume converted to a fraction'
+    quote: 2021,Jan,28,50,100% C2H4,25; 34; 40,13,
+- label: BRE 2021-01-28, 50 mm burner, 100% C2H4, O2 40%
+  fuel: ethylene
+  geometry:
+    shape: flat porous circular burner
+    dimensions_mm:
+      burner_size: 50.0
+  condition:
+    o2_fraction: 0.4
+    diluent: N2
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: quiescent
+    gravity_g: 0.0
+  outcome:
+    ignited: true
+    extinction: null
+    notes: Test day 2021-01-28; burner size 50 mm; fuel bottle 100% C2H4; flames ignited that day 13; oxygen cell "25; 34;
+      40"
+  varied_parameters: {}
+  fixed_parameters:
+    fuel_bottle: 100% C2H4
+  is_aggregate: false
+  confidence: 0.85
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-20
+    title: PSI-20 Experimental table (PSI-20_Experimental table_ACME BRE.csv)
+    locator: 'Experimental table PSI-20_Experimental table_ACME BRE.csv, row 18; gravity 0 g: microgravity per PSI Project
+      Type (Microgravity Investigation, ISS); oxygen percent by volume converted to a fraction'
+    quote: 2021,Jan,28,50,100% C2H4,25; 34; 40,13,
 measurements: []
-findings: []
-publications: []
-fire_safety_tags: [gaseous_fuel, material_screening]
-data: {s3_prefix: null, volume_bytes: null, file_types: []}
-field_confidence: {objectives: 0.3, hardware: 0.3}
+findings:
+  - statement: BRE flames could burn for minutes at elevated oxygen concentrations but self-extinguished at oxygen concentrations below about 25% by volume.
+    category: atmosphere_design
+    source: &jasmac
+      kind: publication
+      uri: https://ntrs.nasa.gov/citations/20210021781
+      title: Recent Research on Flames of Gaseous Fuel Aboard the International Space Station (Stocker, 2021)
+      locator: BRE section, conference paper full text
+      quote: they were found to self-extinguish in concentrations below ~25% (by volume)
+    confidence: 0.75
+  - statement: Larger BRE flames were generally seen to self-extinguish within 1.5 minutes, and methane flames within a minute.
+    category: fundamental
+    source:
+      <<: *jasmac
+      quote: larger flames were generally seen to self-extinguish within 1.5 minutes.
+    confidence: 0.7
+  - statement: Quasi-steady burning corresponding to condensed-phase materials such as PMMA and Nylon was observed with the gas-fed emulator.
+    category: material_screening
+    source:
+      <<: *psi_record
+      locator: Research Impacts/Earth Benefits (PSI repository search record, geode-py API)
+      quote: Quasi-steady burning corresponding to various condensed-phase materials (such as PMMA and Nylon) was observed in
+    confidence: 0.7
+  - statement: Preliminary BRE results suggest NASA may want to increase use of its alternative flammability test approach for selecting spacecraft materials.
+    category: material_screening
+    source:
+      <<: *psi_record
+      locator: Research Impacts/Earth Benefits (PSI repository search record, geode-py API)
+      quote: While BRE's results are still preliminary, they suggest that NASA may want to increase use of its alternative flammability
+    confidence: 0.6
+  - statement: BRE testing included the elevated-oxygen, reduced-pressure atmospheres being considered for crewed spacecraft, the regime where its flames burned for minutes.
+    category: atmosphere_design
+    source:
+      <<: *jasmac
+      quote: Testing included atmospheres with elevated oxygen concentrations and reduced pressures being considered
+    confidence: 0.6
+publications:
+- doi: 10.1016/j.combustflame.2021.01.035
+  title: 'Burning in microgravity: Experimental results and analysis'
+  year: null
+  authors:
+  - P Dehghani
+  - PB Sunderland
+  - JG Quintiere
+  - JL deRis
+  venue: null
+  url: https://doi.org/10.1016/j.combustflame.2021.01.035
+  key_findings: []
+- doi: 10.1016/j.proci.2020.06.110
+  title: Transient dynamics of radiative extinction in low-momentum microgravity diffusion flames
+  year: null
+  authors:
+  - Snegirev Alexander
+  - Kuznetsov Egor
+  - Markus Ekaterina
+  - Dehghani Parham
+  - Sunderland Peter
+  venue: null
+  url: https://doi.org/10.1016/j.proci.2020.06.110
+  key_findings: []
+- doi: 10.1002/fam.2896
+  title: Emulation of condensed fuel flames with gaseous fuels supplied through a porous copper calorimeter
+  year: null
+  authors:
+  - Auth Eric
+  - Quintiere James G.
+  - Sunderland Peter B.
+  venue: null
+  url: https://doi.org/10.1002/fam.2896
+  key_findings: []
+- doi: 10.1134/S0010508220040036
+  title: 'Radiative Extinction of Laminar Diffusion Flame above the Flat Porous Burner in Microgravity: A Computational Study'
+  year: null
+  authors:
+  - Kuznetsov E. A.
+  - Snegirev A. Yu.
+  - Markus E. S.
+  venue: null
+  url: https://doi.org/10.1134/S0010508220040036
+  key_findings: []
+- doi: 10.1177/0734904113495650
+  title: Burning on flat wicks at various orientations
+  year: null
+  authors:
+  - Zhang Yi
+  - Bustamante Michael J
+  - Gollner Michael J
+  - Sunderland Peter B
+  - Quintiere James G
+  venue: null
+  url: https://doi.org/10.1177/0734904113495650
+  key_findings: []
+- doi: 10.3850/978-981-07-5936-0_03-01
+  title: A Gas Burner to Emulate Condensed-Phase Burning
+  year: null
+  authors:
+  - Zhang Y.
+  - Bustamante M. J.
+  - Dotson K. T.
+  - Sunderland P. B.
+  - Quintiere J. G.
+  venue: null
+  url: https://doi.org/10.3850/978-981-07-5936-0_03-01
+  key_findings: []
+- doi: null
+  title: Experimental Investigation of Liquid and Gas Fueled Flames Towards the Development of a Burning Rate Emulator (BRE)
+    for Microgravity Applications
+  year: null
+  authors:
+  - MJ Bustamante
+  venue: null
+  url: null
+  key_findings: []
+- doi: 10.1016/j.combustflame.2019.09.030
+  title: Transient ellipsoidal combustion model for a porous burner in microgravity
+  year: null
+  authors:
+  - Markan Akshit
+  - Baum Howard R.
+  - Sunderland Peter B.
+  - Quintiere James G.
+  - de Ris John L.
+  venue: null
+  url: https://doi.org/10.1016/j.combustflame.2019.09.030
+  key_findings: []
+- doi: 10.1016/j.proci.2018.05.006
+  title: Measuring heat flux to a porous burner in microgravity
+  year: null
+  authors:
+  - Markan Akshit
+  - Sunderland Peter B.
+  - Quintiere James G.
+  - de Ris John L.
+  - Baum Howard R.
+  venue: null
+  url: https://doi.org/10.1016/j.proci.2018.05.006
+  key_findings: []
+- doi: 10.1016/j.firesaf.2019.02.003
+  title: Analysis of extinction and sustained ignition
+  year: null
+  authors:
+  - Vermina Plathner Frida
+  - Quintiere James G.
+  - van Hees Patrick
+  venue: null
+  url: https://doi.org/10.1016/j.firesaf.2019.02.003
+  key_findings: []
+- doi: 10.1016/j.combustflame.2018.01.044
+  title: A Burning Rate Emulator (BRE) for study of condensed fuel burning in microgravity
+  year: null
+  authors:
+  - Markan Akshit
+  - Sunderland Peter B.
+  - Quintiere James G.
+  - de Ris John L.
+  - Stocker Dennis P.
+  - Baum Howard R.
+  venue: null
+  url: https://doi.org/10.1016/j.combustflame.2018.01.044
+  key_findings: []
+- doi: 10.1016/j.firesaf.2016.11.003
+  title: Study of ignition and extinction of small-scale fires in experiments with an emulating gas burner
+  year: null
+  authors:
+  - Lundström Frida Vermina
+  - Sunderland Peter B.
+  - Quintiere James G.
+  - van Hees Patrick
+  - de Ris John L.
+  venue: null
+  url: https://doi.org/10.1016/j.firesaf.2016.11.003
+  key_findings: []
+- doi: 10.1016/j.combustflame.2015.05.005
+  title: Emulation of condensed fuel flames with gases in microgravity
+  year: null
+  authors:
+  - Zhang Yi
+  - Kim Matt
+  - Guo Haiqing
+  - Sunderland Peter B.
+  - Quintiere James G.
+  - deRis John
+  - Stocker Dennis P.
+  venue: null
+  url: https://doi.org/10.1016/j.combustflame.2015.05.005
+  key_findings: []
+- doi: 10.1016/j.combustflame.2023.112809
+  title: Flammability maps for microgravity burning of a small flat material in a quiescent ambient
+  year: null
+  authors:
+  - Dehghani Parham
+  - Quintiere James G.
+  venue: null
+  url: https://doi.org/10.1016/j.combustflame.2023.112809
+  key_findings: []
+- doi: 10.1016/j.proci.2022.08.107
+  title: Demonstrating steady burning for small flat materials in microgravity in a quiescent ambient
+  year: null
+  authors:
+  - Dehghani Parham
+  - de Ris John L.
+  - Quintiere James G.
+  venue: null
+  url: https://doi.org/10.1016/j.proci.2022.08.107
+  key_findings: []
+- doi: 10.1016/j.combustflame.2021.111572
+  title: Theoretical analysis and predictions of burning in microgravity using a burning emulator
+  year: null
+  authors:
+  - Dehghani Parham
+  - Quintiere James G.
+  venue: null
+  url: https://doi.org/10.1016/j.combustflame.2021.111572
+  key_findings: []
+fire_safety_tags: [gaseous_fuel, material_screening, flammability_limit, extinction, high_oxygen, low_pressure]
+data: {s3_prefix: null, volume_bytes: null, file_types: [csv]}
+field_confidence: {objectives: 0.85, fuels: 0.9, conditions: 0.7}
+documents:
+  - title: BRE PSI overview (objectives, approach, research impacts; verbatim excerpts)
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-20
+    section: PSI repository record
+    text: >
+      Title: Advanced Combustion via Microgravity Experiments - Burning Rate Emulator (ACME BRE). PSI accession PSI-20;
+      PSI dataset DOI 10.60555/vb93-3y72. Project type: Microgravity Investigation; flight platform: International
+      Space Station (ISS); hardware: Combustion Integrated Rack (CIR), ACME. Objectives: "The BRE flight program seeks
+      to establish the burning conditions in a quiescent microgravity ambient in terms of [...]". "Observe burning
+      behavior in long-duration microgravity for CH4/N2 and C2H4/N2mixtures on porous circular burners of 25 [and 50
+      mm diameter]". "Consider O2/N2 ambients with various pressures and ambient O2 concentrations and pressures."
+      "NASA - considered atmosphere for human space missions will be examined: 14.7 psia, 21 % oxygen: 10.2 psia,
+      26.5 %; and 8.2 psia, 34 % oxygen". "Consider the conditions of Objective 1 for ambients of O2/CO2 (desired)."
+      Approach: "For each test, conditions will be established for the chamber contents, namely choice of diluent,
+      oxygen concentration, [...]". "Fuel flow will commence followed by ignition." "The flames will initially be
+      observed without varying the fuel flow rate." Research impacts: "BRE yielded important data relevant to
+      spacecraft fire safety." "Quasi-steady burning corresponding to various condensed-phase materials (such as PMMA
+      and Nylon) was observed in [...]". "While BRE's results are still preliminary, they suggest that NASA may want to
+      increase use of its alternative flammability [...]". Experimental table (PSI-20_Experimental table_ACME BRE.csv):
+      18 test days from February 2019 to January 2021 with burner size 25 or 50 mm, fuel bottle 100% C2H4, 50% C2H4 or
+      100% CH4, oxygen concentrations of 21, 25, 26.5, 34 and 40 percent and the number of flames ignited; "The chamber
+      pressures were also varied but are not identified in this summary table."
+  - title: Burning Rate Emulator (BRE), NASA Science page (verbatim excerpts)
+    uri: https://science.nasa.gov/biological-physical/investigations/bre/
+    section: Science Objectives; Experiment Description
+    text: >
+      "The Burning Rate Emulator (BRE) experiment is focused on spacecraft fire prevention." "A flat porous burner fed
+      with gaseous fuel simulates the burning of solid and liquid fuels." "could provide an efficient way to screen and
+      select fire-resistant materials for use in spacecraft". "enable improved fire safety on Earth".
+  - title: Recent Research on Flames of Gaseous Fuel Aboard the ISS, BRE excerpts (verbatim)
+    uri: https://ntrs.nasa.gov/citations/20210021781
+    section: conference paper, BRE section
+    text: >
+      "Unlike the other ACME experiments, this study is focused on spacecraft fire prevention." "pure or
+      nitrogen-diluted ethylene and methane were used to simulate the burning of materials". "Testing included
+      atmospheres with elevated oxygen concentrations and reduced pressures being considered". "While the flames can
+      burn for minutes in elevated oxygen concentrations"; "they were found to self-extinguish in concentrations below
+      ~25% (by volume)". "larger flames were generally seen to self-extinguish within 1.5 minutes."; "methane flames were
+      seen to self-extinguish within a minute."
 open_questions:
-  - Full title not confirmed; the acronym is used as a placeholder title.
-  - Per-investigation PSI page not retrieved (PSI pages render client-side); psi_url is the generic PSI repository search page.
-  - Fuels, conditions, varied and fixed parameters, measurements, findings and publications unknown pending PSI documents.
-  - Every stated fact is from the challenge text only and is not yet confirmed against PSI sources.
+  - The PSI table lists oxygen concentrations per test day but not chamber pressures; run pressures are null. The card pressure range is the set of planned atmospheres (8.2 to 14.7 psia) in the PSI objectives.
+  - Rows 5 and 8 of the PSI table give oxygen as 3400% and 2100% (cell format errors); one run each with oxygen null (row 8 lists 0 flames ignited, so ignited is false).
+  - Runs are one per (test day, listed oxygen value) of PSI-20_Experimental table_ACME BRE.csv; the table lists the approximate oxygen levels of the tests that ignited, so each listed value is a tested point (ignited true) rather than a continuous range. They replace the earlier per-day aggregate ranges, which implied coverage between the listed values. The number ignited per oxygen value is not given (only per day, in notes).
+  - Publication years are taken from PSI titles only where given; authors follow the PSI record.
 reviewed: false

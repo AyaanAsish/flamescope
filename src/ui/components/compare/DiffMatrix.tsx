@@ -43,7 +43,7 @@ interface DiffMatrixProps {
 export function DiffMatrix({ rows, acronyms }: DiffMatrixProps) {
   return (
     <div data-testid="diff-matrix">
-      <Table>
+      <Table label="Comparison matrix">
         <thead>
           <tr>
             <Th className="w-56">Attribute</Th>

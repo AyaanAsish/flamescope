@@ -67,9 +67,9 @@ overall_confidence = sum_l W_l * confidence_l (W normalized)
 
 Default lens weights `W`: habitat 0.4, modeling 0.3, controls 0.3.
 
-Ordering: descending score, then descending confidence, then acronym. Investigations with a null score go last.
+Ordering: descending score, then descending confidence, then acronym (the acronym order of document 05 section 4: case-insensitive, exact acronym as tie-break). Investigations with a null score go last. The comparison uses the values as returned (score to one decimal, confidence to three), so two items showing the same score are always ordered by confidence.
 
-Rounding: scores to one decimal in responses; computation in float.
+Rounding: scores (and breakdown contributions) to one decimal and confidences to three decimals in responses; computation in float. Rounded contributions therefore add up to the score only within 0.05 per rated criterion.
 
 ## 3. Ranking presets (`src/data/presets.yaml`, key `ranking`)
 
@@ -146,7 +146,7 @@ Fuel rules in detail:
 
 Gravity is deliberately **not** part of the distance (ADR-08).
 
-Investigation-level: `similarity = max over runs`, `median_similarity = median over runs`, `matching_runs = count with similarity >= 0.6`. Sort by `similarity`, then `median_similarity` (both descending), then acronym. `per_dimension` is `1 - num_d` (or `1 - fuel`) of the best run for each dimension the scenario sets.
+Investigation-level: `similarity = max over runs`, `median_similarity = median over runs`, `matching_runs = count with similarity >= 0.6`. Sort by `similarity`, then `median_similarity` (both descending), then acronym (the acronym order of document 05 section 4). `per_dimension` is `1 - num_d` (or `1 - fuel`) of the best run for each dimension the scenario sets.
 
 Scenario identity: `scenario_id = base64url_nopad( json(resolved_scenario, sort_keys, separators=(",", ":")) )` (document 05 section 7). It is stateless and invertible; the extract endpoints decode it and keep the runs with similarity >= 0.6 (document 05 section 8).
 

@@ -5,4 +5,4 @@ Open items where the documents are incomplete, contradictory or cannot be met as
 | ID | Document, section | Problem | Reading used in code | Proposed resolution |
 |----|-------------------|---------|----------------------|---------------------|
 
-DC-01 to DC-51 were resolved on 2026-11-14 (doc 13 section 5).
+DC-01 to DC-52 were resolved on 2026-11-14 (doc 13 section 5).

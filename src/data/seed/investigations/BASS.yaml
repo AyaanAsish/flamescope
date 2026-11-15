@@ -1,35 +1,3630 @@
 acronym: BASS
-title: BASS
+title: Burning and Suppression of Solids
 project: null
 platform: ISS
 gravity_level: microgravity
-psi_url: https://psi.nasa.gov/physci/repo/search?q=combustion&data_source=psi&data_type=investigation
+psi_url: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
 hardware:
   - {name: MSG, role: host}
   - {name: SPICE flow duct, role: apparatus}
 summary: >
-  Covered solid and gaseous fuels in the Microgravity Science Glovebox using the fan-driven flow duct built for SPICE.
+  BASS burned cotton-fiberglass fabric, thin and thick flat samples, acrylic spheres and candles in a small flow duct
+  (76 mm x 76 mm cross section) inside the Microgravity Science Glovebox on the ISS, with fan-driven air flow up to
+  40 cm/s in opposed or concurrent direction, and tested a nitrogen jet as an extinguishing agent. Flames were most
+  sensitive to flow below 5 cm/s, and tiny dim flames could persist undetected for a long time.
 objectives:
-  - text: Combustion of solid and gaseous fuels in the Microgravity Science Glovebox using the fan-driven flow duct built for SPICE.
-    source: &cur
-      kind: curated
-      uri: https://www.spaceappschallenge.org/2026/challenges/flame-in-freefall/
-      title: Challenge text as encoded in architecture doc 01 section 6
-      locator: doc 01 section 6, third bullet
-approach: null
-fuels: []
-conditions: null
-variables: {varied: [], fixed: []}
+  - text: Begin to bridge the gap between the normal-gravity NASA-STD-6001 Test 1 method, ground-based microgravity tests and [...]
+    source: &psi_record
+      kind: psi_page
+      uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+      title: PSI investigation PSI-26, Burning and Suppression of Solids
+      locator: Objectives (PSI repository search record, geode-py API)
+      quote: 1.) Begin to bridge the gap between the normal gravity NASA-STD-6001 Test#1 method, ground-based microgravity tests, and
+  - text: Assess the effectiveness of an inert, gaseous extinguishing agent (similar to that used on ISS) in putting out [...]
+    source:
+      <<: *psi_record
+      quote: 2.) Assess the effectiveness of an inert, gaseous extinguishing agent (similar to that used on ISS) in putting out
+approach:
+  text: >
+    Fabric and other samples were placed in a small flow duct (76 mm x 76 mm cross section) in the Microgravity
+    Science Glovebox, ignited with a Kanthal wire, and burned in opposed or concurrent air flow of up to 40 cm/s.
+  source:
+    <<: *psi_record
+    locator: Approach (PSI repository search record, geode-py API)
+    quote: Airflow was controlled using a variable speed fan, with airflow speeds reaching as high as 40 cm/s.
+fuels:
+  - name: cotton-fiberglass (SIBAL)
+    phase: solid
+    material_class: fabric
+    geometry: {shape: flat fabric sample, dimensions_mm: {}}
+    source:
+      <<: *psi_record
+      locator: Approach (PSI repository search record, geode-py API)
+      quote: Custom-made fabric samples consisting of 75% cotton and 25% fiberglass (by mass) measuring were used as a fuel source
+  - name: PMMA
+    phase: solid
+    material_class: polymer
+    geometry: {shape: flat samples and spheres, dimensions_mm: {}}
+    source: &ntrs_bass
+      kind: publication
+      uri: https://ntrs.nasa.gov/citations/20140011099
+      title: Thickness and Fuel Preheating Effects on Material Flammability in Microgravity from the BASS Experiment (Ferkul et al., 2013)
+      locator: abstract
+      quote: Microgravity combustion tests burning thin and thick flat samples, acrylic spheres, and candles were conducted.
+  - name: candle wax
+    phase: solid
+    material_class: null
+    geometry: {shape: candle, dimensions_mm: {}}
+    source: *ntrs_bass
+  - name: Nomex
+    phase: solid
+    material_class: null
+    geometry: {shape: fabric strip, dimensions_mm: {}}
+    source:
+      kind: psi_page
+      uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+      title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+      locator: Experimental table PSI-26_Experimental table_BASS.csv, row 14, column "Fuel Sample Material"
+      quote: 5/10/2012,131,14,12,27,Nomex blend 2 cm
+  - name: Ultem
+    phase: solid
+    material_class: null
+    geometry: {shape: sheet, dimensions_mm: {}}
+    source:
+      kind: psi_page
+      uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+      title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+      locator: Experimental table PSI-26_Experimental table_BASS.csv, row 44, column "Fuel Sample Material"
+      quote: 6/29/2012,181,43,16,31,ultem sheet
+  - name: paraffin wax
+    phase: solid
+    material_class: null
+    geometry: {shape: slab, dimensions_mm: {}}
+    source:
+      kind: psi_page
+      uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+      title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+      locator: Experimental table PSI-26_Experimental table_BASS.csv, row 80, column "Fuel Sample Material"
+      quote: 8/21/2012,234,78,74,41,paraffin wax slab
+  - name: Japan wax
+    phase: solid
+    material_class: null
+    geometry: {shape: candle, dimensions_mm: {}}
+    source:
+      kind: psi_page
+      uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+      title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+      locator: Experimental table PSI-26_Experimental table_BASS.csv, row 70, column "Fuel Sample Material"
+      quote: 8/16/2012,229,68,83a,36,Japan Wax Candle   wake
+  - name: wax
+    phase: solid
+    material_class: null
+    geometry: {shape: slab, dimensions_mm: {}}
+    source:
+      kind: psi_page
+      uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+      title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+      locator: Experimental table PSI-26_Experimental table_BASS.csv, column "Fuel Sample Material" ("flat wax slab" rows, wax type not named)
+      quote: 6/1/2013,150,112,79,42,flat wax slab
+conditions:
+  o2_fraction: null
+  pressure_kpa: null
+  flow_speed_cm_s:
+    min: null
+    max: 40
+    source:
+      <<: *psi_record
+      locator: Approach (PSI repository search record, geode-py API)
+      quote: Airflow was controlled using a variable speed fan, with airflow speeds reaching as high as 40 cm/s.
+  flow_direction: [opposed, concurrent]
+  gravity_g: [0]
+variables:
+  varied: [flow_speed_cm_s, flow direction, fuel thickness, fuel preheating, nitrogen dilution, sample shape]
+  fixed: [gravity_g]
+runs:
+- label: cotton-fiberglass fabric (aggregate, PSI approach)
+  fuel: cotton-fiberglass (SIBAL)
+  geometry:
+    shape: flat fabric sample
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    notes: Opposed and concurrent flow; flow open below its stated maximum of 40 cm/s (doc 08 section 4.2).
+  varied_parameters:
+    flow_speed_cm_s:
+      min: null
+      max: 40
+  fixed_parameters: {}
+  is_aggregate: true
+  confidence: 0.6
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI investigation PSI-26, Burning and Suppression of Solids
+    locator: Approach (PSI repository search record, geode-py API); gravity 0 g microgravity per PSI Project Type
+    quote: Airflow was controlled using a variable speed fan, with airflow speeds reaching as high as 40 cm/s.
+- label: PMMA flat samples and spheres (aggregate, BASS abstract)
+  fuel: PMMA
+  geometry:
+    shape: flat samples and spheres
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    notes: Thin and thick flat samples and acrylic spheres; flow open below 40 cm/s.
+  varied_parameters:
+    flow_speed_cm_s:
+      min: null
+      max: 40
+  fixed_parameters: {}
+  is_aggregate: true
+  confidence: 0.6
+  source:
+    kind: publication
+    uri: https://ntrs.nasa.gov/citations/20140011099
+    title: Thickness and Fuel Preheating Effects on Material Flammability in Microgravity from the BASS Experiment (Ferkul
+      et al., 2013)
+    locator: abstract; gravity 0 g microgravity per PSI Project Type
+    quote: The samples were mounted inside a small wind tunnel which could impose air flow speeds up to 40 cms.
+- label: BASS as-run test 1 (test 1, sample 4)
+  fuel: cotton-fiberglass (SIBAL)
+  geometry:
+    shape: fabric strip
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 3/30/2012 (GMT day 90); as-run test 1; test 1; sample 4; fuel sample material "SIBAL 2 cm"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 1; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 3/30/2012,90,1,1,4,SIBAL 2 cm
+- label: BASS as-run test 2 (test 42, sample 24)
+  fuel: PMMA
+  geometry:
+    shape: sphere
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 3/30/2012 (GMT day 90); as-run test 2; test 42; sample 24; fuel sample material "PMMA sphere 2 cm"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 2; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 3/30/2012,90,2,42,24,PMMA sphere 2 cm
+- label: BASS as-run test 3 (test 18, sample 19)
+  fuel: PMMA
+  geometry:
+    shape: sphere
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 3/30/2012 (GMT day 90); as-run test 3; test 18; sample 19; fuel sample material "PMMA sphere 1 cm"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 3; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 3/30/2012,90,3,18,19,PMMA sphere 1 cm
+- label: BASS as-run test 4 (test 7, sample 10)
+  fuel: cotton-fiberglass (SIBAL)
+  geometry:
+    shape: fabric strip
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 4/5/2012 (GMT day 96); as-run test 4; test 7; sample 10; fuel sample material "SIBAL 2 cm"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 4; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 4/5/2012,96,4,7,10,SIBAL 2 cm
+- label: BASS as-run test 5 (test 8, sample 11)
+  fuel: cotton-fiberglass (SIBAL)
+  geometry:
+    shape: fabric strip
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 4/5/2012 (GMT day 96); as-run test 5; test 8; sample 11; fuel sample material "SIBAL 2 cm"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 5; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 4/5/2012,96,5,8,11,SIBAL 2 cm
+- label: BASS as-run test 6 (test 43, sample 24)
+  fuel: PMMA
+  geometry:
+    shape: sphere
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 4/9/2012 (GMT day 100); as-run test 6; test 43; sample 24; fuel sample material "PMMA sphere 2 cm"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 6; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 4/9/2012,100,6,43,24,PMMA sphere 2 cm
+- label: BASS as-run test 7 (test 44, sample 24)
+  fuel: PMMA
+  geometry:
+    shape: sphere
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 4/9/2012 (GMT day 100); as-run test 7; test 44; sample 24; fuel sample material "PMMA sphere 2 cm"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 7; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 4/9/2012,100,7,44,24,PMMA sphere 2 cm
+- label: BASS as-run test 8 (test 45, sample 24)
+  fuel: PMMA
+  geometry:
+    shape: sphere
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 4/9/2012 (GMT day 100); as-run test 8; test 45; sample 24; fuel sample material "PMMA sphere 2 cm"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 8; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 4/9/2012,100,8,45,24,PMMA sphere 2 cm
+- label: BASS as-run test 9 (test 19, sample 19)
+  fuel: PMMA
+  geometry:
+    shape: sphere
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 5/2/2012 (GMT day 123); as-run test 9; test 19; sample 19; fuel sample material "PMMA sphere 1 cm"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 9; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 5/2/2012,123,9,19,19,PMMA sphere 1 cm
+- label: BASS as-run test 10 (test 20, sample 19)
+  fuel: PMMA
+  geometry:
+    shape: sphere
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 5/2/2012 (GMT day 123); as-run test 10; test 20; sample 19; fuel sample material "PMMA sphere 1 cm"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 10; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 5/2/2012,123,10,20,19,PMMA sphere 1 cm
+- label: BASS as-run test 11 (test 21, sample 19)
+  fuel: PMMA
+  geometry:
+    shape: sphere
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 5/2/2012 (GMT day 123); as-run test 11; test 21; sample 19; fuel sample material "PMMA sphere 1 cm"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 11; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 5/2/2012,123,11,21,19,PMMA sphere 1 cm
+- label: BASS as-run test 12 (test 4, sample 12)
+  fuel: cotton-fiberglass (SIBAL)
+  geometry:
+    shape: fabric strip
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 5/10/2012 (GMT day 131); as-run test 12; test 4; sample 12; fuel sample material "SIBAL 2 cm"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 12; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 5/10/2012,131,12,4,12,SIBAL 2 cm
+- label: BASS as-run test 13 (test 10, sample 2)
+  fuel: cotton-fiberglass (SIBAL)
+  geometry:
+    shape: fabric strip
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 5/10/2012 (GMT day 131); as-run test 13; test 10; sample 2; fuel sample material "SIBAL 1 cm"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 13; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 5/10/2012,131,13,10,2,SIBAL 1 cm
+- label: BASS as-run test 14 (test 12, sample 27)
+  fuel: Nomex
+  geometry:
+    shape: fabric strip
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 5/10/2012 (GMT day 131); as-run test 14; test 12; sample 27; fuel sample material "Nomex blend 2 cm"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 14; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 5/10/2012,131,14,12,27,Nomex blend 2 cm
+- label: BASS as-run test 15 (test 54, sample 21)
+  fuel: PMMA
+  geometry:
+    shape: null
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 5/11/2012 (GMT day 132); as-run test 15; test 54; sample 21; fuel sample material "PMMA 2 cm"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 15; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 5/11/2012,132,15,54,21,PMMA 2 cm
+- label: BASS as-run test 16 (test 55, sample 21)
+  fuel: PMMA
+  geometry:
+    shape: null
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 5/11/2012 (GMT day 132); as-run test 16; test 55; sample 21; fuel sample material "PMMA 2 cm"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 16; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 5/11/2012,132,16,55,21,PMMA 2 cm
+- label: BASS as-run test 17 (test 56, sample 21)
+  fuel: PMMA
+  geometry:
+    shape: null
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 5/11/2012 (GMT day 132); as-run test 17; test 56; sample 21; fuel sample material "PMMA 2 cm"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 17; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 5/11/2012,132,17,56,21,PMMA 2 cm
+- label: BASS as-run test 18 (test 57, sample 21)
+  fuel: PMMA
+  geometry:
+    shape: null
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 5/11/2012 (GMT day 132); as-run test 18; test 57; sample 21; fuel sample material "PMMA 2 cm"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 18; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 5/11/2012,132,18,57,21,PMMA 2 cm
+- label: BASS as-run test 19 (test 110, sample 21)
+  fuel: PMMA
+  geometry:
+    shape: null
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 5/11/2012 (GMT day 132); as-run test 19; test 110; sample 21; fuel sample material "PMMA 2 cm"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 19; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 5/11/2012,132,19,110,21,PMMA 2 cm
+- label: BASS as-run test 20 (test 30, sample 15)
+  fuel: PMMA
+  geometry:
+    shape: null
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 6/5/2012 (GMT day 157); as-run test 20; test 30; sample 15; fuel sample material "PMMA 1 cm"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 20; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 6/5/2012,157,20,30,15,PMMA 1 cm
+- label: BASS as-run test 21 (test 31, sample 15)
+  fuel: PMMA
+  geometry:
+    shape: null
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 6/5/2012 (GMT day 157); as-run test 21; test 31; sample 15; fuel sample material "PMMA 1 cm"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 21; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 6/5/2012,157,21,31,15,PMMA 1 cm
+- label: BASS as-run test 22 (test 32, sample 15)
+  fuel: PMMA
+  geometry:
+    shape: null
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 6/5/2012 (GMT day 157); as-run test 22; test 32; sample 15; fuel sample material "PMMA 1 cm"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 22; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 6/5/2012,157,22,32,15,PMMA 1 cm
+- label: BASS as-run test 23 (test 33, sample 15)
+  fuel: PMMA
+  geometry:
+    shape: null
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 6/5/2012 (GMT day 157); as-run test 23; test 33; sample 15; fuel sample material "PMMA 1 cm"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 23; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 6/5/2012,157,23,33,15,PMMA 1 cm
+- label: BASS as-run test 24 (test 12-R, sample 27)
+  fuel: Nomex
+  geometry:
+    shape: fabric strip
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 6/5/2012 (GMT day 157); as-run test 24; test 12-R; sample 27; fuel sample material "Nomex blend 2 cm"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 24; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 6/5/2012,157,24,12-R,27,Nomex blend 2 cm
+- label: BASS as-run test 24 (test 12-R2, sample 27)
+  fuel: Nomex
+  geometry:
+    shape: fabric strip
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 6/5/2012 (GMT day 157); as-run test 24; test 12-R2; sample 27; fuel sample material "Nomex blend 2 cm"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 25; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 6/5/2012,157,24,12-R2,27,Nomex blend 2 cm
+- label: BASS as-run test 25 (test 46, sample 22)
+  fuel: PMMA
+  geometry:
+    shape: sphere
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 6/11/2012 (GMT day 163); as-run test 25; test 46; sample 22; fuel sample material "2 cm sphere"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 26; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 6/11/2012,163,25,46,22,2 cm sphere
+- label: BASS as-run test 26 (test 47, sample 22)
+  fuel: PMMA
+  geometry:
+    shape: sphere
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 6/11/2012 (GMT day 163); as-run test 26; test 47; sample 22; fuel sample material "2 cm sphere"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 27; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 6/11/2012,163,26,47,22,2 cm sphere
+- label: BASS as-run test 27 (test 48, sample 22)
+  fuel: PMMA
+  geometry:
+    shape: sphere
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 6/11/2012 (GMT day 163); as-run test 27; test 48; sample 22; fuel sample material "2 cm sphere"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 28; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 6/11/2012,163,27,48,22,2 cm sphere
+- label: BASS as-run test 28 (test 49, sample 22)
+  fuel: PMMA
+  geometry:
+    shape: sphere
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 6/11/2012 (GMT day 163); as-run test 28; test 49; sample 22; fuel sample material "2 cm sphere"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 29; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 6/11/2012,163,28,49,22,2 cm sphere
+- label: BASS as-run test 29 (test 22, sample 18)
+  fuel: PMMA
+  geometry:
+    shape: sphere
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 6/14/2012 (GMT day 166); as-run test 29; test 22; sample 18; fuel sample material "1 cm sphere"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 30; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 6/14/2012,166,29,22,18,1 cm sphere
+- label: BASS as-run test 30 (test 23, sample 18)
+  fuel: PMMA
+  geometry:
+    shape: sphere
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 6/14/2012 (GMT day 166); as-run test 30; test 23; sample 18; fuel sample material "1 cm sphere"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 31; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 6/14/2012,166,30,23,18,1 cm sphere
+- label: BASS as-run test 31 (test 24, sample 18)
+  fuel: PMMA
+  geometry:
+    shape: sphere
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 6/14/2012 (GMT day 166); as-run test 31; test 24; sample 18; fuel sample material "1 cm sphere"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 32; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 6/14/2012,166,31,24,18,1 cm sphere
+- label: BASS as-run test 32 (test 25, sample 18)
+  fuel: PMMA
+  geometry:
+    shape: sphere
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 6/14/2012 (GMT day 166); as-run test 32; test 25; sample 18; fuel sample material "1 cm sphere"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 33; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 6/14/2012,166,32,25,18,1 cm sphere
+- label: BASS as-run test 33 (test 58, sample 25)
+  fuel: PMMA
+  geometry:
+    shape: sphere
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 6/18/2012 (GMT day 170); as-run test 33; test 58; sample 25; fuel sample material "2 cm sphere"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 34; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 6/18/2012,170,33,58,25,2 cm sphere
+- label: BASS as-run test 34 (test 59, sample 25)
+  fuel: PMMA
+  geometry:
+    shape: sphere
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 6/18/2012 (GMT day 170); as-run test 34; test 59; sample 25; fuel sample material "2 cm sphere"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 35; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 6/18/2012,170,34,59,25,2 cm sphere
+- label: BASS as-run test 35 (test 60, sample 25)
+  fuel: PMMA
+  geometry:
+    shape: sphere
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 6/18/2012 (GMT day 170); as-run test 35; test 60; sample 25; fuel sample material "2 cm sphere"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 36; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 6/18/2012,170,35,60,25,2 cm sphere
+- label: BASS as-run test 36 (test 61, sample 25)
+  fuel: PMMA
+  geometry:
+    shape: sphere
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 6/18/2012 (GMT day 170); as-run test 36; test 61; sample 25; fuel sample material "2 cm sphere"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 37; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 6/18/2012,170,36,61,25,2 cm sphere
+- label: BASS as-run test 37 (test 5, sample 9)
+  fuel: cotton-fiberglass (SIBAL)
+  geometry:
+    shape: fabric strip
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 6/28/2012 (GMT day 180); as-run test 37; test 5; sample 9; fuel sample material "SIBAL 2 cm"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 38; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 6/28/2012,180,37,5,9,SIBAL 2 cm
+- label: BASS as-run test 38 (test 14, sample 29)
+  fuel: Nomex
+  geometry:
+    shape: fabric strip
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 6/28/2012 (GMT day 180); as-run test 38; test 14; sample 29; fuel sample material "Nomex III Natural"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 39; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 6/28/2012,180,38,14,29,Nomex III Natural
+- label: BASS as-run test 39 (test 66, sample 33)
+  fuel: PMMA
+  geometry:
+    shape: slab
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 6/28/2012 (GMT day 180); as-run test 39; test 66; sample 33; fuel sample material "PMMA slab"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 40; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 6/28/2012,180,39,66,33,PMMA slab
+- label: BASS as-run test 40 (test 67, sample 33)
+  fuel: PMMA
+  geometry:
+    shape: slab
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 6/28/2012 (GMT day 180); as-run test 40; test 67; sample 33; fuel sample material "PMMA slab"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 41; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 6/28/2012,180,40,67,33,PMMA slab
+- label: BASS as-run test 41 (test 34, sample 16)
+  fuel: PMMA
+  geometry:
+    shape: sphere
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 6/29/2012 (GMT day 181); as-run test 41; test 34; sample 16; fuel sample material "1 cm sphere"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 42; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 6/29/2012,181,41,34,16,1 cm sphere
+- label: BASS as-run test 42 (test 35, sample 16)
+  fuel: PMMA
+  geometry:
+    shape: sphere
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 6/29/`12 (GMT day 181); as-run test 42; test 35; sample 16; fuel sample material "1 cm sphere"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 43; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 6/29/`12,181,42,35,16,1 cm sphere
+- label: BASS as-run test 43 (test 16, sample 31)
+  fuel: Ultem
+  geometry:
+    shape: sheet
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 6/29/2012 (GMT day 181); as-run test 43; test 16; sample 31; fuel sample material "ultem sheet"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 44; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 6/29/2012,181,43,16,31,ultem sheet
+- label: BASS as-run test 44 (test 5b, sample 9)
+  fuel: cotton-fiberglass (SIBAL)
+  geometry:
+    shape: fabric strip
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: opposed
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 6/29/2012 (GMT day 181); as-run test 44; test 5b; sample 9; fuel sample material "SIBAL 2 cm opposed flow"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 45; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 6/29/2012,181,44,5b,9,SIBAL 2 cm   opposed flow
+- label: BASS as-run test 45 (test 6, sample 8)
+  fuel: cotton-fiberglass (SIBAL)
+  geometry:
+    shape: fabric strip
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 7/3/2012 (GMT day 185); as-run test 45; test 6; sample 8; fuel sample material "SIBAL 2 cm"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 46; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 7/3/2012,185,45,6,8,SIBAL 2 cm
+- label: BASS as-run test 46 (test 82, sample 35)
+  fuel: candle wax
+  geometry:
+    shape: candle
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 7/3/2012 (GMT day 185); as-run test 46; test 82; sample 35; fuel sample material "candle"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 47; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 7/3/2012,185,46,82,35,candle
+- label: BASS as-run test 47 (test 82a, sample 35)
+  fuel: candle wax
+  geometry:
+    shape: candle
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 7/3/2012 (GMT day 185); as-run test 47; test 82a; sample 35; fuel sample material "candle"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 48; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 7/3/2012,185,47,82a,35,candle
+- label: BASS as-run test 48 (test 82b, sample 35)
+  fuel: candle wax
+  geometry:
+    shape: candle
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 7/3/2012 (GMT day 185); as-run test 48; test 82b; sample 35; fuel sample material "candle"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 49; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 7/3/2012,185,48,82b,35,candle
+- label: BASS as-run test 49 (test 68, sample 33)
+  fuel: PMMA
+  geometry:
+    shape: slab
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 7/3/2012 (GMT day 185); as-run test 49; test 68; sample 33; fuel sample material "pmma slab"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 50; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 7/3/2012,185,49,68,33,pmma slab
+- label: BASS as-run test 50 (test 69, sample 33)
+  fuel: PMMA
+  geometry:
+    shape: slab
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 7/12/2012 (GMT day 194); as-run test 50; test 69; sample 33; fuel sample material "pmma slab"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 51; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 7/12/2012,194,50,69,33,pmma slab
+- label: BASS as-run test 51 (test 111, sample 21)
+  fuel: PMMA
+  geometry:
+    shape: sphere
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 7/12/2012 (GMT day 194); as-run test 51; test 111; sample 21; fuel sample material "2 cm sphere wake ign"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 52; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 7/12/2012,194,51,111,21,2 cm sphere   wake ign
+- label: BASS as-run test 52 (test 112, sample 21)
+  fuel: PMMA
+  geometry:
+    shape: sphere
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 7/12/2012 (GMT day 194); as-run test 52; test 112; sample 21; fuel sample material "2 cm sphere wake ign"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 53; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 7/12/2012,194,52,112,21,2 cm sphere   wake ign
+- label: BASS as-run test 53 (test 113, sample 21)
+  fuel: PMMA
+  geometry:
+    shape: sphere
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 7/12/2012 (GMT day 194); as-run test 53; test 113; sample 21; fuel sample material "2 cm sphere wake ign"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 54; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 7/12/2012,194,53,113,21,2 cm sphere   wake ign
+- label: BASS as-run test 54 (test 2, sample 5)
+  fuel: cotton-fiberglass (SIBAL)
+  geometry:
+    shape: fabric strip
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 7/19/2012 (GMT day 201); as-run test 54; test 2; sample 5; fuel sample material "SIBAL 2 cm"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 55; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 7/19/2012,201,54,2,5,SIBAL 2 cm
+- label: BASS as-run test 55 (test 3, sample 6)
+  fuel: cotton-fiberglass (SIBAL)
+  geometry:
+    shape: fabric strip
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 7/19/2012 (GMT day 201); as-run test 55; test 3; sample 6; fuel sample material "SIBAL 2 cm"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 56; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 7/19/2012,201,55,3,6,SIBAL 2 cm
+- label: BASS as-run test 56 (test 15, sample 30)
+  fuel: Nomex
+  geometry:
+    shape: fabric strip
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 7/19/2012 (GMT day 201); as-run test 56; test 15; sample 30; fuel sample material "nomex natural III"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 57; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 7/19/2012,201,56,15,30,nomex natural III
+- label: BASS as-run test 57 (test 13, sample 28)
+  fuel: Nomex
+  geometry:
+    shape: fabric strip
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 7/19/2012 (GMT day 201); as-run test 57; test 13; sample 28; fuel sample material "Nomex blend 2 cm"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 58; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 7/19/2012,201,57,13,28,Nomex blend 2 cm
+- label: BASS as-run test 58 (test 17, sample 32)
+  fuel: Ultem
+  geometry:
+    shape: sheet
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 7/19/2012 (GMT day 201); as-run test 58; test 17; sample 32; fuel sample material "ultem sheet"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 59; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 7/19/2012,201,58,17,32,ultem sheet
+- label: BASS as-run test 59 (test 114, sample 25)
+  fuel: PMMA
+  geometry:
+    shape: sphere
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 7/19/2012 (GMT day 201); as-run test 59; test 114; sample 25; fuel sample material "pmma sphere"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 60; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 7/19/2012,201,59,114,25,pmma sphere
+- label: BASS as-run test 60 (test 62, sample 23)
+  fuel: PMMA
+  geometry:
+    shape: sphere
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 7/23/2012 (GMT day 205); as-run test 60; test 62; sample 23; fuel sample material "PMMA sphere 2 cm"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 61; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 7/23/2012,205,60,62,23,PMMA sphere 2 cm
+- label: BASS as-run test 61 (test 63, sample 23)
+  fuel: PMMA
+  geometry:
+    shape: sphere
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 7/23/2012 (GMT day 205); as-run test 61; test 63; sample 23; fuel sample material "PMMA sphere 2 cm"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 62; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 7/23/2012,205,61,63,23,PMMA sphere 2 cm
+- label: BASS as-run test 62 (test 64, sample 23)
+  fuel: PMMA
+  geometry:
+    shape: sphere
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 7/23/2012 (GMT day 205); as-run test 62; test 64; sample 23; fuel sample material "PMMA sphere 2 cm"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 63; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 7/23/2012,205,62,64,23,PMMA sphere 2 cm
+- label: BASS as-run test 63 (test 65, sample 23)
+  fuel: PMMA
+  geometry:
+    shape: sphere
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 7/23/2012 (GMT day 205); as-run test 63; test 65; sample 23; fuel sample material "PMMA sphere 2 cm"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 64; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 7/23/2012,205,63,65,23,PMMA sphere 2 cm
+- label: BASS as-run test 64 (test 118, sample 23)
+  fuel: PMMA
+  geometry:
+    shape: sphere
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 7/23/2012 (GMT day 205); as-run test 64; test 118; sample 23; fuel sample material "PMMA sphere 2 cm"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 65; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 7/23/2012,205,64,118,23,PMMA sphere 2 cm
+- label: BASS as-run test 65 (test 11, sample 3)
+  fuel: cotton-fiberglass (SIBAL)
+  geometry:
+    shape: fabric strip
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 8/9/2012 (GMT day 222); as-run test 65; test 11; sample 3; fuel sample material "SIBAL 1 cm"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 67; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 8/9/2012,222,65,11,3,SIBAL 1 cm
+- label: BASS as-run test 66 (test 9, sample 7)
+  fuel: cotton-fiberglass (SIBAL)
+  geometry:
+    shape: fabric strip
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 8/9/2012 (GMT day 222); as-run test 66; test 9; sample 7; fuel sample material "SIBAL 2 cm"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 68; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 8/9/2012,222,66,9,7,SIBAL 2 cm
+- label: BASS as-run test 67 (test 102, sample 22)
+  fuel: PMMA
+  geometry:
+    shape: sphere
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 8/9/2012 (GMT day 222); as-run test 67; test 102; sample 22; fuel sample material "PMMA sphere 2 cm"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 69; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 8/9/2012,222,67,102,22,PMMA sphere 2 cm
+- label: BASS as-run test 68 (test 83a, sample 36)
+  fuel: Japan wax
+  geometry:
+    shape: candle
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 8/16/2012 (GMT day 229); as-run test 68; test 83a; sample 36; fuel sample material "Japan Wax Candle wake"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 70; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 8/16/2012,229,68,83a,36,Japan Wax Candle   wake
+- label: BASS as-run test 69 (test 83b, sample 36)
+  fuel: Japan wax
+  geometry:
+    shape: candle
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 8/16/2012 (GMT day 229); as-run test 69; test 83b; sample 36; fuel sample material "Japan Wax Candle wake"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 71; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 8/16/2012,229,69,83b,36,Japan Wax Candle   wake
+- label: BASS as-run test 70 (test 83c, sample 36)
+  fuel: Japan wax
+  geometry:
+    shape: candle
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 8/16/2012 (GMT day 229); as-run test 70; test 83c; sample 36; fuel sample material "Japan Wax Candle wake"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 72; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 8/16/2012,229,70,83c,36,Japan Wax Candle   wake
+- label: BASS as-run test 71 (test 84a, sample 37)
+  fuel: Japan wax
+  geometry:
+    shape: candle
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 8/16/2012 (GMT day 229); as-run test 71; test 84a; sample 37; fuel sample material "Japan Wax Candle wake"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 73; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 8/16/2012,229,71,84a,37,Japan Wax Candle   wake
+- label: BASS as-run test 72 (test 84b, sample 37)
+  fuel: Japan wax
+  geometry:
+    shape: candle
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 8/16/2012 (GMT day 229); as-run test 72; test 84b; sample 37; fuel sample material "Japan Wax Candle wake"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 74; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 8/16/2012,229,72,84b,37,Japan Wax Candle   wake
+- label: BASS as-run test 73 (test 86a, sample 38)
+  fuel: Japan wax
+  geometry:
+    shape: candle
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 8/16/2012 (GMT day 229); as-run test 73; test 86a; sample 38; fuel sample material "Japan Wax Candle wake"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 75; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 8/16/2012,229,73,86a,38,Japan Wax Candle   wake
+- label: BASS as-run test 74 (test 86b, sample 38)
+  fuel: Japan wax
+  geometry:
+    shape: candle
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 8/16/2012 (GMT day 229); as-run test 74; test 86b; sample 38; fuel sample material "Japan Wax Candle wake"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 76; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 8/16/2012,229,74,86b,38,Japan Wax Candle   wake
+- label: BASS as-run test 75 (test 86c, sample 38)
+  fuel: Japan wax
+  geometry:
+    shape: candle
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 8/16/2012 (GMT day 229); as-run test 75; test 86c; sample 38; fuel sample material "Japan Wax Candle wake"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 77; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 8/16/2012,229,75,86c,38,Japan Wax Candle   wake
+- label: BASS as-run test 76 (test 70, sample 34)
+  fuel: PMMA
+  geometry:
+    shape: slab
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 8/21/2012 (GMT day 234); as-run test 76; test 70; sample 34; fuel sample material "PMMA slab"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 78; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 8/21/2012,234,76,70,34,PMMA slab
+- label: BASS as-run test 77 (test 71, sample 34)
+  fuel: PMMA
+  geometry:
+    shape: slab
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 8/21/2012 (GMT day 234); as-run test 77; test 71; sample 34; fuel sample material "PMMA slab"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 79; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 8/21/2012,234,77,71,34,PMMA slab
+- label: BASS as-run test 78 (test 74, sample 41)
+  fuel: paraffin wax
+  geometry:
+    shape: slab
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 8/21/2012 (GMT day 234); as-run test 78; test 74; sample 41; fuel sample material "paraffin wax slab"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 80; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 8/21/2012,234,78,74,41,paraffin wax slab
+- label: BASS as-run test 79 (test 75, sample 41)
+  fuel: paraffin wax
+  geometry:
+    shape: slab
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 8/21/2012 (GMT day 234); as-run test 79; test 75; sample 41; fuel sample material "parrafin wax slab"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 81; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 8/21/2012,234,79,75,41,parrafin wax slab
+- label: BASS as-run test 80 (test 98, sample 24)
+  fuel: PMMA
+  geometry:
+    shape: null
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 4/5/2013 (GMT day 95); as-run test 80; test 98; sample 24; fuel sample material "PMMA 2 cm"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 82; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 4/5/2013,95,80,98,24,PMMA 2 cm
+- label: BASS as-run test 81 (test 99, sample 24)
+  fuel: PMMA
+  geometry:
+    shape: null
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 4/5/2013 (GMT day 95); as-run test 81; test 99; sample 24; fuel sample material "PMMA 2 cm"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 83; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 4/5/2013,95,81,99,24,PMMA 2 cm
+- label: BASS as-run test 82 (test 114, sample 25)
+  fuel: PMMA
+  geometry:
+    shape: null
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 4/9/2013 (GMT day 99); as-run test 82; test 114; sample 25; fuel sample material "PMMA 2 cm"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 84; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 4/9/2013,99,82,114,25,PMMA 2 cm
+- label: BASS as-run test 83 (test 115, sample 25)
+  fuel: PMMA
+  geometry:
+    shape: null
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 4/9/2013 (GMT day 99); as-run test 83; test 115; sample 25; fuel sample material "pmma 2 cm"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 85; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 4/9/2013,99,83,115,25,pmma 2 cm
+- label: BASS as-run test 84 (test 116, sample 25)
+  fuel: PMMA
+  geometry:
+    shape: null
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 4/9/2013 (GMT day 99); as-run test 84; test 116; sample 25; fuel sample material "pmma 2 cm"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 86; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 4/9/2013,99,84,116,25,pmma 2 cm
+- label: BASS as-run test 85 (test 117, sample 25)
+  fuel: PMMA
+  geometry:
+    shape: null
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 4/9/2013 (GMT day 99); as-run test 85; test 117; sample 25; fuel sample material "pmma 2 cm"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 87; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 4/9/2013,99,85,117,25,pmma 2 cm
+- label: BASS as-run test 85 (test 117a, sample 25)
+  fuel: PMMA
+  geometry:
+    shape: null
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 4/9/2013 (GMT day 99); as-run test 85; test 117a; sample 25; fuel sample material "pmma 2 cm"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 88; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 4/9/2013,99,85,117a,25,pmma 2 cm
+- label: BASS as-run test 86 (test 100, sample 24)
+  fuel: PMMA
+  geometry:
+    shape: null
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 4/12/2013 (GMT day 102); as-run test 86; test 100; sample 24; fuel sample material "pmma 2 cm"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 89; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 4/12/2013,102,86,100,24,pmma 2 cm
+- label: BASS as-run test 87 (test 85, sample 43)
+  fuel: paraffin wax
+  geometry:
+    shape: candle
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 4/12/2013 (GMT day 102); as-run test 87; test 85; sample 43; fuel sample material "candle paraffin wake"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 90; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 4/12/2013,102,87,85,43,candle    paraffin   wake
+- label: BASS as-run test 88 (test 93, sample 43)
+  fuel: paraffin wax
+  geometry:
+    shape: candle
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 4/12/2013 (GMT day 102); as-run test 88; test 93; sample 43; fuel sample material "candle paraffin wake"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 91; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 4/12/2013,102,88,93,43,candle    paraffin   wake
+- label: BASS as-run test 89 (test 26, sample 17)
+  fuel: PMMA
+  geometry:
+    shape: null
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 4/16/2013 (GMT day 106); as-run test 89; test 26; sample 17; fuel sample material "pmma 1 cm"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 92; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 4/16/2013,106,89,26,17,pmma 1 cm
+- label: BASS as-run test 90 (test 27, sample 17)
+  fuel: PMMA
+  geometry:
+    shape: null
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 4/16/2013 (GMT day 106); as-run test 90; test 27; sample 17; fuel sample material "pmma 1 cm"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 93; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 4/16/2013,106,90,27,17,pmma 1 cm
+- label: BASS as-run test 91 (test 28, sample 17)
+  fuel: PMMA
+  geometry:
+    shape: null
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 4/16/2013 (GMT day 106); as-run test 91; test 28; sample 17; fuel sample material "pmma 1 cm"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 94; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 4/16/2013,106,91,28,17,pmma 1 cm
+- label: BASS as-run test 89 (test 87, sample 40)
+  fuel: Japan wax
+  geometry:
+    shape: candle
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 4/23/2013 (GMT day 113); as-run test 89; test 87; sample 40; fuel sample material "candle Japan wax"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 95; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 4/23/2013,113,89,87,40,candle   Japan wax
+- label: BASS as-run test 90 (test 103, sample 22)
+  fuel: PMMA
+  geometry:
+    shape: sphere
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 4/23/2013 (GMT day 113); as-run test 90; test 103; sample 22; fuel sample material "2 cm sphere"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 96; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 4/23/2013,113,90,103,22,2 cm sphere
+- label: BASS as-run test 91 (test 104, sample 22)
+  fuel: PMMA
+  geometry:
+    shape: sphere
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 4/23/2013 (GMT day 113); as-run test 91; test 104; sample 22; fuel sample material "2 cm sphere"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 97; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 4/23/2013,113,91,104,22,2 cm sphere
+- label: BASS as-run test 92 (test 105, sample 22)
+  fuel: PMMA
+  geometry:
+    shape: sphere
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 4/23/2013 (GMT day 113); as-run test 92; test 105; sample 22; fuel sample material "2 cm sphere"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 98; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 4/23/2013,113,92,105,22,2 cm sphere
+- label: BASS as-run test 93 (test 38, sample 20)
+  fuel: PMMA
+  geometry:
+    shape: sphere
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 4/26/2013 (GMT day 113); as-run test 93; test 38; sample 20; fuel sample material "1 cm sphere wake"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 99; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 4/26/2013,113,93,38,20,1 cm sphere   wake
+- label: BASS as-run test 94 (test 39, sample 20)
+  fuel: PMMA
+  geometry:
+    shape: sphere
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 4/26/2013 (GMT day 116); as-run test 94; test 39; sample 20; fuel sample material "1 cm wake sphere"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 100; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 4/26/2013,116,94,39,20,1 cm wake sphere
+- label: BASS as-run test 95 (test 40, sample 20)
+  fuel: PMMA
+  geometry:
+    shape: sphere
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 4/26/2013 (GMT day 116); as-run test 95; test 40; sample 20; fuel sample material "1 cm wake sphere"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 101; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 4/26/2013,116,95,40,20,1 cm wake sphere
+- label: BASS as-run test 96 (test 72, sample 34)
+  fuel: PMMA
+  geometry:
+    shape: slab
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: opposed
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 4/26/2013 (GMT day 116); as-run test 96; test 72; sample 34; fuel sample material "pmma slab opposed"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 102; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 4/26/2013,116,96,72,34,pmma slab opposed
+- label: BASS as-run test 97 (test 73, sample 34)
+  fuel: PMMA
+  geometry:
+    shape: slab
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: opposed
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 4/26/2013 (GMT day 116); as-run test 97; test 73; sample 34; fuel sample material "pmma slab oppsed"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 103; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 4/26/2013,116,97,73,34,pmma slab   oppsed
+- label: BASS as-run test 98 (test 118, sample 23)
+  fuel: PMMA
+  geometry:
+    shape: sphere
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 4/29/2013 (GMT day 119); as-run test 98; test 118; sample 23; fuel sample material "2 cm pmma sphere"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 104; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 4/29/2013,119,98,118,23,2 cm pmma sphere
+- label: BASS as-run test 99 (test 119, sample 23)
+  fuel: PMMA
+  geometry:
+    shape: sphere
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 4/29/2013 (GMT day 119); as-run test 99; test 119; sample 23; fuel sample material "2 cm pmma sphere"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 105; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 4/29/2013,119,99,119,23,2 cm pmma sphere
+- label: BASS as-run test 100 (test 89, sample 44)
+  fuel: paraffin wax
+  geometry:
+    shape: candle
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 5/2/2013 (GMT day 122); as-run test 100; test 89; sample 44; fuel sample material "parrafin wax candle"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 106; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 5/2/2013,122,100,89,44,parrafin wax candle
+- label: BASS as-run test 101 (test 95, sample 44)
+  fuel: paraffin wax
+  geometry:
+    shape: candle
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 5/2/2013 (GMT day 122); as-run test 101; test 95; sample 44; fuel sample material "paraffin wax candle"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 107; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 5/2/2013,122,101,95,44,paraffin wax candle
+- label: BASS as-run test 102 (test 92, sample 40)
+  fuel: Japan wax
+  geometry:
+    shape: candle
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 5/2/2013 (GMT day 122); as-run test 102; test 92; sample 40; fuel sample material "candle Japan wax"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 108; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 5/2/2013,122,102,92,40,candle   Japan wax
+- label: BASS as-run test 103 (test 78, sample 42)
+  fuel: paraffin wax
+  geometry:
+    shape: slab
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 5/2/2013 (GMT day 122); as-run test 103; test 78; sample 42; fuel sample material "paraffin wax slab"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 109; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 5/2/2013,122,103,78,42,paraffin wax slab
+- label: BASS as-run test 104 (test 50, sample 26)
+  fuel: PMMA
+  geometry:
+    shape: sphere
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 5/15/2103 (GMT day 135); as-run test 104; test 50; sample 26; fuel sample material "2 cm pmma sphere"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 110; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 5/15/2103,135,104,50,26,2 cm pmma sphere
+- label: BASS as-run test 105 (test 51, sample 26)
+  fuel: PMMA
+  geometry:
+    shape: sphere
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 5/15/2013 (GMT day 135); as-run test 105; test 51; sample 26; fuel sample material "2 cm sphere"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 111; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 5/15/2013,135,105,51,26,2 cm sphere
+- label: BASS as-run test 106 (test 52, sample 26)
+  fuel: PMMA
+  geometry:
+    shape: sphere
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 5/15/2013 (GMT day 135); as-run test 106; test 52; sample 26; fuel sample material "2 cm sphere"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 112; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 5/15/2013,135,106,52,26,2 cm sphere
+- label: BASS as-run test 107 (test 53, sample 26)
+  fuel: PMMA
+  geometry:
+    shape: sphere
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 5/15/2013 (GMT day 135); as-run test 107; test 53; sample 26; fuel sample material "2 cm sphere"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 113; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 5/15/2013,135,107,53,26,2 cm sphere
+- label: BASS as-run test 108 (test 106, sample 26)
+  fuel: PMMA
+  geometry:
+    shape: sphere
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 5/17/2013 (GMT day 137); as-run test 108; test 106; sample 26; fuel sample material "2 cm sphere"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 114; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 5/17/2013,137,108,106,26,2 cm sphere
+- label: BASS as-run test 109 (test 107, sample 26)
+  fuel: PMMA
+  geometry:
+    shape: sphere
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 5/17/2013 (GMT day 137); as-run test 109; test 107; sample 26; fuel sample material "2 cm sphere"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 115; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 5/17/2013,137,109,107,26,2 cm sphere
+- label: BASS as-run test 110 (test 108, sample 26)
+  fuel: PMMA
+  geometry:
+    shape: sphere
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 5/17/2013 (GMT day 137); as-run test 110; test 108; sample 26; fuel sample material "2 cm sphere"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 116; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 5/17/2013,137,110,108,26,2 cm sphere
+- label: BASS as-run test 111 (test 109, sample 26)
+  fuel: PMMA
+  geometry:
+    shape: sphere
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 6/1/2013 (GMT day 137); as-run test 111; test 109; sample 26; fuel sample material "2 cm sphere"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 117; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 6/1/2013,137,111,109,26,2 cm sphere
+- label: BASS as-run test 112 (test 79, sample 42)
+  fuel: wax
+  geometry:
+    shape: slab
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 6/1/2013 (GMT day 150); as-run test 112; test 79; sample 42; fuel sample material "flat wax slab"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 118; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 6/1/2013,150,112,79,42,flat wax slab
+- label: BASS as-run test 113 (test 80, sample 42)
+  fuel: wax
+  geometry:
+    shape: slab
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 6/1/2013 (GMT day 150); as-run test 113; test 80; sample 42; fuel sample material "flat wax slab"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 119; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 6/1/2013,150,113,80,42,flat wax slab
+- label: BASS as-run test 114 (test 75, sample 41)
+  fuel: wax
+  geometry:
+    shape: slab
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 6/1/2013 (GMT day 150); as-run test 114; test 75; sample 41; fuel sample material "flat wax slab"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 120; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 6/1/2013,150,114,75,41,flat wax slab
+- label: BASS as-run test 115 (test 53, sample 26)
+  fuel: PMMA
+  geometry:
+    shape: sphere
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 6/1/2013 (GMT day 150); as-run test 115; test 53; sample 26; fuel sample material "pmma sphere"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 121; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 6/1/2013,150,115,53,26,pmma sphere
+- label: BASS as-run test 116 (test 53a, sample 26)
+  fuel: PMMA
+  geometry:
+    shape: sphere
+    dimensions_mm: {}
+  condition:
+    o2_fraction: null
+    diluent: null
+    pressure_kpa: null
+    flow_speed_cm_s: null
+    flow_direction: null
+    gravity_g: 0.0
+  outcome:
+    ignited: null
+    extinction: null
+    notes: Date 6/1/2013 (GMT day 150); as-run test 116; test 53a; sample 26; fuel sample material "pmma sphere"
+  varied_parameters: {}
+  fixed_parameters: {}
+  is_aggregate: false
+  confidence: 0.7
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    title: PSI-26 Experimental table (PSI-26_Experimental table_BASS.csv)
+    locator: 'Experimental table PSI-26_Experimental table_BASS.csv, row 122; gravity 0 g: microgravity per PSI Project Type
+      (Microgravity Investigation, ISS); the table lists no oxygen, pressure or flow values'
+    quote: 6/1/2013,150,116,53a,26,pmma sphere
 measurements: []
-findings: []
-publications: []
-fire_safety_tags: []
-data: {s3_prefix: null, volume_bytes: null, file_types: []}
-field_confidence: {objectives: 0.3, hardware: 0.3}
+findings:
+  - statement: Microgravity flames over solids were especially sensitive to air flow speed between 0 and 5 cm/s.
+    category: fundamental
+    source:
+      <<: *ntrs_bass
+      quote: Microgravity flames were found to be especially sensitive to air flow speed in the range 0 to 5 cms.
+    confidence: 0.8
+  - statement: At the lowest flow speeds (below 1 cm/s) flames became dim blue and very stable and, with small heat losses, could burn for a long time.
+    category: fundamental
+    source:
+      <<: *ntrs_bass
+      quote: At the lowest speeds examined (less than 1 cms) all the flames tended to become dim blue and very stable.
+    confidence: 0.8
+  - statement: A tiny flame might go undetected for a long time and could flare up if the air flow increases, which matters for spacecraft fire detection.
+    category: detection
+    source:
+      <<: *ntrs_bass
+      quote: This has implications for spacecraft fire safety since a tiny flame might be undetected for a long time.
+    confidence: 0.75
+  - statement: Using nitrogen as a flame suppressant in microgravity links BASS to current and planned ISS extinguishment techniques.
+    category: suppression
+    source:
+      <<: *psi_record
+      locator: Research Impacts/Earth Benefits (PSI repository search record, geode-py API)
+      quote: Using nitrogen as a flame suppressant in microgravity provides a direct link to current and planned extinguishment techniques.
+    confidence: 0.6
+publications:
+- doi: 10.1016/j.firesaf.2015.11.011
+  title: 'Opposed-flow flame spread: A comparison of microgravity and normal gravity experiments to establish the thermal
+    regime'
+  year: null
+  authors:
+  - Bhattacharjee Subrata
+  - Laue Matthew
+  - Carmignani Luca
+  - Ferkul Paul
+  - Olson Sandra
+  venue: null
+  url: https://doi.org/10.1016/j.firesaf.2015.11.011
+  key_findings: []
+- doi: 10.1016/j.proci.2014.07.017
+  title: Simplified model for predicting difference between flammability limits of a thin material in normal gravity and microgravity
+    environments
+  year: null
+  authors:
+  - Takahashi Shuhei
+  - Ebisawa Tomoya
+  - Bhattacharjee Subrata
+  - Ihara Tadayoshi
+  venue: null
+  url: https://doi.org/10.1016/j.proci.2014.07.017
+  key_findings: []
+- doi: 10.1080/00102202.2014.900056
+  title: A Correlation for an Effective Flow Velocity for Capturing the Boundary Layer Effect in Opposed-Flow Flame Spread
+    over Thin Fuels
+  year: null
+  authors:
+  - S Bhattacharjee
+  - R Nagarkar
+  - Y Nakamura
+  venue: null
+  url: https://doi.org/10.1080/00102202.2014.900056
+  key_findings: []
+- doi: 10.1504/PCFD.2012.048249
+  title: Radiation signature in opposed-flow flame spread
+  year: null
+  authors:
+  - Bhattacharjee Subrata
+  - Paolini Christopher P.
+  - Miller Fletcher
+  - Nagarkar Rohit
+  venue: null
+  url: https://doi.org/10.1504/PCFD.2012.048249
+  key_findings: []
+- doi: 10.2514/6.2006-941
+  title: The Microgravity Science Glovebox as a Platform for Exploration Research on the International Space Station
+  year: null
+  authors:
+  - Spivey Reggie
+  - Luz Paul
+  venue: null
+  url: https://doi.org/10.2514/6.2006-941
+  key_findings: []
+- doi: 10.1016/j.proci.2012.05.076
+  title: A novel apparatus for flame spread study
+  year: null
+  authors:
+  - S Bhattacharjee
+  - M Bundy
+  - C Paolini
+  - G Patel
+  - W Tran.
+  venue: null
+  url: https://doi.org/10.1016/j.proci.2012.05.076
+  key_findings: []
+- doi: 10.1299/jsmeatem.2015.14.289
+  title: 'OS24-1 The Effect of Boundary Layer on Blow-Off Extinction in Opposed-Flow Flame Spread: Results of Experiments
+    and Simplified Analysis(invited,Scale modeling on solid combustion,OS24 Scale modeling,FLUID AND THERMODYNAMICS)'
+  year: null
+  authors:
+  - Bhattacharjee Subrata
+  - Cartnignani Luca
+  venue: null
+  url: https://doi.org/10.1299/jsmeatem.2015.14.289
+  key_findings: []
+- doi: null
+  title: Role of Gas Radiation in the Mechanism of Opposed-Flow Flame Spread in a Microgravity Environment
+  year: null
+  authors:
+  - JR Villaraza
+  - L Carmignani
+  - S Bhattacharjee
+  venue: null
+  url: null
+  key_findings: []
+- doi: null
+  title: Thickness and Fuel Preheating Effects on Material Flammability in Microgravity from the BASS Experiment
+  year: null
+  authors:
+  - P Ferkul
+  - SL Olson
+  - F Takahashi
+  - M Endo
+  - MC Johnston
+  - JS Tien
+  venue: null
+  url: null
+  key_findings: []
+- doi: null
+  title: Opposed-Flow Flame Spread in a Narrow Channel Apparatus over Thin PMMA Sheets
+  year: null
+  authors:
+  - GR Bornand
+  - FJ Miller
+  - JM Pepper
+  - SL Olson
+  - IS Wichman
+  venue: null
+  url: null
+  key_findings: []
+fire_safety_tags: [solid_fuel, flame_spread, extinction, flow_effects, suppression, material_screening]
+data: {s3_prefix: null, volume_bytes: null, file_types: [csv, mp4, zip]}
+field_confidence: {objectives: 0.85, fuels: 0.8, conditions: 0.6}
+documents:
+  - title: BASS PSI overview (objectives, approach, hypothesis, research impacts; verbatim excerpts)
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-26
+    section: PSI repository record
+    text: >
+      Title: Burning and Suppression of Solids (BASS). PSI accession PSI-26; PSI dataset DOI 10.60555/58h4-dy80.
+      Project type: Microgravity Investigation; flight platform: International Space Station (ISS); hardware:
+      Microgravity Science Glovebox; sub-research area: Spacecraft Fire Safety. Objectives: "The two main objectives
+      for BASS are to:" "1.) Begin to bridge the gap between the normal gravity NASA-STD-6001 Test#1 method,
+      ground-based microgravity tests, and [...]" "2.) Assess the effectiveness of an inert, gaseous extinguishing
+      agent (similar to that used on ISS) in putting out [...]". Approach: "The experiment was conducted aboard the
+      International Space Station (ISS) inside the Microgravity Glove Box (MSG)." "A Kanthal wire (29-gage)igniter was
+      used to initiate combustion at one end of the fabric." "Airflow was controlled using a variable speed fan, with
+      airflow speeds reaching as high as 40 cm/s." "The airflow was directed along the fuel surface in either the
+      opposed or concurrent direction." "The samples were placed in a small flow duct (76 mm x 76 mm cross section)
+      that allowed for airflow across the fabric." "Other sample shapes were utilized as well including spheres and
+      cylinders." Hypothesis: "To test this hypothesis with any but the thinnest materials requires extended
+      microgravity time – longer than available in drop towers or parabolic aircraft." Research impacts: "A critical
+      element of this understanding is the radiative heat emission from the flame." "Using nitrogen as a flame
+      suppressant in microgravity provides a direct link to current and planned extinguishment techniques." "BASS
+      results provide essential guidance to ground-based microgravity combustion research efforts." "Detailed
+      combustion models are validated using the simpler flow environment afforded by tests in microgravity."
+      The experimental table (PSI-26_Experimental table_BASS.csv) lists 122 rows with date, GMT, as-run test number,
+      test number, sample number and fuel sample material.
+  - title: Thickness and Fuel Preheating Effects on Material Flammability in Microgravity from the BASS Experiment (abstract, verbatim excerpts)
+    uri: https://ntrs.nasa.gov/citations/20140011099
+    section: abstract
+    text: >
+      "The Burning and Suppression of Solids (BASS) experiment was performed on the International Space Station."
+      "Microgravity combustion tests burning thin and thick flat samples, acrylic spheres, and candles were conducted."
+      "The samples were mounted inside a small wind tunnel which could impose air flow speeds up to 40 cms." "In some
+      cases, a jet of nitrogen was introduced to attempt to extinguish the flame." "Microgravity flames were found to be
+      especially sensitive to air flow speed in the range 0 to 5 cms." "At the lowest speeds examined (less than 1 cms)
+      all the flames tended to become dim blue and very stable." "However, heat loss at these very low convective rates
+      is small so the flames can burn for a long time." "This has implications for spacecraft fire safety since a tiny
+      flame might be undetected for a long time."
 open_questions:
-  - Full title not confirmed; the acronym is used as a placeholder title.
-  - Per-investigation PSI page not retrieved (PSI pages render client-side); psi_url is the generic PSI repository search page.
-  - Which of the four glovebox investigations burned solid versus gaseous fuel is not stated in sources opened; tags left empty.
-  - Fuels, conditions, measurements, findings and publications unknown pending PSI documents.
-  - Every stated fact is from the challenge text only and is not yet confirmed against PSI sources.
+  - Individual runs are the 121 test rows of PSI-26_Experimental table_BASS.csv (the "SOOT Cleaning" row is skipped); the table lists only date, test numbers, sample number and material text, so run oxygen, pressure and flow are null (flow direction "opposed" only where the cell says so). The two aggregate runs from the PSI approach and NTRS abstract are kept because they carry the stated flow range.
+  - Unlabelled spheres and slabs ("2 cm sphere", "pmma slab") are recorded as PMMA because the NTRS abstract names acrylic spheres and flat samples; sizes such as "2 cm" stay in notes because the cell does not say which dimension is meant. Wax materials are kept as the table names them (paraffin wax, Japan wax, unnamed wax, candle).
+  - The candle fuel material is not named beyond "candles"; recorded as candle wax with no material class.
+  - Publication years and authors are not given in the PSI record lines opened; left null.
 reviewed: false

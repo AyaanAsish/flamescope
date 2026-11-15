@@ -1,0 +1,118 @@
+acronym: PSI-60
+title: Computational and Experimental Analysis of SPICE Data Sets
+project: null
+platform: ground
+gravity_level: mixed
+psi_url: https://psi.nasa.gov/physci/repo/data/investigations/PSI-60
+hardware: []
+summary: 'A PSI-funded ground investigation (Yale University, 2019-2022) that re-analysed the Smoke Point In Co-flow Experiment
+  (SPICE, PSI-107) flight images: color-ratio pyrometry of raw DSLR images gave soot temperatures and, with the SPICE light
+  calibration, soot volume fractions, which were compared with coupled flow-species-soot simulations of the Yale and ACME
+  burners in normal and microgravity. It holds no new flight tests.'
+objectives:
+- text: The objective of this investigation was to integrate computational and experimental methods to derive temperature
+    distributions and soot volume fractions from the Smoke Point in Coflow Experiment (SPICE) data available in PSI.
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-60
+    title: PSI investigation PSI-60, Computational and Experimental Analysis of SPICE Data Sets
+    locator: objective (PSI repository record, geode-py API)
+    quote: The objective of this investigation was to integrate computational and experimental methods to derive temperature
+      distributions and soot volume fractions from the Smoke Point in Coflow Experiment (SPICE) data available in PSI.
+- text: The work further aimed to reconcile microgravity and normal gravity flame behavior, identify key physical and chemical
+    processes influencing smoke point development, and provide a framework for evaluating model parameter sensitivity.
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-60
+    title: PSI investigation PSI-60, Computational and Experimental Analysis of SPICE Data Sets
+    locator: objective (PSI repository record, geode-py API)
+    quote: The work further aimed to reconcile microgravity and normal gravity flame behavior, identify key physical and chemical
+      processes influencing smoke point development, and provide a framework for evaluating model parameter sensitivity.
+approach:
+  text: The approach was to combine image processing, experimental diagnostics, and detailed soot modeling. Simulations were
+    performed for both Yale and ACME burner configurations under normal and microgravity conditions.
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-60
+    title: PSI investigation PSI-60, Computational and Experimental Analysis of SPICE Data Sets
+    locator: approach (PSI repository record, geode-py API)
+    quote: The approach was to combine image processing, experimental diagnostics, and detailed soot modeling.
+fuels: []
+conditions:
+  o2_fraction: null
+  pressure_kpa: null
+  flow_speed_cm_s: null
+  flow_direction: []
+  gravity_g:
+  - 0
+  - 1
+variables:
+  varied:
+  - gravity (microgravity SPICE flight data and normal-gravity simulations)
+  - burner configuration (Yale and ACME)
+  fixed: []
+measurements: []
+findings: []
+publications:
+- doi: 10.1080/00102202.2022.2041621
+  title: A Combined Experimental and Computational Study of Soot Formation in Normal and Microgravity Conditions
+  year: 2022
+  authors:
+  - Dobbins Richard R.
+  - Tinjero Jesse
+  - Squeo Joseph
+  - Zhao Xinyu
+  - Hall Robert J.
+  - Colket Meredith B.
+  - Long Marshall B.
+  - Smooke Mitchell D.
+  venue: null
+  url: https://doi.org/10.1080/00102202.2022.2041621
+  key_findings: []
+fire_safety_tags:
+- soot
+- gaseous_fuel
+data:
+  s3_prefix: null
+  volume_bytes: 7743
+  file_types: []
+field_confidence:
+  objectives: 0.85
+  approach: 0.85
+documents:
+- title: PSI-60 PSI overview (objective, approach, hypothesis, research impacts; verbatim)
+  uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-60
+  section: PSI repository record
+  text: 'Title: Computational and Experimental Analysis of SPICE Data Sets. PSI accession PSI-60; PSI dataset DOI 10.60555/mzjm-yv57.
+    Project type: Ground Investigation; research area: Combustion Science; sub-research area: Gaseous; managing center: Glenn
+    Research Center (GRC); funding: 80NSSC19K1634; investigation dates 06-05-2019 to 08-29-2022. Related investigations in
+    PSI: PSI-107 (SPICE). Objective: "This ground investigation sought to increase understanding of the issues that control
+    the large discrepancy between soot formation in 1g and in 0g flames. The objective of this investigation was to integrate
+    computational and experimental methods to derive temperature distributions and soot volume fractions from the Smoke Point
+    in Coflow Experiment (SPICE) data available in PSI. By analyzing over 1600 raw DSLR images and incorporating advanced
+    soot models, the study sought to improve understanding of soot formation, oxidation, radiative re-absorption, and aggregate
+    growth in heavily sooting flames. The work further aimed to reconcile microgravity and normal gravity flame behavior,
+    identify key physical and chemical processes influencing smoke point development, and provide a framework for evaluating
+    model parameter sensitivity." Approach: "The approach was to combine image processing, experimental diagnostics, and detailed
+    soot modeling. Raw Nikon NEF images were decoded into three color channels and analyzed using color-ratio pyrometry to
+    extract soot temperature fields. Absolute light calibration from SPICE was then used to calculate soot volume fractions.
+    For computational modeling, a coupled flow–species–soot system was implemented, modified to include radiation re-absorption
+    and discrete-sectional aggregate formation. Simulations were performed for both Yale and ACME burner configurations under
+    normal and microgravity conditions. Comparisons between experimental data and computed results guided sensitivity analyses
+    of soot evolution parameters, including the effects of radiation, scattering, boundary conditions, and heat transfer to
+    the burner structure." Hypothesis: "Microgravity conditions would produce longer, more diffuse flames with lower temperatures
+    and increased soot concentrations compared to normal gravity, and that careful integration of experimental temperature
+    fields into the simulations would reduce discrepancies between measured and predicted soot distributions." Research impacts:
+    "This study sought to enhance understanding of soot formation, flame structure, and radiative transport under microgravity
+    and normal gravity, improving predictive models for combustion in both spacecraft and terrestrial systems. For space applications,
+    the results support safer fire detection, suppression, and cleaner combustion technologies critical for long-duration
+    missions. On Earth, the insights help reduce pollutant emissions, optimize combustion efficiency, and inform the design
+    of cleaner energy and industrial systems."'
+open_questions:
+- 'Ground investigation (PSI Project Type "Ground Investigation"): it re-analyses or models flight data and has no flight
+  runs of its own; no runs are seeded and no run conditions are invented.'
+- PSI lists the related investigations PSI-107 (SPICE); the card schema has no related-investigation field, so the link is
+  kept in the summary and the overview document.
+- The acronym key is the PSI accession because PSI gives the investigation no acronym (doc 06 section 5 key rule).
+- The SPICE fuels analysed are not named in the PSI record; fuels left empty.
+reviewed: false

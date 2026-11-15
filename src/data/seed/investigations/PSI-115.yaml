@@ -1,0 +1,118 @@
+acronym: PSI-115
+title: Utilization of the Smoke Aerosol Measurement Experiment Data for Advanced Modeling and Simulation of Smoke Generation
+  in Micro-Gravity
+project: null
+platform: ground
+gravity_level: mixed
+psi_url: https://psi.nasa.gov/physci/repo/data/investigations/PSI-115
+hardware: []
+summary: A PSI-funded ground investigation (University of Illinois, 2017-2019) that used direct numerical simulation to study
+  how gravity changes the growth of dibutyl phthalate smoke particles from a heated pyrolysis source in a geometry similar
+  to the Smoke Aerosol Measurement Experiment (SAME, PSI-102), at two low cross-flow speeds in Earth gravity and microgravity.
+  Its PSI data are simulation cases, not flight tests.
+objectives:
+- text: The objective of this investigation was to use numerical simulation to explore the influence of gravity on pyrolysis
+    smoke growth from a fundamental perspective.
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-115
+    title: PSI investigation PSI-115, Utilization of the Smoke Aerosol Measurement Experiment Data for Advanced Modeling and
+      Simulation of Smoke Generation in Micro-Gravity
+    locator: objective (PSI repository record, geode-py API)
+    quote: The objective of this investigation was to use numerical simulation to explore the influence of gravity on pyrolysis
+      smoke growth from a fundamental perspective.
+- text: The intention of this effort is to quantify the differences between microgravity and Earth gravity smoke, and to identify
+    the fluid dynamic mechanisms that cause the differences.
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-115
+    title: PSI investigation PSI-115, Utilization of the Smoke Aerosol Measurement Experiment Data for Advanced Modeling and
+      Simulation of Smoke Generation in Micro-Gravity
+    locator: objective (PSI repository record, geode-py API)
+    quote: The intention of this effort is to quantify the differences between microgravity and Earth gravity smoke, and to
+      identify the fluid dynamic mechanisms that cause the differences.
+approach:
+  text: The formation and growth of dibutyl-phthalate (DBP) particles in Earth gravity and microgravity environments was simulated.
+    Direct numerical simulation via a Navier-Stokes nodal approach was utlilized.
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-115
+    title: PSI investigation PSI-115, Utilization of the Smoke Aerosol Measurement Experiment Data for Advanced Modeling and
+      Simulation of Smoke Generation in Micro-Gravity
+    locator: approach (PSI repository record, geode-py API)
+    quote: The formation and growth of dibutyl-phthalate (DBP) particles in Earth gravity and microgravity environments was
+      simulated.
+fuels:
+- name: dibutyl phthalate
+  phase: liquid
+  material_class: null
+  geometry: null
+  source:
+    kind: psi_page
+    uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-115
+    title: PSI investigation PSI-115, Utilization of the Smoke Aerosol Measurement Experiment Data for Advanced Modeling and
+      Simulation of Smoke Generation in Micro-Gravity
+    locator: approach (PSI repository record, geode-py API)
+    quote: The formation and growth of dibutyl-phthalate (DBP) particles in Earth gravity and microgravity environments was
+      simulated.
+conditions:
+  o2_fraction: null
+  pressure_kpa: null
+  flow_speed_cm_s: null
+  flow_direction: []
+  gravity_g:
+  - 0
+  - 1
+variables:
+  varied:
+  - gravity (Earth gravity and microgravity simulations)
+  - cross-flow velocity (two values)
+  - thermophoresis and particle settling (on or off)
+  fixed: []
+measurements: []
+findings: []
+publications: []
+fire_safety_tags:
+- smoke_detection
+- aerosol
+data:
+  s3_prefix: null
+  volume_bytes: 264404901
+  file_types: []
+field_confidence:
+  objectives: 0.85
+  approach: 0.85
+documents:
+- title: PSI-115 PSI overview (objective, approach, hypothesis, research impacts; verbatim)
+  uri: https://psi.nasa.gov/physci/repo/data/investigations/PSI-115
+  section: PSI repository record
+  text: 'Title: Utilization of the Smoke Aerosol Measurement Experiment Data for Advanced Modeling and Simulation of Smoke
+    Generation in Micro-Gravity. PSI accession PSI-115; PSI dataset DOI 10.60555/q0v5-1v28. Project type: Ground Investigation;
+    research area: Combustion Science; sub-research area: Smoke Aerosol, Combustion Simulation; managing center: Glenn Research
+    Center (GRC); funding: NNX17AF08A; investigation dates 01-30-2017 to 12-31-2019. Related investigations in PSI: PSI-102
+    (SAME). Objective: "The objective of this investigation was to use numerical simulation to explore the influence of gravity
+    on pyrolysis smoke growth from a fundamental perspective. The intention of this effort is to quantify the differences
+    between microgravity and Earth gravity smoke, and to identify the fluid dynamic mechanisms that cause the differences."
+    Approach: "The formation and growth of dibutyl-phthalate (DBP) particles in Earth gravity and microgravity environments
+    was simulated. Direct numerical simulation via a Navier-Stokes nodal approach was utlilized. The smoke originates from
+    pyrolysis vapor expelled from a heated sample in a geometry similar to that considered in the SAME experiments. This study
+    considered two cross-flow velocities of sufficiently low speed that buoyancy cannot be neglected in the presence of gravity.
+    Simulations are presented to assess the dependence of particle size distributions on thermophoresis, particle settling,
+    and flow geometry. The final report for this investigation introduces the simulation and modeling methodology, followed
+    by a description of the flow geometry and the parameter space under consideration.The differences in the wake geometry
+    attributable to buoyancy for the lower of two flow speeds was examined. Instantaneous scalar fields were used to describe
+    particle accumulation and growth in the buoyant and non-buoyant wakes that form downstream of the hot vapor source." Hypothesis:
+    "Without buoyancy, mixing and heat transfer are reduced, the time-temperature history of the combustion vapors (or particle
+    precursors) and particle trajectories are significantly altered, changing the composition of the smoke. The chemical composition
+    of the burning material also affects the characteristics of the smoke generated." Research impacts: "Models and tools
+    that characterize particles generated as smoke can be used to ascertain how temperature, gravity, and material properties
+    affect the smoke produced. This would directly lead to better smoke detection devices and prevent fires that can lead
+    to loss of materiel and loss of life."'
+open_questions:
+- 'Ground investigation (PSI Project Type "Ground Investigation"): it re-analyses or models flight data and has no flight
+  runs of its own; no runs are seeded and no run conditions are invented.'
+- PSI lists the related investigations PSI-102 (SAME); the card schema has no related-investigation field, so the link is
+  kept in the summary and the overview document.
+- The acronym key is the PSI accession because PSI gives the investigation no acronym (doc 06 section 5 key rule).
+- The phase of dibutyl phthalate is not stated by the PSI record; liquid follows the SAME card and needs curator confirmation.
+reviewed: false
