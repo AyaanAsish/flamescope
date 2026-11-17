@@ -3,6 +3,9 @@ CLAUDE.md
 .claude/
 *.build.log
 agent-briefs/
+# Numbered build prompts at the repository root only (anchored: the runtime agent prompts in
+# src/agents/flamescope_agents/prompts/ must stay tracked)
+/prompts/
 
 # Python
 .venv/
